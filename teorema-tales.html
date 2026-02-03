@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequências Numéricas - 9º Ano</title>
+    <title>Teorema de Tales - 9º Ano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,14 +15,14 @@
         /* --- VARIÁVEIS DE TEMA --- */
         :root {
             --bg-color: #F8F9FA;
-            --text-color: #1E293B; 
+            --text-color: #451a03; /* Marrom Bronze */
             --border-color: #000000;
             
-            /* CORES: CIANO E ROXO NEON (Padrões/Lógica) */
-            --theme-light: #CFFAFE; 
-            --theme-medium: #22D3EE;
-            --theme-dark: #0891B2; 
-            --theme-contrast: #7C3AED; /* Roxo para contraste */
+            /* CORES DA MATÉRIA: TEMA BRONZE ARQUITETÔNICO */
+            --theme-light: #FFEDD5; 
+            --theme-medium: #FDBA74;
+            --theme-dark: #C2410C; 
+            --theme-contrast: #EA580C; /* Laranja Queimado */
             --theme-text-active: #FFFFFF;
             
             /* FEEDBACK */
@@ -112,7 +112,7 @@
             transition: all 0.3s ease;
         }
         .toggle-btn.active {
-            background-color: var(--theme-contrast); 
+            background-color: var(--theme-contrast);
             color: var(--theme-text-active);
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
         }
@@ -131,7 +131,7 @@
 
         /* --- CAIXAS DE EXEMPLO --- */
         .example-box {
-            background-color: #ECFEFF;
+            background-color: #FFF7ED;
             border-left: 5px solid var(--theme-dark);
             padding: 15px;
             margin: 15px 0;
@@ -154,7 +154,7 @@
             background: white;
             padding: 10px;
             border-radius: 6px;
-            border: 1px solid #CFFAFE;
+            border: 1px solid #FFEDD5;
             margin-bottom: 10px;
             text-align: center;
         }
@@ -309,48 +309,70 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Sequências Numéricas</h1>
-            <p style="color: #555; margin-bottom: 20px;">Uma sequência é uma lista ordenada de números (ou figuras) que segue um <strong>padrão lógico</strong>.</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Teorema de Tales</h1>
+            <p style="color: #555; margin-bottom: 20px;">Quando retas paralelas são cortadas por retas transversais, formam-se segmentos proporcionais.</p>
             
             <div class="card-content">
-                <h3>1. Padrões Visuais</h3>
-                <p class="explanation-text">Muitas vezes, a regra não é um número, mas uma forma que cresce.</p>
+                <h3>1. A Regra das Paralelas</h3>
                 <div class="visual-row">
-                    <svg width="250" height="60" viewBox="0 0 250 60">
-                        <rect x="20" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="30" y="55" font-size="10" text-anchor="middle">1</text>
-                        <rect x="60" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="80" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="80" y="55" font-size="10" text-anchor="middle">2</text>
-                        <rect x="120" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="140" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="160" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="150" y="55" font-size="10" text-anchor="middle">3</text>
-                        <path d="M 190 30 L 220 30" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"/>
-                        <text x="230" y="35" font-size="14" fill="#7C3AED">?</text>
+                    
+                    <svg width="250" height="120" viewBox="0 0 250 120">
+                        <line x1="10" y1="30" x2="240" y2="30" stroke="#C2410C" stroke-width="2"/>
+                        <line x1="10" y1="60" x2="240" y2="60" stroke="#C2410C" stroke-width="2"/>
+                        <line x1="10" y1="90" x2="240" y2="90" stroke="#C2410C" stroke-width="2"/>
+                        
+                        <line x1="40" y1="10" x2="80" y2="110" stroke="#333" stroke-width="2"/>
+                        <line x1="140" y1="10" x2="180" y2="110" stroke="#333" stroke-width="2"/>
+                        
+                        <text x="45" y="45" font-size="12" font-weight="bold">A</text>
+                        <text x="60" y="75" font-size="12" font-weight="bold">B</text>
+                        <text x="145" y="45" font-size="12" font-weight="bold">C</text>
+                        <text x="160" y="75" font-size="12" font-weight="bold">D</text>
                     </svg>
                 </div>
-                <p class="explanation-text">Neste exemplo, a cada passo, aumentamos 1 quadrado. A regra é <strong>+1</strong>.</p>
+                <p class="explanation-text">Se as retas laranjas são paralelas, a proporção se mantém:</p>
+                <div class="math-block" style="font-size: 1.3rem;">A / B = C / D</div>
             </div>
 
             <div class="card-content">
-                <h3>2. Progressão Aritmética (PA)</h3>
-                <p class="explanation-text">É uma escada onde os degraus têm a mesma altura. Você sempre <strong>SOMA</strong> o mesmo valor.</p>
+                <h3>2. Calculando o 'x'</h3>
                 <div class="example-box">
-                    <strong>Exemplo: 2, 5, 8, 11...</strong>
-                    <div class="math-block">+3, +3, +3...</div>
-                    <p style="font-size:0.9rem;">A "razão" (r) é 3. Para achar o próximo, basta somar 3.</p>
+                    <strong>Exemplo:</strong>
+                    <div class="visual-row">
+                        <svg width="150" height="80" viewBox="0 0 150 80">
+                            <line x1="0" y1="20" x2="150" y2="20" stroke="#C2410C"/>
+                            <line x1="0" y1="40" x2="150" y2="40" stroke="#C2410C"/>
+                            <line x1="0" y1="60" x2="150" y2="60" stroke="#C2410C"/>
+                            <line x1="30" y1="10" x2="50" y2="70" stroke="#333"/>
+                            <line x1="100" y1="10" x2="120" y2="70" stroke="#333"/>
+                            <text x="25" y="30" font-size="10">2</text>
+                            <text x="35" y="50" font-size="10">3</text>
+                            <text x="95" y="30" font-size="10">4</text>
+                            <text x="105" y="50" font-size="10" fill="#EA580C" font-weight="bold">x</text>
+                        </svg>
+                    </div>
+                    <span class="step-label">Passo 1: Montar a Proporção</span>
+                    <div class="math-block">2 / 3 = 4 / x</div>
+                    
+                    <span class="step-label">Passo 2: Multiplicar Cruzado</span>
+                    <div class="math-block">2 · x = 3 · 4</div>
+                    <div class="math-block">2x = 12</div>
+                    
+                    <span class="step-label">Passo 3: Resolver</span>
+                    <div class="math-block">x = 12 ÷ 2 = <strong>6</strong></div>
                 </div>
             </div>
 
             <div class="card-content">
-                <h3>3. Progressão Geométrica (PG)</h3>
-                <p class="explanation-text">É um crescimento explosivo. Você sempre <strong>MULTIPLICA</strong> pelo mesmo valor.</p>
-                <div class="example-box">
-                    <strong>Exemplo: 3, 6, 12, 24...</strong>
-                    <div class="math-block">×2, ×2, ×2...</div>
-                    <p style="font-size:0.9rem;">A "razão" (q) é 2. Para achar o próximo, basta multiplicar por 2.</p>
+                <h3>3. No Triângulo</h3>
+                <p class="explanation-text">Se traçarmos uma linha paralela à base de um triângulo, criamos um triângulo menor proporcional ao maior.</p>
+                <div class="visual-row">
+                    <svg width="150" height="100" viewBox="0 0 150 100">
+                        <polygon points="75,10 10,90 140,90" fill="none" stroke="#333" stroke-width="2"/>
+                        <line x1="35" y1="60" x2="115" y2="60" stroke="#C2410C" stroke-width="2" stroke-dasharray="4"/>
+                    </svg>
                 </div>
+                <p class="explanation-text">As laterais ficam divididas proporcionalmente.</p>
             </div>
 
             <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
@@ -361,7 +383,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">Descubra o padrão e complete.</p>
+                <p style="color: #666; font-size: 0.9rem;">Encontre os valores desconhecidos.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -387,205 +409,216 @@
     </footer>
 
     <script>
-        // --- BANCO DE QUESTÕES (SEQUÊNCIAS) ---
+        // --- BANCO DE QUESTÕES DETALHADO ---
         const questions = [
-            // NÍVEL 1: PADRÕES VISUAIS E LÓGICA SIMPLES
+            // NÍVEL 1: CONCEITO BÁSICO
             {
                 id: 1,
-                text: "Observe o padrão de bolinhas. Quantas bolinhas terá a próxima figura?",
-                visual: `
-                    <svg width="200" height="50" viewBox="0 0 200 50">
-                        <circle cx="20" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="60" cy="35" r="5" fill="#7C3AED"/>
-                        
-                        <circle cx="110" cy="25" r="5" fill="#7C3AED"/> <circle cx="110" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="35" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="5" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="45" r="5" fill="#7C3AED"/>
-                        
-                        <text x="160" y="30" font-size="20" fill="#333">?</text>
-                    </svg>
-                `,
-                options: ["6", "7", "8", "9"],
+                text: "Para aplicar o Teorema de Tales, o que é obrigatório ter?",
+                options: ["Um círculo", "Um feixe de retas paralelas cortadas por transversais", "Um ângulo de 90 graus", "Números pares"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 6 é par.<br>
-                    <strong>(B) Correta:</strong> A sequência é 1, 3, 5... (números ímpares). O próximo número ímpar é 7.<br>
-                    <strong>(C) Incorreta:</strong> 8 é par.<br>
-                    <strong>(D) Incorreta:</strong> Pulou o 7.`
+                    <strong>(A) Incorreta:</strong> Tales trabalha com retas.<br>
+                    <strong>(B) Correta:</strong> A definição do teorema exige retas paralelas (que nunca se tocam) sendo atravessadas por outras retas (transversais).<br>
+                    <strong>(C) Incorreta:</strong> Não exige perpendicularidade.<br>
+                    <strong>(D) Incorreta:</strong> Funciona com qualquer número real.`
             },
             {
                 id: 2,
-                text: "Qual é o próximo número da sequência: <strong>2, 4, 8, 16...</strong>?",
-                options: ["20", "24", "32", "18"],
+                text: "Se a / b = c / d, como calculamos o valor de uma incógnita?",
+                visual: `
+                    <svg width="150" height="40" viewBox="0 0 150 40">
+                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#EA580C">Multiplicação Cruzada</text>
+                    </svg>
+                `,
+                options: ["Somamos os termos (a+b = c+d)", "Multiplicamos reto (a·c = b·d)", "Multiplicamos cruzado (a·d = b·c)", "Dividimos tudo"],
                 correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Somou 4.<br>
-                    <strong>(B) Incorreta:</strong> Somou 8.<br>
-                    <strong>(C) Correta:</strong> A regra é multiplicar por 2 (dobrar). 16 · 2 = 32.<br>
-                    <strong>(D) Incorreta:</strong> Somou 2.`
+                    <strong>(A) Incorreta:</strong> Soma não resolve proporção.<br>
+                    <strong>(B) Incorreta:</strong> Multiplicação linear é para frações.<br>
+                    <strong>(C) Correta:</strong> A propriedade fundamental das proporções é que o produto dos meios é igual ao produto dos extremos (cruzado).<br>
+                    <strong>(D) Incorreta:</strong> Não resolve a igualdade.`
             },
             {
                 id: 3,
-                text: "Descubra o padrão: <strong>100, 95, 90, 85...</strong> O próximo é:",
-                options: ["84", "80", "75", "70"],
+                text: "Calcule x na proporção: 2 / 4 = 3 / x",
+                options: ["5", "6", "8", "12"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Subtraiu 1.<br>
-                    <strong>(B) Correta:</strong> A regra é subtrair 5 a cada passo. 85 - 5 = 80.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Pulou um termo.`
+                    <strong>(A) Incorreta:</strong> 2/4 = 0,5 e 3/5 = 0,6.<br>
+                    <strong>(B) Correta:</strong> 2 · x = 4 · 3 -> 2x = 12 -> x = 6. (2/4 é metade, 3/6 também é metade).<br>
+                    <strong>(C) Incorreta:</strong> Daria 24.<br>
+                    <strong>(D) Incorreta:</strong> Daria 36.`
             },
-            // NÍVEL 2: QUADRADOS E FORMAS
+            // NÍVEL 2: CÁLCULOS VISUAIS
             {
                 id: 4,
-                text: "Estes são os 'Números Quadrados'. Qual o próximo? <strong>1, 4, 9, 16...</strong>",
+                text: "Encontre o valor de x na figura:",
                 visual: `
-                    <svg width="150" height="50" viewBox="0 0 150 50">
-                        <rect x="10" y="20" width="10" height="10" fill="#22D3EE"/> <rect x="40" y="15" width="20" height="20" fill="#22D3EE"/> <rect x="80" y="10" width="30" height="30" fill="#22D3EE"/> <text x="130" y="30" font-size="16" fill="#333">?</text>
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <line x1="0" y1="20" x2="200" y2="20" stroke="#C2410C"/>
+                        <line x1="0" y1="40" x2="200" y2="40" stroke="#C2410C"/>
+                        <line x1="0" y1="60" x2="200" y2="60" stroke="#C2410C"/>
+                        <line x1="40" y1="10" x2="60" y2="70" stroke="#333"/>
+                        <line x1="140" y1="10" x2="160" y2="70" stroke="#333"/>
+                        
+                        <text x="35" y="32" font-size="10">5</text>
+                        <text x="45" y="52" font-size="10">10</text>
+                        
+                        <text x="135" y="32" font-size="10">x</text>
+                        <text x="145" y="52" font-size="10">20</text>
                     </svg>
                 `,
-                options: ["20", "24", "25", "30"],
-                correct: 2,
+                options: ["5", "10", "15", "8"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(B) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(C) Correta:</strong> A sequência é 1², 2², 3², 4². O próximo é 5² = 25.<br>
+                    <strong>(A) Incorreta:</strong> 5/20 ≠ 5/10.<br>
+                    <strong>(B) Correta:</strong> A proporção é 5 / 10 = x / 20. Note que 10 é o dobro de 5. Então 20 deve ser o dobro de x. Logo, x = 10.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
                     <strong>(D) Incorreta:</strong> Erro.`
             },
             {
                 id: 5,
-                text: "Sequência de Fibonacci: <strong>1, 1, 2, 3, 5...</strong> Qual o próximo? (Dica: some os dois anteriores)",
-                options: ["6", "7", "8", "9"],
-                correct: 2,
+                text: "Determine x: 4 / x = 2 / 3",
+                options: ["5", "6", "8", "12"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3+3?<br>
-                    <strong>(B) Incorreta:</strong> 2+5.<br>
-                    <strong>(C) Correta:</strong> Cada número é a soma dos dois anteriores: 3 + 5 = 8.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Incorreta:</strong> Erro.<br>
+                    <strong>(B) Correta:</strong> 2 · x = 4 · 3 -> 2x = 12 -> x = 6.<br>
+                    <strong>(C) Incorreta:</strong> 2·8 = 16.<br>
+                    <strong>(D) Incorreta:</strong> 2·12 = 24.`
             },
             {
                 id: 6,
-                text: "Qual é a regra da sequência: <strong>1, -1, 1, -1, 1...</strong>?",
-                options: ["Subtrair 2", "Multiplicar por -1", "Dividir por 2", "Somar 0"],
-                correct: 1,
+                text: "Se temos segmentos 3, 6, 4 e x (nesta ordem), qual o valor de x?",
+                options: ["8", "7", "5", "12"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 1-2 = -1, mas -1-2 = -3.<br>
-                    <strong>(B) Correta:</strong> Multiplicar por -1 inverte o sinal a cada passo.<br>
-                    <strong>(C) Incorreta:</strong> Diminuiria o valor.<br>
-                    <strong>(D) Incorreta:</strong> Ficaria constante.`
+                    <strong>(A) Correta:</strong> 3 / 6 = 4 / x. Como 6 é o dobro de 3, x deve ser o dobro de 4. x = 8.<br>
+                    <strong>(B) Incorreta:</strong> Erro.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
+                    <strong>(D) Incorreta:</strong> Triplo.`
             },
-            // NÍVEL 3: TERMO GERAL E PA
+            // NÍVEL 3: TRIÂNGULOS
             {
                 id: 7,
-                text: "Se a fórmula do termo geral é <strong>an = 2n</strong>, qual é o 5º termo (n=5)?",
-                options: ["5", "7", "10", "25"],
-                correct: 2,
+                text: "Num triângulo, uma reta paralela à base divide um lado em segmentos de 2cm e 3cm. O outro lado mede 10cm no total. Quanto medem as partes?",
+                options: ["2 e 8", "4 e 6", "5 e 5", "3 e 7"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> n=5.<br>
-                    <strong>(B) Incorreta:</strong> 5+2.<br>
-                    <strong>(C) Correta:</strong> Substituindo n por 5: 2 · 5 = 10.<br>
-                    <strong>(D) Incorreta:</strong> 5².`
+                    <strong>(A) Incorreta:</strong> Proporção errada.<br>
+                    <strong>(B) Correta:</strong> A razão é 2 para 3. O total de partes é 2+3=5. O lado total é 10 (que é o dobro de 5). Então as partes são o dobro de 2 e 3: 4cm e 6cm.<br>
+                    <strong>(C) Incorreta:</strong> Partes iguais não respeitam a proporção 2/3.<br>
+                    <strong>(D) Incorreta:</strong> Soma 10, mas razão errada.`
             },
             {
                 id: 8,
-                text: "Qual é o valor de x na PA: <strong>5, x, 15</strong>?",
+                text: "Qual o valor de x na figura abaixo?",
                 visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">5 -> +r -> x -> +r -> 15</text>
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <line x1="0" y1="20" x2="150" y2="20" stroke="#C2410C"/>
+                        <line x1="0" y1="60" x2="150" y2="60" stroke="#C2410C"/>
+                        <line x1="30" y1="10" x2="50" y2="70" stroke="#333"/>
+                        <line x1="100" y1="10" x2="120" y2="70" stroke="#333"/>
+                        
+                        <text x="25" y="40" font-size="10">x</text>
+                        <text x="45" y="40" font-size="10">6</text>
+                        
+                        <text x="95" y="40" font-size="10">2</text>
+                        <text x="115" y="40" font-size="10">3</text>
                     </svg>
                 `,
-                options: ["8", "10", "12", "7"],
+                options: ["3", "4", "5", "9"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 5+3=8, 8+3=11 (não 15).<br>
-                    <strong>(B) Correta:</strong> Em uma PA, o termo do meio é a média dos vizinhos. (5+15)/2 = 10.<br>
-                    <strong>(C) Incorreta:</strong> 5+7=12, 12+7=19.<br>
-                    <strong>(D) Incorreta:</strong> Muito baixo.`
-            },
-            {
-                id: 9,
-                text: "Qual é a definição de uma <strong>Progressão Aritmética (PA)</strong>?",
-                options: ["Uma sequência onde se multiplica sempre o mesmo valor", "Uma sequência onde se soma sempre o mesmo valor", "Uma sequência aleatória", "Uma sequência de quadrados"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Isso é PG.<br>
-                    <strong>(B) Correta:</strong> A característica da PA é somar uma constante (razão) a cada termo.<br>
-                    <strong>(C) Incorreta:</strong> PA tem regra fixa.<br>
-                    <strong>(D) Incorreta:</strong> Específico demais.`
-            },
-            // NÍVEL 4: PG E CRESCIMENTO
-            {
-                id: 10,
-                text: "Qual destas é uma <strong>Progressão Geométrica (PG)</strong>?",
-                options: ["2, 4, 6, 8...", "5, 10, 15, 20...", "3, 9, 27, 81...", "1, 2, 3, 4..."],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> PA de razão 2.<br>
-                    <strong>(B) Incorreta:</strong> PA de razão 5.<br>
-                    <strong>(C) Correta:</strong> Multiplica-se sempre por 3. Isso é uma PG.<br>
-                    <strong>(D) Incorreta:</strong> PA de razão 1.`
-            },
-            {
-                id: 11,
-                text: "Qual é a razão da PG: <strong>4, 12, 36...</strong>?",
-                visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">4 · ? = 12</text>
-                    </svg>
-                `,
-                options: ["2", "3", "4", "8"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 4·2 = 8.<br>
-                    <strong>(B) Correta:</strong> Para ir de 4 para 12, multiplicamos por 3. (12 ÷ 4 = 3).<br>
-                    <strong>(C) Incorreta:</strong> 4·4 = 16.<br>
-                    <strong>(D) Incorreta:</strong> Diferença é 8, não razão.`
-            },
-            {
-                id: 12,
-                text: "Na sequência das metades: <strong>100, 50, 25...</strong> qual o próximo?",
-                options: ["10", "12,5", "15", "0"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Divisão errada.<br>
-                    <strong>(B) Correta:</strong> A regra é dividir por 2. 25 ÷ 2 = 12,5.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Não zera tão rápido.`
-            },
-            // NÍVEL 5: DESAFIOS E APLICAÇÕES
-            {
-                id: 13,
-                text: "Se o 1º termo de uma PA é 5 e a razão é 2, qual é o 10º termo?",
-                options: ["23", "25", "20", "15"],
-                correct: 0,
-                explanation: `
-                    <strong>(A) Correta:</strong> a10 = a1 + 9r = 5 + 9(2) = 5 + 18 = 23.<br>
-                    <strong>(B) Incorreta:</strong> Somou 10 vezes a razão (seria o 11º).<br>
-                    <strong>(C) Incorreta:</strong> 10·2 = 20 (esqueceu o a1).<br>
+                    <strong>(A) Incorreta:</strong> 3/6 = 0,5. 2/3 = 0,66.<br>
+                    <strong>(B) Correta:</strong> Montando a proporção verticalmente: x / 2 = 6 / 3. 3x = 12 -> x = 4.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
                     <strong>(D) Incorreta:</strong> Erro.`
             },
             {
-                id: 14,
-                text: "Observe as setas: ⬆️, ➡️, ⬇️, ⬅️ ... Qual a próxima?",
-                options: ["➡️", "⬇️", "⬆️", "⬅️"],
+                id: 9,
+                text: "Se x / 10 = 3 / 5, x vale:",
+                options: ["6", "15", "2", "30"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> 5x = 30 -> x = 6.<br>
+                    <strong>(B) Incorreta:</strong> Inverteu.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
+                    <strong>(D) Incorreta:</strong> Multiplicou tudo.`
+            },
+            // NÍVEL 4: PROBLEMAS COM SOMA
+            {
+                id: 10,
+                text: "Sabemos que x/y = 2/3 e que x + y = 20. Quanto valem x e y?",
+                options: ["x=8, y=12", "x=10, y=10", "x=5, y=15", "x=2, y=18"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A soma das partes da razão é 2+3=5. O total real é 20. 20÷5 = 4 (cada parte vale 4). x = 2·4 = 8. y = 3·4 = 12.<br>
+                    <strong>(B) Incorreta:</strong> Razão 1/1.<br>
+                    <strong>(C) Incorreta:</strong> Razão 1/3.<br>
+                    <strong>(D) Incorreta:</strong> Razão 1/9.`
+            },
+            {
+                id: 11,
+                text: "Calcule x na figura: 3 / x = 4 / (x + 2)",
+                options: ["4", "5", "6", "2"],
                 correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Seria a 2ª do ciclo.<br>
-                    <strong>(B) Incorreta:</strong> Seria a 3ª do ciclo.<br>
-                    <strong>(C) Correta:</strong> O padrão é um ciclo de 4 passos girando sentido horário. Após a esquerda, volta para Cima.<br>
-                    <strong>(D) Incorreta:</strong> Acabou de acontecer.`
+                    <strong>(A) Incorreta:</strong> 3/4 ≠ 4/6.<br>
+                    <strong>(B) Incorreta:</strong> 3/5 ≠ 4/7.<br>
+                    <strong>(C) Correta:</strong> 3(x + 2) = 4x -> 3x + 6 = 4x -> 6 = 4x - 3x -> x = 6.<br>
+                    <strong>(D) Incorreta:</strong> 3/2 = 1,5. 4/4 = 1.`
+            },
+            {
+                id: 12,
+                text: "A sombra de um poste mede 10m. No mesmo instante, a sombra de uma vara de 1m mede 2m. Qual a altura do poste?",
+                visual: `
+                    <svg width="150" height="50" viewBox="0 0 150 50">
+                        <text x="75" y="30" text-anchor="middle" font-size="12" fill="#333">h/10 = 1/2</text>
+                    </svg>
+                `,
+                options: ["5m", "20m", "10m", "15m"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Altura Poste / Sombra Poste = Altura Vara / Sombra Vara. h / 10 = 1 / 2. 2h = 10 -> h = 5 metros.<br>
+                    <strong>(B) Incorreta:</strong> Multiplicou.<br>
+                    <strong>(C) Incorreta:</strong> Igual à sombra.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            // NÍVEL 5: DESAFIOS FINAIS
+            {
+                id: 13,
+                text: "Se três retas paralelas cortam duas transversais determinando segmentos 2, 3 e 5 de um lado, e x, y, 10 do outro. Quanto vale x?",
+                options: ["4", "2", "5", "10"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A relação é direta. O segmento 5 virou 10 (dobrou). Então todos dobram. O segmento correspondente ao 2 será x = 4.<br>
+                    <strong>(B) Incorreta:</strong> Não dobrou.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
+                    <strong>(D) Incorreta:</strong> Valor do outro segmento.`
+            },
+            {
+                id: 14,
+                text: "Qual equação representa corretamente o Teorema de Tales para segmentos A, B (numa reta) e C, D (na outra)?",
+                options: ["A · B = C · D", "A + B = C + D", "A / B = C / D", "A - B = C - D"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Produto não é proporção.<br>
+                    <strong>(B) Incorreta:</strong> Soma não é proporção.<br>
+                    <strong>(C) Correta:</strong> A razão entre os segmentos de uma reta é igual à razão dos segmentos correspondentes na outra.<br>
+                    <strong>(D) Incorreta:</strong> Diferença.`
             },
             {
                 id: 15,
-                text: "Uma bactéria se divide em 2 a cada hora. Começando com 1, quantas teremos em 4 horas?",
-                options: ["8", "16", "4", "32"],
-                correct: 1,
+                text: "Se x / 4 = y / 6 e x + y = 50, quanto vale x?",
+                options: ["20", "30", "10", "25"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3 horas.<br>
-                    <strong>(B) Correta:</strong> Hora 0: 1. Hora 1: 2. Hora 2: 4. Hora 3: 8. Hora 4: 16. (PG de razão 2).<br>
-                    <strong>(C) Incorreta:</strong> Soma simples.<br>
-                    <strong>(D) Incorreta:</strong> 5 horas.`
+                    <strong>(A) Correta:</strong> Propriedade: (x+y)/(4+6) = x/4. 50/10 = 5. A constante é 5. x = 4·5 = 20.<br>
+                    <strong>(B) Incorreta:</strong> Valor de y.<br>
+                    <strong>(C) Incorreta:</strong> Metade.<br>
+                    <strong>(D) Incorreta:</strong> Meio a meio.`
             }
         ];
 
@@ -743,7 +776,7 @@
             if (currentQuestion === questions.length - 1) {
                 btnNext.textContent = "Finalizar";
                 btnNext.onclick = finishQuiz;
-                btnNext.style.backgroundColor = "#7C3AED"; 
+                btnNext.style.backgroundColor = "#EA580C"; 
             } else {
                 btnNext.textContent = "Próxima";
                 btnNext.onclick = () => changeQuestion(1);

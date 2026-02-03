@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequências Numéricas - 9º Ano</title>
+    <title>Teorema de Pitágoras - 9º Ano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,14 +15,14 @@
         /* --- VARIÁVEIS DE TEMA --- */
         :root {
             --bg-color: #F8F9FA;
-            --text-color: #1E293B; 
+            --text-color: #334155; /* Cinza Ardósia */
             --border-color: #000000;
             
-            /* CORES: CIANO E ROXO NEON (Padrões/Lógica) */
-            --theme-light: #CFFAFE; 
-            --theme-medium: #22D3EE;
-            --theme-dark: #0891B2; 
-            --theme-contrast: #7C3AED; /* Roxo para contraste */
+            /* CORES: ARDÓSIA E ÂMBAR (Construção/Engenharia) */
+            --theme-light: #FEF3C7; 
+            --theme-medium: #FCD34D;
+            --theme-dark: #D97706; /* Âmbar Forte */
+            --theme-contrast: #475569; /* Cinza Escuro */
             --theme-text-active: #FFFFFF;
             
             /* FEEDBACK */
@@ -112,7 +112,7 @@
             transition: all 0.3s ease;
         }
         .toggle-btn.active {
-            background-color: var(--theme-contrast); 
+            background-color: var(--theme-contrast);
             color: var(--theme-text-active);
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
         }
@@ -131,7 +131,7 @@
 
         /* --- CAIXAS DE EXEMPLO --- */
         .example-box {
-            background-color: #ECFEFF;
+            background-color: #FFFBEB;
             border-left: 5px solid var(--theme-dark);
             padding: 15px;
             margin: 15px 0;
@@ -154,7 +154,7 @@
             background: white;
             padding: 10px;
             border-radius: 6px;
-            border: 1px solid #CFFAFE;
+            border: 1px solid #FDE68A;
             margin-bottom: 10px;
             text-align: center;
         }
@@ -264,9 +264,9 @@
             margin-bottom: 30px;
         }
         .stars-container { font-size: 3rem; margin: 10px 0; }
-        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-contrast); line-height: 1; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
         .btn-retry {
-            width: 100%; padding: 15px; background-color: var(--theme-contrast); color: white;
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
             border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
             cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
         }
@@ -281,7 +281,7 @@
         .nav-btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer;
         }
-        .btn-next { background-color: var(--theme-contrast); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
         .btn-prev { background-color: #f0f0f0; color: #555; }
         .btn-prev:disabled { opacity: 0.5; }
 
@@ -309,47 +309,42 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Sequências Numéricas</h1>
-            <p style="color: #555; margin-bottom: 20px;">Uma sequência é uma lista ordenada de números (ou figuras) que segue um <strong>padrão lógico</strong>.</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Teorema de Pitágoras</h1>
+            <p style="color: #555; margin-bottom: 20px;">A fórmula mais famosa da matemática. Ela relaciona os lados de qualquer <strong>Triângulo Retângulo</strong> (aquele que tem um canto quadrado de 90°).</p>
             
             <div class="card-content">
-                <h3>1. Padrões Visuais</h3>
-                <p class="explanation-text">Muitas vezes, a regra não é um número, mas uma forma que cresce.</p>
+                <h3>1. A Fórmula Sagrada</h3>
                 <div class="visual-row">
-                    <svg width="250" height="60" viewBox="0 0 250 60">
-                        <rect x="20" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="30" y="55" font-size="10" text-anchor="middle">1</text>
-                        <rect x="60" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="80" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="80" y="55" font-size="10" text-anchor="middle">2</text>
-                        <rect x="120" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="140" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="160" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="150" y="55" font-size="10" text-anchor="middle">3</text>
-                        <path d="M 190 30 L 220 30" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"/>
-                        <text x="230" y="35" font-size="14" fill="#7C3AED">?</text>
+                    
+                    <svg width="200" height="150" viewBox="0 0 200 150">
+                        <polygon points="50,120 130,120 50,60" fill="none" stroke="#333" stroke-width="2"/>
+                        <rect x="50" y="110" width="10" height="10" fill="#D97706"/>
+                        
+                        <text x="35" y="95" font-size="12" font-weight="bold">b</text>
+                        <text x="90" y="135" font-size="12" font-weight="bold">c</text>
+                        <text x="100" y="85" font-size="12" font-weight="bold" fill="#D97706">a (Hipotenusa)</text>
                     </svg>
                 </div>
-                <p class="explanation-text">Neste exemplo, a cada passo, aumentamos 1 quadrado. A regra é <strong>+1</strong>.</p>
+                <div class="math-block" style="font-size: 1.3rem; font-weight:bold; color:#D97706;">a² = b² + c²</div>
+                <p class="explanation-text">"O quadrado da hipotenusa (lado maior) é igual à soma dos quadrados dos catetos (lados menores)."</p>
             </div>
 
             <div class="card-content">
-                <h3>2. Progressão Aritmética (PA)</h3>
-                <p class="explanation-text">É uma escada onde os degraus têm a mesma altura. Você sempre <strong>SOMA</strong> o mesmo valor.</p>
-                <div class="example-box">
-                    <strong>Exemplo: 2, 5, 8, 11...</strong>
-                    <div class="math-block">+3, +3, +3...</div>
-                    <p style="font-size:0.9rem;">A "razão" (r) é 3. Para achar o próximo, basta somar 3.</p>
-                </div>
+                <h3>2. Identificando os Lados</h3>
+                <ul style="margin-left:20px; font-size:0.9rem; color:#555; line-height:1.8;">
+                    <li><strong>Hipotenusa (a):</strong> O maior lado. Fica sempre <strong>oposto</strong> ao ângulo de 90°. É a "rampa".</li>
+                    <li><strong>Catetos (b, c):</strong> Os lados que formam o "L" do ângulo reto.</li>
+                </ul>
             </div>
 
             <div class="card-content">
-                <h3>3. Progressão Geométrica (PG)</h3>
-                <p class="explanation-text">É um crescimento explosivo. Você sempre <strong>MULTIPLICA</strong> pelo mesmo valor.</p>
+                <h3>3. Exemplo Resolvido</h3>
                 <div class="example-box">
-                    <strong>Exemplo: 3, 6, 12, 24...</strong>
-                    <div class="math-block">×2, ×2, ×2...</div>
-                    <p style="font-size:0.9rem;">A "razão" (q) é 2. Para achar o próximo, basta multiplicar por 2.</p>
+                    <strong>Problema:</strong> Se os catetos medem 3 e 4, quanto mede a hipotenusa (x)?
+                    <div class="math-block">x² = 3² + 4²</div>
+                    <div class="math-block">x² = 9 + 16</div>
+                    <div class="math-block">x² = 25</div>
+                    <div class="math-block">x = √25 = <strong>5</strong></div>
                 </div>
             </div>
 
@@ -361,7 +356,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">Descubra o padrão e complete.</p>
+                <p style="color: #666; font-size: 0.9rem;">Encontre o lado que falta.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -387,205 +382,212 @@
     </footer>
 
     <script>
-        // --- BANCO DE QUESTÕES (SEQUÊNCIAS) ---
+        // --- BANCO DE QUESTÕES DETALHADO ---
         const questions = [
-            // NÍVEL 1: PADRÕES VISUAIS E LÓGICA SIMPLES
+            // NÍVEL 1: CONCEITOS E IDENTIFICAÇÃO
             {
                 id: 1,
-                text: "Observe o padrão de bolinhas. Quantas bolinhas terá a próxima figura?",
+                text: "Em um triângulo retângulo, onde fica a Hipotenusa?",
                 visual: `
-                    <svg width="200" height="50" viewBox="0 0 200 50">
-                        <circle cx="20" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="60" cy="35" r="5" fill="#7C3AED"/>
-                        
-                        <circle cx="110" cy="25" r="5" fill="#7C3AED"/> <circle cx="110" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="35" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="5" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="45" r="5" fill="#7C3AED"/>
-                        
-                        <text x="160" y="30" font-size="20" fill="#333">?</text>
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <polygon points="10,70 140,70 140,10" fill="none" stroke="#333" stroke-width="2"/>
+                        <rect x="130" y="60" width="10" height="10" fill="#D97706"/>
+                        <text x="60" y="35" font-size="12" fill="#D97706" font-weight="bold">?</text>
                     </svg>
                 `,
-                options: ["6", "7", "8", "9"],
+                options: ["Ao lado do ângulo reto", "Oposto ao ângulo reto (o lado inclinado)", "É sempre o menor lado", "É a altura"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 6 é par.<br>
-                    <strong>(B) Correta:</strong> A sequência é 1, 3, 5... (números ímpares). O próximo número ímpar é 7.<br>
-                    <strong>(C) Incorreta:</strong> 8 é par.<br>
-                    <strong>(D) Incorreta:</strong> Pulou o 7.`
+                    <strong>(A) Incorreta:</strong> Os lados que tocam o ângulo reto são os catetos.<br>
+                    <strong>(B) Correta:</strong> A hipotenusa é sempre o maior lado e fica de frente para o ângulo de 90°.<br>
+                    <strong>(C) Incorreta:</strong> É o maior lado.<br>
+                    <strong>(D) Incorreta:</strong> Altura é um segmento interno.`
             },
             {
                 id: 2,
-                text: "Qual é o próximo número da sequência: <strong>2, 4, 8, 16...</strong>?",
-                options: ["20", "24", "32", "18"],
-                correct: 2,
+                text: "Qual a fórmula correta do Teorema de Pitágoras (sendo 'a' a hipotenusa)?",
+                options: ["a = b + c", "a² = b² + c²", "a² = b² - c²", "a² = 2b + 2c"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Somou 4.<br>
-                    <strong>(B) Incorreta:</strong> Somou 8.<br>
-                    <strong>(C) Correta:</strong> A regra é multiplicar por 2 (dobrar). 16 · 2 = 32.<br>
-                    <strong>(D) Incorreta:</strong> Somou 2.`
+                    <strong>(A) Incorreta:</strong> Não é a soma simples, é a soma dos quadrados.<br>
+                    <strong>(B) Correta:</strong> O quadrado da hipotenusa é igual à soma dos quadrados dos catetos.<br>
+                    <strong>(C) Incorreta:</strong> Diferença é usada para achar cateto (b² = a² - c²).<br>
+                    <strong>(D) Incorreta:</strong> Não é o dobro.`
             },
             {
                 id: 3,
-                text: "Descubra o padrão: <strong>100, 95, 90, 85...</strong> O próximo é:",
-                options: ["84", "80", "75", "70"],
-                correct: 1,
+                text: "Catetos são 3 e 4. Quanto vale a hipotenusa?",
+                options: ["5", "7", "25", "12"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Subtraiu 1.<br>
-                    <strong>(B) Correta:</strong> A regra é subtrair 5 a cada passo. 85 - 5 = 80.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Pulou um termo.`
+                    <strong>(A) Correta:</strong> x² = 3² + 4² = 9 + 16 = 25. x = √25 = 5. (O clássico triângulo 3-4-5).<br>
+                    <strong>(B) Incorreta:</strong> Somou 3+4.<br>
+                    <strong>(C) Incorreta:</strong> Esqueceu a raiz quadrada.<br>
+                    <strong>(D) Incorreta:</strong> Multiplicou.`
             },
-            // NÍVEL 2: QUADRADOS E FORMAS
+            // NÍVEL 2: CÁLCULOS BÁSICOS
             {
                 id: 4,
-                text: "Estes são os 'Números Quadrados'. Qual o próximo? <strong>1, 4, 9, 16...</strong>",
+                text: "Catetos 6 e 8. Calcule a hipotenusa (x).",
                 visual: `
-                    <svg width="150" height="50" viewBox="0 0 150 50">
-                        <rect x="10" y="20" width="10" height="10" fill="#22D3EE"/> <rect x="40" y="15" width="20" height="20" fill="#22D3EE"/> <rect x="80" y="10" width="30" height="30" fill="#22D3EE"/> <text x="130" y="30" font-size="16" fill="#333">?</text>
+                    <svg width="150" height="60" viewBox="0 0 150 60">
+                        <polygon points="10,50 90,50 90,10" fill="none" stroke="#333"/>
+                        <text x="50" y="60" font-size="10">8</text>
+                        <text x="100" y="35" font-size="10">6</text>
+                        <text x="40" y="25" font-size="12" fill="#D97706" font-weight="bold">x</text>
                     </svg>
                 `,
-                options: ["20", "24", "25", "30"],
-                correct: 2,
+                options: ["10", "14", "100", "48"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(B) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(C) Correta:</strong> A sequência é 1², 2², 3², 4². O próximo é 5² = 25.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> x² = 6² + 8² = 36 + 64 = 100. x = √100 = 10.<br>
+                    <strong>(B) Incorreta:</strong> Somou 6+8.<br>
+                    <strong>(C) Incorreta:</strong> Esqueceu a raiz.<br>
+                    <strong>(D) Incorreta:</strong> Área ou produto.`
             },
             {
                 id: 5,
-                text: "Sequência de Fibonacci: <strong>1, 1, 2, 3, 5...</strong> Qual o próximo? (Dica: some os dois anteriores)",
-                options: ["6", "7", "8", "9"],
-                correct: 2,
+                text: "Se a hipotenusa é 13 e um cateto é 12, quanto mede o outro cateto (x)?",
+                visual: `
+                    <svg width="150" height="50" viewBox="0 0 150 50">
+                        <text x="75" y="30" text-anchor="middle" font-size="14" fill="#333">x² + 12² = 13²</text>
+                    </svg>
+                `,
+                options: ["5", "25", "1", "7"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3+3?<br>
-                    <strong>(B) Incorreta:</strong> 2+5.<br>
-                    <strong>(C) Correta:</strong> Cada número é a soma dos dois anteriores: 3 + 5 = 8.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> x² = 13² - 12² = 169 - 144 = 25. x = √25 = 5.<br>
+                    <strong>(B) Incorreta:</strong> Esqueceu a raiz.<br>
+                    <strong>(C) Incorreta:</strong> 13-12=1 (não linear).<br>
+                    <strong>(D) Incorreta:</strong> Erro de cálculo.`
             },
             {
                 id: 6,
-                text: "Qual é a regra da sequência: <strong>1, -1, 1, -1, 1...</strong>?",
-                options: ["Subtrair 2", "Multiplicar por -1", "Dividir por 2", "Somar 0"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 1-2 = -1, mas -1-2 = -3.<br>
-                    <strong>(B) Correta:</strong> Multiplicar por -1 inverte o sinal a cada passo.<br>
-                    <strong>(C) Incorreta:</strong> Diminuiria o valor.<br>
-                    <strong>(D) Incorreta:</strong> Ficaria constante.`
-            },
-            // NÍVEL 3: TERMO GERAL E PA
-            {
-                id: 7,
-                text: "Se a fórmula do termo geral é <strong>an = 2n</strong>, qual é o 5º termo (n=5)?",
-                options: ["5", "7", "10", "25"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> n=5.<br>
-                    <strong>(B) Incorreta:</strong> 5+2.<br>
-                    <strong>(C) Correta:</strong> Substituindo n por 5: 2 · 5 = 10.<br>
-                    <strong>(D) Incorreta:</strong> 5².`
-            },
-            {
-                id: 8,
-                text: "Qual é o valor de x na PA: <strong>5, x, 15</strong>?",
-                visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">5 -> +r -> x -> +r -> 15</text>
-                    </svg>
-                `,
-                options: ["8", "10", "12", "7"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 5+3=8, 8+3=11 (não 15).<br>
-                    <strong>(B) Correta:</strong> Em uma PA, o termo do meio é a média dos vizinhos. (5+15)/2 = 10.<br>
-                    <strong>(C) Incorreta:</strong> 5+7=12, 12+7=19.<br>
-                    <strong>(D) Incorreta:</strong> Muito baixo.`
-            },
-            {
-                id: 9,
-                text: "Qual é a definição de uma <strong>Progressão Aritmética (PA)</strong>?",
-                options: ["Uma sequência onde se multiplica sempre o mesmo valor", "Uma sequência onde se soma sempre o mesmo valor", "Uma sequência aleatória", "Uma sequência de quadrados"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Isso é PG.<br>
-                    <strong>(B) Correta:</strong> A característica da PA é somar uma constante (razão) a cada termo.<br>
-                    <strong>(C) Incorreta:</strong> PA tem regra fixa.<br>
-                    <strong>(D) Incorreta:</strong> Específico demais.`
-            },
-            // NÍVEL 4: PG E CRESCIMENTO
-            {
-                id: 10,
-                text: "Qual destas é uma <strong>Progressão Geométrica (PG)</strong>?",
-                options: ["2, 4, 6, 8...", "5, 10, 15, 20...", "3, 9, 27, 81...", "1, 2, 3, 4..."],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> PA de razão 2.<br>
-                    <strong>(B) Incorreta:</strong> PA de razão 5.<br>
-                    <strong>(C) Correta:</strong> Multiplica-se sempre por 3. Isso é uma PG.<br>
-                    <strong>(D) Incorreta:</strong> PA de razão 1.`
-            },
-            {
-                id: 11,
-                text: "Qual é a razão da PG: <strong>4, 12, 36...</strong>?",
-                visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">4 · ? = 12</text>
-                    </svg>
-                `,
-                options: ["2", "3", "4", "8"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 4·2 = 8.<br>
-                    <strong>(B) Correta:</strong> Para ir de 4 para 12, multiplicamos por 3. (12 ÷ 4 = 3).<br>
-                    <strong>(C) Incorreta:</strong> 4·4 = 16.<br>
-                    <strong>(D) Incorreta:</strong> Diferença é 8, não razão.`
-            },
-            {
-                id: 12,
-                text: "Na sequência das metades: <strong>100, 50, 25...</strong> qual o próximo?",
-                options: ["10", "12,5", "15", "0"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Divisão errada.<br>
-                    <strong>(B) Correta:</strong> A regra é dividir por 2. 25 ÷ 2 = 12,5.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Não zera tão rápido.`
-            },
-            // NÍVEL 5: DESAFIOS E APLICAÇÕES
-            {
-                id: 13,
-                text: "Se o 1º termo de uma PA é 5 e a razão é 2, qual é o 10º termo?",
-                options: ["23", "25", "20", "15"],
+                text: "Qual a diagonal de um retângulo 3m por 4m?",
+                options: ["5m", "7m", "12m", "6m"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> a10 = a1 + 9r = 5 + 9(2) = 5 + 18 = 23.<br>
-                    <strong>(B) Incorreta:</strong> Somou 10 vezes a razão (seria o 11º).<br>
-                    <strong>(C) Incorreta:</strong> 10·2 = 20 (esqueceu o a1).<br>
+                    <strong>(A) Correta:</strong> A diagonal divide o retângulo em dois triângulos retângulos 3-4-5. d² = 3² + 4² = 25. d = 5.<br>
+                    <strong>(B) Incorreta:</strong> Soma dos lados.<br>
+                    <strong>(C) Incorreta:</strong> Área.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            // NÍVEL 3: APLICAÇÕES PRÁTICAS
+            {
+                id: 7,
+                text: "Uma escada de 10m está apoiada na parede. A base da escada está a 6m da parede. Qual a altura que ela alcança?",
+                visual: `
+                    <svg width="100" height="80" viewBox="0 0 100 80">
+                        <line x1="20" y1="10" x2="20" y2="70" stroke="#333" stroke-width="2"/> <line x1="20" y1="70" x2="80" y2="70" stroke="#333" stroke-width="2"/> <line x1="20" y1="20" x2="70" y2="70" stroke="#D97706" stroke-width="3"/> <text x="50" y="40" font-size="10">10</text>
+                        <text x="45" y="80" font-size="10">6</text>
+                    </svg>
+                `,
+                options: ["8m", "4m", "16m", "12m"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A escada é a hipotenusa. h² + 6² = 10². h² = 100 - 36 = 64. h = 8m.<br>
+                    <strong>(B) Incorreta:</strong> 10-6.<br>
+                    <strong>(C) Incorreta:</strong> 10+6.<br>
                     <strong>(D) Incorreta:</strong> Erro.`
             },
             {
-                id: 14,
-                text: "Observe as setas: ⬆️, ➡️, ⬇️, ⬅️ ... Qual a próxima?",
-                options: ["➡️", "⬇️", "⬆️", "⬅️"],
-                correct: 2,
+                id: 8,
+                text: "Qual a distância entre os pontos A(0,0) e B(3,4) no plano cartesiano?",
+                options: ["5", "7", "1", "25"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Seria a 2ª do ciclo.<br>
-                    <strong>(B) Incorreta:</strong> Seria a 3ª do ciclo.<br>
-                    <strong>(C) Correta:</strong> O padrão é um ciclo de 4 passos girando sentido horário. Após a esquerda, volta para Cima.<br>
-                    <strong>(D) Incorreta:</strong> Acabou de acontecer.`
+                    <strong>(A) Correta:</strong> Forma um triângulo de base 3 e altura 4. A distância é a hipotenusa. d² = 3² + 4² = 25 -> d=5.<br>
+                    <strong>(B) Incorreta:</strong> Soma 3+4.<br>
+                    <strong>(C) Incorreta:</strong> Diferença.<br>
+                    <strong>(D) Incorreta:</strong> Esqueceu a raiz.`
+            },
+            {
+                id: 9,
+                text: "A diagonal de um quadrado de lado 5 é:",
+                options: ["5√2", "5", "10", "25"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> d² = 5² + 5² = 25 + 25 = 50. d = √50 = √(25·2) = 5√2.<br>
+                    <strong>(B) Incorreta:</strong> Igual ao lado.<br>
+                    <strong>(C) Incorreta:</strong> Dobro.<br>
+                    <strong>(D) Incorreta:</strong> Área.`
+            },
+            // NÍVEL 4: VERIFICAÇÃO E NÚMEROS IRRACIONAIS
+            {
+                id: 10,
+                text: "O trio 5, 12, 13 forma um triângulo retângulo?",
+                options: ["Sim, pois 5² + 12² = 13²", "Não, a soma não bate", "Sim, pois são ímpares", "Não, falta dados"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> 25 + 144 = 169. E 13² = 169. Bateu! É um Terno Pitagórico.<br>
+                    <strong>(B) Incorreta:</strong> Bate sim.<br>
+                    <strong>(C) Incorreta:</strong> 12 é par.<br>
+                    <strong>(D) Incorreta:</strong> Dados suficientes.`
+            },
+            {
+                id: 11,
+                text: "Num triângulo isósceles (lados 13, 13, base 10), qual a altura?",
+                visual: `
+                    <svg width="100" height="60" viewBox="0 0 100 60">
+                        <polygon points="50,5 10,55 90,55" fill="none" stroke="#333"/>
+                        <line x1="50" y1="5" x2="50" y2="55" stroke="#D97706" stroke-dasharray="2"/>
+                        <text x="20" y="30" font-size="10">13</text>
+                        <text x="30" y="55" font-size="8">5</text>
+                        <text x="60" y="55" font-size="8">5</text>
+                    </svg>
+                `,
+                options: ["12", "10", "5", "√69"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A altura divide a base ao meio (5 e 5). Temos um triângulo retângulo com hipotenusa 13 e cateto 5. h² = 13² - 5² = 169 - 25 = 144. h = 12.<br>
+                    <strong>(B) Incorreta:</strong> Base.<br>
+                    <strong>(C) Incorreta:</strong> Metade da base.<br>
+                    <strong>(D) Incorreta:</strong> Calculou com base 10 inteira.`
+            },
+            {
+                id: 12,
+                text: "Um fio prende o topo de um poste de 4m ao chão, a 3m da base. Qual o comprimento do fio?",
+                options: ["5m", "7m", "1m", "6m"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Triângulo 3-4-5. Fio = 5m.<br>
+                    <strong>(B) Incorreta:</strong> Soma.<br>
+                    <strong>(C) Incorreta:</strong> Diferença.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            // NÍVEL 5: DESAFIOS FINAIS
+            {
+                id: 13,
+                text: "Qual a hipotenusa de um triângulo com catetos 1 e 1?",
+                options: ["√2 (aprox 1,41)", "2", "1", "0,5"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> x² = 1² + 1² = 2. x = √2.<br>
+                    <strong>(B) Incorreta:</strong> 1+1 (erro comum).<br>
+                    <strong>(C) Incorreta:</strong> Igual aos catetos.<br>
+                    <strong>(D) Incorreta:</strong> Metade.`
+            },
+            {
+                id: 14,
+                text: "Qual destes NÃO é um Terno Pitagórico (triângulo retângulo inteiro)?",
+                options: ["4, 5, 6", "3, 4, 5", "6, 8, 10", "5, 12, 13"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> 4² + 5² = 16 + 25 = 41. 6² = 36. Como 41 ≠ 36, não é retângulo.<br>
+                    <strong>(B) Incorreta:</strong> É o clássico.<br>
+                    <strong>(C) Incorreta:</strong> É o dobro de 3-4-5.<br>
+                    <strong>(D) Incorreta:</strong> É pitagórico.`
             },
             {
                 id: 15,
-                text: "Uma bactéria se divide em 2 a cada hora. Começando com 1, quantas teremos em 4 horas?",
-                options: ["8", "16", "4", "32"],
-                correct: 1,
+                text: "A soma das áreas dos quadrados construídos sobre os catetos é igual a?",
+                options: ["Área do quadrado da hipotenusa", "Perímetro do triângulo", "Área do triângulo", "Dobro da hipotenusa"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3 horas.<br>
-                    <strong>(B) Correta:</strong> Hora 0: 1. Hora 1: 2. Hora 2: 4. Hora 3: 8. Hora 4: 16. (PG de razão 2).<br>
-                    <strong>(C) Incorreta:</strong> Soma simples.<br>
-                    <strong>(D) Incorreta:</strong> 5 horas.`
+                    <strong>(A) Correta:</strong> Essa é a definição visual do teorema: Área1 + Área2 = Área3 (a² = b² + c²).<br>
+                    <strong>(B) Incorreta:</strong> Perímetro é linear.<br>
+                    <strong>(C) Incorreta:</strong> Área do triângulo é diferente.<br>
+                    <strong>(D) Incorreta:</strong> Linear.`
             }
         ];
 
@@ -743,7 +745,7 @@
             if (currentQuestion === questions.length - 1) {
                 btnNext.textContent = "Finalizar";
                 btnNext.onclick = finishQuiz;
-                btnNext.style.backgroundColor = "#7C3AED"; 
+                btnNext.style.backgroundColor = "#D97706"; 
             } else {
                 btnNext.textContent = "Próxima";
                 btnNext.onclick = () => changeQuestion(1);

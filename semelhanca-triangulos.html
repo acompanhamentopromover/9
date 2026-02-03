@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sequências Numéricas - 9º Ano</title>
+    <title>Semelhança de Triângulos - 9º Ano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,14 +15,14 @@
         /* --- VARIÁVEIS DE TEMA --- */
         :root {
             --bg-color: #F8F9FA;
-            --text-color: #1E293B; 
+            --text-color: #0F172A; /* Azul Escuro */
             --border-color: #000000;
             
-            /* CORES: CIANO E ROXO NEON (Padrões/Lógica) */
-            --theme-light: #CFFAFE; 
-            --theme-medium: #22D3EE;
-            --theme-dark: #0891B2; 
-            --theme-contrast: #7C3AED; /* Roxo para contraste */
+            /* CORES: AZUL E LARANJA (Geometria/Construção) */
+            --theme-light: #E0F2FE; 
+            --theme-medium: #7DD3FC;
+            --theme-dark: #0284C7; 
+            --theme-contrast: #F97316; /* Laranja para destaque */
             --theme-text-active: #FFFFFF;
             
             /* FEEDBACK */
@@ -112,7 +112,7 @@
             transition: all 0.3s ease;
         }
         .toggle-btn.active {
-            background-color: var(--theme-contrast); 
+            background-color: var(--theme-dark);
             color: var(--theme-text-active);
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
         }
@@ -129,9 +129,9 @@
             margin-bottom: 20px;
         }
 
-        /* --- CAIXAS DE EXEMPLO --- */
+        /* --- CAIXAS DE EXEMPLO PASSO A PASSO --- */
         .example-box {
-            background-color: #ECFEFF;
+            background-color: #F0F9FF;
             border-left: 5px solid var(--theme-dark);
             padding: 15px;
             margin: 15px 0;
@@ -154,9 +154,12 @@
             background: white;
             padding: 10px;
             border-radius: 6px;
-            border: 1px solid #CFFAFE;
+            border: 1px solid #BAE6FD;
             margin-bottom: 10px;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
         .visual-row { display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
@@ -202,7 +205,7 @@
 
         .map-dot.active {
             border-color: var(--border-color);
-            background-color: var(--theme-contrast);
+            background-color: var(--theme-dark);
             color: white;
             box-shadow: 2px 2px 0px var(--border-color);
             transform: scale(1.05);
@@ -264,9 +267,9 @@
             margin-bottom: 30px;
         }
         .stars-container { font-size: 3rem; margin: 10px 0; }
-        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-contrast); line-height: 1; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
         .btn-retry {
-            width: 100%; padding: 15px; background-color: var(--theme-contrast); color: white;
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
             border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
             cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
         }
@@ -281,7 +284,7 @@
         .nav-btn {
             padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer;
         }
-        .btn-next { background-color: var(--theme-contrast); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
         .btn-prev { background-color: #f0f0f0; color: #555; }
         .btn-prev:disabled { opacity: 0.5; }
 
@@ -309,47 +312,40 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Sequências Numéricas</h1>
-            <p style="color: #555; margin-bottom: 20px;">Uma sequência é uma lista ordenada de números (ou figuras) que segue um <strong>padrão lógico</strong>.</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Semelhança de Triângulos</h1>
+            <p style="color: #555; margin-bottom: 20px;">Dois triângulos são semelhantes quando têm a <strong>mesma forma</strong>, mas não necessariamente o mesmo tamanho. Isso significa ângulos iguais e lados proporcionais.</p>
             
             <div class="card-content">
-                <h3>1. Padrões Visuais</h3>
-                <p class="explanation-text">Muitas vezes, a regra não é um número, mas uma forma que cresce.</p>
+                <h3>1. Teorema Fundamental</h3>
+                <p class="explanation-text">Se você traçar uma reta paralela a um dos lados de um triângulo, cortando os outros dois lados, você cria um triângulo menor <strong>semelhante</strong> ao original.</p>
                 <div class="visual-row">
-                    <svg width="250" height="60" viewBox="0 0 250 60">
-                        <rect x="20" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="30" y="55" font-size="10" text-anchor="middle">1</text>
-                        <rect x="60" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="80" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="80" y="55" font-size="10" text-anchor="middle">2</text>
-                        <rect x="120" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="140" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <rect x="160" y="20" width="20" height="20" fill="#22D3EE"/>
-                        <text x="150" y="55" font-size="10" text-anchor="middle">3</text>
-                        <path d="M 190 30 L 220 30" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)"/>
-                        <text x="230" y="35" font-size="14" fill="#7C3AED">?</text>
+                    <svg width="200" height="120" viewBox="0 0 200 120">
+                        <polygon points="100,10 20,110 180,110" fill="none" stroke="#333" stroke-width="2"/>
+                        <line x1="60" y1="60" x2="140" y2="60" stroke="#F97316" stroke-width="2" stroke-dasharray="4"/>
+                        <text x="100" y="50" font-size="10" fill="#F97316" font-weight="bold">Pequeno</text>
+                        <text x="100" y="100" font-size="10" fill="#333">Grande</text>
                     </svg>
                 </div>
-                <p class="explanation-text">Neste exemplo, a cada passo, aumentamos 1 quadrado. A regra é <strong>+1</strong>.</p>
+                <p class="explanation-text">A proporção se mantém: (Lado Pequeno) / (Lado Grande) = (Base Pequena) / (Base Grande).</p>
             </div>
 
             <div class="card-content">
-                <h3>2. Progressão Aritmética (PA)</h3>
-                <p class="explanation-text">É uma escada onde os degraus têm a mesma altura. Você sempre <strong>SOMA</strong> o mesmo valor.</p>
+                <h3>2. Os 3 Casos de Detetive</h3>
+                <p class="explanation-text">Como saber se são semelhantes sem medir tudo? Use os casos:</p>
+                
                 <div class="example-box">
-                    <strong>Exemplo: 2, 5, 8, 11...</strong>
-                    <div class="math-block">+3, +3, +3...</div>
-                    <p style="font-size:0.9rem;">A "razão" (r) é 3. Para achar o próximo, basta somar 3.</p>
+                    <span class="step-label">Caso 1: AA (Ângulo-Ângulo)</span>
+                    <p style="font-size:0.9rem;">Basta que <strong>dois ângulos</strong> sejam iguais. O terceiro será automaticamente igual.</p>
                 </div>
-            </div>
 
-            <div class="card-content">
-                <h3>3. Progressão Geométrica (PG)</h3>
-                <p class="explanation-text">É um crescimento explosivo. Você sempre <strong>MULTIPLICA</strong> pelo mesmo valor.</p>
                 <div class="example-box">
-                    <strong>Exemplo: 3, 6, 12, 24...</strong>
-                    <div class="math-block">×2, ×2, ×2...</div>
-                    <p style="font-size:0.9rem;">A "razão" (q) é 2. Para achar o próximo, basta multiplicar por 2.</p>
+                    <span class="step-label">Caso 2: LLL (Lado-Lado-Lado)</span>
+                    <p style="font-size:0.9rem;">Se os <strong>três lados</strong> são proporcionais (ex: todos o dobro do outro), eles são semelhantes.</p>
+                </div>
+
+                <div class="example-box">
+                    <span class="step-label">Caso 3: LAL (Lado-Ângulo-Lado)</span>
+                    <p style="font-size:0.9rem;">Dois lados proporcionais e o <strong>ângulo entre eles</strong> igual.</p>
                 </div>
             </div>
 
@@ -361,7 +357,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">Descubra o padrão e complete.</p>
+                <p style="color: #666; font-size: 0.9rem;">Descubra as medidas e casos.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -387,205 +383,196 @@
     </footer>
 
     <script>
-        // --- BANCO DE QUESTÕES (SEQUÊNCIAS) ---
+        // --- BANCO DE QUESTÕES DETALHADO ---
         const questions = [
-            // NÍVEL 1: PADRÕES VISUAIS E LÓGICA SIMPLES
+            // NÍVEL 1: CONCEITOS BÁSICOS
             {
                 id: 1,
-                text: "Observe o padrão de bolinhas. Quantas bolinhas terá a próxima figura?",
-                visual: `
-                    <svg width="200" height="50" viewBox="0 0 200 50">
-                        <circle cx="20" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="25" r="5" fill="#7C3AED"/> <circle cx="60" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="60" cy="35" r="5" fill="#7C3AED"/>
-                        
-                        <circle cx="110" cy="25" r="5" fill="#7C3AED"/> <circle cx="110" cy="15" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="35" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="5" r="5" fill="#7C3AED"/>
-                        <circle cx="110" cy="45" r="5" fill="#7C3AED"/>
-                        
-                        <text x="160" y="30" font-size="20" fill="#333">?</text>
-                    </svg>
-                `,
-                options: ["6", "7", "8", "9"],
+                text: "Dois triângulos são semelhantes se tiverem:",
+                options: ["Mesmo tamanho e forma", "Mesma forma, tamanhos diferentes", "Mesmo tamanho, formas diferentes", "Áreas iguais"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 6 é par.<br>
-                    <strong>(B) Correta:</strong> A sequência é 1, 3, 5... (números ímpares). O próximo número ímpar é 7.<br>
-                    <strong>(C) Incorreta:</strong> 8 é par.<br>
-                    <strong>(D) Incorreta:</strong> Pulou o 7.`
+                    <strong>(A) Incorreta:</strong> Isso seria congruência (iguais).<br>
+                    <strong>(B) Correta:</strong> Semelhança preserva a forma (ângulos iguais) mas permite tamanhos diferentes (ampliação/redução).<br>
+                    <strong>(C) Incorreta:</strong> Formas diferentes nunca são semelhantes.<br>
+                    <strong>(D) Incorreta:</strong> Áreas podem ser diferentes.`
             },
             {
                 id: 2,
-                text: "Qual é o próximo número da sequência: <strong>2, 4, 8, 16...</strong>?",
-                options: ["20", "24", "32", "18"],
-                correct: 2,
+                text: "Se dois triângulos são semelhantes, seus ângulos correspondentes são:",
+                options: ["Proporcionais", "Congruentes (Iguais)", "Diferentes", "Suplementares"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Somou 4.<br>
-                    <strong>(B) Incorreta:</strong> Somou 8.<br>
-                    <strong>(C) Correta:</strong> A regra é multiplicar por 2 (dobrar). 16 · 2 = 32.<br>
-                    <strong>(D) Incorreta:</strong> Somou 2.`
+                    <strong>(A) Incorreta:</strong> Os lados são proporcionais, não os ângulos.<br>
+                    <strong>(B) Correta:</strong> Para manter a forma, os ângulos internos devem ter exatamente a mesma medida.<br>
+                    <strong>(C) Incorreta:</strong> Se fossem diferentes, a forma mudaria.<br>
+                    <strong>(D) Incorreta:</strong> Soma 180º não é a regra aqui.`
             },
             {
                 id: 3,
-                text: "Descubra o padrão: <strong>100, 95, 90, 85...</strong> O próximo é:",
-                options: ["84", "80", "75", "70"],
+                text: "Se o triângulo A é o dobro do tamanho do triângulo B, a razão de semelhança é:",
+                options: ["1", "2", "0,5", "4"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Subtraiu 1.<br>
-                    <strong>(B) Correta:</strong> A regra é subtrair 5 a cada passo. 85 - 5 = 80.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Pulou um termo.`
+                    <strong>(A) Incorreta:</strong> Tamanhos iguais.<br>
+                    <strong>(B) Correta:</strong> Se os lados de A são 2 vezes os lados de B, a razão k = 2.<br>
+                    <strong>(C) Incorreta:</strong> Seria se B fosse o dobro de A.<br>
+                    <strong>(D) Incorreta:</strong> Seria quádruplo.`
             },
-            // NÍVEL 2: QUADRADOS E FORMAS
+            // NÍVEL 2: CASOS DE SEMELHANÇA
             {
                 id: 4,
-                text: "Estes são os 'Números Quadrados'. Qual o próximo? <strong>1, 4, 9, 16...</strong>",
+                text: "Você conhece dois ângulos de dois triângulos: 30° e 60°. Eles são semelhantes?",
                 visual: `
                     <svg width="150" height="50" viewBox="0 0 150 50">
-                        <rect x="10" y="20" width="10" height="10" fill="#22D3EE"/> <rect x="40" y="15" width="20" height="20" fill="#22D3EE"/> <rect x="80" y="10" width="30" height="30" fill="#22D3EE"/> <text x="130" y="30" font-size="16" fill="#333">?</text>
+                        <text x="75" y="30" text-anchor="middle" font-size="14" fill="#F97316">Caso AA</text>
                     </svg>
                 `,
-                options: ["20", "24", "25", "30"],
-                correct: 2,
+                options: ["Sim, pelo caso AA", "Não, precisa dos lados", "Não, precisa do 3º ângulo", "Talvez"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(B) Incorreta:</strong> Não é quadrado perfeito.<br>
-                    <strong>(C) Correta:</strong> A sequência é 1², 2², 3², 4². O próximo é 5² = 25.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> Se dois ângulos são iguais, o terceiro obrigatoriamente também será (soma 180°). O caso AA garante a semelhança.<br>
+                    <strong>(B) Incorreta:</strong> Ângulos bastam.<br>
+                    <strong>(C) Incorreta:</strong> O 3º já é consequência.<br>
+                    <strong>(D) Incorreta:</strong> É certeza.`
             },
             {
                 id: 5,
-                text: "Sequência de Fibonacci: <strong>1, 1, 2, 3, 5...</strong> Qual o próximo? (Dica: some os dois anteriores)",
-                options: ["6", "7", "8", "9"],
-                correct: 2,
+                text: "Triângulo 1 tem lados 2, 3, 4. Triângulo 2 tem lados 4, 6, 8. Eles são semelhantes?",
+                options: ["Sim, caso LLL", "Sim, caso AA", "Não são", "Sim, caso LAL"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3+3?<br>
-                    <strong>(B) Incorreta:</strong> 2+5.<br>
-                    <strong>(C) Correta:</strong> Cada número é a soma dos dois anteriores: 3 + 5 = 8.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> 4/2 = 2; 6/3 = 2; 8/4 = 2. Todos os lados são proporcionais (o dobro). Caso Lado-Lado-Lado.<br>
+                    <strong>(B) Incorreta:</strong> Não falamos de ângulos.<br>
+                    <strong>(C) Incorreta:</strong> São proporcionais.<br>
+                    <strong>(D) Incorreta:</strong> Não usamos ângulos.`
             },
             {
                 id: 6,
-                text: "Qual é a regra da sequência: <strong>1, -1, 1, -1, 1...</strong>?",
-                options: ["Subtrair 2", "Multiplicar por -1", "Dividir por 2", "Somar 0"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 1-2 = -1, mas -1-2 = -3.<br>
-                    <strong>(B) Correta:</strong> Multiplicar por -1 inverte o sinal a cada passo.<br>
-                    <strong>(C) Incorreta:</strong> Diminuiria o valor.<br>
-                    <strong>(D) Incorreta:</strong> Ficaria constante.`
-            },
-            // NÍVEL 3: TERMO GERAL E PA
-            {
-                id: 7,
-                text: "Se a fórmula do termo geral é <strong>an = 2n</strong>, qual é o 5º termo (n=5)?",
-                options: ["5", "7", "10", "25"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> n=5.<br>
-                    <strong>(B) Incorreta:</strong> 5+2.<br>
-                    <strong>(C) Correta:</strong> Substituindo n por 5: 2 · 5 = 10.<br>
-                    <strong>(D) Incorreta:</strong> 5².`
-            },
-            {
-                id: 8,
-                text: "Qual é o valor de x na PA: <strong>5, x, 15</strong>?",
-                visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">5 -> +r -> x -> +r -> 15</text>
-                    </svg>
-                `,
-                options: ["8", "10", "12", "7"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 5+3=8, 8+3=11 (não 15).<br>
-                    <strong>(B) Correta:</strong> Em uma PA, o termo do meio é a média dos vizinhos. (5+15)/2 = 10.<br>
-                    <strong>(C) Incorreta:</strong> 5+7=12, 12+7=19.<br>
-                    <strong>(D) Incorreta:</strong> Muito baixo.`
-            },
-            {
-                id: 9,
-                text: "Qual é a definição de uma <strong>Progressão Aritmética (PA)</strong>?",
-                options: ["Uma sequência onde se multiplica sempre o mesmo valor", "Uma sequência onde se soma sempre o mesmo valor", "Uma sequência aleatória", "Uma sequência de quadrados"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Isso é PG.<br>
-                    <strong>(B) Correta:</strong> A característica da PA é somar uma constante (razão) a cada termo.<br>
-                    <strong>(C) Incorreta:</strong> PA tem regra fixa.<br>
-                    <strong>(D) Incorreta:</strong> Específico demais.`
-            },
-            // NÍVEL 4: PG E CRESCIMENTO
-            {
-                id: 10,
-                text: "Qual destas é uma <strong>Progressão Geométrica (PG)</strong>?",
-                options: ["2, 4, 6, 8...", "5, 10, 15, 20...", "3, 9, 27, 81...", "1, 2, 3, 4..."],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> PA de razão 2.<br>
-                    <strong>(B) Incorreta:</strong> PA de razão 5.<br>
-                    <strong>(C) Correta:</strong> Multiplica-se sempre por 3. Isso é uma PG.<br>
-                    <strong>(D) Incorreta:</strong> PA de razão 1.`
-            },
-            {
-                id: 11,
-                text: "Qual é a razão da PG: <strong>4, 12, 36...</strong>?",
-                visual: `
-                    <svg width="150" height="40" viewBox="0 0 150 40">
-                        <text x="75" y="25" text-anchor="middle" font-size="14" fill="#333">4 · ? = 12</text>
-                    </svg>
-                `,
-                options: ["2", "3", "4", "8"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> 4·2 = 8.<br>
-                    <strong>(B) Correta:</strong> Para ir de 4 para 12, multiplicamos por 3. (12 ÷ 4 = 3).<br>
-                    <strong>(C) Incorreta:</strong> 4·4 = 16.<br>
-                    <strong>(D) Incorreta:</strong> Diferença é 8, não razão.`
-            },
-            {
-                id: 12,
-                text: "Na sequência das metades: <strong>100, 50, 25...</strong> qual o próximo?",
-                options: ["10", "12,5", "15", "0"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Divisão errada.<br>
-                    <strong>(B) Correta:</strong> A regra é dividir por 2. 25 ÷ 2 = 12,5.<br>
-                    <strong>(C) Incorreta:</strong> Subtraiu 10.<br>
-                    <strong>(D) Incorreta:</strong> Não zera tão rápido.`
-            },
-            // NÍVEL 5: DESAFIOS E APLICAÇÕES
-            {
-                id: 13,
-                text: "Se o 1º termo de uma PA é 5 e a razão é 2, qual é o 10º termo?",
-                options: ["23", "25", "20", "15"],
+                text: "Triângulo 1: Lados 5 e 10, ângulo entre eles 40°. Triângulo 2: Lados 2,5 e 5, ângulo entre eles 40°.",
+                options: ["Semelhantes (LAL)", "Semelhantes (AA)", "Não semelhantes", "Semelhantes (LLL)"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> a10 = a1 + 9r = 5 + 9(2) = 5 + 18 = 23.<br>
-                    <strong>(B) Incorreta:</strong> Somou 10 vezes a razão (seria o 11º).<br>
-                    <strong>(C) Incorreta:</strong> 10·2 = 20 (esqueceu o a1).<br>
+                    <strong>(A) Correta:</strong> Temos dois lados proporcionais (metade) e o ângulo ENTRE eles é igual. Caso Lado-Ângulo-Lado.<br>
+                    <strong>(B) Incorreta:</strong> Só temos 1 ângulo.<br>
+                    <strong>(C) Incorreta:</strong> Cumprem a regra.<br>
+                    <strong>(D) Incorreta:</strong> Falta o 3º lado.`
+            },
+            // NÍVEL 3: CÁLCULOS COM TEOREMA FUNDAMENTAL
+            {
+                id: 7,
+                text: "No triângulo, uma reta paralela cortou a altura. Altura menor = 2, Altura maior = 6. Base menor = 3. Qual a Base Maior (x)?",
+                visual: `
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <polygon points="75,5 25,75 125,75" fill="none" stroke="#333"/>
+                        <line x1="45" y1="35" x2="105" y2="35" stroke="#F97316"/>
+                        <text x="85" y="30" font-size="10">3</text>
+                        <text x="85" y="70" font-size="10" font-weight="bold" fill="#0284C7">x</text>
+                    </svg>
+                `,
+                options: ["9", "6", "12", "4"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Razão de semelhança = Altura Maior / Altura Menor = 6/2 = 3. A base deve triplicar também: 3 · 3 = 9.<br>
+                    <strong>(B) Incorreta:</strong> Dobro.<br>
+                    <strong>(C) Incorreta:</strong> Quádruplo.<br>
                     <strong>(D) Incorreta:</strong> Erro.`
             },
             {
-                id: 14,
-                text: "Observe as setas: ⬆️, ➡️, ⬇️, ⬅️ ... Qual a próxima?",
-                options: ["➡️", "⬇️", "⬆️", "⬅️"],
-                correct: 2,
+                id: 8,
+                text: "Calcule x: Triângulo pequeno (lados 2 e 3). Triângulo grande (lados 4 e x).",
+                options: ["6", "5", "8", "9"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Seria a 2ª do ciclo.<br>
-                    <strong>(B) Incorreta:</strong> Seria a 3ª do ciclo.<br>
-                    <strong>(C) Correta:</strong> O padrão é um ciclo de 4 passos girando sentido horário. Após a esquerda, volta para Cima.<br>
-                    <strong>(D) Incorreta:</strong> Acabou de acontecer.`
+                    <strong>(A) Correta:</strong> Se o lado 2 virou 4 (dobrou), o lado 3 deve virar x. 3 · 2 = 6.<br>
+                    <strong>(B) Incorreta:</strong> 3+2.<br>
+                    <strong>(C) Incorreta:</strong> 4·2.<br>
+                    <strong>(D) Incorreta:</strong> 3·3.`
+            },
+            {
+                id: 9,
+                text: "O Teorema Fundamental diz que a reta paralela cria um triângulo...",
+                options: ["Semelhante ao original", "Congruente ao original", "Com área igual", "Equilátero"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A reta paralela preserva os ângulos, criando um 'clone' menor ou maior (semelhante).<br>
+                    <strong>(B) Incorreta:</strong> Tamanhos diferentes.<br>
+                    <strong>(C) Incorreta:</strong> Área menor.<br>
+                    <strong>(D) Incorreta:</strong> Não muda o tipo.`
+            },
+            // NÍVEL 4: PROBLEMAS DE SOMBRA (CLÁSSICOS)
+            {
+                id: 10,
+                text: "Um prédio projeta uma sombra de 20m. No mesmo instante, um poste de 2m projeta sombra de 4m. Qual a altura do prédio?",
+                visual: `
+                    <svg width="150" height="50" viewBox="0 0 150 50">
+                        <rect x="10" y="10" width="10" height="30" fill="#333"/>
+                        <line x1="20" y1="40" x2="60" y2="40" stroke="#ccc"/> <text x="30" y="35" font-size="10">Sombra</text>
+                    </svg>
+                `,
+                options: ["10m", "40m", "5m", "8m"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Razão Poste: Altura/Sombra = 2/4 = 0,5 (Altura é metade da sombra). Prédio: h/20 = 0,5 -> h = 10m.<br>
+                    <strong>(B) Incorreta:</strong> Dobrou.<br>
+                    <strong>(C) Incorreta:</strong> 1/4.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            {
+                id: 11,
+                text: "Para medir a largura de um rio, usamos semelhança. Se a razão é 3 e o triângulo menor tem base 5m, qual a largura (base maior)?",
+                options: ["15m", "8m", "5/3m", "3m"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Base Maior = Razão · Base Menor. x = 3 · 5 = 15m.<br>
+                    <strong>(B) Incorreta:</strong> Somou.<br>
+                    <strong>(C) Incorreta:</strong> Dividiu.<br>
+                    <strong>(D) Incorreta:</strong> Usou a razão.`
+            },
+            {
+                id: 12,
+                text: "Se a razão de semelhança entre dois triângulos é k=2, o que acontece com o Perímetro?",
+                options: ["Dobra (x2)", "Quadruplica (x4)", "Fica igual", "Triplica"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> O perímetro é uma medida linear (soma dos lados). Se os lados dobram, o perímetro também dobra.<br>
+                    <strong>(B) Incorreta:</strong> Isso acontece com a ÁREA.<br>
+                    <strong>(C) Incorreta:</strong> Aumenta.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            // NÍVEL 5: DESAFIOS AVANÇADOS (ÁREA E K)
+            {
+                id: 13,
+                text: "Se a razão de semelhança é k=3, a razão entre as ÁREAS será:",
+                options: ["9 (k²)", "3 (k)", "6 (2k)", "27 (k³)"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A razão entre as áreas é o quadrado da razão de semelhança (k²). 3² = 9. A área fica 9 vezes maior.<br>
+                    <strong>(B) Incorreta:</strong> Razão linear.<br>
+                    <strong>(C) Incorreta:</strong> Dobro.<br>
+                    <strong>(D) Incorreta:</strong> Volume.`
+            },
+            {
+                id: 14,
+                text: "Dois triângulos congruentes (iguais) são semelhantes?",
+                options: ["Sim, razão k=1", "Não, pois são iguais", "Talvez", "Apenas se forem retângulos"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Congruência é um caso especial de semelhança onde a razão é 1 (tamanho não muda).<br>
+                    <strong>(B) Incorreta:</strong> Igualdade é semelhança.<br>
+                    <strong>(C) Incorreta:</strong> Certeza.<br>
+                    <strong>(D) Incorreta:</strong> Qualquer tipo.`
             },
             {
                 id: 15,
-                text: "Uma bactéria se divide em 2 a cada hora. Começando com 1, quantas teremos em 4 horas?",
-                options: ["8", "16", "4", "32"],
-                correct: 1,
+                text: "Um mapa tem escala 1:100. Um triângulo de área 2 cm² no mapa tem que área real?",
+                options: ["20.000 cm²", "200 cm²", "200.000 cm²", "2 m²"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 3 horas.<br>
-                    <strong>(B) Correta:</strong> Hora 0: 1. Hora 1: 2. Hora 2: 4. Hora 3: 8. Hora 4: 16. (PG de razão 2).<br>
-                    <strong>(C) Incorreta:</strong> Soma simples.<br>
-                    <strong>(D) Incorreta:</strong> 5 horas.`
+                    <strong>(A) Correta:</strong> k = 100. k² = 10.000. Área Real = Área Mapa · k² = 2 · 10.000 = 20.000 cm² (ou 2 m²).<br>
+                    <strong>(B) Incorreta:</strong> Usou k linear.<br>
+                    <strong>(C) Incorreta:</strong> Erro zero.<br>
+                    <strong>(D) Incorreta:</strong> 2 m² = 20.000 cm². Resposta também válida, mas A está em cm².`
             }
         ];
 
@@ -743,7 +730,7 @@
             if (currentQuestion === questions.length - 1) {
                 btnNext.textContent = "Finalizar";
                 btnNext.onclick = finishQuiz;
-                btnNext.style.backgroundColor = "#7C3AED"; 
+                btnNext.style.backgroundColor = "#0284C7"; 
             } else {
                 btnNext.textContent = "Próxima";
                 btnNext.onclick = () => changeQuestion(1);
