@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráfico da Função Quadrática - 9º Ano</title>
+    <title>Sistemas de Equações - Masterclass</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,16 +15,15 @@
         /* --- VARIÁVEIS DE TEMA --- */
         :root {
             --bg-color: #F8F9FA;
-            --text-color: #1E1B4B; /* Azul Quase Preto */
+            --text-color: #1E293B; /* Azul Escuro */
             --border-color: #000000;
             
-            /* CORES DA MATÉRIA: TEMA CYBER GRÁFICO */
-            --theme-color: #E0E7FF; 
-            --theme-active: #4338CA; /* Azul Índigo Forte */
+            /* CORES: AZUL E LARANJA (Interseção) */
+            --theme-light: #FFEDD5; 
+            --theme-medium: #FDBA74;
+            --theme-dark: #EA580C; /* Laranja Forte */
+            --theme-contrast: #1E40AF; /* Azul Marinho */
             --theme-text-active: #FFFFFF;
-            
-            /* DESTAQUE PARA CURVAS */
-            --curve-color: #DB2777; /* Rosa Choque */
             
             /* FEEDBACK */
             --correct-bg: #C6F6D5;
@@ -49,7 +48,7 @@
             overflow-x: hidden;
         }
 
-        /* ANIMAÇÃO DE TREMOR (ERRO) */
+        /* ANIMAÇÃO DE TREMOR */
         @keyframes shake {
             0% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
@@ -57,12 +56,9 @@
             75% { transform: translateX(-6px); }
             100% { transform: translateX(0); }
         }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
 
-        .shake-effect {
-            animation: shake 0.4s ease-in-out;
-        }
-
-        /* --- LOGO --- */
+        /* --- HEADER --- */
         .logo-header {
             width: 100%;
             max-width: 600px;
@@ -70,18 +66,9 @@
             justify-content: center;
             padding: 20px 0 10px 0;
         }
+        .logo-img { max-height: 80px; width: auto; display: block; }
 
-        .logo-img {
-            max-height: 80px;
-            width: auto;
-            display: block;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-        }
+        .container { width: 100%; max-width: 600px; padding: 20px; }
 
         /* --- NAVEGAÇÃO --- */
         .top-nav {
@@ -91,7 +78,6 @@
             align-items: center;
             margin-bottom: 20px;
         }
-
         .btn-close {
             text-decoration: none;
             color: var(--text-color);
@@ -112,7 +98,6 @@
             margin-bottom: 25px;
             box-shadow: 3px 3px 0px var(--border-color);
         }
-
         .toggle-btn {
             flex: 1;
             border: none;
@@ -126,19 +111,15 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
         .toggle-btn.active {
-            background-color: var(--theme-active);
+            background-color: var(--theme-contrast); /* Azul no ativo para contraste */
             color: var(--theme-text-active);
             box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* --- CONTEÚDO --- */
-        .section-view {
-            display: none; 
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
+        /* --- CONTEÚDO EXPLICATIVO --- */
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
         .card-content {
             background-color: var(--white);
             border: 2px solid var(--border-color);
@@ -148,62 +129,54 @@
             margin-bottom: 20px;
         }
 
-        /* ESTILO PARA AS ILUSTRAÇÕES VISUAIS */
-        .visual-row { display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
-        .visual-svg { color: var(--theme-active); }
+        /* --- CAIXAS DE EXEMPLO PASSO A PASSO --- */
+        .example-box {
+            background-color: #FFF7ED;
+            border-left: 5px solid var(--theme-dark);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
         
-        /* Estilo para SVGs dentro das questões */
+        .step-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--theme-dark);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .math-block {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #333;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #FED7AA;
+            margin-bottom: 10px;
+        }
+
+        .highlight-var { color: var(--theme-contrast); font-weight: bold; }
+        .highlight-calc { background-color: var(--theme-light); padding: 0 4px; border-radius: 3px; }
+
+        /* --- QUIZ --- */
         .question-visual {
             display: flex;
             justify-content: center;
             margin: 15px 0;
             padding: 15px;
-            background-color: #EEF2FF;
+            background-color: var(--theme-light);
             border-radius: 12px;
-            border: 1px dashed var(--theme-active);
+            border: 1px dashed var(--theme-dark);
         }
 
-        /* --- CARDS DE EXEMPLO DETALHADO --- */
-        .step-box {
-            background-color: #F5F3FF; 
-            border-left: 5px solid #4338CA;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-
-        .step-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            color: #312E81;
-            margin-bottom: 10px;
-            display: block;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-        }
-
-        .explanation-text {
-            font-size: 0.9rem;
-            color: #4A5568;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .highlight {
-            color: #4338CA;
-            font-weight: 700;
-            background-color: #E0E7FF;
-            padding: 0 4px;
-            border-radius: 4px;
-        }
-
-        /* --- QUIZ MAPA --- */
         .question-map {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 5px;
+            display: flex; /* CORRIGIDO: Agora é flex para ficar lado a lado */
+            gap: 10px;
+            overflow-x: auto; /* Permite rolar para o lado se não couber */
+            padding: 10px 5px;
             margin-bottom: 20px;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
@@ -224,11 +197,12 @@
             background: white;
             cursor: pointer;
             transition: all 0.2s;
+            flex-shrink: 0; /* Impede que os botões fiquem esmagados */
         }
 
         .map-dot.active {
             border-color: var(--border-color);
-            background-color: var(--theme-active);
+            background-color: var(--theme-dark);
             color: white;
             box-shadow: 2px 2px 0px var(--border-color);
             transform: scale(1.05);
@@ -237,7 +211,6 @@
         .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
         .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
 
-        /* --- OPÇÕES --- */
         .option-btn {
             display: flex;
             align-items: center;
@@ -249,9 +222,7 @@
             margin-bottom: 12px;
             cursor: pointer;
             transition: all 0.2s;
-            position: relative;
         }
-
         .opt-circle {
             width: 32px;
             height: 32px;
@@ -265,43 +236,25 @@
             font-size: 1rem;
             flex-shrink: 0;
         }
-
         .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
         .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
-
         .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
         .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
-        
         .option-btn.disabled { pointer-events: none; }
 
-        /* --- FEEDBACK DETALHADO --- */
+        /* --- FEEDBACK --- */
         .feedback-box {
-            display: block; 
-            margin-top: 20px;
+            display: block; margin-top: 20px;
             background-color: #EDF2F7;
             border: 2px solid #2D3748;
             border-radius: 12px;
             padding: 20px;
             animation: slideUp 0.3s ease-out;
         }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
 
-        .feedback-title {
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* --- TELA DE RESULTADO --- */
-        #viewResult {
-            text-align: center;
-            display: none;
-            animation: fadeIn 0.5s;
-        }
-
+        /* --- RESULTADO --- */
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
         .result-card {
             background: white;
             border: 2px solid black;
@@ -310,50 +263,25 @@
             box-shadow: 6px 6px 0px black;
             margin-bottom: 30px;
         }
-
         .stars-container { font-size: 3rem; margin: 10px 0; }
-        .score-text { font-size: 1.2rem; font-weight: 700; color: var(--text-color); }
-        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-active); line-height: 1; margin: 10px 0; }
-
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
         .btn-retry {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--theme-active);
-            color: white;
-            border: 2px solid black;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 4px 4px 0px black;
-            transition: transform 0.1s;
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
         }
-        
         .btn-retry:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px black; }
 
-        /* --- RODAPÉ FIXO --- */
+        /* --- FOOTER --- */
         .quiz-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--white);
-            border-top: 2px solid var(--border-color);
-            padding: 15px 20px;
-            display: none; 
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
         }
-
         .nav-btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
+            padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer;
         }
-        .btn-next { background-color: var(--theme-active); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
         .btn-prev { background-color: #f0f0f0; color: #555; }
         .btn-prev:disabled { opacity: 0.5; }
 
@@ -369,7 +297,6 @@
     </div>
 
     <div class="container">
-        
         <nav class="top-nav">
             <a href="9ano-matematica.html" class="btn-close">⬅ Voltar</a>
             <span style="font-size: 0.8rem; font-weight: 700; color: #888;">9º ANO</span>
@@ -382,49 +309,96 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Gráfico da Função Quadrática</h1>
-            <p style="color: #555; margin-bottom: 20px;">O gráfico de uma função do 2º grau é uma curva simétrica chamada <strong>Parábola</strong>. Vamos aprender a "ler" esse desenho.</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Sistemas de Equações: Masterclass</h1>
+            <p style="color: #555; margin-bottom: 20px;">Vamos aprofundar nos dois métodos principais com exemplos resolvidos passo a passo.</p>
             
             <div class="card-content">
-                <h3>1. Anatomia da Parábola</h3>
-                <div class="visual-row">
+                <h3>1. Método da Substituição (Passo a Passo)</h3>
+                <p class="explanation-text">Ideal quando uma letra já está "quase isolada".</p>
+                
+                <div class="example-box">
+                    <strong>Sistema: { x = y + 4 ; 2x + y = 14 }</strong>
                     
-                    <svg width="250" height="150" viewBox="0 0 250 150">
-                        <line x1="20" y1="130" x2="230" y2="130" stroke="#333" stroke-width="1"/>
-                        <line x1="125" y1="10" x2="125" y2="140" stroke="#333" stroke-width="1"/>
-                        
-                        <path d="M 55 10 Q 125 180 195 10" fill="none" stroke="#DB2777" stroke-width="3"/>
-                        
-                        <circle cx="125" cy="95" r="4" fill="#4338CA"/> <text x="135" y="95" font-size="10" fill="#4338CA" font-weight="bold">Vértice</text>
-                        
-                        <circle cx="85" cy="130" r="4" fill="#4338CA"/> <circle cx="165" cy="130" r="4" fill="#4338CA"/> <text x="75" y="145" font-size="10" fill="#4338CA">x'</text>
-                        <text x="170" y="145" font-size="10" fill="#4338CA">x''</text>
-                    </svg>
+                    <span class="step-label">Passo 1: Substituir</span>
+                    <p style="font-size:0.9rem;">Como sabemos que <strong>x</strong> vale <strong>(y + 4)</strong>, colocamos isso no lugar do x na segunda equação.</p>
+                    <div class="math-block">2<span class="highlight-var">(y + 4)</span> + y = 14</div>
+                    
+                    <span class="step-label">Passo 2: Resolver o Y</span>
+                    <div class="math-block">
+                        2y + 8 + y = 14<br>
+                        3y = 14 - 8<br>
+                        3y = 6<br>
+                        <strong>y = 2</strong>
+                    </div>
+                    
+                    <span class="step-label">Passo 3: Achar o X</span>
+                    <p style="font-size:0.9rem;">Volte na primeira equação (x = y + 4) e use y = 2.</p>
+                    <div class="math-block">x = 2 + 4 = <strong>6</strong></div>
+                    
+                    <p style="text-align:center; font-weight:bold; color:#1E40AF;">Solução: (6, 2)</p>
                 </div>
-                <p class="explanation-text"><strong>Vértice:</strong> O ponto de virada (mínimo ou máximo).</p>
-                <p class="explanation-text"><strong>Raízes:</strong> Onde corta o eixo X.</p>
-                <p class="explanation-text"><strong>Eixo de Simetria:</strong> Linha invisível que divide a parábola ao meio.</p>
             </div>
 
             <div class="card-content">
-                <h3>2. O que os coeficientes dizem?</h3>
+                <h3>2. Método da Adição (Cancelamento)</h3>
+                <p class="explanation-text">Ideal quando temos termos opostos (ex: +y e -y).</p>
                 
-                <div class="step-box">
-                    <span class="step-title">Coeficiente 'a' (Concavidade)</span>
-                    <p class="explanation-text"><strong>a > 0:</strong> Sorrindo 🙂 (Abertura para cima).</p>
-                    <p class="explanation-text"><strong>a < 0:</strong> Triste ☹️ (Abertura para baixo).</p>
+                <div class="example-box">
+                    <strong>Sistema: { 3x + 2y = 12 ; 4x - 2y = 2 }</strong>
+                    
+                    <span class="step-label">Passo 1: Somar as equações</span>
+                    <p style="font-size:0.9rem;">Observe que +2y e -2y vão se anular.</p>
+                    <div class="math-block" style="text-align:center;">
+                        3x + 2y = 12<br>
+                        + (4x - 2y = 2)<br>
+                        -----------------<br>
+                        <span class="highlight-var">7x + 0 = 14</span>
+                    </div>
+                    
+                    <span class="step-label">Passo 2: Resolver o X</span>
+                    <div class="math-block">
+                        7x = 14<br>
+                        x = 14 ÷ 7<br>
+                        <strong>x = 2</strong>
+                    </div>
+                    
+                    <span class="step-label">Passo 3: Achar o Y</span>
+                    <p style="font-size:0.9rem;">Escolha qualquer equação (ex: a primeira) e troque x por 2.</p>
+                    <div class="math-block">
+                        3(2) + 2y = 12<br>
+                        6 + 2y = 12<br>
+                        2y = 6<br>
+                        <strong>y = 3</strong>
+                    </div>
+                    
+                    <p style="text-align:center; font-weight:bold; color:#1E40AF;">Solução: (2, 3)</p>
                 </div>
+            </div>
 
-                <div class="step-box">
-                    <span class="step-title">Coeficiente 'c' (Corte no Y)</span>
-                    <p class="explanation-text">É exatamente onde a parábola corta a linha vertical (eixo Y).</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-title">Discriminante 'Δ' (Raízes)</span>
-                    <p class="explanation-text"><strong>Δ > 0:</strong> Corta o eixo X em 2 lugares.</p>
-                    <p class="explanation-text"><strong>Δ = 0:</strong> Toca o eixo X em 1 lugar (beija o eixo).</p>
-                    <p class="explanation-text"><strong>Δ < 0:</strong> Não toca o eixo X (flutua).</p>
+            <div class="card-content">
+                <h3>3. O Desafio da Fazenda</h3>
+                <p class="explanation-text">Um clássico para treinar a montagem do sistema.</p>
+                
+                <div class="example-box">
+                    <strong>Problema:</strong>
+                    <p style="font-size:0.9rem;">Num sítio há galinhas e coelhos. Contamos 10 cabeças e 26 pés. Quantos animais de cada tipo?</p>
+                    
+                    <span class="step-label">Montagem</span>
+                    <p style="font-size:0.9rem;">G = Galinhas, C = Coelhos.</p>
+                    <div class="math-block">
+                        1) G + C = 10 (Cabeças)<br>
+                        2) 2G + 4C = 26 (Pés)
+                    </div>
+                    
+                    <span class="step-label">Truque da Multiplicação</span>
+                    <p style="font-size:0.9rem;">Multiplique a equação (1) por -2 para cancelar o G.</p>
+                    <div class="math-block">
+                        -2G - 2C = -20<br>
+                        + 2G + 4C = 26<br>
+                        -----------------<br>
+                        0 + 2C = 6  ➝  <strong>C = 3</strong>
+                    </div>
+                    <p style="font-size:0.9rem;">Se C=3 e o total é 10, então <strong>G = 7</strong>.</p>
                 </div>
             </div>
 
@@ -436,7 +410,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">Analise os gráficos.</p>
+                <p style="color: #666; font-size: 0.9rem;">Resolva os sistemas propostos.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -462,231 +436,188 @@
     </footer>
 
     <script>
-        // --- BANCO DE QUESTÕES (GRÁFICO DA FUNÇÃO QUADRÁTICA) ---
+        // --- BANCO DE QUESTÕES (SISTEMAS DETALHADO) ---
         const questions = [
-            // NÍVEL 1: CONCAVIDADE E SINAL DE 'A'
+            // NÍVEL 1: CONCEITO E MONTAGEM
             {
                 id: 1,
-                text: "Observe a parábola abaixo. O coeficiente 'a' é positivo ou negativo?",
-                visual: `
-                    <svg width="150" height="80" viewBox="0 0 150 80">
-                        <line x1="10" y1="40" x2="140" y2="40" stroke="#ccc"/>
-                        <path d="M 30 10 Q 75 70 120 10" fill="none" stroke="#DB2777" stroke-width="3"/>
-                    </svg>
-                `,
-                options: ["Positivo (a > 0)", "Negativo (a < 0)", "Nulo (a = 0)", "Impossível saber"],
+                text: "A soma de dois números é 15 e a diferença é 5. Qual sistema representa isso?",
+                options: ["{ x + y = 15 ; x - y = 5 }", "{ x + y = 15 ; x + y = 5 }", "{ x - y = 15 ; x + y = 5 }", "{ x = 15 ; y = 5 }"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> A concavidade está voltada para CIMA (formato de U, 'sorrindo'). Isso indica que 'a' é positivo.<br>
-                    <strong>(B) Incorreta:</strong> Seria para baixo (triste).<br>
-                    <strong>(C) Incorreta:</strong> Não seria parábola.<br>
-                    <strong>(D) Incorreta:</strong> O desenho mostra claramente.`
+                    <strong>(A) Correta:</strong> "Soma é 15" vira x + y = 15. "Diferença é 5" vira x - y = 5.<br>
+                    <strong>(B) Incorreta:</strong> A segunda equação repete a soma (x+y=5).<br>
+                    <strong>(C) Incorreta:</strong> Inverteu: disse que a diferença é 15 e a soma é 5.<br>
+                    <strong>(D) Incorreta:</strong> Isso dá os valores diretos, não as equações.`
             },
             {
                 id: 2,
-                text: "E neste gráfico? Qual o sinal de 'a'?",
-                visual: `
-                    <svg width="150" height="80" viewBox="0 0 150 80">
-                        <line x1="10" y1="70" x2="140" y2="70" stroke="#ccc"/>
-                        <path d="M 30 70 Q 75 -10 120 70" fill="none" stroke="#4338CA" stroke-width="3"/>
-                    </svg>
-                `,
-                options: ["Positivo", "Negativo", "Zero", "Um"],
-                correct: 1,
+                text: "Para eliminar o 'y' no sistema { 2x + y = 10 ; x - y = 2 }, qual o melhor método?",
+                options: ["Adição (somar as equações)", "Substituição", "Gráfico", "Chute"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Seria para cima.<br>
-                    <strong>(B) Correta:</strong> A concavidade está para BAIXO (formato de U invertido, 'triste'). Logo, 'a' é negativo.<br>
-                    <strong>(C) Incorreta:</strong> Seria uma reta.<br>
-                    <strong>(D) Incorreta:</strong> Um é positivo.`
+                    <strong>(A) Correta:</strong> Como temos +y na primeira e -y na segunda, somar as equações elimina o y instantaneamente (y - y = 0).<br>
+                    <strong>(B) Incorreta:</strong> Funciona, mas é mais longo que a adição neste caso.<br>
+                    <strong>(C) Incorreta:</strong> Demorado para fazer o desenho.<br>
+                    <strong>(D) Incorreta:</strong> Não é método matemático.`
             },
             {
                 id: 3,
-                text: "Se a função é f(x) = -2x² + 4x, o gráfico será:",
-                options: ["Uma reta subindo", "Uma parábola com boca para cima", "Uma parábola com boca para baixo", "Um círculo"],
-                correct: 2,
+                text: "Se x = 2y, como fica a equação x + y = 12 após a substituição?",
+                options: ["2y + y = 12", "x + 2x = 12", "2y + 2y = 12", "y + y = 12"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Tem x², não é reta.<br>
-                    <strong>(B) Incorreta:</strong> 'a' é -2 (negativo).<br>
-                    <strong>(C) Correta:</strong> Como a = -2 (negativo), a parábola tem concavidade para baixo.<br>
-                    <strong>(D) Incorreta:</strong> Equação diferente.`
+                    <strong>(A) Correta:</strong> Trocamos a letra 'x' pelo valor '2y'. A equação vira 2y + y = 12.<br>
+                    <strong>(B) Incorreta:</strong> Substituiu o y, não o x.<br>
+                    <strong>(C) Incorreta:</strong> Substituiu o y também.<br>
+                    <strong>(D) Incorreta:</strong> Ignorou o 2.`
             },
-            // NÍVEL 2: DELTA E RAÍZES
+            // NÍVEL 2: RESOLUÇÃO GUIADA (SUBSTITUIÇÃO)
             {
                 id: 4,
-                text: "O gráfico toca o eixo X em dois pontos distintos. O que sabemos sobre o Delta (Δ)?",
+                text: "Resolva { x = y + 2 ; x + y = 8 }. Passo 1: Substitua x na segunda equação.",
                 visual: `
-                    <svg width="150" height="60" viewBox="0 0 150 60">
-                        <line x1="10" y1="30" x2="140" y2="30" stroke="#333"/>
-                        <path d="M 20 10 Q 75 60 130 10" fill="none" stroke="#DB2777" stroke-width="2"/>
-                        <circle cx="48" cy="30" r="3" fill="#4338CA"/>
-                        <circle cx="102" cy="30" r="3" fill="#4338CA"/>
+                    <svg width="200" height="50" viewBox="0 0 200 50">
+                        <text x="100" y="30" font-size="14" fill="#333">(y + 2) + y = 8</text>
                     </svg>
                 `,
-                options: ["Δ = 0", "Δ < 0", "Δ > 0", "Δ = 1"],
-                correct: 2,
+                options: ["2y + 2 = 8", "y + 2 = 8", "2y = 8", "y = 8"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Tocaria em 1 ponto.<br>
-                    <strong>(B) Incorreta:</strong> Não tocaria o eixo.<br>
-                    <strong>(C) Correta:</strong> Se corta o eixo X em DOIS lugares, a equação tem duas raízes reais diferentes, logo Δ > 0.<br>
-                    <strong>(D) Incorreta:</strong> Pode ser qualquer valor positivo.`
+                    <strong>(A) Correta:</strong> Juntando os termos semelhantes: y + y = 2y. Ficamos com 2y + 2 = 8.<br>
+                    <strong>(B) Incorreta:</strong> Esqueceu de somar o outro y.<br>
+                    <strong>(C) Incorreta:</strong> Ignorou o número 2.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
             },
             {
                 id: 5,
-                text: "Neste caso, a parábola não encosta no eixo X. Qual a situação do Delta?",
-                visual: `
-                    <svg width="150" height="60" viewBox="0 0 150 60">
-                        <line x1="10" y1="50" x2="140" y2="50" stroke="#333"/>
-                        <path d="M 30 10 Q 75 40 120 10" fill="none" stroke="#4338CA" stroke-width="2"/>
-                    </svg>
-                `,
-                options: ["Δ > 0", "Δ < 0", "Δ = 0", "Δ ≥ 0"],
-                correct: 1,
+                text: "Continuando: Se 2y + 2 = 8, qual o valor de y?",
+                options: ["3", "4", "2", "6"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Teria 2 raízes.<br>
-                    <strong>(B) Correta:</strong> A parábola 'flutua' e não corta o eixo X. Isso significa que não há raízes reais, portanto Δ < 0.<br>
-                    <strong>(C) Incorreta:</strong> Teria 1 raiz.<br>
-                    <strong>(D) Incorreta:</strong> Inclui o zero.`
+                    <strong>(A) Correta:</strong> 2y = 8 - 2 ➝ 2y = 6 ➝ y = 6 ÷ 2 = 3.<br>
+                    <strong>(B) Incorreta:</strong> 8-2 não é 8.<br>
+                    <strong>(C) Incorreta:</strong> Erro de cálculo.<br>
+                    <strong>(D) Incorreta:</strong> Não dividiu.`
             },
             {
                 id: 6,
-                text: "Quando o gráfico apenas 'beija' o eixo X em um único ponto (Vértice no eixo), dizemos que:",
-                visual: `
-                    <svg width="150" height="60" viewBox="0 0 150 60">
-                        <line x1="10" y1="50" x2="140" y2="50" stroke="#333"/>
-                        <path d="M 30 10 Q 75 90 120 10" fill="none" stroke="#DB2777" stroke-width="2"/>
-                        <circle cx="75" cy="50" r="3" fill="#4338CA"/>
-                    </svg>
-                `,
-                options: ["Δ = 0", "Δ é negativo", "Não é função", "Tem 3 raízes"],
+                text: "Se y = 3 e x = y + 2, quanto vale x?",
+                options: ["5", "1", "6", "3"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> Um único ponto de contato significa duas raízes reais IGUAIS. Isso ocorre quando Δ = 0.<br>
-                    <strong>(B) Incorreta:</strong> Não tocaria.<br>
-                    <strong>(C) Incorreta:</strong> É função.<br>
-                    <strong>(D) Incorreta:</strong> Máximo 2.`
+                    <strong>(A) Correta:</strong> Substituindo y: x = 3 + 2 = 5.<br>
+                    <strong>(B) Incorreta:</strong> Subtraiu.<br>
+                    <strong>(C) Incorreta:</strong> Multiplicou.<br>
+                    <strong>(D) Incorreta:</strong> Copiou y.`
             },
-            // NÍVEL 3: VÉRTICE E PONTO C
+            // NÍVEL 3: RESOLUÇÃO GUIADA (ADIÇÃO)
             {
                 id: 7,
-                text: "Onde a parábola corta o eixo vertical (Y)?",
+                text: "Sistema { x + y = 10 ; x - y = 4 }. Some as equações.",
                 visual: `
-                    <svg width="100" height="80" viewBox="0 0 100 80">
-                        <line x1="50" y1="0" x2="50" y2="80" stroke="#333"/> <line x1="10" y1="40" x2="90" y2="40" stroke="#ccc"/> <path d="M 20 10 Q 50 80 80 10" fill="none" stroke="#4338CA" stroke-width="2"/>
-                        <circle cx="50" cy="45" r="4" fill="#DB2777"/>
-                        <text x="60" y="45" font-size="12" font-weight="bold">?</text>
+                    <svg width="150" height="60" viewBox="0 0 150 60">
+                        <text x="75" y="20" font-size="14" fill="#333">x + x = 2x</text>
+                        <text x="75" y="40" font-size="14" fill="#333">y - y = 0</text>
                     </svg>
                 `,
-                options: ["No valor de 'a'", "No valor de 'b'", "No valor de 'c'", "No valor de Delta"],
-                correct: 2,
+                options: ["2x = 14", "2x = 6", "2y = 14", "x = 14"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> 'a' define a abertura.<br>
-                    <strong>(B) Incorreta:</strong> 'b' define a inclinação inicial.<br>
-                    <strong>(C) Correta:</strong> O corte no eixo Y ocorre quando x=0. Se x=0, sobra apenas o termo independente 'c'.<br>
-                    <strong>(D) Incorreta:</strong> Delta define raízes.`
+                    <strong>(A) Correta:</strong> Somando coluna por coluna: (x+x) + (y-y) = (10+4) ➝ 2x = 14.<br>
+                    <strong>(B) Incorreta:</strong> Subtraiu 10-4.<br>
+                    <strong>(C) Incorreta:</strong> O y deveria ter sumido (sinais opostos).<br>
+                    <strong>(D) Incorreta:</strong> Esqueceu de somar os x (2x).`
             },
             {
                 id: 8,
-                text: "Se a função é f(x) = x² - 6x + 5, qual é o ponto de corte no eixo Y?",
-                options: ["(0, 1)", "(0, -6)", "(0, 5)", "(0, 0)"],
-                correct: 2,
+                text: "Se 2x = 14, qual o valor de x? E o de y (se x+y=10)?",
+                options: ["x=7, y=3", "x=7, y=7", "x=6, y=4", "x=5, y=5"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Coeficiente a.<br>
-                    <strong>(B) Incorreta:</strong> Coeficiente b.<br>
-                    <strong>(C) Correta:</strong> O corte é no valor de c, que é 5. Ponto (0, 5).<br>
-                    <strong>(D) Incorreta:</strong> Origem.`
+                    <strong>(A) Correta:</strong> x = 14/2 = 7. Se x=7 e a soma é 10, então y = 10 - 7 = 3.<br>
+                    <strong>(B) Incorreta:</strong> Soma daria 14.<br>
+                    <strong>(C) Incorreta:</strong> x incorreto.<br>
+                    <strong>(D) Incorreta:</strong> x incorreto.`
             },
             {
                 id: 9,
-                text: "O ponto mais baixo desta parábola (Vértice) é um ponto de:",
-                visual: `
-                    <svg width="100" height="60" viewBox="0 0 100 60">
-                        <path d="M 20 10 Q 50 60 80 10" fill="none" stroke="#DB2777" stroke-width="3"/>
-                        <circle cx="50" cy="35" r="3" fill="#4338CA"/>
-                    </svg>
-                `,
-                options: ["Máximo", "Mínimo", "Infleção", "Nulo"],
-                correct: 1,
+                text: "No sistema { x + 2y = 5 ; 3x - 2y = 7 }, se somarmos direto, quem some?",
+                options: ["O termo y (-2y e +2y)", "O termo x", "Os números", "Ninguém"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Seria o topo.<br>
-                    <strong>(B) Correta:</strong> Como a concavidade é para cima (a > 0), o vértice está no fundo do vale. É o valor MÍNIMO que a função atinge.<br>
-                    <strong>(C) Incorreta:</strong> Outro conceito.<br>
-                    <strong>(D) Incorreta:</strong> Pode não ser zero.`
+                    <strong>(A) Correta:</strong> Temos +2y na primeira e -2y na segunda. Eles são opostos e se cancelam na soma.<br>
+                    <strong>(B) Incorreta:</strong> x + 3x = 4x (não some).<br>
+                    <strong>(C) Incorreta:</strong> 5 + 7 = 12.<br>
+                    <strong>(D) Incorreta:</strong> O y some.`
             },
-            // NÍVEL 4: CÁLCULO DE VÉRTICE E INTERPRETAÇÃO
+            // NÍVEL 4: PROBLEMAS DO MUNDO REAL
             {
                 id: 10,
-                text: "Para calcular o X do Vértice, usamos a fórmula:",
-                options: ["-b / a", "-b / 2a", "-Δ / 4a", "c / a"],
-                correct: 1,
+                text: "Em um estacionamento há motos e carros. Total de 20 veículos e 54 rodas. Qual sistema usamos?",
+                options: ["{ m+c=20 ; 2m+4c=54 }", "{ m+c=54 ; 2m+4c=20 }", "{ m+c=20 ; m+c=54 }", "{ 2m+2c=20 ; 4m+4c=54 }"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Soma das raízes.<br>
-                    <strong>(B) Correta:</strong> xv = -b / 2a. É o ponto médio entre as raízes.<br>
-                    <strong>(C) Incorreta:</strong> Fórmula do Y do vértice.<br>
-                    <strong>(D) Incorreta:</strong> Produto das raízes.`
+                    <strong>(A) Correta:</strong> m+c=20 (quantidade de veículos). Moto tem 2 rodas (2m), carro tem 4 (4c), total 54.<br>
+                    <strong>(B) Incorreta:</strong> Inverteu totais (disse que tem 54 veículos).<br>
+                    <strong>(C) Incorreta:</strong> Igualdades conflitantes.<br>
+                    <strong>(D) Incorreta:</strong> Erro nos coeficientes (2m+2c).`
             },
             {
                 id: 11,
-                text: "Qual o X do vértice da função y = x² - 4x + 3?",
-                options: ["2", "-2", "4", "1"],
+                text: "Resolva o problema do estacionamento (m+c=20, 2m+4c=54). Quantas motos?",
+                options: ["13 motos", "7 motos", "10 motos", "20 motos"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> xv = -(-4) / 2·1 = 4 / 2 = 2.<br>
-                    <strong>(B) Incorreta:</strong> Erro de sinal.<br>
-                    <strong>(C) Incorreta:</strong> Não dividiu.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> Multiplicando a 1ª por -2: -2m -2c = -40. Somando com a 2ª: 2c = 14 ➝ c=7 carros. Motos = 20 - 7 = 13.<br>
+                    <strong>(B) Incorreta:</strong> Isso é o nº de carros.<br>
+                    <strong>(C) Incorreta:</strong> Meio a meio não bate rodas.<br>
+                    <strong>(D) Incorreta:</strong> Total de veículos.`
             },
             {
                 id: 12,
-                text: "Se o vértice é V(2, -1), o eixo de simetria passa por:",
-                options: ["x = -1", "x = 2", "y = 2", "y = -1"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Valor de y.<br>
-                    <strong>(B) Correta:</strong> O eixo de simetria é a linha vertical que passa pelo X do vértice. Logo, x = 2.<br>
-                    <strong>(C) Incorreta:</strong> Reta horizontal.<br>
-                    <strong>(D) Incorreta:</strong> Reta horizontal.`
-            },
-            // NÍVEL 5: DESAFIOS DE GRÁFICO
-            {
-                id: 13,
-                text: "Uma parábola tem a < 0 e c > 0. O que isso significa?",
-                options: ["Boca para baixo e corta Y acima da origem", "Boca para cima e corta Y abaixo", "Boca para baixo e corta Y abaixo", "Não existe"],
+                text: "Um ingresso de adulto custa 20 e infantil 10. Foram vendidos 100 ingressos, totalizando R$ 1500. Sistema:",
+                options: ["{ a+i=100 ; 20a+10i=1500 }", "{ a+i=1500 ; 20a+10i=100 }", "{ a+i=100 ; a+i=1500 }", "{ 20a=100 ; 10i=1500 }"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> a < 0: Triste (boca para baixo). c > 0: Corta o eixo vertical na parte positiva (acima do zero).<br>
-                    <strong>(B) Incorreta:</strong> a seria positivo.<br>
-                    <strong>(C) Incorreta:</strong> c seria negativo.<br>
-                    <strong>(D) Incorreta:</strong> Existe.`
+                    <strong>(A) Correta:</strong> Quantidade: a+i=100. Valor: 20 vezes adulto + 10 vezes infantil = 1500.<br>
+                    <strong>(B) Incorreta:</strong> Inverteu totais.<br>
+                    <strong>(C) Incorreta:</strong> Impossível.<br>
+                    <strong>(D) Incorreta:</strong> Sem sentido.`
+            },
+            // NÍVEL 5: DESAFIOS FINAIS
+            {
+                id: 13,
+                text: "Para cancelar o x no sistema { 2x + 3y = 7 ; 5x - y = 9 }, por quanto multiplicar as equações?",
+                options: ["1ª por 5 e 2ª por -2", "1ª por 2 e 2ª por 5", "Só a 2ª por 3", "Nenhuma"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Para igualar 2x e 5x (MMC=10), multiplicamos cruzado e trocamos um sinal: 1ª vira 10x, 2ª vira -10x.<br>
+                    <strong>(B) Incorreta:</strong> Ficariam ambos positivos (10x e 10x).<br>
+                    <strong>(C) Incorreta:</strong> Isso eliminaria o y (uma boa opção também, mas a pergunta é sobre x).<br>
+                    <strong>(D) Incorreta:</strong> Precisa multiplicar.`
             },
             {
                 id: 14,
-                text: "Se as raízes são 1 e 5, qual é o X do vértice?",
-                visual: `
-                    <svg width="150" height="50" viewBox="0 0 150 50">
-                        <line x1="10" y1="25" x2="140" y2="25" stroke="#333"/>
-                        <circle cx="30" cy="25" r="3" fill="#4338CA"/> <text x="30" y="40" font-size="10" text-anchor="middle">1</text>
-                        <circle cx="110" cy="25" r="3" fill="#4338CA"/> <text x="110" y="40" font-size="10" text-anchor="middle">5</text>
-                        <text x="70" y="20" font-size="12" text-anchor="middle" fill="#DB2777" font-weight="bold">?</text>
-                    </svg>
-                `,
-                options: ["2", "3", "4", "2,5"],
-                correct: 1,
+                text: "Se x + y = 10 e x - y = 0, quanto valem x e y?",
+                options: ["5 e 5", "10 e 0", "6 e 4", "0 e 0"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Muito perto do 1.<br>
-                    <strong>(B) Correta:</strong> O vértice fica exatamente no meio das raízes. (1 + 5) / 2 = 6 / 2 = 3.<br>
-                    <strong>(C) Incorreta:</strong> Muito perto do 5.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Correta:</strong> Se x-y=0, então x=y. Se a soma é 10 e são iguais, cada um vale 5.<br>
+                    <strong>(B) Incorreta:</strong> Diferença seria 10.<br>
+                    <strong>(C) Incorreta:</strong> Diferença seria 2.<br>
+                    <strong>(D) Incorreta:</strong> Soma seria 0.`
             },
             {
                 id: 15,
-                text: "Qual gráfico melhor representa y = x² (a parábola mãe)?",
-                options: ["Vértice na origem (0,0) e boca para cima", "Vértice na origem e boca para baixo", "Corta o eixo Y no 1", "É uma reta"],
+                text: "Pedro tem o dobro da idade de Maria. A soma das idades é 45. Qual a idade de Pedro?",
+                options: ["30", "15", "20", "25"],
                 correct: 0,
                 explanation: `
-                    <strong>(A) Correta:</strong> a=1 (positivo, cima), b=0, c=0. Passa pela origem e é simétrica.<br>
-                    <strong>(B) Incorreta:</strong> Seria -x².<br>
-                    <strong>(C) Incorreta:</strong> c=0.<br>
-                    <strong>(D) Incorreta:</strong> É curva.`
+                    <strong>(A) Correta:</strong> P = 2M. P + M = 45 ➝ 2M + M = 45 ➝ 3M = 45 ➝ M = 15. Pedro tem 2x15 = 30.<br>
+                    <strong>(B) Incorreta:</strong> Idade de Maria.<br>
+                    <strong>(C) Incorreta:</strong> Erro.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
             }
         ];
 
@@ -844,7 +775,7 @@
             if (currentQuestion === questions.length - 1) {
                 btnNext.textContent = "Finalizar";
                 btnNext.onclick = finishQuiz;
-                btnNext.style.backgroundColor = "#4338CA"; 
+                btnNext.style.backgroundColor = "#EA580C"; 
             } else {
                 btnNext.textContent = "Próxima";
                 btnNext.onclick = () => changeQuestion(1);
