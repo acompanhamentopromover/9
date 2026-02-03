@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juros Simples e Compostos - 9º Ano</title>
+    <title>Equações do 2º Grau - 9º Ano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +15,15 @@
         /* --- VARIÁVEIS DE TEMA --- */
         :root {
             --bg-color: #F8F9FA;
-            --text-color: #064E3B; /* Verde Escuro */
+            --text-color: #1E3A8A; /* Azul Escuro */
             --border-color: #000000;
             
-            /* CORES DA MATÉRIA: TEMA ESMERALDA (Dinheiro/Crescimento) */
-            --theme-color: #D1FAE5; 
-            --theme-active: #059669; 
+            /* CORES DA MATÉRIA: TEMA AZUL REAL (Acadêmico) */
+            --theme-color: #DBEAFE; 
+            --theme-active: #2563EB; 
             --theme-text-active: #FFFFFF;
             
-            /* DESTAQUE DOURADO */
+            /* DESTAQUE */
             --gold: #D97706;
             
             /* FEEDBACK */
@@ -158,15 +158,15 @@
             justify-content: center;
             margin: 15px 0;
             padding: 15px;
-            background-color: #D1FAE5;
+            background-color: #DBEAFE;
             border-radius: 12px;
             border: 1px dashed var(--theme-active);
         }
 
         /* --- CARDS DE EXEMPLO DETALHADO --- */
         .step-box {
-            background-color: #ECFDF5; 
-            border-left: 5px solid #059669;
+            background-color: #EFF6FF; 
+            border-left: 5px solid #2563EB;
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
@@ -176,7 +176,7 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             font-weight: 800;
-            color: #047857;
+            color: #1E40AF;
             margin-bottom: 10px;
             display: block;
             border-bottom: 1px solid #ccc;
@@ -185,7 +185,7 @@
 
         .math-symbol {
             font-weight: bold;
-            color: #059669;
+            color: #2563EB;
         }
 
         .explanation-text {
@@ -196,7 +196,7 @@
         }
 
         .highlight {
-            color: #059669;
+            color: #2563EB;
             font-weight: 700;
         }
 
@@ -384,69 +384,62 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Juros Simples e Compostos</h1>
-            <p style="color: #555; margin-bottom: 20px;">O dinheiro muda de valor com o tempo. Aprenda a diferença entre crescer em "linha reta" (Simples) e crescer como uma "bola de neve" (Compostos).</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Equações do 2º Grau</h1>
+            <p style="color: #555; margin-bottom: 20px;">Uma equação do 2º grau é qualquer equação escrita na forma <strong>ax² + bx + c = 0</strong>.</p>
             
             <div class="card-content">
-                <h3>1. Juros Simples (A Linha Reta)</h3>
-                <p class="explanation-text">O juro é calculado sempre sobre o valor <strong>INICIAL</strong> (Capital). O valor do juro é sempre igual todo mês.</p>
-                
+                <h3>1. Quem é Quem? (Coeficientes)</h3>
                 <div class="visual-row">
                     
-                    <svg width="200" height="100" viewBox="0 0 200 100">
-                        <line x1="20" y1="80" x2="180" y2="80" stroke="#333"/> <line x1="20" y1="80" x2="20" y2="10" stroke="#333"/> <line x1="20" y1="80" x2="180" y2="20" stroke="#059669" stroke-width="3"/> <text x="100" y="95" font-size="10">Tempo</text>
-                        <text x="100" y="40" font-size="12" fill="#059669" font-weight="bold">Linear</text>
+                    <svg width="250" height="80" viewBox="0 0 250 80">
+                        <text x="20" y="50" font-size="24" font-weight="bold" fill="#2563EB">a</text>
+                        <text x="35" y="50" font-size="24" fill="#333">x² + </text>
+                        <text x="85" y="50" font-size="24" font-weight="bold" fill="#D97706">b</text>
+                        <text x="100" y="50" font-size="24" fill="#333">x + </text>
+                        <text x="140" y="50" font-size="24" font-weight="bold" fill="#059669">c</text>
+                        <text x="160" y="50" font-size="24" fill="#333"> = 0</text>
+                        
+                        <text x="20" y="70" font-size="10" fill="#2563EB">Quadrático</text>
+                        <text x="85" y="70" font-size="10" fill="#D97706">Linear</text>
+                        <text x="140" y="70" font-size="10" fill="#059669">Constante</text>
                     </svg>
                 </div>
+                <p class="explanation-text"><strong>a</strong> nunca pode ser zero. Se 'a' for zero, o x² some e a equação vira do 1º grau.</p>
+            </div>
+
+            <div class="card-content">
+                <h3>2. Fórmula de Bhaskara</h3>
+                <p class="explanation-text">A ferramenta suprema para encontrar o valor de X.</p>
                 
                 <div class="step-box">
-                    <span class="step-title">Fórmula: J = C · i · t</span>
-                    <p class="explanation-text"><strong>C</strong> = Capital (Dinheiro inicial)</p>
-                    <p class="explanation-text"><strong>i</strong> = Taxa (em decimal, ex: 10% = 0,10)</p>
-                    <p class="explanation-text"><strong>t</strong> = Tempo</p>
+                    <span class="step-title">Passo 1: O Delta (Δ)</span>
+                    <p class="explanation-text" style="font-size:1.2rem; text-align:center;"><strong>Δ = b² - 4·a·c</strong></p>
+                    <ul style="font-size:0.9rem; margin-top:10px; color:#555;">
+                        <li>Se <strong>Δ > 0</strong>: Tem 2 respostas reais.</li>
+                        <li>Se <strong>Δ = 0</strong>: Tem 1 resposta real (iguais).</li>
+                        <li>Se <strong>Δ < 0</strong>: Não tem resposta real.</li>
+                    </ul>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-title">Passo 2: O X</span>
+                    <p class="explanation-text" style="font-size:1.2rem; text-align:center;"><strong>x = (-b ± √Δ) / 2a</strong></p>
                 </div>
             </div>
 
             <div class="card-content">
-                <h3>2. Juros Compostos (A Bola de Neve)</h3>
-                <p class="explanation-text">É "juros sobre juros". O juro é calculado sobre o valor <strong>ACUMULADO</strong> do mês anterior. Cresce muito mais rápido!</p>
-                
+                <h3>3. O Desenho (Parábola)</h3>
+                <p class="explanation-text">O gráfico de uma equação do 2º grau é sempre uma curva chamada <strong>Parábola</strong>.</p>
                 <div class="visual-row">
-                    
                     <svg width="200" height="100" viewBox="0 0 200 100">
-                        <line x1="20" y1="80" x2="180" y2="80" stroke="#333"/> <line x1="20" y1="80" x2="20" y2="10" stroke="#333"/> <path d="M 20 80 Q 100 80 180 10" fill="none" stroke="#D97706" stroke-width="3"/> <text x="100" y="95" font-size="10">Tempo</text>
-                        <text x="80" y="40" font-size="12" fill="#D97706" font-weight="bold">Exponencial</text>
+                        <line x1="10" y1="80" x2="190" y2="80" stroke="#333"/>
+                        <path d="M 50 10 Q 100 140 150 10" fill="none" stroke="#2563EB" stroke-width="3"/>
+                        <circle cx="73" cy="80" r="4" fill="#D97706"/>
+                        <circle cx="127" cy="80" r="4" fill="#D97706"/>
+                        <text x="100" y="95" font-size="10">Raízes (x' e x'')</text>
                     </svg>
                 </div>
-
-                <div class="step-box">
-                    <span class="step-title">Fórmula: M = C · (1 + i)ᵗ</span>
-                    <p class="explanation-text">Aqui o tempo é <strong>expoente</strong> (potência), por isso a curva sobe rápido.</p>
-                </div>
-            </div>
-
-            <div class="card-content">
-                <h3>3. Comparando na Prática</h3>
-                <p class="explanation-text">R$ 100,00 a 10% ao mês por 2 meses.</p>
-                
-                <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:0.9rem;">
-                    <tr style="background:#059669; color:white;">
-                        <th style="padding:8px;">Mês</th>
-                        <th style="padding:8px;">Simples</th>
-                        <th style="padding:8px;">Composto</th>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px; border-bottom:1px solid #ccc;">1</td>
-                        <td style="padding:8px; border-bottom:1px solid #ccc;">+10 (Total 110)</td>
-                        <td style="padding:8px; border-bottom:1px solid #ccc;">+10 (Total 110)</td>
-                    </tr>
-                    <tr>
-                        <td style="padding:8px;">2</td>
-                        <td style="padding:8px;">+10 (Total 120)</td>
-                        <td style="padding:8px; font-weight:bold; color:#D97706;">+11 (Total 121)</td>
-                    </tr>
-                </table>
-                <p class="explanation-text" style="font-size:0.8rem; margin-top:5px;">*No composto, o 2º mês rendeu 10% de 110, não de 100.</p>
+                <p class="explanation-text">As raízes (soluções) são exatamente onde a linha azul corta o eixo horizontal.</p>
             </div>
 
             <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
@@ -457,7 +450,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">Calcule os rendimentos.</p>
+                <p style="color: #666; font-size: 0.9rem;">Calcule as raízes.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -483,196 +476,202 @@
     </footer>
 
     <script>
-        // --- BANCO DE QUESTÕES (JUROS) ---
+        // --- BANCO DE QUESTÕES (EQUAÇÕES DO 2º GRAU) ---
         const questions = [
-            // NÍVEL 1: CONCEITOS E FÓRMULAS
+            // NÍVEL 1: IDENTIFICAÇÃO DOS COEFICIENTES
             {
                 id: 1,
-                text: "O que caracteriza os <strong>Juros Simples</strong>?",
+                text: "Na equação <strong>2x² - 5x + 3 = 0</strong>, quem é o coeficiente 'b'?",
                 visual: `
                     <svg width="150" height="50" viewBox="0 0 150 50">
-                        <text x="75" y="30" text-anchor="middle" font-size="16" fill="#059669">Juros sempre iguais</text>
+                        <text x="75" y="30" text-anchor="middle" font-size="18" fill="#333">ax² + bx + c = 0</text>
                     </svg>
                 `,
-                options: ["O juro é calculado sobre o valor acumulado", "O juro é calculado sempre sobre o valor inicial", "O juro diminui com o tempo", "Não existe juro"],
+                options: ["2", "-5", "5", "3"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Isso é juro composto.<br>
-                    <strong>(B) Correta:</strong> No regime simples, a base de cálculo é fixa (Capital Inicial). Se rendeu 10 reais no primeiro mês, vai render 10 reais para sempre.<br>
-                    <strong>(C) Incorreta:</strong> Ele é constante.<br>
-                    <strong>(D) Incorreta:</strong> Existe.`
+                    <strong>(A) Incorreta:</strong> 2 é o 'a' (acompanha x²).<br>
+                    <strong>(B) Correta:</strong> O 'b' é quem acompanha o x. O sinal vai junto! Então é -5.<br>
+                    <strong>(C) Incorreta:</strong> Esqueceu o sinal negativo.<br>
+                    <strong>(D) Incorreta:</strong> 3 é o 'c' (sozinho).`
             },
             {
                 id: 2,
-                text: "Qual é a fórmula para calcular o Juro Simples?",
-                options: ["J = C · i · t", "M = C · (1 + i)ᵗ", "J = C + i", "J = C · i²"],
-                correct: 0,
+                text: "A equação <strong>x² - 9 = 0</strong> é completa ou incompleta?",
+                options: ["Completa", "Incompleta (b=0)", "Incompleta (c=0)", "Incompleta (a=0)"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> Juro = Capital x Taxa x Tempo. É linear.<br>
-                    <strong>(B) Incorreta:</strong> Fórmula do Montante em Juros Compostos.<br>
-                    <strong>(C) Incorreta:</strong> Soma de capital e taxa não faz sentido.<br>
-                    <strong>(D) Incorreta:</strong> Taxa ao quadrado não se usa aqui.`
+                    <strong>(A) Incorreta:</strong> Falta o termo com x.<br>
+                    <strong>(B) Correta:</strong> Temos o a=1 (x²) e o c=-9. Não temos o termo do meio (x), logo b=0.<br>
+                    <strong>(C) Incorreta:</strong> O termo c existe (-9).<br>
+                    <strong>(D) Incorreta:</strong> Se a=0, não seria do 2º grau.`
             },
             {
                 id: 3,
-                text: "O que significa 'Juros sobre Juros'?",
-                visual: `
-                    <svg width="150" height="50" viewBox="0 0 150 50">
-                        <circle cx="20" cy="25" r="5" fill="#D97706"/>
-                        <circle cx="40" cy="25" r="8" fill="#D97706"/>
-                        <circle cx="70" cy="25" r="12" fill="#D97706"/>
-                        <circle cx="110" cy="25" r="18" fill="#D97706"/>
-                    </svg>
-                `,
-                options: ["Juros Simples", "Juros Compostos", "Desconto", "Taxa Zero"],
-                correct: 1,
+                text: "Qual destas NÃO é uma equação do 2º grau?",
+                options: ["x² - 1 = 0", "3x² = 0", "2x + 5 = 0", "x² + 2x + 1 = 0"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Simples é sobre o capital.<br>
-                    <strong>(B) Correta:</strong> No composto, o juro do mês passado se integra ao capital para render mais juro no mês seguinte (bola de neve).<br>
-                    <strong>(C) Incorreta:</strong> É acréscimo.<br>
-                    <strong>(D) Incorreta:</strong> Sem taxa não tem juro.`
+                    <strong>(A) Incorreta:</strong> Tem x².<br>
+                    <strong>(B) Incorreta:</strong> Tem x².<br>
+                    <strong>(C) Correta:</strong> O maior expoente é 1 (x¹). É uma equação do 1º grau.<br>
+                    <strong>(D) Incorreta:</strong> Tem x².`
             },
-            // NÍVEL 2: CÁLCULOS SIMPLES
+            // NÍVEL 2: EQUAÇÕES INCOMPLETAS (SOLUÇÃO RÁPIDA)
             {
                 id: 4,
-                text: "Aplique R$ 200,00 a juros simples de 10% ao mês por 3 meses. Quanto rendeu de juros?",
-                options: ["R$ 20,00", "R$ 60,00", "R$ 30,00", "R$ 260,00"],
-                correct: 1,
+                text: "Resolva a equação incompleta: <strong>x² - 16 = 0</strong>",
+                visual: `
+                    <svg width="150" height="50" viewBox="0 0 150 50">
+                        <text x="75" y="30" text-anchor="middle" font-size="18" fill="#333">x² = 16</text>
+                    </svg>
+                `,
+                options: ["4", "-4", "±4 (4 e -4)", "16"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Isso é 1 mês.<br>
-                    <strong>(B) Correta:</strong> J = 200 · 0,10 · 3. J = 20 · 3 = 60 reais.<br>
-                    <strong>(C) Incorreta:</strong> Erro de conta.<br>
-                    <strong>(D) Incorreta:</strong> Isso é o Montante (200+60).`
+                    <strong>(A) Incorreta:</strong> Faltou a raiz negativa.<br>
+                    <strong>(B) Incorreta:</strong> Faltou a raiz positiva.<br>
+                    <strong>(C) Correta:</strong> Passa o 16 para o outro lado: x² = 16. Tira a raiz: x = ±√16 = ±4.<br>
+                    <strong>(D) Incorreta:</strong> O valor de x² é 16, não x.`
             },
             {
                 id: 5,
-                text: "No regime de juros compostos, R$ 100,00 a 10% ao mês após 2 meses vira:",
-                options: ["R$ 120,00", "R$ 121,00", "R$ 110,00", "R$ 200,00"],
-                correct: 1,
+                text: "Resolva: <strong>2x² - 50 = 0</strong>",
+                options: ["±5", "±25", "50", "±10"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Isso seria juro simples.<br>
-                    <strong>(B) Correta:</strong> Mês 1: 100 + 10 = 110. Mês 2: 110 + 10% de 110 (11) = 121.<br>
-                    <strong>(C) Incorreta:</strong> Só 1 mês.<br>
-                    <strong>(D) Incorreta:</strong> Dobrou? Não.`
+                    <strong>(A) Correta:</strong> 2x² = 50 ➝ x² = 25 ➝ x = ±5.<br>
+                    <strong>(B) Incorreta:</strong> Esqueceu de tirar a raiz.<br>
+                    <strong>(C) Incorreta:</strong> Esqueceu de dividir por 2.<br>
+                    <strong>(D) Incorreta:</strong> Erro de cálculo.`
             },
             {
                 id: 6,
-                text: "Qual o Montante (Total) se o Capital é 500 e o Juro é 50?",
-                options: ["450", "550", "500", "50"],
-                correct: 1,
+                text: "Resolva a equação fatorada: <strong>x(x - 3) = 0</strong>",
+                options: ["0 e 3", "0 e -3", "3 e -3", "Apenas 3"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Subtraiu.<br>
-                    <strong>(B) Correta:</strong> Montante = Capital + Juros. M = 500 + 50 = 550.<br>
-                    <strong>(C) Incorreta:</strong> Só o capital.<br>
-                    <strong>(D) Incorreta:</strong> Só o juro.`
+                    <strong>(A) Correta:</strong> Para um produto dar zero, ou x=0 ou (x-3)=0. Se x-3=0, então x=3. Raízes: 0 e 3.<br>
+                    <strong>(B) Incorreta:</strong> O sinal inverte ao passar para o outro lado.<br>
+                    <strong>(C) Incorreta:</strong> O primeiro x dá 0.<br>
+                    <strong>(D) Incorreta:</strong> Esqueceu o zero.`
             },
-            // NÍVEL 3: COMPARAÇÃO E GRÁFICOS
+            // NÍVEL 3: DELTA E NÚMERO DE RAÍZES
             {
                 id: 7,
-                text: "No gráfico, qual linha representa os Juros Compostos?",
+                text: "Calcule o Delta (Δ) para: <strong>x² - 5x + 6 = 0</strong>. (Use Δ = b² - 4ac)",
                 visual: `
-                    <svg width="150" height="80" viewBox="0 0 150 80">
-                        <line x1="10" y1="70" x2="140" y2="20" stroke="#059669" stroke-width="2"/> <path d="M 10 70 Q 70 70 140 5" fill="none" stroke="#D97706" stroke-width="2"/> <text x="120" y="30" font-size="10" fill="#059669">A</text>
-                        <text x="120" y="10" font-size="10" fill="#D97706">B</text>
+                    <svg width="150" height="50" viewBox="0 0 150 50">
+                        <text x="75" y="30" text-anchor="middle" font-size="16" fill="#2563EB">(-5)² - 4·1·6</text>
                     </svg>
                 `,
-                options: ["A linha reta (A)", "A linha curva (B)", "Ambas", "Nenhuma"],
-                correct: 1,
+                options: ["1", "-1", "49", "25"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Reta é crescimento linear (Simples).<br>
-                    <strong>(B) Correta:</strong> A curva que sobe cada vez mais rápido (exponencial) representa os Juros Compostos.<br>
-                    <strong>(C) Incorreta:</strong> São diferentes.<br>
-                    <strong>(D) Incorreta:</strong> B é a certa.`
+                    <strong>(A) Correta:</strong> Δ = (-5)² - 4·1·6 = 25 - 24 = 1.<br>
+                    <strong>(B) Incorreta:</strong> Erro no sinal.<br>
+                    <strong>(C) Incorreta:</strong> Somou 25+24.<br>
+                    <strong>(D) Incorreta:</strong> Esqueceu de subtrair 24.`
             },
             {
                 id: 8,
-                text: "Para um período curto (1 mês), qual rende mais?",
-                options: ["Juros Simples", "Juros Compostos", "Rendem igual no 1º mês", "Depende do valor"],
+                text: "Se o Delta (Δ) der negativo (ex: -4), o que acontece?",
+                options: ["A equação tem 2 raízes", "A equação tem 1 raiz", "A equação não tem raízes reais", "O cálculo está errado"],
                 correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Igual.<br>
-                    <strong>(B) Incorreta:</strong> Igual.<br>
-                    <strong>(C) Correta:</strong> No primeiro período, ambos aplicam a taxa sobre o capital inicial. A diferença só aparece a partir do segundo mês (juro sobre juro).<br>
-                    <strong>(D) Incorreta:</strong> A regra é matemática.`
+                    <strong>(A) Incorreta:</strong> Só se Δ > 0.<br>
+                    <strong>(B) Incorreta:</strong> Só se Δ = 0.<br>
+                    <strong>(C) Correta:</strong> Não existe raiz quadrada real de número negativo. A parábola não toca o eixo X.<br>
+                    <strong>(D) Incorreta:</strong> É um resultado possível.`
             },
             {
                 id: 9,
-                text: "Se a taxa é 2% ao mês e o tempo é 1 ano, qual valor de 't' usar na fórmula?",
-                options: ["1", "12", "2", "24"],
+                text: "Qual destas parábolas tem Δ > 0 (Duas raízes)?",
+                visual: `
+                    <svg width="200" height="60" viewBox="0 0 200 60">
+                        <path d="M 10 10 Q 30 50 50 10" fill="none" stroke="#2563EB" stroke-width="2"/>
+                        <line x1="5" y1="20" x2="55" y2="20" stroke="#333"/>
+                        <text x="30" y="55" font-size="10">A</text>
+                        <path d="M 80 10 Q 100 50 120 10" fill="none" stroke="#D97706" stroke-width="2"/>
+                        <line x1="75" y1="40" x2="125" y2="40" stroke="#333"/>
+                        <text x="100" y="55" font-size="10">B</text>
+                    </svg>
+                `,
+                options: ["A (Não corta a linha)", "B (Corta a linha 2 vezes)", "Nenhuma", "Ambas"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Unidades diferentes (mês vs ano).<br>
-                    <strong>(B) Correta:</strong> A taxa está em meses, então o tempo deve ser em meses. 1 ano = 12 meses.<br>
-                    <strong>(C) Incorreta:</strong> Erro.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Incorreta:</strong> Se não corta o eixo, não tem raiz (Δ < 0).<br>
+                    <strong>(B) Correta:</strong> A parábola B cruza a linha horizontal em dois pontos. Isso indica duas raízes distintas.<br>
+                    <strong>(C) Incorreta:</strong> A B tem.<br>
+                    <strong>(D) Incorreta:</strong> A não tem.`
             },
-            // NÍVEL 4: CÁLCULO E FÓRMULA COMPOSTA
+            // NÍVEL 4: RESOLUÇÃO COMPLETA (BHASKARA)
             {
                 id: 10,
-                text: "Na fórmula M = C · (1 + i)ᵗ, o que representa o 't'?",
-                options: ["Taxa", "Total", "Tempo (expoente)", "Trabalho"],
-                correct: 2,
+                text: "Resolva: <strong>x² - 5x + 6 = 0</strong>. (Já sabemos que Δ = 1)",
+                options: ["2 e 3", "-2 e -3", "1 e 6", "0 e 5"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> i é taxa.<br>
-                    <strong>(B) Incorreta:</strong> M é o total.<br>
-                    <strong>(C) Correta:</strong> t é o Tempo, e ele aparece como expoente (potência), indicando crescimento exponencial.<br>
-                    <strong>(D) Incorreta:</strong> Física.`
+                    <strong>(A) Correta:</strong> x = (-(-5) ± √1) / 2. x = (5 ± 1) / 2. x1 = 6/2 = 3. x2 = 4/2 = 2.<br>
+                    <strong>(B) Incorreta:</strong> Errou o sinal do b.<br>
+                    <strong>(C) Incorreta:</strong> Soma e produto confundidos.<br>
+                    <strong>(D) Incorreta:</strong> Chute.`
             },
             {
                 id: 11,
-                text: "Se tenho uma dívida que cresce a juros compostos, é melhor pagar:",
-                options: ["O mais rápido possível", "Daqui a 10 anos", "Não faz diferença", "Esperar o juro baixar"],
-                correct: 0,
+                text: "Resolva: <strong>x² - 4x + 4 = 0</strong>. (Δ = 0)",
+                options: ["2 e -2", "Apenas 2", "Apenas -2", "0 e 4"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> Como é uma 'bola de neve' (exponencial), quanto mais o tempo passa, muito maior a dívida fica. Pague logo!<br>
-                    <strong>(B) Incorreta:</strong> Vai estar gigante.<br>
-                    <strong>(C) Incorreta:</strong> Faz muita diferença.<br>
-                    <strong>(D) Incorreta:</strong> O valor só sobe.`
+                    <strong>(A) Incorreta:</strong> Raízes iguais não são simétricas.<br>
+                    <strong>(B) Correta:</strong> Como Δ=0, só tem uma raiz. x = -(-4)/2 = 4/2 = 2.<br>
+                    <strong>(C) Incorreta:</strong> Erro de sinal.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
             },
             {
                 id: 12,
-                text: "Calcule mentalmente: 10% de 200 (Simples) vs 10% de 200 (Composto) em 1 mês.",
-                options: ["20 e 21", "20 e 20", "22 e 20", "21 e 21"],
+                text: "A soma das raízes é dada por <strong>-b/a</strong>. Qual a soma das raízes de <strong>x² - 7x + 10 = 0</strong>?",
+                options: ["-7", "7", "10", "3"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Só no 2º mês muda.<br>
-                    <strong>(B) Correta:</strong> No primeiro mês, o rendimento é idêntico: 10% de 200 = 20 reais para ambos.<br>
-                    <strong>(C) Incorreta:</strong> Erro.<br>
+                    <strong>(A) Incorreta:</strong> Esqueceu de inverter o sinal do b.<br>
+                    <strong>(B) Correta:</strong> Soma = -(-7)/1 = 7.<br>
+                    <strong>(C) Incorreta:</strong> Esse é o produto (c/a).<br>
                     <strong>(D) Incorreta:</strong> Erro.`
             },
-            // NÍVEL 5: DESAFIOS E LOGICA
+            // NÍVEL 5: PROBLEMAS E INTERPRETAÇÃO
             {
                 id: 13,
-                text: "Investimento A: Juros Simples 10% a.m. Investimento B: Juros Compostos 8% a.m. Para longo prazo, qual escolher?",
-                options: ["Investimento A", "Investimento B", "Tanto faz", "Nenhum"],
-                correct: 1,
+                text: "O quadrado de um número mais o próprio número é igual a 12. Qual é a equação?",
+                options: ["x² + x = 12", "2x + x = 12", "x² = 12", "x + x = 12"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Cresce em linha reta.<br>
-                    <strong>(B) Correta:</strong> Mesmo com taxa menor (8% vs 10%), a longo prazo o poder exponencial dos Juros Compostos (B) SEMPRE ultrapassa o linear (A).<br>
-                    <strong>(C) Incorreta:</strong> B ganha longe.<br>
-                    <strong>(D) Incorreta:</strong> B é ótimo.`
+                    <strong>(A) Correta:</strong> Quadrado (x²) mais o número (x) é igual a (=) 12. Equação: x² + x - 12 = 0.<br>
+                    <strong>(B) Incorreta:</strong> 2x é dobro, não quadrado.<br>
+                    <strong>(C) Incorreta:</strong> Faltou somar o número.<br>
+                    <strong>(D) Incorreta:</strong> Equação do 1º grau.`
             },
             {
                 id: 14,
-                text: "Se triplico o tempo em juros simples, o valor dos juros:",
-                options: ["Triplica", "Eleva ao cubo", "Fica igual", "Soma 3"],
-                correct: 0,
+                text: "Se a área de um quadrado é x² = 144, quanto mede o lado?",
+                options: ["±12", "12", "-12", "72"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> A relação é linear. J = C·i·t. Se 't' multiplica por 3, 'J' também multiplica por 3.<br>
-                    <strong>(B) Incorreta:</strong> Isso seria composto (exponencial).<br>
-                    <strong>(C) Incorreta:</strong> Muda.<br>
-                    <strong>(D) Incorreta:</strong> Proporcional.`
+                    <strong>(A) Incorreta:</strong> Matematicamente sim, mas medida de lado não pode ser negativa.<br>
+                    <strong>(B) Correta:</strong> O lado deve ser positivo. √144 = 12.<br>
+                    <strong>(C) Incorreta:</strong> Não existe lado negativo.<br>
+                    <strong>(D) Incorreta:</strong> Metade.`
             },
             {
                 id: 15,
-                text: "Qual a taxa mensal equivalente a 24% ao ano em Juros Simples?",
-                options: ["2% ao mês", "12% ao mês", "2,4% ao mês", "24% ao mês"],
-                correct: 0,
+                text: "O produto das raízes (x' · x'') é dado por <strong>c/a</strong>. Quanto é o produto em <strong>2x² - x - 6 = 0</strong>?",
+                options: ["3", "-3", "6", "-6"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> No juro simples, a taxa é proporcional. 24% dividido por 12 meses = 2% ao mês.<br>
-                    <strong>(B) Incorreta:</strong> Metade.<br>
-                    <strong>(C) Incorreta:</strong> Divisão por 10.<br>
-                    <strong>(D) Incorreta:</strong> Igual.`
+                    <strong>(A) Incorreta:</strong> Erro de sinal.<br>
+                    <strong>(B) Correta:</strong> c = -6, a = 2. Produto = -6/2 = -3.<br>
+                    <strong>(C) Incorreta:</strong> Esqueceu de dividir por a.<br>
+                    <strong>(D) Incorreta:</strong> Esqueceu de dividir por a.`
             }
         ];
 
@@ -830,7 +829,7 @@
             if (currentQuestion === questions.length - 1) {
                 btnNext.textContent = "Finalizar";
                 btnNext.onclick = finishQuiz;
-                btnNext.style.backgroundColor = "#059669"; 
+                btnNext.style.backgroundColor = "#2563EB"; 
             } else {
                 btnNext.textContent = "Próxima";
                 btnNext.onclick = () => changeQuestion(1);
