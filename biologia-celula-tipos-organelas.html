@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biologia Celular Completa - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F0FDF4;
+            --text-color: #064E3B;
+            --border-color: #000000;
+            
+            /* TEMA: BIOLOGIA TOTAL (Verde e Azul) */
+            --theme-light: #DCFCE7; 
+            --theme-medium: #4ADE80;
+            --theme-dark: #15803d; 
+            --theme-contrast: #0284C7; /* Azul para estruturas */
+            --theme-text-active: #FFFFFF;
+            
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-contrast);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--theme-light);
+            padding-bottom: 5px;
+        }
+
+        .organelle-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .organelle-row:last-child { border-bottom: none; }
+
+        .question-visual {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: var(--theme-light);
+            border-radius: 12px;
+            border: 1px dashed var(--theme-dark);
+        }
+
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #ECFDF5;
+            border: 2px solid var(--theme-dark); border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-biologia.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">BIOLOGIA</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">A Célula e suas Organelas</h1>
+            <p style="color: #555; margin-bottom: 20px;">Vamos comparar a célula a uma grande fábrica ou cidade, onde cada organela tem uma função vital.</p>
+            
+            <div class="card-content">
+                <div class="section-title">1. Comando e Fronteiras</div>
+                
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="15" fill="#fecaca" stroke="#dc2626" stroke-width="2"/><circle cx="20" cy="20" r="5" fill="#dc2626"/></svg>
+                    <div>
+                        <strong>Núcleo:</strong> O "Diretor". Contém o DNA (manual de instruções). Controla todas as atividades.
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="18" fill="none" stroke="#333" stroke-width="3" stroke-dasharray="4"/></svg>
+                    <div>
+                        <strong>Membrana Plasmática:</strong> A "Portaria". Controla o que entra e sai da célula (Permeabilidade Seletiva).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><rect x="5" y="5" width="30" height="30" fill="none" stroke="#16a34a" stroke-width="4"/></svg>
+                    <div>
+                        <strong>Parede Celular:</strong> O "Muro de Concreto". Dá rigidez e proteção extra. (Só em Plantas, Bactérias e Fungos).
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">2. Produção e Transporte</div>
+                
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="4" fill="#ef4444"/><circle cx="12" cy="12" r="3" fill="#ef4444"/><circle cx="28" cy="28" r="3" fill="#ef4444"/></svg>
+                    <div>
+                        <strong>Ribossomos:</strong> Os "Operários". Fabricam proteínas. (Presentes em todas as células, até bactérias!).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><path d="M 5 20 Q 15 5 25 20 T 35 20" stroke="#f97316" fill="none" stroke-width="2"/><circle cx="10" cy="15" r="1" fill="#333"/><circle cx="20" cy="25" r="1" fill="#333"/></svg>
+                    <div>
+                        <strong>Retículo Endoplasmático Rugoso (RER):</strong> Tem ribossomos grudados. Transporta proteínas.
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><path d="M 5 20 Q 15 35 25 20 T 35 20" stroke="#f97316" fill="none" stroke-width="2"/></svg>
+                    <div>
+                        <strong>Retículo Endoplasmático Liso (REL):</strong> Produz lipídios (gorduras) e desintoxica o corpo (ex: fígado).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><path d="M 10 10 H 30 M 8 15 H 32 M 10 20 H 30" stroke="#a855f7" stroke-width="3" stroke-linecap="round"/></svg>
+                    <div>
+                        <strong>Complexo de Golgi:</strong> O "Correio". Armazena, empacota e envia substâncias para fora (secreção).
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">3. Energia e Limpeza</div>
+                
+                <div class="organelle-row">
+                    <svg width="40" height="40"><ellipse cx="20" cy="20" rx="15" ry="10" fill="#fde047" stroke="#ca8a04"/><path d="M 10 20 Q 20 10 30 20" stroke="#ca8a04" fill="none"/></svg>
+                    <div>
+                        <strong>Mitocôndria:</strong> A "Usina Elétrica". Faz respiração celular para gerar energia (ATP).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="12" fill="#22c55e"/><path d="M 15 20 H 25 M 20 15 V 25" stroke="white" stroke-width="2"/></svg>
+                    <div>
+                        <strong>Cloroplasto:</strong> O "Painel Solar". Faz fotossíntese (cria comida usando luz). (Só em Plantas/Algas).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="10" fill="#a855f7"/><text x="13" y="24" fill="white" font-size="8">DIG</text></svg>
+                    <div>
+                        <strong>Lisossomo:</strong> O "Estômago/Lixeiro". Faz a digestão intracelular e recicla partes velhas.
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><circle cx="20" cy="20" r="8" fill="#93c5fd" stroke="#2563eb"/></svg>
+                    <div>
+                        <strong>Peroxissomo:</strong> O "Descontaminador". Quebra água oxigenada (tóxica) e gorduras.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">4. Suporte e Divisão</div>
+                
+                <div class="organelle-row">
+                    <svg width="40" height="40"><rect x="15" y="10" width="5" height="15" fill="#333"/><rect x="10" y="25" width="15" height="5" fill="#333"/></svg>
+                    <div>
+                        <strong>Centríolos:</strong> Participam da divisão celular (mitose) e formam cílios/flagelos. (Célula Animal).
+                    </div>
+                </div>
+
+                <div class="organelle-row">
+                    <svg width="40" height="40"><ellipse cx="20" cy="20" rx="18" ry="12" fill="#bfdbfe" stroke="#1e40af"/></svg>
+                    <div>
+                        <strong>Vacúolo:</strong> Armazena água e sais. Nas plantas, é gigante e controla o volume da célula.
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para o Mega Quiz (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">Domine todas as organelas.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // BLOCO 1: NÚCLEO E COMANDO
+            { id: 1, text: "Qual a principal função do Núcleo?", options: ["Produzir energia", "Armazenar o DNA e controlar a célula", "Fazer digestão", "Armazenar água"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mitocôndria.<br><strong>(B) Correta:</strong> O núcleo é o centro de comando onde fica o material genético.<br><strong>(C) Incorreta:</strong> Lisossomo.<br><strong>(D) Incorreta:</strong> Vacúolo." },
+            { id: 2, text: "O que é a Carioteca?", options: ["Membrana que envolve o núcleo", "O líquido dentro da célula", "Uma organela de digestão", "A parede da célula vegetal"], correct: 0, explanation: "<strong>(A) Correta:</strong> Carioteca é o envelope nuclear presente apenas em eucariontes.<br><strong>(B) Incorreta:</strong> Citoplasma.<br><strong>(C) Incorreta:</strong> Lisossomo.<br><strong>(D) Incorreta:</strong> Parede Celular." },
+            { id: 3, text: "Onde são produzidos os ribossomos?", options: ["No Nucléolo (dentro do núcleo)", "No Complexo de Golgi", "Na Mitocôndria", "No Lisossomo"], correct: 0, explanation: "<strong>(A) Correta:</strong> O nucléolo é uma região densa dentro do núcleo que fabrica ribossomos.<br><strong>(B) Incorreta:</strong> Empacota.<br><strong>(C) Incorreta:</strong> Energia.<br><strong>(D) Incorreta:</strong> Digestão." },
+            
+            // BLOCO 2: PRODUÇÃO (RIBOSSOMOS E RETÍCULOS)
+            { id: 4, text: "Qual a função dos Ribossomos?", options: ["Síntese (produção) de Proteínas", "Produção de Energia", "Digestão", "Fotossíntese"], correct: 0, explanation: "<strong>(A) Correta:</strong> Eles leem o RNA e montam as proteínas.<br><strong>(B) Incorreta:</strong> Mitocôndria.<br><strong>(C) Incorreta:</strong> Lisossomo.<br><strong>(D) Incorreta:</strong> Cloroplasto." },
+            { id: 5, text: "O Retículo Endoplasmático RUGOSO tem esse nome porque:", options: ["É velho", "Possui ribossomos aderidos", "É liso", "É feito de pedra"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> A presença de ribossomos na superfície dá a aparência rugosa.<br><strong>(C) Incorreta:</strong> Esse é o outro retículo.<br><strong>(D) Incorreta:</strong> Lipídios." },
+            { id: 6, text: "Qual organela faz a desintoxicação (ex: álcool) e produz lipídios?", options: ["Retículo Endoplasmático Liso", "Complexo de Golgi", "Lisossomo", "Ribossomo"], correct: 0, explanation: "<strong>(A) Correta:</strong> O REL é abundante no fígado para limpar toxinas.<br><strong>(B) Incorreta:</strong> Secreção.<br><strong>(C) Incorreta:</strong> Digestão.<br><strong>(D) Incorreta:</strong> Proteínas." },
+
+            // BLOCO 3: TRANSPORTE E SECREÇÃO
+            { id: 7, text: "Qual a função do Complexo de Golgi?", options: ["Produzir DNA", "Armazenar e secretar substâncias (Correio)", "Gerar calor", "Destruir a célula"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Núcleo.<br><strong>(B) Correta:</strong> Ele recebe proteínas do retículo, empacota e envia para fora.<br><strong>(C) Incorreta:</strong> Mitocôndria.<br><strong>(D) Incorreta:</strong> Lisossomo (autólise)." },
+            { id: 8, text: "O que são Vesículas?", options: ["Pequenas bolsas de transporte", "O núcleo", "Bactérias", "Ribossomos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Vesículas transportam materiais entre organelas ou para fora da célula.<br><strong>(B) Incorreta:</strong> Comando.<br><strong>(C) Incorreta:</strong> Ser vivo.<br><strong>(D) Incorreta:</strong> Fábrica." },
+
+            // BLOCO 4: ENERGIA
+            { id: 9, text: "Quem é a 'usina de energia' da célula?", options: ["Mitocôndria", "Núcleo", "Vacúolo", "Parede Celular"], correct: 0, explanation: "<strong>(A) Correta:</strong> Realiza a respiração celular para produzir ATP.<br><strong>(B) Incorreta:</strong> Comando.<br><strong>(C) Incorreta:</strong> Água.<br><strong>(D) Incorreta:</strong> Proteção." },
+            { id: 10, text: "Qual organela realiza a Fotossíntese?", options: ["Cloroplasto", "Mitocôndria", "Ribossomo", "Centríolo"], correct: 0, explanation: "<strong>(A) Correta:</strong> Contém clorofila para captar luz solar.<br><strong>(B) Incorreta:</strong> Respiração.<br><strong>(C) Incorreta:</strong> Proteína.<br><strong>(D) Incorreta:</strong> Divisão." },
+            { id: 11, text: "Células musculares têm muitas mitocôndrias. Por quê?", options: ["Para ficarem verdes", "Precisam de muita energia", "Para fazer digestão", "Não têm núcleo"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Cloroplasto.<br><strong>(B) Correta:</strong> O movimento muscular consome muito ATP (energia).<br><strong>(C) Incorreta:</strong> Lisossomo.<br><strong>(D) Incorreta:</strong> Têm núcleo." },
+
+            // BLOCO 5: LIMPEZA E DEFESA
+            { id: 12, text: "O Lisossomo é responsável por:", options: ["Digestão Intracelular", "Produção de açúcar", "Transporte", "Divisão"], correct: 0, explanation: "<strong>(A) Correta:</strong> Contém enzimas ácidas para quebrar alimentos ou reciclar organelas velhas.<br><strong>(B) Incorreta:</strong> Cloroplasto.<br><strong>(C) Incorreta:</strong> Golgi.<br><strong>(D) Incorreta:</strong> Centríolo." },
+            { id: 13, text: "Qual organela quebra a água oxigenada (tóxica) na célula?", options: ["Peroxissomo", "Lisossomo", "Ribossomo", "Núcleo"], correct: 0, explanation: "<strong>(A) Correta:</strong> Possui a enzima catalase para neutralizar o H₂O₂.<br><strong>(B) Incorreta:</strong> Digestão geral.<br><strong>(C) Incorreta:</strong> Proteína.<br><strong>(D) Incorreta:</strong> DNA." },
+            
+            // BLOCO 6: ESTRUTURA E SUPORTE
+            { id: 14, text: "O que é o Citoesqueleto?", options: ["Os ossos da célula (formato e movimento)", "A pele da célula", "O cérebro", "O estômago"], correct: 0, explanation: "<strong>(A) Correta:</strong> Rede de fibras que mantém a forma da célula e permite transporte interno.<br><strong>(B) Incorreta:</strong> Membrana.<br><strong>(C) Incorreta:</strong> Núcleo.<br><strong>(D) Incorreta:</strong> Lisossomo." },
+            { id: 15, text: "Os Centríolos participam de qual processo?", options: ["Divisão Celular (Mitose)", "Respiração", "Digestão", "Fotossíntese"], correct: 0, explanation: "<strong>(A) Correta:</strong> Organizam o fuso mitótico para separar cromossomos.<br><strong>(B) Incorreta:</strong> Mitocôndria.<br><strong>(C) Incorreta:</strong> Lisossomo.<br><strong>(D) Incorreta:</strong> Cloroplasto." },
+            { id: 16, text: "A Parede Celular (rígida) existe em:", options: ["Células Animais", "Células Vegetais e Bactérias", "Vírus", "Apenas fungos"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Animais só têm membrana.<br><strong>(B) Correta:</strong> Plantas (celulose) e bactérias (peptidoglicano) têm parede.<br><strong>(C) Incorreta:</strong> Acelulares.<br><strong>(D) Incorreta:</strong> Não só neles." },
+
+            // BLOCO 7: DIFERENÇAS E TIPOS
+            { id: 17, text: "Qual organela é EXCLUSIVA da célula vegetal?", options: ["Cloroplasto", "Mitocôndria", "Ribossomo", "Membrana"], correct: 0, explanation: "<strong>(A) Correta:</strong> Animais não fazem fotossíntese.<br><strong>(B) Incorreta:</strong> Ambos têm.<br><strong>(C) Incorreta:</strong> Todos têm.<br><strong>(D) Incorreta:</strong> Todos têm." },
+            { id: 18, text: "Células procariontes (bactérias) NÃO possuem:", options: ["Membrana", "DNA", "Núcleo organizado (Carioteca)", "Ribossomos"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Têm.<br><strong>(B) Incorreta:</strong> Têm.<br><strong>(C) Correta:</strong> O DNA fica solto no citoplasma.<br><strong>(D) Incorreta:</strong> Têm." },
+            { id: 19, text: "O Vacúolo Central gigante é típico de:", options: ["Células Vegetais", "Células Animais", "Bactérias", "Vírus"], correct: 0, explanation: "<strong>(A) Correta:</strong> Armazena água e mantém a pressão da célula vegetal.<br><strong>(B) Incorreta:</strong> Têm vacúolos pequenos e temporários.<br><strong>(C) Incorreta:</strong> Não têm.<br><strong>(D) Incorreta:</strong> Não têm." },
+            
+            // BLOCO 8: MEMBRANA E TRANSPORTE
+            { id: 20, text: "A Membrana Plasmática é formada por:", options: ["Bicamada de Lipídios e Proteínas", "Parede de concreto", "Apenas gordura", "Apenas açúcar"], correct: 0, explanation: "<strong>(A) Correta:</strong> Modelo do Mosaico Fluido (Fosfolipídios + Proteínas).<br><strong>(B) Incorreta:</strong> Metáfora.<br><strong>(C) Incorreta:</strong> Tem proteínas.<br><strong>(D) Incorreta:</strong> Errado." },
+            { id: 21, text: "O que significa 'Permeabilidade Seletiva'?", options: ["Tudo entra", "Nada entra", "A membrana escolhe o que entra e sai", "Só entra água"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Célula morreria.<br><strong>(B) Incorreta:</strong> Célula morreria.<br><strong>(C) Correta:</strong> Controle rigoroso de substâncias.<br><strong>(D) Incorreta:</strong> Entra glicose, sais, etc." },
+
+            // BLOCO 9: SITUAÇÕES PROBLEMA
+            { id: 22, text: "Se destruirmos as mitocôndrias, a célula morre por:", options: ["Falta de energia", "Falta de proteína", "Excesso de toxinas", "Falta de controle"], correct: 0, explanation: "<strong>(A) Correta:</strong> Sem ATP, nenhuma função celular ocorre.<br><strong>(B) Incorreta:</strong> Ribossomo.<br><strong>(C) Incorreta:</strong> Peroxissomo/REL.<br><strong>(D) Incorreta:</strong> Núcleo." },
+            { id: 23, text: "As células dos testículos produzem muita testosterona (hormônio lipídico). Qual organela elas têm muito?", options: ["RER", "REL", "Lisossomo", "Vacúolo"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Proteínas.<br><strong>(B) Correta:</strong> O Retículo Liso produz lipídios e esteróides.<br><strong>(C) Incorreta:</strong> Digestão.<br><strong>(D) Incorreta:</strong> Água." },
+            { id: 24, text: "Os girinos perdem a cauda ao virar sapos. Quem digere a cauda?", options: ["Lisossomos (Autofagia)", "Mitocôndrias", "Ribossomos", "Núcleo"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ocorre uma 'digestão programada' das próprias células da cauda.<br><strong>(B) Incorreta:</strong> Energia.<br><strong>(C) Incorreta:</strong> Proteína.<br><strong>(D) Incorreta:</strong> Comando." },
+
+            // BLOCO 10: CONCEITOS FINAIS
+            { id: 25, text: "O citoplasma é composto principalmente por:", options: ["Água e proteínas (Citosol)", "Ar", "Vácuo", "Gordura pura"], correct: 0, explanation: "<strong>(A) Correta:</strong> Um gel aquoso onde ocorrem reações químicas.<br><strong>(B) Incorreta:</strong> Não.<br><strong>(C) Incorreta:</strong> Célula murcharia.<br><strong>(D) Incorreta:</strong> Adipócito, talvez." },
+            { id: 26, text: "Quem forma os cílios e flagelos (para locomoção)?", options: ["Centríolos", "Mitocôndrias", "Vacúolos", "Núcleo"], correct: 0, explanation: "<strong>(A) Correta:</strong> Centríolos originam essas estruturas de movimento.<br><strong>(B) Incorreta:</strong> Energia.<br><strong>(C) Incorreta:</strong> Armazenamento.<br><strong>(D) Incorreta:</strong> Comando." },
+            { id: 27, text: "A Síntese de Proteínas começa no núcleo (DNA -> RNA) e termina no:", options: ["Ribossomo", "Lisossomo", "Vacúolo", "Peroxissomo"], correct: 0, explanation: "<strong>(A) Correta:</strong> O RNA sai do núcleo e vai para o ribossomo ser lido.<br><strong>(B) Incorreta:</strong> Digestão.<br><strong>(C) Incorreta:</strong> Água.<br><strong>(D) Incorreta:</strong> Detox." },
+            { id: 28, text: "Qual a única célula humana que tem flagelo?", options: ["Espermatozoide", "Óvulo", "Neurônio", "Hemácia"], correct: 0, explanation: "<strong>(A) Correta:</strong> Precisa nadar até o óvulo.<br><strong>(B) Incorreta:</strong> Imóvel.<br><strong>(C) Incorreta:</strong> Fixo.<br><strong>(D) Incorreta:</strong> Flutua." },
+            { id: 29, text: "As plantas ficam murchas se perderem água de qual organela?", options: ["Vacúolo", "Núcleo", "Ribossomo", "Golgi"], correct: 0, explanation: "<strong>(A) Correta:</strong> O vacúolo cheio mantém a pressão (turgor) da planta.<br><strong>(B) Incorreta:</strong> Genética.<br><strong>(C) Incorreta:</strong> Proteína.<br><strong>(D) Incorreta:</strong> Secreção." },
+            { id: 30, text: "A unidade básica da vida é:", options: ["A Célula", "O Átomo", "O Órgão", "O Tecido"], correct: 0, explanation: "<strong>(A) Correta:</strong> É a menor parte viva de um organismo.<br><strong>(B) Incorreta:</strong> Matéria, não vida.<br><strong>(C) Incorreta:</strong> Conjunto de tecidos.<br><strong>(D) Incorreta:</strong> Conjunto de células." }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FFE4E6; border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#BE123C">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#047857">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>

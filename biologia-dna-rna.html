@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA e RNA - Biologia 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0F0718; /* Fundo Roxo Quase Preto */
+            --text-color: #E9D5FF; /* Lilás Claro */
+            --border-color: #000000;
+            
+            /* TEMA: ROXO NEON & VERDE FLUORESCENTE (Bio-Tech) */
+            --theme-light: #2E1065; 
+            --theme-medium: #7C3AED;
+            --theme-dark: #581C87; 
+            --theme-contrast: #39FF14; /* Verde Fluorescente para destaque */
+            --theme-accent: #D946EF; /* Rosa Neon para detalhes */
+            --theme-text-active: #000000;
+            
+            /* FEEDBACK */
+            --correct-bg: #064E3B; /* Verde Escuro Fundo */
+            --correct-border: #34D399; /* Verde Claro Borda */
+            --wrong-bg: #450A0A; /* Vermelho Escuro Fundo */
+            --wrong-border: #F87171; /* Vermelho Claro Borda */
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- LOGO RESPONSIVA --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 5px var(--theme-accent));
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--theme-contrast);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-container {
+            background-color: var(--theme-light);
+            border: 1px solid var(--theme-medium);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #A78BFA;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-medium);
+            color: var(--theme-text-active);
+            box-shadow: 0 0 10px var(--theme-medium);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: #170B25;
+            border: 1px solid var(--theme-medium);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Efeito de brilho no card */
+        .card-content::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--theme-contrast), var(--theme-accent));
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--theme-contrast);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .visual-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            border: 1px solid var(--theme-dark);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        .comparison-table th {
+            background-color: var(--theme-light);
+            color: var(--theme-contrast);
+            font-weight: 700;
+        }
+        .comparison-table td {
+            background-color: #1F1130;
+            color: #E9D5FF;
+        }
+
+        /* --- MAPA DE QUESTÕES --- */
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; 
+            border: 1px solid #444; 
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 700; font-size: 0.8rem; 
+            color: #888; background: #1F1130; 
+            cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--theme-contrast); 
+            background-color: var(--theme-medium);
+            color: white; 
+            box-shadow: 0 0 10px var(--theme-medium); 
+            transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-border); color: #000; border-color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-border); color: #fff; border-color: var(--wrong-border); }
+
+        /* --- BOTÕES DO QUIZ --- */
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: #1F1130; border: 1px solid #444; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+            color: #E9D5FF;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #555;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+            color: #888;
+        }
+        .option-btn.correct { background-color: rgba(5, 150, 105, 0.2); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: black; border-color: var(--correct-border); }
+        
+        .option-btn.wrong { background-color: rgba(190, 18, 60, 0.2); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; 
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--theme-accent); 
+            border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; color: var(--theme-accent); }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: #170B25; border: 2px solid var(--theme-contrast); border-radius: 20px;
+            padding: 30px; box-shadow: 0 0 30px rgba(57, 255, 20, 0.2); margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-contrast); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-contrast); color: black;
+            border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(57, 255, 20, 0.4); transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: #0F0718; border-top: 1px solid #333;
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { 
+            padding: 12px 24px; border-radius: 8px; font-weight: 700; 
+            border: 1px solid var(--theme-medium); cursor: pointer; 
+            background: transparent; color: var(--theme-contrast);
+        }
+        .btn-next { background-color: var(--theme-medium); color: white; border: none; }
+        .btn-prev { color: #888; border-color: #444; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-biologia.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">BIOLOGIA</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2; text-align:center;"><span style="color:var(--theme-accent);">DNA</span> & <span style="color:var(--theme-contrast);">RNA</span></h1>
+            <p style="color: #bbb; margin-bottom: 20px; text-align:center;">Os Ácidos Nucleicos são o "código-fonte" da vida. Entenda como eles armazenam e usam a informação genética.</p>
+            
+            <div class="card-content">
+                <div class="section-title">1. A Batalha das Estruturas</div>
+                
+                <div class="visual-row">
+                    <div style="text-align:center;">
+                        <svg width="60" height="100" viewBox="0 0 60 100">
+                            <path d="M 20 0 Q 40 25 20 50 T 20 100" stroke="#D946EF" stroke-width="3" fill="none"/>
+                            <path d="M 40 0 Q 20 25 40 50 T 40 100" stroke="#39FF14" stroke-width="3" fill="none"/>
+                            <line x1="25" y1="15" x2="35" y2="15" stroke="#fff" stroke-width="1"/>
+                            <line x1="25" y1="35" x2="35" y2="35" stroke="#fff" stroke-width="1"/>
+                            <line x1="25" y1="65" x2="35" y2="65" stroke="#fff" stroke-width="1"/>
+                            <line x1="25" y1="85" x2="35" y2="85" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                        <p style="font-size:0.8rem; font-weight:bold; color:#D946EF;">DNA</p>
+                        <p style="font-size:0.7rem; color:#888;">Fita Dupla</p>
+                    </div>
+
+                    <div style="text-align:center;">
+                        <svg width="60" height="100" viewBox="0 0 60 100">
+                            <path d="M 30 0 Q 50 25 30 50 T 30 100" stroke="#39FF14" stroke-width="3" fill="none"/>
+                            <line x1="30" y1="15" x2="40" y2="15" stroke="#fff" stroke-width="1"/>
+                            <line x1="20" y1="35" x2="30" y2="35" stroke="#fff" stroke-width="1"/>
+                            <line x1="30" y1="65" x2="40" y2="65" stroke="#fff" stroke-width="1"/>
+                            <line x1="20" y1="85" x2="30" y2="85" stroke="#fff" stroke-width="1"/>
+                        </svg>
+                        <p style="font-size:0.8rem; font-weight:bold; color:#39FF14;">RNA</p>
+                        <p style="font-size:0.7rem; color:#888;">Fita Simples</p>
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Característica</th>
+                        <th>DNA</th>
+                        <th>RNA</th>
+                    </tr>
+                    <tr>
+                        <td>Açúcar (Pentose)</td>
+                        <td style="color:#D946EF;">Desoxirribose</td>
+                        <td style="color:#39FF14;">Ribose</td>
+                    </tr>
+                    <tr>
+                        <td>Estrutura</td>
+                        <td>Fita Dupla (Hélice)</td>
+                        <td>Fita Simples</td>
+                    </tr>
+                    <tr>
+                        <td>Bases Exclusivas</td>
+                        <td>Timina (T)</td>
+                        <td>Uracila (U)</td>
+                    </tr>
+                    <tr>
+                        <td>Função</td>
+                        <td>Arquivo (Armazena)</td>
+                        <td>Operário (Executa)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">2. O Alfabeto Genético</div>
+                <p style="font-size: 0.9rem; margin-bottom:10px;">As bases se ligam como peças de quebra-cabeça (Pares de Bases).</p>
+                
+                <div class="visual-row" style="flex-direction:column;">
+                    <div style="display:flex; gap:20px; align-items:center;">
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #D946EF;">A</div>
+                        <span style="color:#888;">se liga com</span>
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #D946EF;">T</div>
+                        <span style="font-size:0.8rem; color:#aaa;">(No DNA)</span>
+                    </div>
+                    <div style="display:flex; gap:20px; align-items:center;">
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #39FF14;">C</div>
+                        <span style="color:#888;">se liga com</span>
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #39FF14;">G</div>
+                        <span style="font-size:0.8rem; color:#aaa;">(Sempre!)</span>
+                    </div>
+                    <div style="display:flex; gap:20px; align-items:center;">
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #F59E0B;">A</div>
+                        <span style="color:#888;">se liga com</span>
+                        <div style="background:#2E1065; padding:5px 10px; border-radius:5px; border:1px solid #F59E0B;">U</div>
+                        <span style="font-size:0.8rem; color:#aaa;">(No RNA)</span>
+                    </div>
+                </div>
+                
+                <div class="example-box" style="background:rgba(255,255,255,0.1); border-left:4px solid var(--theme-contrast); color:#fff;">
+                    <strong>Macete:</strong> <br>
+                    "<strong>A</strong>gnaldo <strong>T</strong>imóteo e <strong>G</strong>al <strong>C</strong>osta" (DNA).<br>
+                    No RNA, sai Timóteo e entra <strong>U</strong>lisses (A-U).
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">3. O Dogma Central (Como funciona)</div>
+                <p style="font-size: 0.9rem; margin-bottom:15px;">Como a informação vira você?</p>
+                
+                <div style="display:flex; flex-direction:column; gap:15px;">
+                    <div style="background:#1F1130; padding:10px; border-radius:8px; border-left:3px solid #D946EF;">
+                        <strong style="color:#D946EF;">1. Replicação</strong><br>
+                        <span style="font-size:0.85rem; color:#bbb;">O DNA se duplica para a célula poder dividir.</span>
+                    </div>
+                    
+                    <div style="text-align:center; font-size:1.2rem; color:#555;">⬇</div>
+
+                    <div style="background:#1F1130; padding:10px; border-radius:8px; border-left:3px solid #39FF14;">
+                        <strong style="color:#39FF14;">2. Transcrição</strong><br>
+                        <span style="font-size:0.85rem; color:#bbb;">O DNA serve de molde para criar um <strong>RNA Mensageiro (RNAm)</strong>. (Copia a receita).</span>
+                    </div>
+
+                    <div style="text-align:center; font-size:1.2rem; color:#555;">⬇</div>
+
+                    <div style="background:#1F1130; padding:10px; border-radius:8px; border-left:3px solid #0284C7;">
+                        <strong style="color:#0284C7;">3. Tradução</strong><br>
+                        <span style="font-size:0.85rem; color:#bbb;">O RNAm vai para o Ribossomo, que lê o código e monta a <strong>Proteína</strong> (o bolo).</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">4. Os Tipos de RNA</div>
+                <ul style="font-size:0.9rem; color:#ddd; padding-left:20px; line-height:1.6;">
+                    <li><strong>RNA Mensageiro (RNAm):</strong> Leva a mensagem do núcleo para o citoplasma.</li>
+                    <li><strong>RNA Transportador (RNAt):</strong> Busca os ingredientes (aminoácidos) para o ribossomo.</li>
+                    <li><strong>RNA Ribossômico (RNAr):</strong> Forma a estrutura do ribossomo (a fábrica).</li>
+                </ul>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--theme-contrast); color: black; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para o Mega Quiz (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #aaa; font-size: 0.9rem;">Decifre o código da vida.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // BLOCO 1: ESTRUTURA BÁSICA (DNA vs RNA)
+            {
+                id: 1,
+                text: "Qual é o açúcar (pentose) presente no DNA?",
+                options: ["Ribose", "Desoxirribose", "Glicose", "Frutose"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Açúcar do RNA.<br>
+                    <strong>(B) Correta:</strong> DNA significa Ácido Desoxirribonucleico.<br>
+                    <strong>(C) Incorreta:</strong> Açúcar energético.<br>
+                    <strong>(D) Incorreta:</strong> Açúcar das frutas.`
+            },
+            {
+                id: 2,
+                text: "Qual base nitrogenada é exclusiva do RNA (não existe no DNA)?",
+                options: ["Adenina", "Timina", "Uracila", "Citosina"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Comum a ambos.<br>
+                    <strong>(B) Incorreta:</strong> Exclusiva do DNA.<br>
+                    <strong>(C) Correta:</strong> No RNA, a Uracila (U) substitui a Timina.<br>
+                    <strong>(D) Incorreta:</strong> Comum a ambos.`
+            },
+            {
+                id: 3,
+                text: "A estrutura do DNA é descrita como:",
+                options: ["Fita Simples", "Dupla Hélice", "Circular Plana", "Tripla Hélice"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Estrutura do RNA.<br>
+                    <strong>(B) Correta:</strong> Duas fitas enroladas em espiral.<br>
+                    <strong>(C) Incorreta:</strong> DNA de bactérias é circular, mas é hélice.<br>
+                    <strong>(D) Incorreta:</strong> Não existe.`
+            },
+            {
+                id: 4,
+                text: "No DNA, a Adenina (A) sempre se liga com:",
+                options: ["Guanina (G)", "Citosina (C)", "Timina (T)", "Uracila (U)"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Errado.<br>
+                    <strong>(B) Incorreta:</strong> C liga com G.<br>
+                    <strong>(C) Correta:</strong> Regra de pareamento: A-T.<br>
+                    <strong>(D) Incorreta:</strong> A-U é no RNA.`
+            },
+            {
+                id: 5,
+                text: "O que significa a sigla RNA?",
+                options: ["Ácido Risonho Natural", "Ácido Ribonucleico", "Ácido Radical Neutro", "Ácido Desoxirribonucleico"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Piada.<br>
+                    <strong>(B) Correta:</strong> Vem do açúcar Ribose.<br>
+                    <strong>(C) Incorreta:</strong> Inventado.<br>
+                    <strong>(D) Incorreta:</strong> Significado de DNA.`
+            },
+
+            // BLOCO 2: NUCLEOTÍDEOS E PAREAMENTO
+            {
+                id: 6,
+                text: "Um nucleotídeo é formado por:",
+                options: ["Açúcar, Fosfato e Base Nitrogenada", "Apenas proteína", "Gordura e açúcar", "Base e Ácido"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> São os 3 componentes básicos.<br>
+                    <strong>(B) Incorreta:</strong> DNA não é proteína.<br>
+                    <strong>(C) Incorreta:</strong> Incompleto.<br>
+                    <strong>(D) Incorreta:</strong> Incompleto.`
+            },
+            {
+                id: 7,
+                text: "Se uma fita de DNA tem a sequência A-T-C-G, a fita complementar será:",
+                options: ["T-A-G-C", "U-A-G-C", "A-T-C-G", "G-C-T-A"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> A pareia com T, T com A, C com G, G com C.<br>
+                    <strong>(B) Incorreta:</strong> U é só no RNA.<br>
+                    <strong>(C) Incorreta:</strong> Igual.<br>
+                    <strong>(D) Incorreta:</strong> Aleatório.`
+            },
+            {
+                id: 8,
+                text: "Qual é a ligação que une as bases nitrogenadas no centro do DNA?",
+                options: ["Ligação Iônica", "Pontes de Hidrogênio", "Ligação Metálica", "Cola Tenaz"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Forte demais.<br>
+                    <strong>(B) Correta:</strong> São ligações fracas que permitem abrir o DNA para leitura.<br>
+                    <strong>(C) Incorreta:</strong> Para metais.<br>
+                    <strong>(D) Incorreta:</strong> Engraçado.`
+            },
+            {
+                id: 9,
+                text: "Quantas fitas tem o RNA?",
+                options: ["Duas", "Uma (Simples)", "Três", "Quatro"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> DNA tem duas.<br>
+                    <strong>(B) Correta:</strong> O RNA é geralmente uma fita única.<br>
+                    <strong>(C) Incorreta:</strong> Raro.<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+            {
+                id: 10,
+                text: "A Guanina (G) sempre se liga com:",
+                options: ["Adenina (A)", "Timina (T)", "Citosina (C)", "Uracila (U)"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Não.<br>
+                    <strong>(B) Incorreta:</strong> Não.<br>
+                    <strong>(C) Correta:</strong> G sempre com C (Gal Costa).<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+
+            // BLOCO 3: PROCESSOS (REPLICAÇÃO, TRANSCRIÇÃO, TRADUÇÃO)
+            {
+                id: 11,
+                text: "O processo de criar uma cópia idêntica do DNA chama-se:",
+                options: ["Tradução", "Transcrição", "Replicação (ou Duplicação)", "Mutação"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Cria proteína.<br>
+                    <strong>(B) Incorreta:</strong> Cria RNA.<br>
+                    <strong>(C) Correta:</strong> A célula precisa duplicar o DNA antes de dividir.<br>
+                    <strong>(D) Incorreta:</strong> Erro na cópia.`
+            },
+            {
+                id: 12,
+                text: "O processo onde o DNA serve de molde para criar RNA chama-se:",
+                options: ["Transcrição", "Tradução", "Digestão", "Respiração"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Transcrever é copiar a informação para outro formato (RNA).<br>
+                    <strong>(B) Incorreta:</strong> RNA para Proteína.<br>
+                    <strong>(C) Incorreta:</strong> Quebra.<br>
+                    <strong>(D) Incorreta:</strong> Energia.`
+            },
+            {
+                id: 13,
+                text: "Onde ocorre a TRADUÇÃO (síntese de proteínas)?",
+                options: ["No Núcleo", "Nos Ribossomos (Citoplasma)", "Na Mitocôndria", "No DNA"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Lá ocorre transcrição.<br>
+                    <strong>(B) Correta:</strong> O ribossomo lê o RNA e monta a proteína.<br>
+                    <strong>(C) Incorreta:</strong> Energia.<br>
+                    <strong>(D) Incorreta:</strong> Molécula.`
+            },
+            {
+                id: 14,
+                text: "Se o DNA tem a sequência A-A-A, o RNA mensageiro criado será:",
+                options: ["T-T-T", "U-U-U", "G-G-G", "C-C-C"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> RNA não tem T.<br>
+                    <strong>(B) Correta:</strong> No RNA, o A pareia com U.<br>
+                    <strong>(C) Incorreta:</strong> Errado.<br>
+                    <strong>(D) Incorreta:</strong> Errado.`
+            },
+            {
+                id: 15,
+                text: "O que é um 'Gene'?",
+                options: ["Uma célula inteira", "Um pedaço do DNA que contém a receita para uma proteína", "Um tipo de açúcar", "Uma gordura"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Muito maior.<br>
+                    <strong>(B) Correta:</strong> É a unidade funcional da hereditariedade.<br>
+                    <strong>(C) Incorreta:</strong> Não.<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+
+            // BLOCO 4: TIPOS DE RNA
+            {
+                id: 16,
+                text: "Qual a função do RNA Mensageiro (RNAm)?",
+                options: ["Levar a informação do núcleo para o ribossomo", "Transportar aminoácidos", "Formar o ribossomo", "Destruir o DNA"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Ele é o 'carteiro' com a receita.<br>
+                    <strong>(B) Incorreta:</strong> Função do RNAt.<br>
+                    <strong>(C) Incorreta:</strong> Função do RNAr.<br>
+                    <strong>(D) Incorreta:</strong> Jamais.`
+            },
+            {
+                id: 17,
+                text: "Quem transporta os aminoácidos (ingredientes) até o ribossomo?",
+                options: ["RNAm", "RNAt (Transportador)", "RNAr", "DNA"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Mensageiro.<br>
+                    <strong>(B) Correta:</strong> Ele captura os aminoácidos soltos no citoplasma.<br>
+                    <strong>(C) Incorreta:</strong> Ribossômico.<br>
+                    <strong>(D) Incorreta:</strong> Fica no núcleo.`
+            },
+            {
+                id: 18,
+                text: "O RNA Ribossômico (RNAr) serve para:",
+                options: ["Formar a estrutura do Ribossomo", "Levar mensagens", "Fazer fotossíntese", "Digestar comida"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Ele é o 'tijolo' que constrói a fábrica (ribossomo).<br>
+                    <strong>(B) Incorreta:</strong> RNAm.<br>
+                    <strong>(C) Incorreta:</strong> Cloroplasto.<br>
+                    <strong>(D) Incorreta:</strong> Lisossomo.`
+            },
+            {
+                id: 19,
+                text: "Um conjunto de 3 bases no RNA mensageiro chama-se:",
+                options: ["Gene", "Códon", "Cromossomo", "Proteína"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Pedaço maior.<br>
+                    <strong>(B) Correta:</strong> Cada códon (3 letras) codifica um aminoácido.<br>
+                    <strong>(C) Incorreta:</strong> Estrutura de DNA.<br>
+                    <strong>(D) Incorreta:</strong> Produto final.`
+            },
+            {
+                id: 20,
+                text: "O que é o Anticódon?",
+                options: ["A parte do DNA que não serve", "As 3 bases do RNAt que se encaixam no códon", "Uma proteína estragada", "Um vírus"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Íntron.<br>
+                    <strong>(B) Correta:</strong> É a 'senha' do transportador para saber onde entregar o aminoácido.<br>
+                    <strong>(C) Incorreta:</strong> Não.<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+
+            // BLOCO 5: MISTO E CURIOSIDADES
+            {
+                id: 21,
+                text: "Onde o DNA é encontrado na célula animal?",
+                options: ["Solto no citoplasma", "No Núcleo e na Mitocôndria", "Apenas no Ribossomo", "Na membrana"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Só em bactérias.<br>
+                    <strong>(B) Correta:</strong> Principalmente no núcleo, mas mitocôndrias têm DNA próprio.<br>
+                    <strong>(C) Incorreta:</strong> Tem RNA.<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+            {
+                id: 22,
+                text: "Qual é o produto final da Tradução?",
+                options: ["Um novo DNA", "Um RNA", "Uma Proteína", "Um Lipídio"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Replicação.<br>
+                    <strong>(B) Incorreta:</strong> Transcrição.<br>
+                    <strong>(C) Correta:</strong> A sequência de aminoácidos forma a proteína.<br>
+                    <strong>(D) Incorreta:</strong> Gordura.`
+            },
+            {
+                id: 23,
+                text: "O vírus HIV é um retrovírus porque:",
+                options: ["Tem DNA", "Transforma seu RNA em DNA (Transcriptase Reversa)", "Não tem ácido nucleico", "É antigo"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Tem RNA.<br>
+                    <strong>(B) Correta:</strong> Ele faz o caminho inverso: RNA -> DNA.<br>
+                    <strong>(C) Incorreta:</strong> Tem sim.<br>
+                    <strong>(D) Incorreta:</strong> Nome técnico.`
+            },
+            {
+                id: 24,
+                text: "A Uracila (U) se liga a qual base no pareamento RNA-DNA?",
+                options: ["Adenina (A)", "Guanina (G)", "Citosina (C)", "Outra Uracila"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> U substitui T, então U liga com A.<br>
+                    <strong>(B) Incorreta:</strong> Com C.<br>
+                    <strong>(C) Incorreta:</strong> Com G.<br>
+                    <strong>(D) Incorreta:</strong> Não.`
+            },
+            {
+                id: 25,
+                text: "O que acontece se houver um erro na cópia do DNA?",
+                options: ["Nada", "Mutação", "A célula explode", "O DNA vira RNA"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Pode ter consequências.<br>
+                    <strong>(B) Correta:</strong> Alteração na sequência é mutação.<br>
+                    <strong>(C) Incorreta:</strong> Exagerado.<br>
+                    <strong>(D) Incorreta:</strong> Processo diferente.`
+            },
+            
+            // BLOCO 6: FINALIZAÇÃO
+            {
+                id: 26,
+                text: "Quantos tipos de aminoácidos existem para formar proteínas?",
+                options: ["4", "20", "64", "Infinitos"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Bases nitrogenadas.<br>
+                    <strong>(B) Correta:</strong> São 20 aminoácidos essenciais que combinados formam tudo.<br>
+                    <strong>(C) Incorreta:</strong> Número de códons possíveis.<br>
+                    <strong>(D) Incorreta:</strong> Limitado.`
+            },
+            {
+                id: 27,
+                text: "O DNA é considerado uma molécula:",
+                options: ["Pequena e simples", "Longa e complexa (polímero)", "Gasosa", "Líquida"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> É enorme.<br>
+                    <strong>(B) Correta:</strong> É um polímero formado por milhões de nucleotídeos.<br>
+                    <strong>(C) Incorreta:</strong> Sólida em precipitação.<br>
+                    <strong>(D) Incorreta:</strong> Dissolvida.`
+            },
+            {
+                id: 28,
+                text: "Qual cientista NÃO participou da descoberta da estrutura do DNA?",
+                options: ["Watson", "Crick", "Rosalind Franklin", "Einstein"],
+                correct: 3,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Ganhou Nobel.<br>
+                    <strong>(B) Incorreta:</strong> Ganhou Nobel.<br>
+                    <strong>(C) Incorreta:</strong> Fez a foto raio-X crucial.<br>
+                    <strong>(D) Correta:</strong> Físico (Relatividade).`
+            },
+            {
+                id: 29,
+                text: "O RNA pode sair do núcleo?",
+                options: ["Sim, vai para o citoplasma", "Não, fica preso", "Só se a célula morrer", "O RNA já nasce fora"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Ele é feito no núcleo e sai pelos poros para trabalhar fora.<br>
+                    <strong>(B) Incorreta:</strong> DNA fica preso.<br>
+                    <strong>(C) Incorreta:</strong> Processo normal.<br>
+                    <strong>(D) Incorreta:</strong> Feito no núcleo.`
+            },
+            {
+                id: 30,
+                text: "Se uma proteína tem 100 aminoácidos, quantos nucleotídeos o gene tinha (mínimo)?",
+                options: ["100", "200", "300", "33"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> 1 pra 1 não funciona.<br>
+                    <strong>(B) Incorreta:</strong> Conta errada.<br>
+                    <strong>(C) Correta:</strong> Cada aminoácido precisa de 3 bases (códon). 100 x 3 = 300.<br>
+                    <strong>(D) Incorreta:</strong> Divisão.`
+            }
+        ];
+
+        // LÓGICA DO QUIZ
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                ${q.visual ? `<div class="question-visual">${q.visual}</div>` : ''}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação detalhada:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:rgba(255, 50, 50, 0.1); border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#F87171">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#34D399">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>

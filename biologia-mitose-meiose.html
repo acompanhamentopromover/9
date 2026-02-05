@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitose e Meiose - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #FDF4FF; /* Fundo Magenta Claro */
+            --text-color: #4A044E; /* Roxo Escuro */
+            --border-color: #000000;
+            
+            /* TEMA: MAGENTA (Cromossomos) & CIANO (Fuso) */
+            --theme-light: #FAE8FF; 
+            --theme-medium: #E879F9;
+            --theme-dark: #C026D3; 
+            --theme-contrast: #0891B2; /* Ciano Escuro para destaque */
+            --theme-accent: #22D3EE; /* Ciano Claro */
+            --theme-text-active: #FFFFFF;
+            
+            /* FEEDBACK */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        /* --- LOGO RESPONSIVA --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--theme-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--theme-contrast);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--theme-light);
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .visual-row { display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            border: 1px solid var(--theme-dark);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .comparison-table th {
+            background-color: var(--theme-light);
+            color: var(--theme-dark);
+            font-weight: 700;
+        }
+        .comparison-table td {
+            background-color: #fff;
+        }
+
+        /* --- MAPA DE QUESTÕES --- */
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #F0FDFA;
+            border: 2px solid var(--theme-contrast); border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; color: var(--theme-contrast); }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-biologia.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">BIOLOGIA</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Mitose e Meiose</h1>
+            <p style="color: #555; margin-bottom: 20px;">Como as células se multiplicam? Existem duas formas: uma para crescer e outra para reproduzir.</p>
+            
+            <div class="card-content">
+                <div class="section-title">1. Mitose: A Clonagem Natural</div>
+                
+                <div class="visual-row" style="background:#FFF0F5; padding:15px; border-radius:12px;">
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <circle cx="20" cy="40" r="15" fill="#FAE8FF" stroke="#C026D3" stroke-width="2"/>
+                        <path d="M 15 35 L 25 45 M 25 35 L 15 45" stroke="#C026D3" stroke-width="2"/> <path d="M 40 40 L 60 40" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                        
+                        <circle cx="80" cy="25" r="15" fill="#FAE8FF" stroke="#C026D3" stroke-width="2"/>
+                        <path d="M 75 20 L 85 30 M 85 20 L 75 30" stroke="#C026D3" stroke-width="2"/>
+                        
+                        <circle cx="80" cy="55" r="15" fill="#FAE8FF" stroke="#C026D3" stroke-width="2"/>
+                        <path d="M 75 50 L 85 60 M 85 50 L 75 60" stroke="#C026D3" stroke-width="2"/>
+                        
+                        <text x="20" y="70" font-size="8" text-anchor="middle" fill="#C026D3">2n</text>
+                        <text x="80" y="10" font-size="8" text-anchor="middle" fill="#C026D3">2n</text>
+                        <text x="80" y="78" font-size="8" text-anchor="middle" fill="#C026D3">2n</text>
+                    </svg>
+                    <div style="flex:1;">
+                        <p style="font-size:0.85rem;"><strong>Objetivo:</strong> Crescimento e Regeneração.</p>
+                        <p style="font-size:0.85rem;"><strong>Resultado:</strong> 1 célula mãe cria <strong>2 filhas idênticas</strong> (Diploides - 2n).</p>
+                        <p style="font-size:0.85rem;"><strong>Onde ocorre:</strong> Células somáticas (pele, osso, músculo...).</p>
+                    </div>
+                </div>
+                
+                <p style="font-size:0.85rem; margin-top:10px;"><strong>Fases (PMAT):</strong> Prófase (Prepara), Metáfase (Meio), Anáfase (Afasta), Telófase (Termina).</p>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">2. Meiose: A Fábrica de Gametas</div>
+                
+                <div class="visual-row" style="background:#E0F2FE; padding:15px; border-radius:12px;">
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <circle cx="20" cy="40" r="15" fill="#E0F2FE" stroke="#0891B2" stroke-width="2"/>
+                        <path d="M 15 35 L 25 45 M 25 35 L 15 45" stroke="#0891B2" stroke-width="2"/> 
+                        
+                        <path d="M 40 40 L 60 40" stroke="#333" stroke-width="2"/>
+                        
+                        <circle cx="80" cy="15" r="10" fill="#E0F2FE" stroke="#0891B2"/>
+                        <path d="M 77 12 L 83 18" stroke="#0891B2"/>
+                        
+                        <circle cx="80" cy="35" r="10" fill="#E0F2FE" stroke="#0891B2"/>
+                        <path d="M 77 32 L 83 38" stroke="#0891B2"/>
+
+                        <circle cx="80" cy="55" r="10" fill="#E0F2FE" stroke="#0891B2"/>
+                        <path d="M 77 52 L 83 58" stroke="#0891B2"/>
+
+                        <circle cx="80" cy="75" r="10" fill="#E0F2FE" stroke="#0891B2"/>
+                        <path d="M 77 72 L 83 78" stroke="#0891B2"/>
+                        
+                        <text x="20" y="70" font-size="8" text-anchor="middle" fill="#0891B2">2n</text>
+                        <text x="100" y="45" font-size="8" text-anchor="middle" fill="#0891B2">n (Haploide)</text>
+                    </svg>
+                    <div style="flex:1;">
+                        <p style="font-size:0.85rem;"><strong>Objetivo:</strong> Reprodução.</p>
+                        <p style="font-size:0.85rem;"><strong>Resultado:</strong> 1 célula mãe cria <strong>4 filhas diferentes</strong> com metade do DNA (Haploides - n).</p>
+                        <p style="font-size:0.85rem;"><strong>Onde ocorre:</strong> Gônadas (produz óvulos e espermatozoides).</p>
+                    </div>
+                </div>
+                
+                <div class="visual-row" style="margin-top:10px;">
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                        <path d="M 10 10 L 30 30 M 30 10 L 10 30" stroke="#C026D3" stroke-width="3"/>
+                        <path d="M 15 15 L 25 25" stroke="#0891B2" stroke-width="3"/> </svg>
+                    <p style="font-size:0.85rem; flex:1;"><strong>Crossing-Over:</strong> Troca de pedaços entre cromossomos na Prófase I. Gera variabilidade genética (filhos diferentes dos pais).</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">3. Resumo da Batalha</div>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Característica</th>
+                        <th>Mitose</th>
+                        <th>Meiose</th>
+                    </tr>
+                    <tr>
+                        <td>Função</td>
+                        <td>Crescimento/Reparo</td>
+                        <td>Reprodução (Gametas)</td>
+                    </tr>
+                    <tr>
+                        <td>Filhas</td>
+                        <td>2 Idênticas</td>
+                        <td>4 Diferentes</td>
+                    </tr>
+                    <tr>
+                        <td>Cromossomos</td>
+                        <td>Mantém (2n -> 2n)</td>
+                        <td>Reduz à metade (2n -> n)</td>
+                    </tr>
+                    <tr>
+                        <td>Ocorre em</td>
+                        <td>Células do corpo (Somáticas)</td>
+                        <td>Células germinativas</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para o Mega Quiz (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">Mitose ou Meiose? Teste-se.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // BLOCO 1: DEFINIÇÕES BÁSICAS
+            { id: 1, text: "Qual processo gera células idênticas para crescimento do corpo?", options: ["Meiose", "Mitose", "Fecundação", "Mutação"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Gera gametas.<br><strong>(B) Correta:</strong> Mitose cria clones para crescer ou curar feridas.<br><strong>(C) Incorreta:</strong> União de gametas.<br><strong>(D) Incorreta:</strong> Erro genético." },
+            { id: 2, text: "A Meiose é responsável pela produção de:", options: ["Células da pele", "Células musculares", "Gametas (óvulos e espermatozoides)", "Neurônios"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Mitose.<br><strong>(B) Incorreta:</strong> Mitose.<br><strong>(C) Correta:</strong> Meiose reduz o DNA pela metade para formar células reprodutivas.<br><strong>(D) Incorreta:</strong> Mitose (ou não dividem)." },
+            { id: 3, text: "Quantas células filhas são formadas na Mitose?", options: ["2", "4", "1", "8"], correct: 0, explanation: "<strong>(A) Correta:</strong> Uma célula mãe divide-se em duas filhas iguais.<br><strong>(B) Incorreta:</strong> Meiose.<br><strong>(C) Incorreta:</strong> Sem divisão.<br><strong>(D) Incorreta:</strong> Muitas." },
+            { id: 4, text: "Quantas células filhas são formadas na Meiose?", options: ["2", "4", "6", "10"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mitose.<br><strong>(B) Correta:</strong> Ocorrem duas divisões sucessivas, gerando 4 células.<br><strong>(C) Incorreta:</strong> Errado.<br><strong>(D) Incorreta:</strong> Errado." },
+            { id: 5, text: "Uma célula Humana (46 cromossomos) faz Mitose. As filhas terão:", options: ["23 cromossomos", "46 cromossomos", "92 cromossomos", "12 cromossomos"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Meiose.<br><strong>(B) Correta:</strong> Mitose mantém o número (equacional): 46 -> 46.<br><strong>(C) Incorreta:</strong> Duplicou.<br><strong>(D) Incorreta:</strong> Erro." },
+
+            // BLOCO 2: FASES DA MITOSE (PMAT)
+            { id: 6, text: "Em qual fase os cromossomos se alinham no MEIO da célula?", options: ["Prófase", "Metáfase", "Anáfase", "Telófase"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Início.<br><strong>(B) Correta:</strong> Meta = Meio. Formam a placa equatorial.<br><strong>(C) Incorreta:</strong> Separação.<br><strong>(D) Incorreta:</strong> Fim." },
+            { id: 7, text: "A separação das cromátides irmãs (puxadas para os polos) ocorre na:", options: ["Anáfase", "Metáfase", "Prófase", "Telófase"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ana = Separação/Movimento para trás.<br><strong>(B) Incorreta:</strong> Alinhamento.<br><strong>(C) Incorreta:</strong> Condensação.<br><strong>(D) Incorreta:</strong> Reorganização." },
+            { id: 8, text: "A fase onde a carioteca desaparece e os cromossomos condensam é:", options: ["Prófase", "Anáfase", "Telófase", "Interfase"], correct: 0, explanation: "<strong>(A) Correta:</strong> A preparação inicial para a divisão.<br><strong>(B) Incorreta:</strong> Separação.<br><strong>(C) Incorreta:</strong> Fim.<br><strong>(D) Incorreta:</strong> Intervalo entre divisões." },
+            { id: 9, text: "A divisão do citoplasma (estrangulamento) no final chama-se:", options: ["Cinese", "Citocinese", "Meiose", "Crossing-over"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Incompleto.<br><strong>(B) Correta:</strong> Cito (célula) + Cinese (movimento/divisão).<br><strong>(C) Incorreta:</strong> Processo nuclear.<br><strong>(D) Incorreta:</strong> Troca genética." },
+            { id: 10, text: "A sequência correta das fases é:", options: ["Metáfase, Anáfase, Prófase, Telófase", "Prófase, Metáfase, Anáfase, Telófase", "Telófase, Anáfase, Metáfase, Prófase", "Prófase, Telófase, Anáfase, Metáfase"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Ordem errada.<br><strong>(B) Correta:</strong> Macete: P-M-A-T (Prometo a Ana Telefonar).<br><strong>(C) Incorreta:</strong> Inverso.<br><strong>(D) Incorreta:</strong> Misturado." },
+
+            // BLOCO 3: MEIOSE E VARIABILIDADE
+            { id: 11, text: "O Crossing-Over (troca de pedaços de DNA) ocorre em qual processo?", options: ["Mitose", "Meiose", "Fecundação", "Respiração"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mitose faz clones.<br><strong>(B) Correta:</strong> Na Prófase I da Meiose, para gerar variabilidade.<br><strong>(C) Incorreta:</strong> União de gametas.<br><strong>(D) Incorreta:</strong> Energia." },
+            { id: 12, text: "Qual a importância do Crossing-Over?", options: ["Aumentar a variabilidade genética", "Criar clones perfeitos", "Diminuir o DNA", "Matar a célula"], correct: 0, explanation: "<strong>(A) Correta:</strong> Mistura genes de pai e mãe, criando filhos únicos.<br><strong>(B) Incorreta:</strong> Isso é mitose.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 13, text: "Uma célula 2n=20 faz MEIOSE. As filhas terão:", options: ["20 cromossomos", "10 cromossomos", "40 cromossomos", "5 cromossomos"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mitose.<br><strong>(B) Correta:</strong> Meiose reduz à metade (n). 20 / 2 = 10.<br><strong>(C) Incorreta:</strong> Dobro.<br><strong>(D) Incorreta:</strong> 1/4." },
+            { id: 14, text: "A Meiose é dividida em quantas grandes etapas?", options: ["Uma (Meiose única)", "Duas (Meiose I e II)", "Três", "Quatro"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> Meiose I (Reducional) e Meiose II (Equacional).<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 15, text: "O que são cromossomos homólogos?", options: ["Cromossomos idênticos (clones)", "Pares de cromossomos (um do pai, um da mãe) com genes para as mesmas características", "Cromossomos quebrados", "Cromossomos sexuais apenas"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Irmãs cromátides.<br><strong>(B) Correta:</strong> Formam pares na Meiose I.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Todos os pares." },
+
+            // BLOCO 4: COMPARAÇÃO E CONCEITOS
+            { id: 16, text: "Células somáticas (do corpo) fazem:", options: ["Meiose", "Mitose", "Fecundação", "Nada"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Só gametas.<br><strong>(B) Correta:</strong> Para renovar tecidos e crescer.<br><strong>(C) Incorreta:</strong> Reprodução.<br><strong>(D) Incorreta:</strong> Morrem se não dividirem." },
+            { id: 17, text: "Células haploides (n) possuem:", options: ["Dois conjuntos de cromossomos", "Apenas um conjunto de cromossomos", "Três conjuntos", "Nenhum"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Diploide (2n).<br><strong>(B) Correta:</strong> Gametas são haploides (n).<br><strong>(C) Incorreta:</strong> Triploide.<br><strong>(D) Incorreta:</strong> Impossível." },
+            { id: 18, text: "A redução do número de cromossomos acontece na:", options: ["Mitose", "Meiose I", "Meiose II", "Interfase"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mantém.<br><strong>(B) Correta:</strong> Separa os homólogos, reduzindo de 2n para n.<br><strong>(C) Incorreta:</strong> Separa irmãs (semelhante à mitose).<br><strong>(D) Incorreta:</strong> Preparação." },
+            { id: 19, text: "Se uma estrela do mar perde um braço e ele regenera, ocorreu:", options: ["Meiose", "Mitose", "Fecundação", "Mutação"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Reprodução sexual.<br><strong>(B) Correta:</strong> Regeneração é crescimento de tecido = Mitose.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 20, text: "Qual processo garante que o número de cromossomos da espécie se mantenha constante através das gerações?", options: ["Mitose", "Meiose (reduz) e Fecundação (restaura)", "Apenas Fecundação", "Clonagem"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Dobraria a cada geração se gametas fossem 2n.<br><strong>(B) Correta:</strong> Meiose faz n, Fecundação faz n+n=2n.<br><strong>(C) Incorreta:</strong> Incompleto.<br><strong>(D) Incorreta:</strong> Artificial." },
+
+            // BLOCO 5: DETALHES E ESTRUTURAS
+            { id: 21, text: "O que é o Fuso Mitótico?", options: ["O núcleo", "Fibras que puxam os cromossomos", "A membrana", "O DNA"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> Feito de microtúbulos, guia o movimento dos cromossomos.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 22, text: "A Interfase é:", options: ["A fase de divisão", "O período de repouso", "O período de preparação e duplicação do DNA", "A morte da célula"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Mitose é a divisão.<br><strong>(B) Incorreta:</strong> A célula trabalha muito.<br><strong>(C) Correta:</strong> A célula cresce e copia o DNA (Fase S).<br><strong>(D) Incorreta:</strong> Apoptose." },
+            { id: 23, text: "O câncer é resultado de:", options: ["Uma meiose bem feita", "Uma mitose descontrolada", "Falta de mitose", "Excesso de meiose"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> Células que perderam o controle e se dividem sem parar (tumor).<br><strong>(C) Incorreta:</strong> Atrofia.<br><strong>(D) Incorreta:</strong> Raro." },
+            { id: 24, text: "Cromátides irmãs são:", options: ["Cromossomos diferentes", "As duas cópias idênticas de um cromossomo duplicado", "Cromossomos do pai e da mãe", "Pedaços de RNA"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Homólogos.<br><strong>(B) Correta:</strong> Unidas pelo centrômero antes da anáfase.<br><strong>(C) Incorreta:</strong> Homólogos.<br><strong>(D) Incorreta:</strong> DNA." },
+            { id: 25, text: "Em qual fase os cromossomos estão mais condensados (visíveis)?", options: ["Prófase", "Metáfase", "Anáfase", "Telófase"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Começando.<br><strong>(B) Correta:</strong> Máxima condensação para facilitar a separação.<br><strong>(C) Incorreta:</strong> Separando.<br><strong>(D) Incorreta:</strong> Descondensando." },
+
+            // BLOCO 6: DESAFIOS FINAIS
+            { id: 26, text: "Se uma célula 2n entra em Meiose, no final da Meiose I ela é:", options: ["2n (Diploide)", "n (Haploide) duplicado", "4n", "n (Haploide) simples"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Reduziu.<br><strong>(B) Correta:</strong> Os homólogos separaram (n), mas as cromátides ainda estão juntas (duplicado).<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Final da Meiose II." },
+            { id: 27, text: "Bactérias fazem mitose?", options: ["Sim", "Não, fazem Fissão Binária", "Fazem meiose", "Fazem fecundação"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mitose é nuclear (eucariontes).<br><strong>(B) Correta:</strong> Divisão simples sem fuso mitótico complexo.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Troca genética diferente." },
+            { id: 28, text: "Qual célula NÃO se divide mais (está em G0)?", options: ["Pele", "Fígado", "Neurônio (maioria)", "Intestino"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Divide muito.<br><strong>(B) Incorreta:</strong> Regenera.<br><strong>(C) Correta:</strong> A maioria dos neurônios perde a capacidade de mitose.<br><strong>(D) Incorreta:</strong> Divide muito." },
+            { id: 29, text: "A variabilidade genética é vantagem de qual reprodução?", options: ["Assexuada (Mitose)", "Sexuada (Meiose/Fecundação)", "Clonagem", "Bipartição"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Cria iguais.<br><strong>(B) Correta:</strong> Cria indivíduos diferentes, melhores para adaptação.<br><strong>(C) Incorreta:</strong> Iguais.<br><strong>(D) Incorreta:</strong> Iguais." },
+            { id: 30, text: "A prófase da Mitose é o inverso da:", options: ["Metáfase", "Anáfase", "Telófase", "Interfase"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Meio.<br><strong>(B) Incorreta:</strong> Separação.<br><strong>(C) Correta:</strong> Prófase (desfaz núcleo, condensa) vs Telófase (refaz núcleo, descondensa).<br><strong>(D) Incorreta:</strong> Preparação." }
+        ];
+
+        // LÓGICA DO QUIZ
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FFE4E6; border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#BE123C">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#047857">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Células Sexuais (Gametas) - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0F172A; /* Azul Escuro Profundo */
+            --text-color: #E2E8F0;
+            --border-color: #000000;
+            
+            /* TEMA: DUALIDADE (Rosa e Azul) */
+            --theme-male: #06B6D4; /* Ciano (Espermatozoide) */
+            --theme-female: #EC4899; /* Rosa (Óvulo) */
+            --theme-neutral: #8B5CF6; /* Roxo (Fecundação) */
+            
+            --correct-bg: #064E3B;
+            --correct-border: #34D399;
+            --wrong-bg: #450A0A;
+            --wrong-border: #F87171;
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* --- LOGO RESPONSIVA --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 5px var(--theme-neutral));
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--theme-neutral);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toggle-container {
+            background-color: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #94A3B8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-neutral);
+            color: white;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 8px;
+        }
+
+        .visual-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .label-box {
+            font-size: 0.85rem;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 5px;
+            border-left: 3px solid var(--theme-neutral);
+        }
+
+        /* --- MAPA DE QUESTÕES --- */
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 1px solid #475569; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #94A3B8; background: #0F172A; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--theme-neutral); background-color: var(--theme-neutral);
+            color: white; transform: scale(1.1); box-shadow: 0 0 10px var(--theme-neutral);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: #fff; }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: #fff; }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: #334155; border: 1px solid #475569; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s; color: #F1F5F9;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #64748B;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0; color: #94A3B8;
+        }
+        .option-btn.correct { background-color: rgba(5, 150, 105, 0.3); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: rgba(185, 28, 28, 0.3); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--theme-neutral); border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; color: var(--theme-neutral); }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: #1E293B; border: 2px solid var(--theme-neutral); border-radius: 20px;
+            padding: 30px; margin-bottom: 30px; box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-neutral); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-neutral); color: white;
+            border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: #0F172A; border-top: 1px solid #334155;
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { 
+            padding: 12px 24px; border-radius: 8px; font-weight: 700; 
+            border: 1px solid var(--theme-neutral); cursor: pointer; 
+            background: transparent; color: var(--theme-neutral);
+        }
+        .btn-next { background-color: var(--theme-neutral); color: white; border: none; }
+        .btn-prev { color: #64748B; border-color: #334155; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-biologia.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #94A3B8;">BIOLOGIA</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2; text-align:center;">Células Sexuais (Gametas)</h1>
+            <p style="color: #94A3B8; margin-bottom: 20px; text-align:center;">As células especiais que possuem metade do DNA para garantir a vida.</p>
+            
+            <div class="card-content" style="border-color: var(--theme-neutral);">
+                <div class="section-title" style="color:var(--theme-neutral);">1. A Matemática da Vida</div>
+                <p style="font-size: 0.9rem;">Gametas são células <strong>Haploides (n)</strong>. Quando se juntam, formam um ser completo (2n).</p>
+                
+                <div class="visual-row">
+                    <svg width="250" height="100" viewBox="0 0 250 100">
+                        <g transform="translate(20, 40)">
+                            <path d="M 0 0 Q 20 0 40 0" stroke="#06B6D4" stroke-width="2" fill="none"/>
+                            <circle cx="0" cy="0" r="6" fill="#06B6D4"/>
+                            <text x="-5" y="20" font-size="10" fill="#06B6D4">n=23</text>
+                        </g>
+                        
+                        <text x="80" y="45" font-size="20" fill="#fff" font-weight="bold">+</text>
+                        
+                        <g transform="translate(130, 40)">
+                            <circle cx="0" cy="0" r="18" fill="#EC4899" opacity="0.8"/>
+                            <circle cx="0" cy="0" r="6" fill="#FCE7F3"/>
+                            <text x="-15" y="35" font-size="10" fill="#EC4899">n=23</text>
+                        </g>
+                        
+                        <text x="170" y="45" font-size="20" fill="#fff" font-weight="bold">=</text>
+                        
+                        <g transform="translate(220, 40)">
+                            <circle cx="0" cy="0" r="18" fill="#8B5CF6"/>
+                            <text x="-20" y="35" font-size="10" fill="#8B5CF6">2n=46</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="card-content" style="border-color: var(--theme-male);">
+                <div class="section-title" style="color:var(--theme-male);">2. Espermatozoide (Masculino)</div>
+                <p style="font-size: 0.9rem;">Feito para velocidade. É pequeno e móvel.</p>
+                
+                <div class="visual-row">
+                    <svg width="280" height="120" viewBox="0 0 280 120">
+                        <path d="M 90 60 Q 150 20 200 60 T 270 60" stroke="#06B6D4" stroke-width="3" fill="none"/>
+                        
+                        <rect x="60" y="55" width="30" height="10" rx="3" fill="#0E7490"/>
+                        <path d="M 62 55 L 65 65 M 70 55 L 73 65 M 78 55 L 81 65" stroke="#22D3EE" stroke-width="1"/> <ellipse cx="40" cy="60" rx="25" ry="18" fill="#22D3EE"/>
+                        
+                        <path d="M 25 50 Q 15 60 25 70" fill="none" stroke="#fff" stroke-width="2"/>
+                        <path d="M 15 60 Q 15 42 40 42" fill="#fff" opacity="0.6"/>
+
+                        <text x="25" y="30" font-size="10" fill="#22D3EE">Cabeça (DNA)</text>
+                        <text x="55" y="90" font-size="10" fill="#0E7490">Peça Interm. (Energia)</text>
+                        <text x="180" y="40" font-size="10" fill="#06B6D4">Flagelo (Motor)</text>
+                    </svg>
+                </div>
+                
+                <div class="label-box" style="border-color: var(--theme-male);">
+                    <strong>• Acrossomo:</strong> Capacete com enzimas para perfurar o óvulo.
+                </div>
+                <div class="label-box" style="border-color: var(--theme-male);">
+                    <strong>• Mitocôndrias:</strong> Ficam na peça intermediária. São as "baterias" para o nado.
+                </div>
+            </div>
+
+            <div class="card-content" style="border-color: var(--theme-female);">
+                <div class="section-title" style="color:var(--theme-female);">3. Ovócito II (Óvulo)</div>
+                <p style="font-size: 0.9rem;">Feito para nutrir. É gigante e imóvel.</p>
+                
+                <div class="visual-row">
+                    <svg width="200" height="150" viewBox="0 0 200 150">
+                        <circle cx="100" cy="75" r="60" fill="none" stroke="#F472B6" stroke-width="2" stroke-dasharray="4"/>
+                        <circle cx="100" cy="75" r="58" fill="none" stroke="#F472B6" stroke-width="1" stroke-dasharray="2"/>
+                        
+                        <circle cx="100" cy="75" r="50" fill="#FBCFE8" stroke="#DB2777" stroke-width="4"/>
+                        
+                        <circle cx="100" cy="75" r="40" fill="#EC4899"/>
+                        
+                        <circle cx="100" cy="75" r="12" fill="#fff"/>
+                        <text x="100" y="79" font-size="10" fill="#EC4899" text-anchor="middle" font-weight="bold">n</text>
+
+                        <text x="160" y="40" font-size="10" fill="#F472B6">Coroa Radiata</text>
+                        <line x1="155" y1="45" x2="140" y2="60" stroke="#F472B6"/>
+
+                        <text x="20" y="100" font-size="10" fill="#DB2777">Zona Pelúcida</text>
+                        <line x1="55" y1="95" x2="65" y2="85" stroke="#DB2777"/>
+                    </svg>
+                </div>
+                
+                <div class="label-box" style="border-color: var(--theme-female);">
+                    <strong>• Vitelo:</strong> Reserva de nutrientes para alimentar o início do embrião.
+                </div>
+                <div class="label-box" style="border-color: var(--theme-female);">
+                    <strong>• Zona Pelúcida:</strong> Escudo que endurece assim que o primeiro espermatozoide entra.
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">4. Menino ou Menina?</div>
+                
+                <div class="visual-row">
+                    <svg width="280" height="100" viewBox="0 0 280 100">
+                        <g transform="translate(40, 20)">
+                            <circle cx="0" cy="20" r="15" fill="#EC4899"/>
+                            <text x="0" y="25" text-anchor="middle" fill="white" font-weight="bold">X</text>
+                            <text x="0" y="55" text-anchor="middle" fill="#EC4899" font-size="10">Mãe (Sempre X)</text>
+                        </g>
+
+                        <text x="90" y="45" font-size="20" fill="#fff">+</text>
+
+                        <g transform="translate(140, 20)">
+                            <rect x="-15" y="5" width="30" height="30" rx="5" fill="#06B6D4"/>
+                            <text x="0" y="25" text-anchor="middle" fill="white" font-weight="bold">X/Y</text>
+                            <text x="0" y="55" text-anchor="middle" fill="#06B6D4" font-size="10">Pai (Define)</text>
+                        </g>
+
+                        <text x="190" y="45" font-size="20" fill="#fff">=</text>
+
+                        <g transform="translate(240, 20)">
+                            <text x="0" y="15" text-anchor="middle" fill="#EC4899" font-size="12" font-weight="bold">XX (Ela)</text>
+                            <text x="0" y="35" text-anchor="middle" fill="#06B6D4" font-size="12" font-weight="bold">XY (Ele)</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="label-box">
+                    O pai define o sexo porque ele produz dois tipos de espermatozoides: X (gera menina) e Y (gera menino).
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--theme-neutral); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para o Mega Quiz (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #94A3B8; font-size: 0.9rem;">Teste seus conhecimentos sobre a reprodução.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        // O MESMO SCRIPT DE QUESTÕES DO CÓDIGO ANTERIOR VAI AQUI
+        // (Vou reinserir para garantir que funcione perfeitamente)
+        const questions = [
+            // BLOCO 1: DEFINIÇÕES BÁSICAS
+            { id: 1, text: "O que são Gametas?", options: ["Células da pele", "Células sexuais/reprodutivas", "Células do cérebro", "Bactérias"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Somáticas.<br><strong>(B) Correta:</strong> São células especializadas para reprodução.<br><strong>(C) Incorreta:</strong> Somáticas.<br><strong>(D) Incorreta:</strong> Outro reino." },
+            { id: 2, text: "Quantos cromossomos tem um gameta humano normal?", options: ["46 (2n)", "23 (n)", "92", "12"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Células do corpo.<br><strong>(B) Correta:</strong> Gametas são haploides (n), metade de 46.<br><strong>(C) Incorreta:</strong> Dobro.<br><strong>(D) Incorreta:</strong> Errado." },
+            { id: 3, text: "Qual é o gameta masculino?", options: ["Óvulo", "Zigoto", "Espermatozoide", "Ovário"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Feminino.<br><strong>(B) Incorreta:</strong> Produto.<br><strong>(C) Correta:</strong> Célula móvel masculina.<br><strong>(D) Incorreta:</strong> Órgão." },
+            { id: 4, text: "Qual é o gameta feminino?", options: ["Espermatozoide", "Ovócito II (Óvulo)", "Útero", "Embrião"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Masculino.<br><strong>(B) Correta:</strong> Popularmente óvulo.<br><strong>(C) Incorreta:</strong> Órgão.<br><strong>(D) Incorreta:</strong> Bebê inicial." },
+            { id: 5, text: "O processo de união dos gametas chama-se:", options: ["Mitose", "Meiose", "Fecundação", "Ovulação"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Divisão.<br><strong>(B) Incorreta:</strong> Formação.<br><strong>(C) Correta:</strong> Fusão de n + n.<br><strong>(D) Incorreta:</strong> Liberação." },
+
+            // BLOCO 2: ESPERMATOZOIDE
+            { id: 6, text: "Qual a função do Flagelo no espermatozoide?", options: ["Proteger", "Locomoção (nadar)", "Furar", "Energia"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Membrana.<br><strong>(B) Correta:</strong> Cauda que bate para mover.<br><strong>(C) Incorreta:</strong> Acrossomo.<br><strong>(D) Incorreta:</strong> Mitocôndria." },
+            { id: 7, text: "Onde ficam as mitocôndrias no espermatozoide?", options: ["Cabeça", "Peça intermediária", "Cauda", "Não tem"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Núcleo.<br><strong>(B) Correta:</strong> Logo após a cabeça, gerando ATP para o motor.<br><strong>(C) Incorreta:</strong> Motor.<br><strong>(D) Incorreta:</strong> Precisa de energia." },
+            { id: 8, text: "O que é o Acrossomo?", options: ["Núcleo", "Bolsa com enzimas na cabeça", "Cauda", "Nutriente"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> DNA.<br><strong>(B) Correta:</strong> 'Capuz' químico para furar o óvulo.<br><strong>(C) Incorreta:</strong> Flagelo.<br><strong>(D) Incorreta:</strong> Não tem." },
+            { id: 9, text: "Comparado ao óvulo, o espermatozoide é:", options: ["Muito maior", "Mesmo tamanho", "Muito menor e móvel", "Imóvel"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Inverso.<br><strong>(B) Incorreta:</strong> Inverso.<br><strong>(C) Correta:</strong> Compacto para viagem.<br><strong>(D) Incorreta:</strong> Nada." },
+            { id: 10, text: "Onde são produzidos os espermatozoides?", options: ["Próstata", "Pênis", "Testículos", "Uretra"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Líquido.<br><strong>(B) Incorreta:</strong> Copulação.<br><strong>(C) Correta:</strong> Fábrica de gametas.<br><strong>(D) Incorreta:</strong> Canal." },
+
+            // BLOCO 3: ÓVULO
+            { id: 11, text: "Por que o óvulo é tão grande?", options: ["Para ver", "Acumula vitelo (nutrientes)", "Muito DNA", "Flutuar"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Microscópico.<br><strong>(B) Correta:</strong> Sustenta as primeiras divisões celulares.<br><strong>(C) Incorreta:</strong> Igual.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 12, text: "Qual a função da Zona Pelúcida?", options: ["Cor", "Proteger e impedir poliespermia", "Energia", "Nadar"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> Endurece após 1 entrar.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Imóvel." },
+            { id: 13, text: "O óvulo se movimenta sozinho?", options: ["Sim, flagelo", "Sim, cílios", "Não, levado pelos cílios da tuba", "Rasteja"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Incorreta:</strong> Não.<br><strong>(C) Correta:</strong> É passivo.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 14, text: "Onde são produzidos os óvulos?", options: ["Útero", "Vagina", "Ovários", "Tubas"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Gestação.<br><strong>(B) Incorreta:</strong> Canal.<br><strong>(C) Correta:</strong> Gônadas.<br><strong>(D) Incorreta:</strong> Caminho." },
+            { id: 15, text: "O processo de liberação do óvulo chama-se:", options: ["Menstruação", "Ovulação", "Fecundação", "Nidação"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Sangramento.<br><strong>(B) Correta:</strong> Saída do ovário.<br><strong>(C) Incorreta:</strong> Encontro.<br><strong>(D) Incorreta:</strong> Fixação." },
+
+            // BLOCO 4: FECUNDAÇÃO E GENÉTICA
+            { id: 16, text: "Espermatozoide (n) + Óvulo (n) formam:", options: ["Embrião", "Feto", "Zigoto (2n)", "Gameta"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Depois.<br><strong>(B) Incorreta:</strong> Depois.<br><strong>(C) Correta:</strong> Primeira célula.<br><strong>(D) Incorreta:</strong> Antes." },
+            { id: 17, text: "Quem determina o sexo do bebê?", options: ["O pai (espermatozoide)", "A mãe (óvulo)", "Temperatura", "Sorte"], correct: 0, explanation: "<strong>(A) Correta:</strong> Pai doa X ou Y.<br><strong>(B) Incorreta:</strong> Mãe só doa X.<br><strong>(C) Incorreta:</strong> Em répteis.<br><strong>(D) Incorreta:</strong> Genética." },
+            { id: 18, text: "Para nascer MENINA, a combinação é:", options: ["XY", "XX", "YY", "X0"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Menino.<br><strong>(B) Correta:</strong> Dois X.<br><strong>(C) Incorreta:</strong> Impossível.<br><strong>(D) Incorreta:</strong> Síndrome." },
+            { id: 19, text: "Onde ocorre a fecundação?", options: ["Útero", "Vagina", "Tubas Uterinas", "Ovário"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Nidação.<br><strong>(B) Incorreta:</strong> Entrada.<br><strong>(C) Correta:</strong> No caminho.<br><strong>(D) Incorreta:</strong> Origem." },
+            { id: 20, text: "Cromossomos autossômicos são:", options: ["Sexuais (XY)", "Não sexuais (corpo)", "Doentes", "Extras"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Alossomos.<br><strong>(B) Correta:</strong> Definem características corporais.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+
+            // BLOCO 5: MISTOS
+            { id: 21, text: "Células sexuais são feitas por qual divisão?", options: ["Mitose", "Meiose", "Fissão", "Clonagem"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Corpo.<br><strong>(B) Correta:</strong> Reducional.<br><strong>(C) Incorreta:</strong> Bactéria.<br><strong>(D) Incorreta:</strong> Artificial." },
+            { id: 22, text: "Quanto tempo vive o espermatozoide na mulher?", options: ["Minutos", "Até 5 dias", "1 mês", "Horas"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Mais.<br><strong>(B) Correta:</strong> Em condições ideais.<br><strong>(C) Incorreta:</strong> Menos.<br><strong>(D) Incorreta:</strong> Mais." },
+            { id: 23, text: "O que acontece com a cauda na fecundação?", options: ["Entra", "Fica fora", "Vira núcleo", "Vira cordão"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Só cabeça.<br><strong>(B) Correta:</strong> É descartada.<br><strong>(C) Incorreta:</strong> Cabeça.<br><strong>(D) Incorreta:</strong> Não." },
+            { id: 24, text: "Gêmeos idênticos vêm de:", options: ["2 óvulos", "1 óvulo + 2 esp", "1 zigoto dividido", "Clonagem"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Fraternos.<br><strong>(B) Incorreta:</strong> Erro.<br><strong>(C) Correta:</strong> Mesma genética.<br><strong>(D) Incorreta:</strong> Artificial." },
+            { id: 25, text: "Haploide é:", options: ["2n", "n", "3n", "4n"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Diploide.<br><strong>(B) Correta:</strong> Metade.<br><strong>(C) Incorreta:</strong> Triploide.<br><strong>(D) Incorreta:</strong> Tetraploide." },
+            { id: 26, text: "Organela do acrossomo:", options: ["Mitocôndria", "Núcleo", "Acrossomo (Golgi)", "Centríolo"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Energia.<br><strong>(B) Incorreta:</strong> DNA.<br><strong>(C) Correta:</strong> Enzimas.<br><strong>(D) Incorreta:</strong> Divisão." },
+            { id: 27, text: "Célula Germinativa:", options: ["Bactéria", "Origem dos gametas", "Pele", "Sangue"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não.<br><strong>(B) Correta:</strong> Faz meiose.<br><strong>(C) Incorreta:</strong> Somática.<br><strong>(D) Incorreta:</strong> Somática." },
+            { id: 28, text: "Espermatozoide Y gera:", options: ["Menina", "Menino", "Gêmeos", "Nada"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> X.<br><strong>(B) Correta:</strong> XY.<br><strong>(C) Incorreta:</strong> Divisão.<br><strong>(D) Incorreta:</strong> Vida." },
+            { id: 29, text: "Célula visível a olho nu:", options: ["Espermatozoide", "Neurônio", "Óvulo", "Hemácia"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Micro.<br><strong>(B) Incorreta:</strong> Fino.<br><strong>(C) Correta:</strong> Pontinho.<br><strong>(D) Incorreta:</strong> Micro." },
+            { id: 30, text: "Menopausa é o fim dos:", options: ["Espermatozoides", "Óvulos", "Pele", "Cabelo"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Andropausa.<br><strong>(B) Correta:</strong> Estoque acaba.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #94A3B8;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                ${q.visual ? `<div class="question-visual">${q.visual}</div>` : ''}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Mandou bem!' : '❌ Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:rgba(185, 28, 28, 0.2); border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#F87171">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#34D399">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>
