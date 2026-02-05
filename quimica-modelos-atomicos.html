@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Quiz: Modelos Atômicos - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F8F9FA;
+            --text-color: #1E1B4B; 
+            --border-color: #000000;
+            --theme-light: #F3E8FF; 
+            --theme-medium: #A855F7;
+            --theme-dark: #6B21A8; 
+            --theme-contrast: #22D3EE; 
+            --theme-text-active: #FFFFFF;
+            --correct-bg: #C6F6D5;
+            --correct-border: #276749;
+            --wrong-bg: #FED7D7;
+            --wrong-border: #C53030;
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0 10px 0;
+        }
+        
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .example-box {
+            background-color: #F5F3FF;
+            border-left: 5px solid var(--theme-dark);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .visual-row { display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+
+        .question-visual {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: var(--theme-light);
+            border-radius: 12px;
+            border: 1px dashed var(--theme-dark);
+        }
+
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #EDF2F7;
+            border: 2px solid #2D3748; border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-ciencias.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">CIÊNCIAS</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Modelos Atômicos</h1>
+            <p style="color: #555; margin-bottom: 20px;">Uma jornada histórica desde a esfera maciça até os saltos quânticos de energia.</p>
+            
+            <div class="card-content">
+                <h3>1. Dalton: A Bola de Bilhar (1808)</h3>
+                <div class="visual-row">
+                    <svg width="60" height="60">
+                        <circle cx="30" cy="30" r="25" fill="#6B21A8" stroke="#000" stroke-width="2"/>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.9rem;">Átomo como esfera <strong>maciça, indivisível e indestrutível</strong>. Sem cargas elétricas.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>2. Thomson: Pudim de Passas (1898)</h3>
+                <div class="visual-row">
+                    <svg width="60" height="60">
+                        <circle cx="30" cy="30" r="25" fill="#D8B4FE" stroke="#000" stroke-width="1"/>
+                        <circle cx="20" cy="20" r="3" fill="#000"/>
+                        <circle cx="40" cy="25" r="3" fill="#000"/>
+                        <circle cx="25" cy="40" r="3" fill="#000"/>
+                        <circle cx="40" cy="40" r="3" fill="#000"/>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.9rem;">Descoberta do <strong>elétron</strong>. Massa positiva com elétrons incrustados. O átomo é divisível.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>3. Rutherford: Sistema Planetário (1911)</h3>
+                <div class="visual-row">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                        <circle cx="30" cy="30" r="4" fill="#6B21A8"/>
+                        <ellipse cx="30" cy="30" rx="25" ry="10" fill="none" stroke="#666" transform="rotate(45 30 30)"/>
+                        <ellipse cx="30" cy="30" rx="25" ry="10" fill="none" stroke="#666" transform="rotate(-45 30 30)"/>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.9rem;">Experiência da folha de ouro. O átomo tem grandes vazios. Núcleo pequeno (+) e eletrosfera (-).</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>4. Bohr: Níveis de Energia (1913)</h3>
+                <div class="visual-row" style="background: #111; border-radius: 12px; padding: 15px; margin: 15px 0;">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="6" fill="#FF3366"/>
+                        <circle cx="60" cy="60" r="22" fill="none" stroke="#444" stroke-width="1"/>
+                        <circle cx="60" cy="60" r="40" fill="none" stroke="#444" stroke-width="1"/>
+                        <circle cx="60" cy="20" r="4" fill="#22D3EE">
+                            <animate attributeName="cy" values="20;38;20" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <path d="M 65 35 Q 75 25 85 35 T 105 35" stroke="#F59E0B" fill="none" stroke-width="2">
+                             <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
+                        </path>
+                        <text x="85" y="20" font-size="10" fill="#F59E0B">Luz!</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem; color: #eee;">
+                        Órbitas circulares fixas. Ao pular para uma órbita interna, o elétron emite luz (fóton).
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para Exercícios (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">30 questões para dominar o assunto.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // PARTE 1: HISTÓRIA DOS MODELOS
+            {
+                id: 1,
+                text: "Qual cientista comparou o átomo a uma 'bola de bilhar'?",
+                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Dalton via o átomo como esfera maciça e indivisível.<br>
+                    <strong>(B) Incorreta:</strong> Thomson introduziu cargas (pudim).<br>
+                    <strong>(C) Incorreta:</strong> Rutherford introduziu o núcleo.<br>
+                    <strong>(D) Incorreta:</strong> Bohr introduziu níveis de energia.`
+            },
+            {
+                id: 2,
+                text: "Quem descobriu o elétron, provando que o átomo era divisível?",
+                options: ["Rutherford", "Thomson", "Dalton", "Chadwick"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Descobriu o núcleo.<br>
+                    <strong>(B) Correta:</strong> Thomson descobriu o elétron com raios catódicos.<br>
+                    <strong>(C) Incorreta:</strong> Achava que era indivisível.<br>
+                    <strong>(D) Incorreta:</strong> Descobriu o nêutron.`
+            },
+            {
+                id: 3,
+                text: "No modelo de Rutherford, onde fica a maior parte da massa do átomo?",
+                options: ["Na eletrosfera", "No núcleo", "Nos elétrons", "Espalhada uniformemente"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Eletrosfera tem massa quase nula.<br>
+                    <strong>(B) Correta:</strong> O núcleo contém prótons e nêutrons, que têm massa.<br>
+                    <strong>(C) Incorreta:</strong> Elétrons são muito leves.<br>
+                    <strong>(D) Incorreta:</strong> Isso era no modelo de Thomson.`
+            },
+            {
+                id: 4,
+                text: "A frase 'O átomo é um sistema planetário' refere-se a qual modelo?",
+                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Esfera maciça.<br>
+                    <strong>(B) Incorreta:</strong> Pudim de passas.<br>
+                    <strong>(C) Correta:</strong> Núcleo como Sol, elétrons como planetas.<br>
+                    <strong>(D) Incorreta:</strong> Bohr refinou isso com órbitas fixas.`
+            },
+            {
+                id: 5,
+                text: "O que acontece no modelo de Bohr quando um elétron absorve energia?",
+                options: ["Emite luz", "Salta para uma órbita mais externa", "Cai no núcleo", "Fica parado"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Emite luz ao perder energia.<br>
+                    <strong>(B) Correta:</strong> Absorver energia faz ele pular para longe do núcleo (salto quântico).<br>
+                    <strong>(C) Incorreta:</strong> Não cai.<br>
+                    <strong>(D) Incorreta:</strong> Está sempre em movimento.`
+            },
+            // PARTE 2: ESTRUTURA ATÔMICA
+            {
+                id: 6,
+                text: "Quais partículas formam o núcleo do átomo?",
+                options: ["Elétrons e Prótons", "Prótons e Nêutrons", "Apenas Elétrons", "Apenas Nêutrons"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Elétrons ficam fora.<br>
+                    <strong>(B) Correta:</strong> O núcleo é denso e positivo, contendo prótons (+) e nêutrons (0).<br>
+                    <strong>(C) Incorreta:</strong> Estão na eletrosfera.<br>
+                    <strong>(D) Incorreta:</strong> Tem prótons também.`
+            },
+            {
+                id: 7,
+                text: "A partícula com carga elétrica negativa é o:",
+                options: ["Próton", "Nêutron", "Elétron", "Fóton"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Positivo.<br>
+                    <strong>(B) Incorreta:</strong> Neutro.<br>
+                    <strong>(C) Correta:</strong> O elétron tem carga negativa (-).<br>
+                    <strong>(D) Incorreta:</strong> Partícula de luz.`
+            },
+            {
+                id: 8,
+                text: "O que define um elemento químico (sua identidade)?",
+                options: ["Número de Massa (A)", "Número de Nêutrons (n)", "Número Atômico (Z)", "Número de Elétrons"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Massa varia (isótopos).<br>
+                    <strong>(B) Incorreta:</strong> Varia.<br>
+                    <strong>(C) Correta:</strong> O número de prótons (Z) nunca muda para um elemento.<br>
+                    <strong>(D) Incorreta:</strong> Varia em íons.`
+            },
+            {
+                id: 9,
+                text: "Um átomo neutro tem 10 prótons. Quantos elétrons ele tem?",
+                options: ["5", "10", "20", "0"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Metade.<br>
+                    <strong>(B) Correta:</strong> No átomo neutro, cargas positivas (p) = cargas negativas (e).<br>
+                    <strong>(C) Incorreta:</strong> Dobro.<br>
+                    <strong>(D) Incorreta:</strong> Seria apenas núcleo.`
+            },
+            {
+                id: 10,
+                text: "Qual é a massa relativa do elétron comparada ao próton?",
+                options: ["Igual", "Maior", "Desprezível (muito menor)", "O dobro"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Próton é muito mais pesado.<br>
+                    <strong>(B) Incorreta:</strong> Elétron é leve.<br>
+                    <strong>(C) Correta:</strong> O elétron é cerca de 1836 vezes mais leve que o próton.<br>
+                    <strong>(D) Incorreta:</strong> Erro.`
+            },
+            // PARTE 3: ÍONS E ISÓTOPOS
+            {
+                id: 11,
+                text: "O que são Isótopos?",
+                visual: `<svg width="100" height="40"><circle cx="20" cy="20" r="10" fill="#6B21A8"/><text x="15" y="25" fill="white" font-size="10">P</text><circle cx="60" cy="20" r="10" fill="#6B21A8"/><text x="55" y="25" fill="white" font-size="10">P</text><circle cx="75" cy="20" r="10" fill="#A855F7"/><text x="70" y="25" fill="white" font-size="10">N</text></svg>`,
+                options: ["Átomos com mesmo nº de prótons e diferente massa", "Átomos com mesmo nº de nêutrons", "Átomos com mesma massa", "Íons diferentes"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Iso(mesmo) + Topo(lugar). Mesmo Z (prótons), mas diferente quantidade de Nêutrons.<br>
+                    <strong>(B) Incorreta:</strong> Isótonos.<br>
+                    <strong>(C) Incorreta:</strong> Isóbaros.<br>
+                    <strong>(D) Incorreta:</strong> Não se refere a carga.`
+            },
+            {
+                id: 12,
+                text: "Um átomo que GANHA elétrons se torna um:",
+                options: ["Cátion (Positivo)", "Ânion (Negativo)", "Isótopo", "Neutro"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Cátion perdeu elétrons.<br>
+                    <strong>(B) Correta:</strong> Ganhou carga negativa (elétron), fica negativo (Ânion).<br>
+                    <strong>(C) Incorreta:</strong> Refere-se a massa.<br>
+                    <strong>(D) Incorreta:</strong> Deixou de ser neutro.`
+            },
+            {
+                id: 13,
+                text: "Se um átomo perde 2 elétrons, sua carga fica:",
+                options: ["-2", "+2", "Neutra", "Zero"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Isso seria ganhar.<br>
+                    <strong>(B) Correta:</strong> Perdeu 2 cargas negativas, logo sobram 2 positivas (+2).<br>
+                    <strong>(C) Incorreta:</strong> Tem carga.<br>
+                    <strong>(D) Incorreta:</strong> Tem carga.`
+            },
+            {
+                id: 14,
+                text: "O Número de Massa (A) é a soma de:",
+                options: ["Prótons + Elétrons", "Elétrons + Nêutrons", "Prótons + Nêutrons", "Apenas Prótons"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Elétrons não têm massa relevante.<br>
+                    <strong>(B) Incorreta:</strong> Ignorou prótons.<br>
+                    <strong>(C) Correta:</strong> A massa está no núcleo: A = Z + n.<br>
+                    <strong>(D) Incorreta:</strong> Isso é Z.`
+            },
+            {
+                id: 15,
+                text: "Um Cátion é um íon com carga:",
+                options: ["Positiva", "Negativa", "Neutra", "Variável"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Cátion perdeu elétrons, ficando positivo.<br>
+                    <strong>(B) Incorreta:</strong> Esse é o Ânion.<br>
+                    <strong>(C) Incorreta:</strong> Íon não é neutro.<br>
+                    <strong>(D) Incorreta:</strong> É sempre positiva.`
+            },
+            // PARTE 4: HISTÓRIA AVANÇADA
+            {
+                id: 16,
+                text: "Quem descobriu o Nêutron em 1932?",
+                options: ["Rutherford", "Chadwick", "Bohr", "Einstein"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Previu, mas não isolou.<br>
+                    <strong>(B) Correta:</strong> James Chadwick detectou a partícula sem carga no núcleo.<br>
+                    <strong>(C) Incorreta:</strong> Trabalhou na eletrosfera.<br>
+                    <strong>(D) Incorreta:</strong> Outra área.`
+            },
+            {
+                id: 17,
+                text: "Qual foi a falha do modelo de Rutherford que Bohr corrigiu?",
+                options: ["O átomo não tinha núcleo", "O elétron deveria perder energia e cair no núcleo (colapso)", "O átomo era quadrado", "Não explicava a massa"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Rutherford criou o núcleo.<br>
+                    <strong>(B) Correta:</strong> Pela física clássica, carga em movimento perde energia. Bohr corrigiu isso com órbitas estacionárias.<br>
+                    <strong>(C) Incorreta:</strong> Absurdo.<br>
+                    <strong>(D) Incorreta:</strong> Explicava sim.`
+            },
+            {
+                id: 18,
+                text: "O experimento de Thomson usou:",
+                options: ["Folha de ouro", "Raios Catódicos (Tubos de vácuo)", "Prisma de vidro", "Pêndulo"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Experimento de Rutherford.<br>
+                    <strong>(B) Correta:</strong> Usou tubos de vidro com gás rarefeito para descobrir o elétron.<br>
+                    <strong>(C) Incorreta:</strong> Óptica.<br>
+                    <strong>(D) Incorreta:</strong> Mecânica.`
+            },
+            {
+                id: 19,
+                text: "A ordem cronológica correta dos modelos é:",
+                options: ["Dalton -> Rutherford -> Thomson -> Bohr", "Thomson -> Dalton -> Bohr -> Rutherford", "Dalton -> Thomson -> Rutherford -> Bohr", "Bohr -> Rutherford -> Thomson -> Dalton"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Thomson vem antes de Rutherford.<br>
+                    <strong>(B) Incorreta:</strong> Dalton é o primeiro.<br>
+                    <strong>(C) Correta:</strong> Bola (1808) -> Pudim (1898) -> Planetário (1911) -> Níveis (1913).<br>
+                    <strong>(D) Incorreta:</strong> Invertido.`
+            },
+            {
+                id: 20,
+                text: "Por que o modelo de Thomson foi descartado?",
+                options: ["Ele não explicava a eletricidade", "Não explicava como as partículas alfa atravessavam a matéria (espaços vazios)", "Era muito complexo", "Não tinha elétrons"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Explicava bem a natureza elétrica.<br>
+                    <strong>(B) Correta:</strong> O pudim maciço não permitira que partículas passassem direto, como Rutherford observou.<br>
+                    <strong>(C) Incorreta:</strong> Era simples.<br>
+                    <strong>(D) Incorreta:</strong> Tinha elétrons.`
+            },
+            // PARTE 5: APLICAÇÃO E CONCEITOS FINAIS
+            {
+                id: 21,
+                text: "As cores dos fogos de artifício são explicadas pelo modelo de:",
+                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
+                correct: 3,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Sem estrutura para isso.<br>
+                    <strong>(B) Incorreta:</strong> Sem níveis.<br>
+                    <strong>(C) Incorreta:</strong> Sem explicação quântica.<br>
+                    <strong>(D) Correta:</strong> O salto dos elétrons entre níveis libera luz de cores específicas (fótons).`
+            },
+            {
+                id: 22,
+                text: "A partícula Alfa (usada por Rutherford) tem carga:",
+                options: ["Negativa", "Neutra", "Positiva", "Nula"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Beta é negativa.<br>
+                    <strong>(B) Incorreta:</strong> Gama é neutra.<br>
+                    <strong>(C) Correta:</strong> Alfa é positiva (núcleo de hélio), por isso foi repelida pelo núcleo positivo do ouro.<br>
+                    <strong>(D) Incorreta:</strong> Tem carga.`
+            },
+            {
+                id: 23,
+                text: "O que significa dizer que o átomo é eletricamente neutro?",
+                options: ["Não tem cargas", "Só tem nêutrons", "Número de prótons (+) é igual ao de elétrons (-)", "O núcleo não existe"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Tem cargas, mas balanceadas.<br>
+                    <strong>(B) Incorreta:</strong> Tem p e e.<br>
+                    <strong>(C) Correta:</strong> As cargas se anulam, resultando em zero.<br>
+                    <strong>(D) Incorreta:</strong> Existe.`
+            },
+            {
+                id: 24,
+                text: "A camada de valência é:",
+                options: ["A mais próxima do núcleo", "A camada mais externa com elétrons", "O núcleo", "A primeira camada (K)"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Essa é a de menor energia.<br>
+                    <strong>(B) Correta:</strong> É a última camada ocupada, responsável pelas ligações químicas.<br>
+                    <strong>(C) Incorreta:</strong> Núcleo não é camada.<br>
+                    <strong>(D) Incorreta:</strong> Nem sempre a K é a última.`
+            },
+            {
+                id: 25,
+                text: "Comparando o tamanho do núcleo com o átomo todo:",
+                options: ["O núcleo é gigante", "São do mesmo tamanho", "O núcleo é extremamente pequeno (uma formiga no estádio)", "A eletrosfera é pequena"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> É minúsculo.<br>
+                    <strong>(B) Incorreta:</strong> Diferença enorme.<br>
+                    <strong>(C) Correta:</strong> O átomo é 10.000 a 100.000 vezes maior que o núcleo.<br>
+                    <strong>(D) Incorreta:</strong> A eletrosfera é a maior parte.`
+            },
+            {
+                id: 26,
+                text: "Qual destes NÃO é uma subpartícula atômica principal?",
+                options: ["Próton", "Elétron", "Molécula", "Nêutron"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> É partícula.<br>
+                    <strong>(B) Incorreta:</strong> É partícula.<br>
+                    <strong>(C) Correta:</strong> Molécula é um grupo de átomos, não uma parte de dentro do átomo.<br>
+                    <strong>(D) Incorreta:</strong> É partícula.`
+            },
+            {
+                id: 27,
+                text: "Na representação do elemento, onde fica o Número Atômico (Z)?",
+                options: ["Em cima", "Em baixo", "No meio", "Não aparece"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Em cima geralmente é a Massa (A).<br>
+                    <strong>(B) Correta:</strong> Por convenção padrão, Z fica subscrito à esquerda (em baixo).<br>
+                    <strong>(C) Incorreta:</strong> Não.<br>
+                    <strong>(D) Incorreta:</strong> Essencial.`
+            },
+            {
+                id: 28,
+                text: "Quantos elétrons cabem no máximo na camada K (a primeira)?",
+                options: ["8", "18", "2", "32"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Camada L.<br>
+                    <strong>(B) Incorreta:</strong> Camada M.<br>
+                    <strong>(C) Correta:</strong> A camada K suporta no máximo 2 elétrons.<br>
+                    <strong>(D) Incorreta:</strong> Camada N.`
+            },
+            {
+                id: 29,
+                text: "O que mantém os elétrons presos ao átomo?",
+                options: ["Gravidade", "Atração elétrica pelo núcleo positivo", "Magnetismo da Terra", "Cola atômica"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Muito fraca nessa escala.<br>
+                    <strong>(B) Correta:</strong> Cargas opostas se atraem (+ do núcleo atrai - da eletrosfera).<br>
+                    <strong>(C) Incorreta:</strong> Sem relação.<br>
+                    <strong>(D) Incorreta:</strong> Termo inexistente.`
+            },
+            {
+                id: 30,
+                text: "Toda matéria visível no universo é formada por:",
+                options: ["Átomos", "Células", "Ar", "Fogo"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Átomos são os blocos de construção da matéria.<br>
+                    <strong>(B) Incorreta:</strong> Apenas seres vivos têm células.<br>
+                    <strong>(C) Incorreta:</strong> Ar é matéria, mas não tudo.<br>
+                    <strong>(D) Incorreta:</strong> Fogo é energia/reação.`
+            }
+        ];
+
+        // LÓGICA DO QUIZ (Mesma estrutura funcional)
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                ${q.visual ? `<div class="question-visual">${q.visual}</div>` : ''}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Ops! Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            // Gera resumo detalhado
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FFF5F5; border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#C53030">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#276749">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>
