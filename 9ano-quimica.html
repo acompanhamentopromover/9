@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Química 9º Ano - Promover</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILO PROMOVER (Identidade Visual) --- */
+        :root {
+            --bg-color: #F8F9FA;
+            --text-color: #2D3748;
+            --border-color: #000000;
+            --white: #FFFFFF;
+            
+            /* Cores das Seções */
+            --color-matter: #FFE0CC; /* Laranja (Matéria) */
+            --color-atoms: #FED7E2; /* Rosa (Átomos) */
+            --color-elements: #C6F6D5; /* Verde (Elementos) */
+            --color-reactions: #FEFCBF; /* Amarelo (Reações) */
+            --color-solutions: #E0FCFF; /* Azul Claro (Soluções) */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* --- HEADER --- */
+        .logo-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* --- BARRA DE PESQUISA (Estilo Pop) --- */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            background-color: var(--white);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            box-shadow: 4px 4px 0px var(--border-color);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        /* --- SEÇÕES --- */
+        .content-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--text-color);
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            align-self: flex-start;
+            margin-bottom: 5px;
+        }
+
+        /* Cores específicas para as badges */
+        .badge-matter { background-color: #C65911; }
+        .badge-atoms { background-color: #D53F8C; }
+        .badge-elements { background-color: #38A169; }
+        .badge-reactions { background-color: #D69E2E; }
+        .badge-solutions { background-color: #3182CE; }
+
+        /* --- BOTÕES DOS TÓPICOS --- */
+        .topic-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 18px 20px;
+            border-radius: 16px;
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            box-shadow: 4px 4px 0px var(--border-color);
+            transition: all 0.1s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--border-color);
+        }
+
+        .topic-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px var(--border-color);
+        }
+
+        /* Indicação visual de cor na lateral do botão */
+        .topic-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 12px;
+            border-right: 2px solid var(--border-color);
+        }
+
+        /* Cores das laterais */
+        .group-matter .topic-btn::before { background-color: var(--color-matter); }
+        .group-atoms .topic-btn::before { background-color: var(--color-atoms); }
+        .group-elements .topic-btn::before { background-color: var(--color-elements); }
+        .group-reactions .topic-btn::before { background-color: var(--color-reactions); }
+        .group-solutions .topic-btn::before { background-color: var(--color-solutions); }
+
+        .arrow { font-size: 1.2rem; font-weight: 900; }
+
+        /* Mensagem de Não Encontrado */
+        #no-results {
+            text-align: center;
+            color: #888;
+            margin-top: 30px;
+            font-weight: 600;
+            display: none;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="logo-header">
+            <img src="logo.png" alt="Logo Promover" class="logo-img"> 
+            <h1>Química 9º Ano</h1>
+            <p class="subtitle">O que vamos aprender hoje?</p>
+        </header>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar conteúdo... (ex: Reações químicas)">
+        </div>
+
+        <div id="no-results">
+            <p>😕 Nenhum conteúdo encontrado.</p>
+        </div>
+
+        <div class="content-group group-matter">
+            <div class="section-badge badge-matter">⚛️ Matéria</div>
+            <a href="quimica-conceitos-basicos.html" class="topic-btn">Conceitos básicos de Química <span class="arrow">➜</span></a>
+            <a href="quimica-estados-fisicos.html" class="topic-btn">Estados físicos da matéria <span class="arrow">➜</span></a>
+            <a href="quimica-propriedades-materia.html" class="topic-btn">Propriedades da matéria <span class="arrow">➜</span></a>
+            <a href="quimica-transformacoes-materia.html" class="topic-btn">Transformações da matéria: mudanças físicas e químicas <span class="arrow">➜</span></a>
+            <a href="quimica-separacao-misturas.html" class="topic-btn">Separação de misturas (técnicas) <span class="arrow">➜</span></a>
+        </div>
+
+        <div class="content-group group-atoms">
+            <div class="section-badge badge-atoms">🔬 Átomos e Elementos</div>
+            <a href="quimica-estrutura-atomica.html" class="topic-btn">Estrutura atômica: prótons, nêutrons e elétrons <span class="arrow">➜</span></a>
+            <a href="quimica-numero-atomico-massico.html" class="topic-btn">Número atômico e número de massa <span class="arrow">➜</span></a>
+            <a href="quimica-isotopos-isObaros.html" class="topic-btn">Isótopos, isóbaros e isótonos <span class="arrow">➜</span></a>
+            <a href="quimica-modelo-atomico.html" class="topic-btn">Modelos atômicos históricos <span class="arrow">➜</span></a>
+            <a href="quimica-distribuicao-eletronica.html" class="topic-btn">Distribuição eletrônica em níveis de energia <span class="arrow">➜</span></a>
+        </div>
+
+        <div class="content-group group-elements">
+            <div class="section-badge badge-elements">📊 Tabela Periódica</div>
+            <a href="quimica-tabela-periodica.html" class="topic-btn">Tabela Periódica: organização e características <span class="arrow">➜</span></a>
+            <a href="quimica-periodos-familias.html" class="topic-btn">Períodos e famílias (grupos) <span class="arrow">➜</span></a>
+            <a href="quimica-propriedades-periodicas.html" class="topic-btn">Propriedades periódicas dos elementos <span class="arrow">➜</span></a>
+            <a href="quimica-elementos-comuns.html" class="topic-btn">Elementos químicos mais comuns e suas aplicações <span class="arrow">➜</span></a>
+        </div>
+
+        <div class="content-group group-reactions">
+            <div class="section-badge badge-reactions">🔥 Reações Químicas</div>
+            <a href="quimica-ligacoes-quimicas.html" class="topic-btn">Ligações químicas: iônica, covalente e metálica <span class="arrow">➜</span></a>
+            <a href="quimica-compostos-inorganicos.html" class="topic-btn">Compostos inorgânicos: ácidos, bases e sais <span class="arrow">➜</span></a>
+            <a href="quimica-reacoes-basicas.html" class="topic-btn">Reações químicas básicas <span class="arrow">➜</span></a>
+            <a href="quimica-balanceamento-equacoes.html" class="topic-btn">Balanceamento de equações químicas <span class="arrow">➜</span></a>
+            <a href="quimica-tipos-reacoes.html" class="topic-btn">Tipos de reações: síntese, decomposição, simples troca e dupla troca <span class="arrow">➜</span></a>
+            <a href="quimica-velocidade-reacao.html" class="topic-btn">Velocidade de reação <span class="arrow">➜</span></a>
+        </div>
+
+        <div class="content-group group-solutions">
+            <div class="section-badge badge-solutions">💧 Soluções e Misturas</div>
+            <a href="quimica-solucoes-conceitos.html" class="topic-btn">Soluções: conceitos e características <span class="arrow">➜</span></a>
+            <a href="quimica-concentracao-soluto.html" class="topic-btn">Concentração de soluções (percentual e molar) <span class="arrow">➜</span></a>
+            <a href="quimica-solubilidade.html" class="topic-btn">Solubilidade e fatores que influenciam <span class="arrow">➜</span></a>
+            <a href="quimica-ph-escala-acidez.html" class="topic-btn">pH e escala de acidez <span class="arrow">➜</span></a>
+            <a href="quimica-neutralizacao-reacoes-acido-base.html" class="topic-btn">Neutralização e reações ácido-base <span class="arrow">➜</span></a>
+        </div>
+
+        <footer>
+            © 2026 Promover Educação
+        </footer>
+    </div>
+
+    <script>
+        // Lógica de Pesquisa Simples e Rápida
+        const searchInput = document.getElementById('searchInput');
+        const contentGroups = document.querySelectorAll('.content-group');
+        const noResultsMsg = document.getElementById('no-results');
+
+        searchInput.addEventListener('keyup', function(e) {
+            const term = e.target.value.toLowerCase();
+            let totalVisibleGroups = 0;
+
+            contentGroups.forEach(group => {
+                const links = group.querySelectorAll('.topic-btn');
+                let hasVisibleLink = false;
+
+                links.forEach(link => {
+                    const text = link.textContent.toLowerCase();
+                    if (text.includes(term)) {
+                        link.style.display = 'flex';
+                        hasVisibleLink = true;
+                    } else {
+                        link.style.display = 'none';
+                    }
+                });
+
+                // Se o grupo tem links visíveis, mostra o grupo todo (badge + links)
+                if (hasVisibleLink) {
+                    group.style.display = 'flex';
+                    totalVisibleGroups++;
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+
+            // Controle da mensagem "Não encontrado"
+            if (totalVisibleGroups === 0) {
+                noResultsMsg.style.display = 'block';
+            } else {
+                noResultsMsg.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
