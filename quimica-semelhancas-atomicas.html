@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semelhanças Atômicas - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F8F9FA;
+            --text-color: #134E4A; 
+            --border-color: #000000;
+            
+            /* TEMA: LARANJA ATÔMICO E AZUL PETRÓLEO */
+            --theme-light: #FFEDD5; 
+            --theme-medium: #FB923C;
+            --theme-dark: #C2410C; 
+            --theme-contrast: #0F766E; /* Azul Petróleo */
+            --theme-text-active: #FFFFFF;
+            
+            /* FEEDBACK */
+            --correct-bg: #D1FAE5;
+            --correct-border: #047857;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        /* --- LOGO RESPONSIVA --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .example-box {
+            background-color: #FFF7ED;
+            border-left: 5px solid var(--theme-dark);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .visual-row { display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+
+        .question-visual {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: var(--theme-light);
+            border-radius: 12px;
+            border: 1px dashed var(--theme-dark);
+        }
+
+        /* --- MAPA DE QUESTÕES HORIZONTAL --- */
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #F0FDFA;
+            border: 2px solid var(--theme-contrast); border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-ciencias.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">CIÊNCIAS</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Semelhanças Atômicas</h1>
+            <p style="color: #555; margin-bottom: 20px;">Os átomos podem ser "parentes" dependendo do que eles têm em comum: Prótons, Massa ou Nêutrons.</p>
+            
+            <div class="card-content">
+                <h3>1. Isóto<span style="color:var(--theme-dark); font-weight:800; font-size:1.2em;">P</span>os</h3>
+                <p style="font-size: 0.9rem;">Têm o mesmo número de <strong>PRÓTONS (Z)</strong> (mesmo elemento), mas massas diferentes.</p>
+                <div class="visual-row" style="background: #FFF7ED; padding: 10px; border-radius: 8px;">
+                    <svg width="150" height="70" viewBox="0 0 150 70">
+                        <text x="30" y="20" font-size="12" fill="#666">12</text>
+                        <text x="30" y="60" font-size="12" fill="#C2410C" font-weight="bold">6</text>
+                        <text x="45" y="45" font-size="24" font-weight="bold">C</text>
+                        
+                        <text x="100" y="20" font-size="12" fill="#666">14</text>
+                        <text x="100" y="60" font-size="12" fill="#C2410C" font-weight="bold">6</text>
+                        <text x="115" y="45" font-size="24" font-weight="bold">C</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;"><strong>Dica:</strong> IsoTOPO = mesmo P (Próton). O número de baixo é igual.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>2. Isób<span style="color:var(--theme-contrast); font-weight:800; font-size:1.2em;">A</span>ros</h3>
+                <p style="font-size: 0.9rem;">Têm a mesma <strong>MASSA (A)</strong>, mas são elementos diferentes.</p>
+                <div class="visual-row" style="background: #F0FDFA; padding: 10px; border-radius: 8px;">
+                    <svg width="150" height="70" viewBox="0 0 150 70">
+                        <text x="30" y="20" font-size="12" fill="#0F766E" font-weight="bold">40</text>
+                        <text x="30" y="60" font-size="12" fill="#666">20</text>
+                        <text x="45" y="45" font-size="24" font-weight="bold">Ca</text>
+                        
+                        <text x="100" y="20" font-size="12" fill="#0F766E" font-weight="bold">40</text>
+                        <text x="100" y="60" font-size="12" fill="#666">19</text>
+                        <text x="115" y="45" font-size="24" font-weight="bold">K</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;"><strong>Dica:</strong> IsóbAros = mesmo A (Massa). O número de cima é igual.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>3. Isóto<span style="color:#6B7280; font-weight:800; font-size:1.2em;">N</span>os</h3>
+                <p style="font-size: 0.9rem;">Têm o mesmo número de <strong>NÊUTRONS (n)</strong>. Você precisa calcular (A - Z).</p>
+                <div class="example-box">
+                    <p style="font-size:0.85rem;"><strong>Cálculo:</strong> Massa (cima) menos Prótons (baixo).</p>
+                    <p style="font-size:0.85rem;">Ex: Boro (11 - 5 = 6) e Carbono (12 - 6 = 6). Ambos têm 6 nêutrons.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>4. Isoeletrônicos</h3>
+                <p style="font-size: 0.9rem;">Átomos ou íons que possuem a mesma quantidade de <strong>ELÉTRONS</strong>.</p>
+                <div class="example-box">
+                    <p style="font-size:0.85rem;">Ex: O gás Neônio (10 elétrons) e o íon Sódio Na+ (tinha 11, perdeu 1, ficou com 10).</p>
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para Exercícios (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">Identifique as semelhanças.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // BLOCO 1: ISÓTOPOS
+            { id: 1, text: "O que são IsótoPos?", options: ["Mesmo nº de Prótons", "Mesmo nº de Nêutrons", "Mesma Massa", "Mesmo nº de Elétrons"], correct: 0, explanation: "<strong>(A) Correta:</strong> O 'P' no nome IsótoPo lembra Prótons (Z).<br><strong>(B) Incorreta:</strong> IsótoNos.<br><strong>(C) Incorreta:</strong> IsóbAros.<br><strong>(D) Incorreta:</strong> Isoeletrônicos." },
+            { id: 2, text: "Isótopos pertencem sempre ao mesmo:", options: ["Elemento Químico", "Grupo da tabela", "Período da tabela", "Estado físico"], correct: 0, explanation: "<strong>(A) Correta:</strong> Se têm o mesmo Z (prótons), são obrigatoriamente o mesmo elemento.<br><strong>(B) Incorreta:</strong> Irrelevante.<br><strong>(C) Incorreta:</strong> Irrelevante.<br><strong>(D) Incorreta:</strong> Podem variar." },
+            { id: 3, text: "Identifique o par de isótopos (número de baixo igual):", options: ["⁶C e ⁷C", "⁴⁰Ca e ⁴⁰K", "¹¹B e ¹²C", "¹H e ²H"], correct: 3, explanation: "<strong>(A) Incorreta:</strong> Z diferentes (6 e 7).<br><strong>(B) Incorreta:</strong> Massa igual (isóbaros).<br><strong>(C) Incorreta:</strong> Isótonos.<br><strong>(D) Correta:</strong> Ambos têm Z=1 (Hidrogênio), mas massas diferentes (1 e 2)." },
+            { id: 4, text: "Carbono-12 e Carbono-14 são exemplos clássicos de:", options: ["Isótopos", "Isóbaros", "Isótonos", "Alótropos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ambos são Carbono (Z=6), mas com massas diferentes.<br><strong>(B) Incorreta:</strong> Massas diferentes (12 e 14).<br><strong>(C) Incorreta:</strong> Nêutrons diferentes.<br><strong>(D) Incorreta:</strong> Alotropia é estrutura, não massa." },
+            { id: 5, text: "Se dois átomos são isótopos, eles têm propriedades químicas:", options: ["Iguais", "Totalmente diferentes", "Opostas", "Nulas"], correct: 0, explanation: "<strong>(A) Correta:</strong> Propriedades químicas dependem do número de elétrons/prótons, que é igual.<br><strong>(B) Incorreta:</strong> Apenas as físicas (massa) mudam um pouco.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+
+            // BLOCO 2: ISÓBAROS
+            { id: 6, text: "O que são IsóbAros?", options: ["Mesma Massa (A)", "Mesmo Próton", "Mesmo Nêutron", "Mesmo Elétron"], correct: 0, explanation: "<strong>(A) Correta:</strong> O 'A' em IsóbAros lembra Massa (A).<br><strong>(B) Incorreta:</strong> Isótopos.<br><strong>(C) Incorreta:</strong> Isótonos.<br><strong>(D) Incorreta:</strong> Isoeletrônicos." },
+            { id: 7, text: "Identifique o par de isóbaros (número de cima igual):", options: ["⁴⁰Ca e ⁴⁰K", "¹²C e ¹³C", "¹⁴N e ¹⁴N", "¹H e ³H"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ambos têm massa 40 no topo.<br><strong>(B) Incorreta:</strong> Isótopos.<br><strong>(C) Incorreta:</strong> Mesmo átomo.<br><strong>(D) Incorreta:</strong> Isótopos." },
+            { id: 8, text: "Isóbaros são sempre elementos:", options: ["Diferentes", "Iguais", "Metálicos", "Gasosos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Se tivessem o mesmo Z, seriam isótopos. Para serem isóbaros, devem ter Z diferente.<br><strong>(B) Incorreta:</strong> Z igual = Isótopo.<br><strong>(C) Incorreta:</strong> Não necessariamente.<br><strong>(D) Incorreta:</strong> Não necessariamente." },
+            { id: 9, text: "O Cálcio (A=40, Z=20) e o Argônio (A=40, Z=18) são:", options: ["Isóbaros", "Isótopos", "Isótonos", "Iguais"], correct: 0, explanation: "<strong>(A) Correta:</strong> Mesma massa (40).<br><strong>(B) Incorreta:</strong> Z diferente.<br><strong>(C) Incorreta:</strong> Nêutrons: 20 vs 22.<br><strong>(D) Incorreta:</strong> Elementos diferentes." },
+            { id: 10, text: "Na notação padrão, onde fica o número que identifica isóbaros?", options: ["Em cima (Massa)", "Em baixo (Prótons)", "No meio", "Na direita"], correct: 0, explanation: "<strong>(A) Correta:</strong> O Número de Massa (A) fica sobrescrito à esquerda.<br><strong>(B) Incorreta:</strong> Z.<br><strong>(C) Incorreta:</strong> Não.<br><strong>(D) Incorreta:</strong> Não." },
+
+            // BLOCO 3: ISÓTONOS (CÁLCULO)
+            { id: 11, text: "O que são IsótoNos?", options: ["Mesmo nº de Nêutrons", "Mesmo nº de Prótons", "Mesma Massa", "Carga Nula"], correct: 0, explanation: "<strong>(A) Correta:</strong> O 'N' lembra Nêutrons.<br><strong>(B) Incorreta:</strong> Isótopos.<br><strong>(C) Incorreta:</strong> Isóbaros.<br><strong>(D) Incorreta:</strong> Neutro." },
+            { id: 12, text: "Como calculamos o número de nêutrons?", options: ["Massa (A) - Prótons (Z)", "Massa (A) + Prótons (Z)", "Prótons (Z) - Elétrons", "Apenas olhamos o número de baixo"], correct: 0, explanation: "<strong>(A) Correta:</strong> n = A - Z.<br><strong>(B) Incorreta:</strong> Soma nada.<br><strong>(C) Incorreta:</strong> Carga.<br><strong>(D) Incorreta:</strong> Baixo é Z." },
+            { id: 13, text: "O Boro (A=11, Z=5) tem quantos nêutrons?", options: ["6", "5", "11", "16"], correct: 0, explanation: "<strong>(A) Correta:</strong> 11 - 5 = 6.<br><strong>(B) Incorreta:</strong> Z.<br><strong>(C) Incorreta:</strong> A.<br><strong>(D) Incorreta:</strong> Soma." },
+            { id: 14, text: "O Carbono (A=12, Z=6) é isótono do Boro (A=11, Z=5)?", options: ["Sim, ambos têm 6 nêutrons", "Não, nêutrons diferentes", "Sim, são isóbaros", "Não, são isótopos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Carbono: 12-6=6. Boro: 11-5=6. Iguais!<br><strong>(B) Incorreta:</strong> São iguais.<br><strong>(C) Incorreta:</strong> Massas diferentes.<br><strong>(D) Incorreta:</strong> Z diferentes." },
+            { id: 15, text: "Cloro-37 (Z=17) e Cálcio-40 (Z=20) são isótonos?", options: ["Sim (20 nêutrons cada)", "Não", "São isóbaros", "São isótopos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Cl: 37-17=20. Ca: 40-20=20.<br><strong>(B) Incorreta:</strong> São sim.<br><strong>(C) Incorreta:</strong> Massas diferentes.<br><strong>(D) Incorreta:</strong> Z diferentes." },
+
+            // BLOCO 4: ISOELETRÔNICOS E ÍONS
+            { id: 16, text: "Átomos isoeletrônicos têm o mesmo número de:", options: ["Elétrons", "Prótons", "Nêutrons", "Camadas"], correct: 0, explanation: "<strong>(A) Correta:</strong> Iso (igual) + Eletrônico (elétron).<br><strong>(B) Incorreta:</strong> Isótopos.<br><strong>(C) Incorreta:</strong> Isótonos.<br><strong>(D) Incorreta:</strong> Podem ter camadas diferentes." },
+            { id: 17, text: "O Neônio (Z=10, neutro) tem 10 elétrons. O íon Sódio Na+ (Z=11) também tem 10. Eles são:", options: ["Isoeletrônicos", "Isótopos", "Isóbaros", "Isótonos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ambos possuem 10 elétrons.<br><strong>(B) Incorreta:</strong> Z diferente.<br><strong>(C) Incorreta:</strong> Massas diferentes.<br><strong>(D) Incorreta:</strong> Nêutrons diferentes." },
+            { id: 18, text: "O íon O²⁻ (Z=8) ganhou 2 elétrons. Com quantos ficou?", options: ["10", "8", "6", "16"], correct: 0, explanation: "<strong>(A) Correta:</strong> Tinha 8 (neutro) + 2 ganhos = 10.<br><strong>(B) Incorreta:</strong> Neutro.<br><strong>(C) Incorreta:</strong> Perdeu.<br><strong>(D) Incorreta:</strong> Dobrou." },
+            { id: 19, text: "Se Mg²⁺ (Z=12) é isoeletrônico do Neônio (10e), quantos elétrons o Mg perdeu?", options: ["2", "1", "10", "12"], correct: 0, explanation: "<strong>(A) Correta:</strong> Tinha 12, ficou com 10. Perdeu 2 (daí a carga +2).<br><strong>(B) Incorreta:</strong> Carga seria +1.<br><strong>(C) Incorreta:</strong> Sobraram 10.<br><strong>(D) Incorreta:</strong> Tinha 12." },
+            { id: 20, text: "Um ânion (íon negativo) tem:", options: ["Mais elétrons que prótons", "Mais prótons que elétrons", "Igual", "Sem elétrons"], correct: 0, explanation: "<strong>(A) Correta:</strong> Ganhou carga negativa extra.<br><strong>(B) Incorreta:</strong> Cátion.<br><strong>(C) Incorreta:</strong> Neutro.<br><strong>(D) Incorreta:</strong> Impossível." },
+
+            // BLOCO 5: MIX GERAL
+            { id: 21, text: "A=40, Z=20. Quantos nêutrons?", options: ["20", "40", "60", "10"], correct: 0, explanation: "<strong>(A) Correta:</strong> 40 - 20 = 20.<br><strong>(B) Incorreta:</strong> Massa.<br><strong>(C) Incorreta:</strong> Soma.<br><strong>(D) Incorreta:</strong> Metade." },
+            { id: 22, text: "Se dois átomos têm Z igual e A igual, eles são:", options: ["O mesmo átomo (idênticos)", "Isótopos", "Isóbaros", "Isótonos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Se tudo é igual, não é semelhança, é identidade.<br><strong>(B) Incorreta:</strong> A seria diferente.<br><strong>(C) Incorreta:</strong> Z seria diferente.<br><strong>(D) Incorreta:</strong> Z seria diferente." },
+            { id: 23, text: "Qual a semelhança entre ¹H, ²H e ³H?", options: ["Isótopos (mesmo elemento)", "Isóbaros", "Isótonos", "Isoeletrônicos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Todos são Hidrogênio (Z=1), massas diferentes.<br><strong>(B) Incorreta:</strong> Massas 1, 2, 3.<br><strong>(C) Incorreta:</strong> Nêutrons 0, 1, 2.<br><strong>(D) Incorreta:</strong> Podem ser, mas a principal é isotopia." },
+            { id: 24, text: "Um átomo com 11 prótons e 12 nêutrons tem massa:", options: ["23", "11", "12", "1"], correct: 0, explanation: "<strong>(A) Correta:</strong> A = Z + n = 11 + 12 = 23.<br><strong>(B) Incorreta:</strong> Z.<br><strong>(C) Incorreta:</strong> n.<br><strong>(D) Incorreta:</strong> Diferença." },
+            { id: 25, text: "Qual partícula não altera o elemento químico se for mudada?", options: ["Nêutron (vira isótopo)", "Próton", "Nenhuma", "Todas"], correct: 0, explanation: "<strong>(A) Correta:</strong> Mudar nêutrons só muda a massa (isótopo), continua sendo o mesmo elemento.<br><strong>(B) Incorreta:</strong> Muda o elemento.<br><strong>(C) Incorreta:</strong> Errado.<br><strong>(D) Incorreta:</strong> Errado." },
+
+            // BLOCO 6: DESAFIOS FINAIS
+            { id: 26, text: "X é isóbaro de Y. X tem A=50. Qual a massa de Y?", options: ["50", "25", "100", "Indefinido"], correct: 0, explanation: "<strong>(A) Correta:</strong> Isóbaros têm a MESMA massa.<br><strong>(B) Incorreta:</strong> Erro.<br><strong>(C) Incorreta:</strong> Erro.<br><strong>(D) Incorreta:</strong> Definido." },
+            { id: 27, text: "X é isótopo de Z (Z=20). Qual o número atômico de X?", options: ["20", "40", "10", "30"], correct: 0, explanation: "<strong>(A) Correta:</strong> Isótopos têm o MESMO número atômico.<br><strong>(B) Incorreta:</strong> Erro.<br><strong>(C) Incorreta:</strong> Erro.<br><strong>(D) Incorreta:</strong> Erro." },
+            { id: 28, text: "A semelhança 'Isótono' refere-se à igualdade de:", options: ["Nêutrons", "Elétrons", "Massa", "Carga"], correct: 0, explanation: "<strong>(A) Correta:</strong> N de Nêutron.<br><strong>(B) Incorreta:</strong> Isoeletrônico.<br><strong>(C) Incorreta:</strong> Isóbaro.<br><strong>(D) Incorreta:</strong> Nada." },
+            { id: 29, text: "Qual par NÃO é isoeletrônico? (Ne = 10e)", options: ["Li⁺ (2e) e Ne (10e)", "Na⁺ (10e) e Ne (10e)", "F⁻ (10e) e Ne (10e)", "Mg²⁺ (10e) e Ne (10e)"], correct: 0, explanation: "<strong>(A) Correta:</strong> Litio tem Z=3, perde 1 fica com 2. Ne tem 10. Diferentes.<br><strong>(B) Incorreta:</strong> Iguais.<br><strong>(C) Incorreta:</strong> Iguais.<br><strong>(D) Incorreta:</strong> Iguais." },
+            { id: 30, text: "A Massa Atômica é dada principalmente por:", options: ["Prótons + Nêutrons", "Prótons + Elétrons", "Apenas Nêutrons", "Elétrons"], correct: 0, explanation: "<strong>(A) Correta:</strong> A massa está no núcleo.<br><strong>(B) Incorreta:</strong> Elétron é leve.<br><strong>(C) Incorreta:</strong> Falta próton.<br><strong>(D) Incorreta:</strong> Leve demais." }
+        ];
+
+        // Lógica do Quiz
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                ${q.visual ? `<div class="question-visual">${q.visual}</div>` : ''}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Ops! Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FEE2E2; border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#991B1B">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#166534">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>
