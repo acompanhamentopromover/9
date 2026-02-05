@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Quiz: Modelos Atômicos - 9º Ano</title>
+    <title>Estrutura Atômica - 9º Ano</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,15 +16,20 @@
             --bg-color: #F8F9FA;
             --text-color: #1E1B4B; 
             --border-color: #000000;
+            
+            /* TEMA: ROXO CÓSMICO E VERDE NEON */
             --theme-light: #F3E8FF; 
             --theme-medium: #A855F7;
             --theme-dark: #6B21A8; 
-            --theme-contrast: #22D3EE; 
+            --theme-contrast: #39FF14; /* Verde Neon para destaque */
             --theme-text-active: #FFFFFF;
+            
+            /* FEEDBACK */
             --correct-bg: #C6F6D5;
             --correct-border: #276749;
             --wrong-bg: #FED7D7;
             --wrong-border: #C53030;
+            
             --white: #FFFFFF;
         }
 
@@ -42,6 +47,7 @@
             overflow-x: hidden;
         }
 
+        /* ANIMAÇÃO DE TREMOR */
         @keyframes shake {
             0% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
@@ -51,14 +57,28 @@
         }
         .shake-effect { animation: shake 0.4s ease-in-out; }
 
+        /* --- LOGO RESPONSIVA --- */
         .logo-header {
             width: 100%;
             max-width: 600px;
             display: flex;
             justify-content: center;
-            padding: 20px 0 10px 0;
+            padding: 15px 0 5px 0;
         }
-        
+
+        .logo-img {
+            max-height: 80px;
+            width: auto;
+            max-width: 85%;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .logo-img { max-height: 50px; }
+            .container { padding: 15px; }
+        }
+
         .container { width: 100%; max-width: 600px; padding: 20px; }
 
         .top-nav {
@@ -118,7 +138,7 @@
         }
 
         .example-box {
-            background-color: #F5F3FF;
+            background-color: #F3E8FF;
             border-left: 5px solid var(--theme-dark);
             padding: 15px;
             margin: 15px 0;
@@ -137,27 +157,41 @@
             border: 1px dashed var(--theme-dark);
         }
 
+        /* --- CORREÇÃO DA LISTA DE QUESTÕES (HORIZONTAL) --- */
         .question-map {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             overflow-x: auto;
             padding: 10px 5px;
             margin-bottom: 20px;
             white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Rolagem suave no celular */
         }
-        .question-map::-webkit-scrollbar { display: none; }
+        .question-map::-webkit-scrollbar { display: none; } /* Esconde a barra de rolagem */
 
         .map-dot {
-            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; font-weight: 700;
-            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
-            transition: all 0.2s; flex-shrink: 0;
+            min-width: 40px; 
+            height: 40px; 
+            border: 2px solid #ccc; 
+            border-radius: 10px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700;
+            font-size: 0.9rem; 
+            color: #888; 
+            background: white; 
+            cursor: pointer;
+            transition: all 0.2s; 
+            flex-shrink: 0; /* Impede que os botões encolham */
         }
 
         .map-dot.active {
-            border-color: var(--border-color); background-color: var(--theme-dark);
-            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+            border-color: var(--border-color); 
+            background-color: var(--theme-dark);
+            color: white; 
+            box-shadow: 2px 2px 0px var(--border-color); 
+            transform: scale(1.1);
         }
         
         .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
@@ -180,8 +214,8 @@
         .option-btn.disabled { pointer-events: none; }
 
         .feedback-box {
-            display: block; margin-top: 20px; background-color: #EDF2F7;
-            border: 2px solid #2D3748; border-radius: 12px; padding: 20px;
+            display: block; margin-top: 20px; background-color: #F3E8FF;
+            border: 2px solid var(--theme-dark); border-radius: 12px; padding: 20px;
             animation: slideUp 0.3s ease-out;
         }
         .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
@@ -208,6 +242,11 @@
         .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
         .btn-prev { background-color: #f0f0f0; color: #555; }
 
+        /* Tabela de Partículas */
+        .particle-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+        .particle-table th, .particle-table td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        .particle-table th { background-color: var(--theme-light); color: var(--theme-dark); }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -232,21 +271,73 @@
 
         <div id="viewExplanation" class="section-view" style="display: block;">
             
-            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Modelos Atômicos</h1>
-            <p style="color: #555; margin-bottom: 20px;">Uma jornada histórica desde a esfera maciça até os saltos quânticos de energia.</p>
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Estrutura e Modelos Atômicos</h1>
+            <p style="color: #555; margin-bottom: 20px;">Antes de vermos os modelos, precisamos entender quem são os "tijolos" que formam o átomo.</p>
             
-            <div class="card-content">
-                <h3>1. Dalton: A Bola de Bilhar (1808)</h3>
-                <div class="visual-row">
-                    <svg width="60" height="60">
-                        <circle cx="30" cy="30" r="25" fill="#6B21A8" stroke="#000" stroke-width="2"/>
+            <div class="card-content" style="border-color: var(--theme-contrast);">
+                <h3>1. Quem é Quem no Átomo?</h3>
+                <p style="font-size: 0.9rem;">O átomo é dividido em duas regiões: o <strong>Núcleo</strong> (centro) e a <strong>Eletrosfera</strong> (ao redor).</p>
+                
+                <div class="visual-row" style="margin: 15px 0;">
+                    <svg width="200" height="120" viewBox="0 0 200 120">
+                        <ellipse cx="100" cy="60" rx="90" ry="30" fill="none" stroke="#A855F7" stroke-width="1" transform="rotate(15 100 60)"/>
+                        <ellipse cx="100" cy="60" rx="90" ry="30" fill="none" stroke="#A855F7" stroke-width="1" transform="rotate(-15 100 60)"/>
+                        <circle cx="20" cy="40" r="4" fill="#39FF14"/> <text x="15" y="30" font-size="10" fill="#39FF14">e-</text>
+                        <circle cx="180" cy="80" r="4" fill="#39FF14"/>
+                        <circle cx="100" cy="60" r="15" fill="#6B21A8"/>
+                        <text x="92" y="64" font-size="10" fill="white" font-weight="bold">P/N</text>
+                        
+                        <text x="100" y="115" font-size="10" text-anchor="middle" fill="#666">Eletrosfera (Elétrons)</text>
+                        <text x="100" y="15" font-size="10" text-anchor="middle" fill="#6B21A8" font-weight="bold">Núcleo (Prótons+Nêutrons)</text>
                     </svg>
-                    <p style="flex: 1; font-size: 0.9rem;">Átomo como esfera <strong>maciça, indivisível e indestrutível</strong>. Sem cargas elétricas.</p>
+                </div>
+
+                <table class="particle-table">
+                    <tr>
+                        <th>Partícula</th>
+                        <th>Carga</th>
+                        <th>Onde Fica?</th>
+                        <th>Massa</th>
+                    </tr>
+                    <tr>
+                        <td style="color:#D946EF; font-weight:bold;">Próton (p)</td>
+                        <td>Positiva (+)</td>
+                        <td>Núcleo</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#6B21A8; font-weight:bold;">Nêutron (n)</td>
+                        <td>Neutra (0)</td>
+                        <td>Núcleo</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#39FF14; font-weight:bold;">Elétron (e)</td>
+                        <td>Negativa (-)</td>
+                        <td>Eletrosfera</td>
+                        <td>Desprezível</td>
+                    </tr>
+                </table>
+                <div class="example-box" style="margin-top:10px;">
+                    <strong>Dica:</strong> A massa do átomo está quase toda no núcleo. O elétron é tão leve (1836x menor) que não conta na massa!
                 </div>
             </div>
 
             <div class="card-content">
-                <h3>2. Thomson: Pudim de Passas (1898)</h3>
+                <h3>2. Dalton (1808): A Bola de Bilhar</h3>
+                <div class="visual-row">
+                    <svg width="60" height="60">
+                        <circle cx="30" cy="30" r="25" fill="#6B21A8" stroke="#000" stroke-width="2"/>
+                    </svg>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.9rem;"><strong>A Ideia:</strong> Esfera maciça, indivisível e sem carga.</p>
+                        <p style="font-size: 0.85rem; color:#666;"><strong>Erro:</strong> Não explicava a eletricidade (raios, choques).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>3. Thomson (1898): O Pudim de Passas</h3>
                 <div class="visual-row">
                     <svg width="60" height="60">
                         <circle cx="30" cy="30" r="25" fill="#D8B4FE" stroke="#000" stroke-width="1"/>
@@ -255,40 +346,43 @@
                         <circle cx="25" cy="40" r="3" fill="#000"/>
                         <circle cx="40" cy="40" r="3" fill="#000"/>
                     </svg>
-                    <p style="flex: 1; font-size: 0.9rem;">Descoberta do <strong>elétron</strong>. Massa positiva com elétrons incrustados. O átomo é divisível.</p>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.9rem;"><strong>A Descoberta:</strong> Descobriu o <strong>ELÉTRON</strong>. O átomo é divisível!</p>
+                        <p style="font-size: 0.85rem; color:#666;"><strong>O Modelo:</strong> Uma pasta positiva com elétrons negativos grudados.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="card-content">
-                <h3>3. Rutherford: Sistema Planetário (1911)</h3>
+                <h3>4. Rutherford (1911): Sistema Planetário</h3>
                 <div class="visual-row">
                     <svg width="60" height="60" viewBox="0 0 60 60">
                         <circle cx="30" cy="30" r="4" fill="#6B21A8"/>
                         <ellipse cx="30" cy="30" rx="25" ry="10" fill="none" stroke="#666" transform="rotate(45 30 30)"/>
                         <ellipse cx="30" cy="30" rx="25" ry="10" fill="none" stroke="#666" transform="rotate(-45 30 30)"/>
                     </svg>
-                    <p style="flex: 1; font-size: 0.9rem;">Experiência da folha de ouro. O átomo tem grandes vazios. Núcleo pequeno (+) e eletrosfera (-).</p>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.9rem;"><strong>A Revolução:</strong> O átomo tem grandes vazios! Núcleo pequeno (+) no centro e elétrons (-) girando longe.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="card-content">
-                <h3>4. Bohr: Níveis de Energia (1913)</h3>
+                <h3>5. Bohr (1913): Níveis de Energia</h3>
                 <div class="visual-row" style="background: #111; border-radius: 12px; padding: 15px; margin: 15px 0;">
                     <svg width="120" height="120" viewBox="0 0 120 120">
-                        <circle cx="60" cy="60" r="6" fill="#FF3366"/>
-                        <circle cx="60" cy="60" r="22" fill="none" stroke="#444" stroke-width="1"/>
-                        <circle cx="60" cy="60" r="40" fill="none" stroke="#444" stroke-width="1"/>
-                        <circle cx="60" cy="20" r="4" fill="#22D3EE">
+                        <circle cx="60" cy="60" r="6" fill="#FF3366"/> <circle cx="60" cy="60" r="22" fill="none" stroke="#444" stroke-width="1"/> <circle cx="60" cy="60" r="40" fill="none" stroke="#444" stroke-width="1"/> <circle cx="60" cy="20" r="4" fill="#39FF14">
                             <animate attributeName="cy" values="20;38;20" dur="3s" repeatCount="indefinite" />
                         </circle>
-                        <path d="M 65 35 Q 75 25 85 35 T 105 35" stroke="#F59E0B" fill="none" stroke-width="2">
+                        
+                        <path d="M 65 30 Q 75 20 85 30 T 105 30" stroke="#F59E0B" fill="none" stroke-width="2">
                              <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
                         </path>
-                        <text x="85" y="20" font-size="10" fill="#F59E0B">Luz!</text>
+                        <text x="85" y="15" font-size="10" fill="#F59E0B">Luz!</text>
                     </svg>
-                    <p style="flex: 1; font-size: 0.85rem; color: #eee;">
-                        Órbitas circulares fixas. Ao pular para uma órbita interna, o elétron emite luz (fóton).
-                    </p>
+                    <div style="flex: 1; color: #eee;">
+                        <p style="font-size: 0.85rem;"><strong>Salto Quântico:</strong> Elétrons giram em camadas fixas (K, L, M...). Ao pular de uma camada externa para uma interna, liberam energia como <strong>LUZ</strong>.</p>
+                    </div>
                 </div>
             </div>
 
@@ -300,7 +394,7 @@
         <div id="viewPractice" class="section-view">
             <div style="margin-bottom: 15px;">
                 <h2>Hora de Praticar!</h2>
-                <p style="color: #666; font-size: 0.9rem;">30 questões para dominar o assunto.</p>
+                <p style="color: #666; font-size: 0.9rem;">Partículas e História do Átomo.</p>
             </div>
             <div class="question-map" id="qMap"></div>
             <div id="quizContainer" style="margin-bottom: 100px;"></div>
@@ -326,345 +420,344 @@
 
     <script>
         const questions = [
-            // PARTE 1: HISTÓRIA DOS MODELOS
+            // PARTE 1: PARTÍCULAS SUBATÔMICAS (O NOVO CONTEÚDO)
             {
                 id: 1,
-                text: "Qual cientista comparou o átomo a uma 'bola de bilhar'?",
-                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
-                correct: 0,
+                text: "Qual partícula possui carga elétrica NEGATIVA?",
+                options: ["Próton", "Nêutron", "Elétron", "Núcleo"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Correta:</strong> Dalton via o átomo como esfera maciça e indivisível.<br>
-                    <strong>(B) Incorreta:</strong> Thomson introduziu cargas (pudim).<br>
-                    <strong>(C) Incorreta:</strong> Rutherford introduziu o núcleo.<br>
-                    <strong>(D) Incorreta:</strong> Bohr introduziu níveis de energia.`
+                    <strong>(A) Incorreta:</strong> Próton é positivo (+).<br>
+                    <strong>(B) Incorreta:</strong> Nêutron não tem carga (0).<br>
+                    <strong>(C) Correta:</strong> O Elétron é a partícula negativa (-) que gira na eletrosfera.<br>
+                    <strong>(D) Incorreta:</strong> Núcleo é a região central.`
             },
             {
                 id: 2,
-                text: "Quem descobriu o elétron, provando que o átomo era divisível?",
-                options: ["Rutherford", "Thomson", "Dalton", "Chadwick"],
+                text: "Onde está concentrada quase toda a massa do átomo?",
+                options: ["Na eletrosfera", "No núcleo", "Nos elétrons", "No vácuo"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Descobriu o núcleo.<br>
-                    <strong>(B) Correta:</strong> Thomson descobriu o elétron com raios catódicos.<br>
-                    <strong>(C) Incorreta:</strong> Achava que era indivisível.<br>
-                    <strong>(D) Incorreta:</strong> Descobriu o nêutron.`
+                    <strong>(A) Incorreta:</strong> Eletrosfera é vazia e leve.<br>
+                    <strong>(B) Correta:</strong> O núcleo contém prótons e nêutrons, que são pesados. É a parte densa.<br>
+                    <strong>(C) Incorreta:</strong> Elétrons têm massa desprezível.<br>
+                    <strong>(D) Incorreta:</strong> Vácuo não tem massa.`
             },
             {
                 id: 3,
-                text: "No modelo de Rutherford, onde fica a maior parte da massa do átomo?",
-                options: ["Na eletrosfera", "No núcleo", "Nos elétrons", "Espalhada uniformemente"],
-                correct: 1,
+                text: "Qual partícula NÃO possui carga elétrica (é neutra)?",
+                options: ["Elétron", "Próton", "Nêutron", "Íon"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Eletrosfera tem massa quase nula.<br>
-                    <strong>(B) Correta:</strong> O núcleo contém prótons e nêutrons, que têm massa.<br>
-                    <strong>(C) Incorreta:</strong> Elétrons são muito leves.<br>
-                    <strong>(D) Incorreta:</strong> Isso era no modelo de Thomson.`
+                    <strong>(A) Incorreta:</strong> Negativo.<br>
+                    <strong>(B) Incorreta:</strong> Positivo.<br>
+                    <strong>(C) Correta:</strong> O Nêutron, como o nome diz, é neutro e fica no núcleo para estabilizá-lo.<br>
+                    <strong>(D) Incorreta:</strong> Íon é um átomo carregado.`
             },
             {
                 id: 4,
-                text: "A frase 'O átomo é um sistema planetário' refere-se a qual modelo?",
-                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
+                text: "Se um átomo é eletricamente NEUTRO, isso significa que:",
+                options: ["Não tem nenhuma partícula", "Só tem nêutrons", "Nº de Prótons (+) = Nº de Elétrons (-)", "O núcleo sumiu"],
                 correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Esfera maciça.<br>
-                    <strong>(B) Incorreta:</strong> Pudim de passas.<br>
-                    <strong>(C) Correta:</strong> Núcleo como Sol, elétrons como planetas.<br>
-                    <strong>(D) Incorreta:</strong> Bohr refinou isso com órbitas fixas.`
+                    <strong>(A) Incorreta:</strong> Tem várias.<br>
+                    <strong>(B) Incorreta:</strong> Tem prótons e elétrons.<br>
+                    <strong>(C) Correta:</strong> As cargas opostas se anulam (ex: 10 prótons anulam 10 elétrons).<br>
+                    <strong>(D) Incorreta:</strong> Impossível.`
             },
             {
                 id: 5,
-                text: "O que acontece no modelo de Bohr quando um elétron absorve energia?",
-                options: ["Emite luz", "Salta para uma órbita mais externa", "Cai no núcleo", "Fica parado"],
-                correct: 1,
+                text: "Qual partícula determina qual é o Elemento Químico (RG do átomo)?",
+                options: ["Número de Massa", "Número de Nêutrons", "Número de Elétrons", "Número de Prótons (Z)"],
+                correct: 3,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Emite luz ao perder energia.<br>
-                    <strong>(B) Correta:</strong> Absorver energia faz ele pular para longe do núcleo (salto quântico).<br>
-                    <strong>(C) Incorreta:</strong> Não cai.<br>
-                    <strong>(D) Incorreta:</strong> Está sempre em movimento.`
+                    <strong>(A) Incorreta:</strong> Massa varia em isótopos.<br>
+                    <strong>(B) Incorreta:</strong> Varia.<br>
+                    <strong>(C) Incorreta:</strong> Varia em íons.<br>
+                    <strong>(D) Correta:</strong> O Número Atômico (Z) é a quantidade de prótons. Se mudar Z, muda o elemento.`
             },
-            // PARTE 2: ESTRUTURA ATÔMICA
+            // PARTE 2: HISTÓRIA E MODELOS
             {
                 id: 6,
-                text: "Quais partículas formam o núcleo do átomo?",
-                options: ["Elétrons e Prótons", "Prótons e Nêutrons", "Apenas Elétrons", "Apenas Nêutrons"],
-                correct: 1,
+                text: "Quem criou o modelo da 'Bola de Bilhar' (esfera maciça)?",
+                options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Elétrons ficam fora.<br>
-                    <strong>(B) Correta:</strong> O núcleo é denso e positivo, contendo prótons (+) e nêutrons (0).<br>
-                    <strong>(C) Incorreta:</strong> Estão na eletrosfera.<br>
-                    <strong>(D) Incorreta:</strong> Tem prótons também.`
+                    <strong>(A) Correta:</strong> Dalton (1808) via o átomo como indivisível.<br>
+                    <strong>(B) Incorreta:</strong> Thomson descobriu elétrons.<br>
+                    <strong>(C) Incorreta:</strong> Rutherford descobriu o núcleo.<br>
+                    <strong>(D) Incorreta:</strong> Bohr descobriu níveis.`
             },
             {
                 id: 7,
-                text: "A partícula com carga elétrica negativa é o:",
-                options: ["Próton", "Nêutron", "Elétron", "Fóton"],
-                correct: 2,
+                text: "O que Thomson descobriu que derrubou a teoria de Dalton?",
+                options: ["O núcleo", "O elétron", "O nêutron", "A radioatividade"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Positivo.<br>
-                    <strong>(B) Incorreta:</strong> Neutro.<br>
-                    <strong>(C) Correta:</strong> O elétron tem carga negativa (-).<br>
-                    <strong>(D) Incorreta:</strong> Partícula de luz.`
+                    <strong>(A) Incorreta:</strong> Rutherford.<br>
+                    <strong>(B) Correta:</strong> Ao descobrir uma partícula menor que o átomo (elétron), provou que o átomo ERA divisível.<br>
+                    <strong>(C) Incorreta:</strong> Chadwick.<br>
+                    <strong>(D) Incorreta:</strong> Becquerel/Curie.`
             },
             {
                 id: 8,
-                text: "O que define um elemento químico (sua identidade)?",
-                options: ["Número de Massa (A)", "Número de Nêutrons (n)", "Número Atômico (Z)", "Número de Elétrons"],
+                text: "O modelo de Rutherford é comparado a:",
+                options: ["Pudim de Passas", "Bola de Bilhar", "Sistema Solar", "Prédio de andares"],
                 correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Massa varia (isótopos).<br>
-                    <strong>(B) Incorreta:</strong> Varia.<br>
-                    <strong>(C) Correta:</strong> O número de prótons (Z) nunca muda para um elemento.<br>
-                    <strong>(D) Incorreta:</strong> Varia em íons.`
+                    <strong>(A) Incorreta:</strong> Thomson.<br>
+                    <strong>(B) Incorreta:</strong> Dalton.<br>
+                    <strong>(C) Correta:</strong> Núcleo no centro (Sol) e elétrons girando ao redor (Planetas).<br>
+                    <strong>(D) Incorreta:</strong> Bohr (níveis).`
             },
             {
                 id: 9,
-                text: "Um átomo neutro tem 10 prótons. Quantos elétrons ele tem?",
-                options: ["5", "10", "20", "0"],
+                text: "Segundo Bohr, o que gera a luz (fóton) nos átomos?",
+                options: ["O choque entre átomos", "O elétron caindo de uma camada externa para uma interna", "O núcleo vibrando", "O elétron saindo do átomo"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Metade.<br>
-                    <strong>(B) Correta:</strong> No átomo neutro, cargas positivas (p) = cargas negativas (e).<br>
-                    <strong>(C) Incorreta:</strong> Dobro.<br>
-                    <strong>(D) Incorreta:</strong> Seria apenas núcleo.`
+                    <strong>(A) Incorreta:</strong> Isso é calor/pressão.<br>
+                    <strong>(B) Correta:</strong> Ao voltar para uma camada de menor energia, o elétron 'devolve' a energia extra em forma de luz.<br>
+                    <strong>(C) Incorreta:</strong> Núcleo não emite luz visível assim.<br>
+                    <strong>(D) Incorreta:</strong> Isso é ionização.`
             },
             {
                 id: 10,
-                text: "Qual é a massa relativa do elétron comparada ao próton?",
-                options: ["Igual", "Maior", "Desprezível (muito menor)", "O dobro"],
-                correct: 2,
+                text: "O experimento da folha de ouro (Rutherford) provou que:",
+                options: ["O átomo é maciço", "O átomo tem grandes espaços vazios", "O núcleo é negativo", "Não existem elétrons"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Próton é muito mais pesado.<br>
-                    <strong>(B) Incorreta:</strong> Elétron é leve.<br>
-                    <strong>(C) Correta:</strong> O elétron é cerca de 1836 vezes mais leve que o próton.<br>
-                    <strong>(D) Incorreta:</strong> Erro.`
+                    <strong>(A) Incorreta:</strong> As partículas alfa atravessaram.<br>
+                    <strong>(B) Correta:</strong> Como a maioria das partículas passou direto, concluiu-se que o átomo é 'oco' (eletrosfera vazia).<br>
+                    <strong>(C) Incorreta:</strong> Núcleo é positivo (repeliu alfa).<br>
+                    <strong>(D) Incorreta:</strong> Existem.`
             },
-            // PARTE 3: ÍONS E ISÓTOPOS
+            // PARTE 3: ÍONS E CARGAS
             {
                 id: 11,
-                text: "O que são Isótopos?",
-                visual: `<svg width="100" height="40"><circle cx="20" cy="20" r="10" fill="#6B21A8"/><text x="15" y="25" fill="white" font-size="10">P</text><circle cx="60" cy="20" r="10" fill="#6B21A8"/><text x="55" y="25" fill="white" font-size="10">P</text><circle cx="75" cy="20" r="10" fill="#A855F7"/><text x="70" y="25" fill="white" font-size="10">N</text></svg>`,
-                options: ["Átomos com mesmo nº de prótons e diferente massa", "Átomos com mesmo nº de nêutrons", "Átomos com mesma massa", "Íons diferentes"],
-                correct: 0,
+                text: "Um CÁTION é um átomo que:",
+                options: ["Ganhou elétrons", "Perdeu elétrons", "Ganhou prótons", "Perdeu nêutrons"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> Iso(mesmo) + Topo(lugar). Mesmo Z (prótons), mas diferente quantidade de Nêutrons.<br>
-                    <strong>(B) Incorreta:</strong> Isótonos.<br>
-                    <strong>(C) Incorreta:</strong> Isóbaros.<br>
-                    <strong>(D) Incorreta:</strong> Não se refere a carga.`
+                    <strong>(A) Incorreta:</strong> Seria Ânion.<br>
+                    <strong>(B) Correta:</strong> Ao perder cargas negativas (elétrons), ele fica com saldo positivo (Cátion).<br>
+                    <strong>(C) Incorreta:</strong> Prótons não saem do núcleo em reações comuns.<br>
+                    <strong>(D) Incorreta:</strong> Não afeta carga.`
             },
             {
                 id: 12,
-                text: "Um átomo que GANHA elétrons se torna um:",
-                options: ["Cátion (Positivo)", "Ânion (Negativo)", "Isótopo", "Neutro"],
+                text: "Se um átomo ganha 2 elétrons, sua carga final será:",
+                options: ["+2", "-2", "Neutra", "Zero"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Cátion perdeu elétrons.<br>
-                    <strong>(B) Correta:</strong> Ganhou carga negativa (elétron), fica negativo (Ânion).<br>
-                    <strong>(C) Incorreta:</strong> Refere-se a massa.<br>
-                    <strong>(D) Incorreta:</strong> Deixou de ser neutro.`
+                    <strong>(A) Incorreta:</strong> Positivo é perder.<br>
+                    <strong>(B) Correta:</strong> Ele ganhou 2 cargas negativas. Saldo: -2.<br>
+                    <strong>(C) Incorreta:</strong> Deixou de ser neutro.<br>
+                    <strong>(D) Incorreta:</strong> Tem carga.`
             },
             {
                 id: 13,
-                text: "Se um átomo perde 2 elétrons, sua carga fica:",
-                options: ["-2", "+2", "Neutra", "Zero"],
-                correct: 1,
+                text: "O Número de Massa (A) é calculado somando:",
+                options: ["Prótons + Elétrons", "Nêutrons + Elétrons", "Prótons + Nêutrons", "Tudo"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Isso seria ganhar.<br>
-                    <strong>(B) Correta:</strong> Perdeu 2 cargas negativas, logo sobram 2 positivas (+2).<br>
-                    <strong>(C) Incorreta:</strong> Tem carga.<br>
-                    <strong>(D) Incorreta:</strong> Tem carga.`
+                    <strong>(A) Incorreta:</strong> Elétron não tem massa.<br>
+                    <strong>(B) Incorreta:</strong> Errado.<br>
+                    <strong>(C) Correta:</strong> A massa está no núcleo (P + N).<br>
+                    <strong>(D) Incorreta:</strong> Elétron não conta.`
             },
             {
                 id: 14,
-                text: "O Número de Massa (A) é a soma de:",
-                options: ["Prótons + Elétrons", "Elétrons + Nêutrons", "Prótons + Nêutrons", "Apenas Prótons"],
-                correct: 2,
+                text: "Isótopos são átomos com:",
+                options: ["Mesmo nº de Prótons, mas massas diferentes", "Mesmo nº de Nêutrons", "Mesma massa", "Cargas iguais"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Elétrons não têm massa relevante.<br>
-                    <strong>(B) Incorreta:</strong> Ignorou prótons.<br>
-                    <strong>(C) Correta:</strong> A massa está no núcleo: A = Z + n.<br>
-                    <strong>(D) Incorreta:</strong> Isso é Z.`
+                    <strong>(A) Correta:</strong> São o 'mesmo elemento' (mesmo Z) mas com 'pesos' diferentes (diferente n).<br>
+                    <strong>(B) Incorreta:</strong> Isótonos.<br>
+                    <strong>(C) Incorreta:</strong> Isóbaros.<br>
+                    <strong>(D) Incorreta:</strong> Irrelevante.`
             },
             {
                 id: 15,
-                text: "Um Cátion é um íon com carga:",
-                options: ["Positiva", "Negativa", "Neutra", "Variável"],
-                correct: 0,
+                text: "Qual partícula tem massa desprezível (quase zero)?",
+                options: ["Próton", "Nêutron", "Elétron", "Átomo"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Correta:</strong> Cátion perdeu elétrons, ficando positivo.<br>
-                    <strong>(B) Incorreta:</strong> Esse é o Ânion.<br>
-                    <strong>(C) Incorreta:</strong> Íon não é neutro.<br>
-                    <strong>(D) Incorreta:</strong> É sempre positiva.`
+                    <strong>(A) Incorreta:</strong> Tem massa 1.<br>
+                    <strong>(B) Incorreta:</strong> Tem massa 1.<br>
+                    <strong>(C) Correta:</strong> É 1836x mais leve.<br>
+                    <strong>(D) Incorreta:</strong> Tem massa.`
             },
-            // PARTE 4: HISTÓRIA AVANÇADA
+            // PARTE 4: APROFUNDAMENTO
             {
                 id: 16,
-                text: "Quem descobriu o Nêutron em 1932?",
-                options: ["Rutherford", "Chadwick", "Bohr", "Einstein"],
+                text: "Quem descobriu o Nêutron?",
+                options: ["Rutherford", "Chadwick", "Thomson", "Bohr"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Previu, mas não isolou.<br>
-                    <strong>(B) Correta:</strong> James Chadwick detectou a partícula sem carga no núcleo.<br>
-                    <strong>(C) Incorreta:</strong> Trabalhou na eletrosfera.<br>
-                    <strong>(D) Incorreta:</strong> Outra área.`
+                    <strong>(A) Incorreta:</strong> Previu.<br>
+                    <strong>(B) Correta:</strong> James Chadwick (1932).<br>
+                    <strong>(C) Incorreta:</strong> Elétron.<br>
+                    <strong>(D) Incorreta:</strong> Níveis.`
             },
             {
                 id: 17,
-                text: "Qual foi a falha do modelo de Rutherford que Bohr corrigiu?",
-                options: ["O átomo não tinha núcleo", "O elétron deveria perder energia e cair no núcleo (colapso)", "O átomo era quadrado", "Não explicava a massa"],
-                correct: 1,
+                text: "A Eletrosfera é:",
+                options: ["A parte central do átomo", "Uma região densa e pesada", "A região periférica onde giram os elétrons", "Feita de prótons"],
+                correct: 2,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Rutherford criou o núcleo.<br>
-                    <strong>(B) Correta:</strong> Pela física clássica, carga em movimento perde energia. Bohr corrigiu isso com órbitas estacionárias.<br>
-                    <strong>(C) Incorreta:</strong> Absurdo.<br>
-                    <strong>(D) Incorreta:</strong> Explicava sim.`
+                    <strong>(A) Incorreta:</strong> Núcleo.<br>
+                    <strong>(B) Incorreta:</strong> É vazia e leve.<br>
+                    <strong>(C) Correta:</strong> É o grande espaço ao redor do núcleo.<br>
+                    <strong>(D) Incorreta:</strong> Feita de elétrons.`
             },
             {
                 id: 18,
-                text: "O experimento de Thomson usou:",
-                options: ["Folha de ouro", "Raios Catódicos (Tubos de vácuo)", "Prisma de vidro", "Pêndulo"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Experimento de Rutherford.<br>
-                    <strong>(B) Correta:</strong> Usou tubos de vidro com gás rarefeito para descobrir o elétron.<br>
-                    <strong>(C) Incorreta:</strong> Óptica.<br>
-                    <strong>(D) Incorreta:</strong> Mecânica.`
-            },
-            {
-                id: 19,
-                text: "A ordem cronológica correta dos modelos é:",
-                options: ["Dalton -> Rutherford -> Thomson -> Bohr", "Thomson -> Dalton -> Bohr -> Rutherford", "Dalton -> Thomson -> Rutherford -> Bohr", "Bohr -> Rutherford -> Thomson -> Dalton"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Thomson vem antes de Rutherford.<br>
-                    <strong>(B) Incorreta:</strong> Dalton é o primeiro.<br>
-                    <strong>(C) Correta:</strong> Bola (1808) -> Pudim (1898) -> Planetário (1911) -> Níveis (1913).<br>
-                    <strong>(D) Incorreta:</strong> Invertido.`
-            },
-            {
-                id: 20,
-                text: "Por que o modelo de Thomson foi descartado?",
-                options: ["Ele não explicava a eletricidade", "Não explicava como as partículas alfa atravessavam a matéria (espaços vazios)", "Era muito complexo", "Não tinha elétrons"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Explicava bem a natureza elétrica.<br>
-                    <strong>(B) Correta:</strong> O pudim maciço não permitira que partículas passassem direto, como Rutherford observou.<br>
-                    <strong>(C) Incorreta:</strong> Era simples.<br>
-                    <strong>(D) Incorreta:</strong> Tinha elétrons.`
-            },
-            // PARTE 5: APLICAÇÃO E CONCEITOS FINAIS
-            {
-                id: 21,
-                text: "As cores dos fogos de artifício são explicadas pelo modelo de:",
+                text: "Qual modelo explica as cores dos fogos de artifício?",
                 options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
                 correct: 3,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Sem estrutura para isso.<br>
-                    <strong>(B) Incorreta:</strong> Sem níveis.<br>
-                    <strong>(C) Incorreta:</strong> Sem explicação quântica.<br>
-                    <strong>(D) Correta:</strong> O salto dos elétrons entre níveis libera luz de cores específicas (fótons).`
+                    <strong>(A) Incorreta:</strong> Bola maciça.<br>
+                    <strong>(B) Incorreta:</strong> Pudim.<br>
+                    <strong>(C) Incorreta:</strong> Planetário simples.<br>
+                    <strong>(D) Correta:</strong> Os saltos quânticos de energia emitem luzes coloridas.`
+            },
+            {
+                id: 19,
+                text: "A partícula Alfa tem carga:",
+                options: ["Negativa", "Positiva", "Neutra", "Variável"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Beta é negativa.<br>
+                    <strong>(B) Correta:</strong> É um núcleo de Hélio (2 prótons), logo é positiva.<br>
+                    <strong>(C) Incorreta:</strong> Gama é neutra.<br>
+                    <strong>(D) Incorreta:</strong> Fixa.`
+            },
+            {
+                id: 20,
+                text: "Por que o modelo de Thomson caiu?",
+                options: ["Não explicava a massa", "Não explicava a eletricidade", "O experimento de Rutherford mostrou que o átomo não era maciço", "Ele não gostava de pudim"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Explicava.<br>
+                    <strong>(B) Incorreta:</strong> Explicava.<br>
+                    <strong>(C) Correta:</strong> As partículas alfa atravessaram a folha de ouro, provando que o 'pudim maciço' não existia.<br>
+                    <strong>(D) Incorreta:</strong> Sem sentido.`
+            },
+            // PARTE 5: MIX FINAL
+            {
+                id: 21,
+                text: "O núcleo do átomo é:",
+                options: ["Grande e negativo", "Pequeno, denso e positivo", "Grande e positivo", "Pequeno e neutro"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Pequeno e positivo.<br>
+                    <strong>(B) Correta:</strong> Concentra a massa num espaço minúsculo e tem carga positiva (prótons).<br>
+                    <strong>(C) Incorreta:</strong> É pequeno.<br>
+                    <strong>(D) Incorreta:</strong> É positivo.`
             },
             {
                 id: 22,
-                text: "A partícula Alfa (usada por Rutherford) tem carga:",
-                options: ["Negativa", "Neutra", "Positiva", "Nula"],
-                correct: 2,
+                text: "Quantos elétrons cabem na camada K (a primeira)?",
+                options: ["2", "8", "18", "32"],
+                correct: 0,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Beta é negativa.<br>
-                    <strong>(B) Incorreta:</strong> Gama é neutra.<br>
-                    <strong>(C) Correta:</strong> Alfa é positiva (núcleo de hélio), por isso foi repelida pelo núcleo positivo do ouro.<br>
-                    <strong>(D) Incorreta:</strong> Tem carga.`
-            },
-            {
-                id: 23,
-                text: "O que significa dizer que o átomo é eletricamente neutro?",
-                options: ["Não tem cargas", "Só tem nêutrons", "Número de prótons (+) é igual ao de elétrons (-)", "O núcleo não existe"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Tem cargas, mas balanceadas.<br>
-                    <strong>(B) Incorreta:</strong> Tem p e e.<br>
-                    <strong>(C) Correta:</strong> As cargas se anulam, resultando em zero.<br>
-                    <strong>(D) Incorreta:</strong> Existe.`
-            },
-            {
-                id: 24,
-                text: "A camada de valência é:",
-                options: ["A mais próxima do núcleo", "A camada mais externa com elétrons", "O núcleo", "A primeira camada (K)"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Essa é a de menor energia.<br>
-                    <strong>(B) Correta:</strong> É a última camada ocupada, responsável pelas ligações químicas.<br>
-                    <strong>(C) Incorreta:</strong> Núcleo não é camada.<br>
-                    <strong>(D) Incorreta:</strong> Nem sempre a K é a última.`
-            },
-            {
-                id: 25,
-                text: "Comparando o tamanho do núcleo com o átomo todo:",
-                options: ["O núcleo é gigante", "São do mesmo tamanho", "O núcleo é extremamente pequeno (uma formiga no estádio)", "A eletrosfera é pequena"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> É minúsculo.<br>
-                    <strong>(B) Incorreta:</strong> Diferença enorme.<br>
-                    <strong>(C) Correta:</strong> O átomo é 10.000 a 100.000 vezes maior que o núcleo.<br>
-                    <strong>(D) Incorreta:</strong> A eletrosfera é a maior parte.`
-            },
-            {
-                id: 26,
-                text: "Qual destes NÃO é uma subpartícula atômica principal?",
-                options: ["Próton", "Elétron", "Molécula", "Nêutron"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> É partícula.<br>
-                    <strong>(B) Incorreta:</strong> É partícula.<br>
-                    <strong>(C) Correta:</strong> Molécula é um grupo de átomos, não uma parte de dentro do átomo.<br>
-                    <strong>(D) Incorreta:</strong> É partícula.`
-            },
-            {
-                id: 27,
-                text: "Na representação do elemento, onde fica o Número Atômico (Z)?",
-                options: ["Em cima", "Em baixo", "No meio", "Não aparece"],
-                correct: 1,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Em cima geralmente é a Massa (A).<br>
-                    <strong>(B) Correta:</strong> Por convenção padrão, Z fica subscrito à esquerda (em baixo).<br>
-                    <strong>(C) Incorreta:</strong> Não.<br>
-                    <strong>(D) Incorreta:</strong> Essencial.`
-            },
-            {
-                id: 28,
-                text: "Quantos elétrons cabem no máximo na camada K (a primeira)?",
-                options: ["8", "18", "2", "32"],
-                correct: 2,
-                explanation: `
-                    <strong>(A) Incorreta:</strong> Camada L.<br>
-                    <strong>(B) Incorreta:</strong> Camada M.<br>
-                    <strong>(C) Correta:</strong> A camada K suporta no máximo 2 elétrons.<br>
+                    <strong>(A) Correta:</strong> A camada mais próxima do núcleo só suporta 2 elétrons.<br>
+                    <strong>(B) Incorreta:</strong> Camada L.<br>
+                    <strong>(C) Incorreta:</strong> Camada M.<br>
                     <strong>(D) Incorreta:</strong> Camada N.`
             },
             {
-                id: 29,
+                id: 23,
                 text: "O que mantém os elétrons presos ao átomo?",
-                options: ["Gravidade", "Atração elétrica pelo núcleo positivo", "Magnetismo da Terra", "Cola atômica"],
+                options: ["Gravidade", "Atração elétrica pelo núcleo", "Cola", "Magnetismo"],
                 correct: 1,
                 explanation: `
-                    <strong>(A) Incorreta:</strong> Muito fraca nessa escala.<br>
-                    <strong>(B) Correta:</strong> Cargas opostas se atraem (+ do núcleo atrai - da eletrosfera).<br>
-                    <strong>(C) Incorreta:</strong> Sem relação.<br>
-                    <strong>(D) Incorreta:</strong> Termo inexistente.`
+                    <strong>(A) Incorreta:</strong> Fraca.<br>
+                    <strong>(B) Correta:</strong> O núcleo (+) atrai a eletrosfera (-).<br>
+                    <strong>(C) Incorreta:</strong> Não.<br>
+                    <strong>(D) Incorreta:</strong> Não é o principal.`
+            },
+            {
+                id: 24,
+                text: "A ordem cronológica é:",
+                options: ["Dalton, Thomson, Rutherford, Bohr", "Bohr, Rutherford, Thomson, Dalton", "Thomson, Dalton, Rutherford, Bohr", "Rutherford, Dalton, Thomson, Bohr"],
+                correct: 0,
+                explanation: `
+                    <strong>(A) Correta:</strong> Bola (1808) -> Pudim (1898) -> Planetário (1911) -> Níveis (1913).<br>
+                    <strong>(B) Incorreta:</strong> Invertido.<br>
+                    <strong>(C) Incorreta:</strong> Dalton primeiro.<br>
+                    <strong>(D) Incorreta:</strong> Dalton primeiro.`
+            },
+            {
+                id: 25,
+                text: "Ânion é:",
+                options: ["Íon positivo", "Íon negativo", "Átomo neutro", "Molécula"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Cátion.<br>
+                    <strong>(B) Correta:</strong> Ganhou elétrons (negativo).<br>
+                    <strong>(C) Incorreta:</strong> Tem carga.<br>
+                    <strong>(D) Incorreta:</strong> É um átomo carregado.`
+            },
+            {
+                id: 26,
+                text: "Qual partícula não desvia em campo elétrico?",
+                options: ["Próton", "Elétron", "Nêutron", "Alfa"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Vai para o negativo.<br>
+                    <strong>(B) Incorreta:</strong> Vai para o positivo.<br>
+                    <strong>(C) Correta:</strong> Como é neutro (carga 0), não é atraído nem repelido.<br>
+                    <strong>(D) Incorreta:</strong> É positiva.`
+            },
+            {
+                id: 27,
+                text: "Se Z=11 e N=12, qual a massa (A)?",
+                options: ["11", "12", "23", "1"],
+                correct: 2,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Z.<br>
+                    <strong>(B) Incorreta:</strong> N.<br>
+                    <strong>(C) Correta:</strong> A = Z + N = 11 + 12 = 23.<br>
+                    <strong>(D) Incorreta:</strong> Diferença.`
+            },
+            {
+                id: 28,
+                text: "A eletrosfera é dividida em:",
+                options: ["Andares", "Níveis de energia (ou camadas)", "Compartimentos", "Fatias"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Termo errado.<br>
+                    <strong>(B) Correta:</strong> K, L, M, N, O, P, Q.<br>
+                    <strong>(C) Incorreta:</strong> Termo errado.<br>
+                    <strong>(D) Incorreta:</strong> Termo errado.`
+            },
+            {
+                id: 29,
+                text: "O átomo é majoritariamente:",
+                options: ["Maciço", "Vazio", "Líquido", "Positivo"],
+                correct: 1,
+                explanation: `
+                    <strong>(A) Incorreta:</strong> Dalton achava isso.<br>
+                    <strong>(B) Correta:</strong> Rutherford provou que o espaço entre núcleo e elétrons é imenso e vazio.<br>
+                    <strong>(C) Incorreta:</strong> Estado da matéria.<br>
+                    <strong>(D) Incorreta:</strong> Neutro.`
             },
             {
                 id: 30,
-                text: "Toda matéria visível no universo é formada por:",
-                options: ["Átomos", "Células", "Ar", "Fogo"],
-                correct: 0,
+                text: "A ciência dos modelos atômicos parou em Bohr?",
+                options: ["Sim, ele explicou tudo", "Não, veio o modelo Quântico depois", "Sim, ninguém estuda mais isso", "Não, voltamos para Dalton"],
+                correct: 1,
                 explanation: `
-                    <strong>(A) Correta:</strong> Átomos são os blocos de construção da matéria.<br>
-                    <strong>(B) Incorreta:</strong> Apenas seres vivos têm células.<br>
-                    <strong>(C) Incorreta:</strong> Ar é matéria, mas não tudo.<br>
-                    <strong>(D) Incorreta:</strong> Fogo é energia/reação.`
+                    <strong>(A) Incorreta:</strong> Tinha falhas.<br>
+                    <strong>(B) Correta:</strong> O modelo atual é o da Mecânica Quântica (orbitais, Schrödinger), que é mais complexo.<br>
+                    <strong>(C) Incorreta:</strong> Estuda-se muito.<br>
+                    <strong>(D) Incorreta:</strong> Jamais.`
             }
         ];
 
-        // LÓGICA DO QUIZ (Mesma estrutura funcional)
+        // Lógica do Quiz
         let currentQuestion = 0;
         let userAnswers = new Array(questions.length).fill(null);
 
@@ -720,7 +813,7 @@
                 </div>
                 ${ans !== null ? `
                     <div class="feedback-box">
-                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Ops! Veja a explicação:'}</div>
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação detalhada:'}</div>
                         <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
                     </div>
                 ` : ''}
@@ -774,18 +867,18 @@
         function finish() {
             let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
             let percent = Math.round((correct / questions.length) * 100);
+            
             document.getElementById('finalPercent').textContent = percent + "%";
             document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
             document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
             
-            // Gera resumo detalhado
             let summary = '<div style="text-align:left; margin-top:20px;">';
             questions.forEach((q, i) => {
                 if(userAnswers[i] !== q.correct) {
-                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FFF5F5; border-radius:8px;">
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FEE2E2; border-radius:8px;">
                         <strong>Q${i+1}:</strong> ${q.text}<br>
-                        <span style="color:#C53030">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
-                        <span style="color:#276749">Correta: ${q.options[q.correct]}</span>
+                        <span style="color:#991B1B">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#166534">Correta: ${q.options[q.correct]}</span>
                     </div>`;
                 }
             });

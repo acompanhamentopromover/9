@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substâncias e Misturas - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F8F9FA;
+            --text-color: #111827; 
+            --border-color: #000000;
+            
+            /* TEMA: AZUL COBALTO E VERDE NEON (Química) */
+            --theme-light: #E0F2FE; 
+            --theme-medium: #38BDF8;
+            --theme-dark: #0284C7; 
+            --theme-contrast: #22C55E; /* Verde Neon */
+            --theme-text-active: #FFFFFF;
+            
+            /* FEEDBACK */
+            --correct-bg: #DCFCE7;
+            --correct-border: #166534;
+            --wrong-bg: #FEE2E2;
+            --wrong-border: #991B1B;
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        /* --- AJUSTE DA LOGO PARA CELULAR --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0 5px 0;
+        }
+
+        .logo-img {
+            max-height: 80px; /* Tamanho para PC/Tablet */
+            width: auto;
+            max-width: 80%; /* Garante que não estoure a largura */
+            display: block;
+            transition: all 0.3s ease; /* Suaviza a mudança de tamanho */
+        }
+
+        /* Regra específica para celulares */
+        @media (max-width: 600px) {
+            .logo-img {
+                max-height: 50px; /* Tamanho menor para celular */
+            }
+            .container {
+                padding: 15px; /* Menos padding lateral no celular */
+            }
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .example-box {
+            background-color: #F0F9FF;
+            border-left: 5px solid var(--theme-dark);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--theme-dark);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .visual-row { display: flex; align-items: center; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+
+        .question-visual {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: var(--theme-light);
+            border-radius: 12px;
+            border: 1px dashed var(--theme-dark);
+        }
+
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #F1F5F9;
+            border: 2px solid #334155; border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; }
+
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo Promover" class="logo-img">
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-ciencias.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">CIÊNCIAS</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.5rem; margin-bottom: 15px; line-height: 1.2;">Substâncias Químicas</h1>
+            <p style="color: #555; margin-bottom: 20px;">Tudo é feito de átomos. A maneira como eles se organizam define se temos pureza ou mistura.</p>
+            
+            <div class="card-content">
+                <h3>1. Substância Pura</h3>
+                <p style="font-size: 0.9rem;">Formada por <strong>apenas um tipo</strong> de molécula ou átomo. Tem "carteira de identidade" fixa (Ponto de Fusão e Ebulição constantes).</p>
+                <div class="visual-row" style="background: #f0f9ff; padding: 10px; border-radius: 8px;">
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <line x1="10" y1="70" x2="140" y2="70" stroke="#333" stroke-width="2"/>
+                        <line x1="10" y1="10" x2="10" y2="70" stroke="#333" stroke-width="2"/>
+                        <path d="M 10 70 L 40 40 L 80 40 L 120 10" stroke="#0284C7" stroke-width="3" fill="none"/>
+                        <text x="85" y="35" font-size="10" fill="#0284C7">Constante</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;"><strong>Gráfico:</strong> Faz um "degrau" reto na mudança de estado.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>2. Substância Pura SIMPLES</h3>
+                <p style="font-size: 0.9rem;">Moléculas formadas por átomos de <strong>UM ÚNICO elemento</strong>.</p>
+                <div class="visual-row">
+                    <svg width="100" height="50">
+                        <circle cx="30" cy="25" r="10" fill="#22C55E" stroke="#000"/>
+                        <circle cx="50" cy="25" r="10" fill="#22C55E" stroke="#000"/>
+                        <text x="70" y="30" font-size="12" font-weight="bold">O₂</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;">Exemplos: O₂, H₂, Ferro (Fe).</p>
+                </div>
+                <div class="example-box">
+                    <strong>Dica:</strong> A fórmula tem apenas <strong>1 letra maiúscula</strong>.
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3>3. Substância Pura COMPOSTA</h3>
+                <p style="font-size: 0.9rem;">Moléculas formadas por <strong>DOIS OU MAIS elementos diferentes</strong>.</p>
+                <div class="visual-row">
+                    <svg width="100" height="50">
+                        <circle cx="50" cy="25" r="12" fill="#0284C7" stroke="#000"/>
+                        <circle cx="35" cy="15" r="8" fill="#BAE6FD" stroke="#000"/>
+                        <circle cx="65" cy="15" r="8" fill="#BAE6FD" stroke="#000"/>
+                        <text x="80" y="30" font-size="12" font-weight="bold">H₂O</text>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;">Exemplos: Água (H₂O), Sal (NaCl).</p>
+                </div>
+                <div class="example-box">
+                    <strong>Dica:</strong> A fórmula tem <strong>2 ou mais letras maiúsculas</strong>.
+                </div>
+            </div>
+
+            <div class="card-content" style="border-color: #22C55E;">
+                <h3>4. Misturas (Não Puras)</h3>
+                <p style="font-size: 0.9rem;">União física de duas ou mais substâncias diferentes. As propriedades variam.</p>
+                <div class="visual-row">
+                    <svg width="120" height="60" viewBox="0 0 120 60">
+                        <circle cx="20" cy="30" r="8" fill="#0284C7"/>
+                        <circle cx="80" cy="45" r="8" fill="#0284C7"/>
+                        
+                        <circle cx="50" cy="20" r="6" fill="#22C55E"/>
+                        <rect x="90" y="20" width="10" height="10" fill="#22C55E"/>
+                        <circle cx="40" cy="50" r="5" fill="#22C55E"/>
+                    </svg>
+                    <p style="flex: 1; font-size: 0.85rem;">Exemplos: Ar (vários gases), Água do mar (água + sais), Leite.</p>
+                </div>
+                <div class="example-box">
+                    <strong>Gráfico:</strong> A temperatura varia durante a fervura (não faz linha reta).
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Ir para Exercícios (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">Classifique: Pura (Simples/Composta) ou Mistura?</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">100%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 30 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // BLOCO 1: SIMPLES vs COMPOSTA
+            { id: 1, text: "O Gás Hidrogênio (H₂) possui apenas um tipo de átomo. Ele é:", options: ["Substância Simples", "Substância Composta", "Mistura", "Elemento Isolado"], correct: 0, explanation: "<strong>(A) Correta:</strong> Se a molécula é formada por átomos de apenas um elemento químico (H), ela é Simples.<br><strong>(B) Incorreta:</strong> Composta exige elementos diferentes (ex: H e O).<br><strong>(C) Incorreta:</strong> Mistura teria moléculas diferentes (ex: H₂ e O₂ juntos).<br><strong>(D) Incorreta:</strong> H₂ é uma molécula (dois átomos ligados), não um átomo sozinho." },
+            { id: 2, text: "O Gás Carbônico (CO₂) tem Carbono e Oxigênio. Ele é:", options: ["Simples", "Composta", "Mistura", "Átomo"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Tem C e O, elementos diferentes.<br><strong>(B) Correta:</strong> Formada pela união de dois elementos diferentes (Carbono e Oxigênio).<br><strong>(C) Incorreta:</strong> É uma substância pura (só tem CO₂), não uma mistura.<br><strong>(D) Incorreta:</strong> É uma molécula." },
+            { id: 3, text: "Qual das opções abaixo é uma substância SIMPLES?", options: ["Água (H₂O)", "Sal (NaCl)", "Ferro (Fe)", "Glicose"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Tem H e O (Composta).<br><strong>(B) Incorreta:</strong> Tem Na e Cl (Composta).<br><strong>(C) Correta:</strong> Ferro (Fe) é formado apenas por átomos de Ferro. É simples.<br><strong>(D) Incorreta:</strong> Glicose tem C, H e O (Composta)." },
+            { id: 4, text: "A molécula de Ozônio (O₃) é:", options: ["Simples", "Composta", "Mistura", "Liga"], correct: 0, explanation: "<strong>(A) Correta:</strong> Apesar de ter 3 átomos, todos são de Oxigênio. Só um elemento = Simples.<br><strong>(B) Incorreta:</strong> Precisaria de outro elemento diferente.<br><strong>(C) Incorreta:</strong> É uma substância pura.<br><strong>(D) Incorreta:</strong> Liga é mistura de metais." },
+            { id: 5, text: "Quantas letras maiúsculas aparecem na fórmula de uma substância composta?", options: ["Apenas 1", "2 ou mais", "Nenhuma", "Sempre 3"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Apenas 1 maiúscula indica substância simples (ex: He, O₂).<br><strong>(B) Correta:</strong> Cada letra maiúscula indica um novo elemento. CO₂ tem C e O (duas).<br><strong>(C) Incorreta:</strong> Fórmulas usam letras.<br><strong>(D) Incorreta:</strong> Pode ter 2 (CO), 3 (H₂SO₄), etc." },
+
+            // BLOCO 2: MISTURAS vs PURAS
+            { id: 6, text: "O Ar Atmosférico (Nitrogênio + Oxigênio + Outros) é:", options: ["Substância Pura", "Mistura Homogênea", "Substância Simples", "Elemento"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> O ar tem várias moléculas diferentes (N₂, O₂, Ar) misturadas.<br><strong>(B) Correta:</strong> É uma mistura de gases onde não conseguimos ver a diferença (homogênea).<br><strong>(C) Incorreta:</strong> Simples refere-se a uma única molécula pura.<br><strong>(D) Incorreta:</strong> Ar não é um elemento da tabela." },
+            { id: 7, text: "A Água Mineral (com sais dissolvidos) é:", options: ["Substância Pura", "Mistura", "Elemento", "Composto Puro"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Pura seria apenas H₂O.<br><strong>(B) Correta:</strong> Tem água mais cálcio, magnésio, sódio, etc. É uma mistura.<br><strong>(C) Incorreta:</strong> Não é um elemento.<br><strong>(D) Incorreta:</strong> Composto puro é sem sais." },
+            { id: 8, text: "Água Destilada (apenas H₂O) é:", options: ["Mistura", "Substância Pura Composta", "Substância Pura Simples", "Elemento"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Não tem nada misturado, só H₂O.<br><strong>(B) Correta:</strong> É pura (só H₂O) e composta (tem H e O).<br><strong>(C) Incorreta:</strong> Não é simples pois tem dois elementos.<br><strong>(D) Incorreta:</strong> É uma molécula." },
+            { id: 9, text: "Como identificar uma Mistura pelo gráfico de aquecimento?", options: ["Temperatura constante na fervura", "Temperatura varia durante a fervura", "A temperatura não sobe", "A linha é reta"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Isso é característica de substância pura.<br><strong>(B) Correta:</strong> Em misturas, a temperatura continua subindo enquanto ferve (não tem ponto fixo).<br><strong>(C) Incorreta:</strong> Sobe sim.<br><strong>(D) Incorreta:</strong> Linha reta (patamar) indica pureza." },
+            { id: 10, text: "O Leite é um exemplo de:", options: ["Substância Pura", "Mistura", "Elemento", "Gás"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Leite tem água, gorduras, proteínas, açúcares...<br><strong>(B) Correta:</strong> É uma mistura complexa (colóide).<br><strong>(C) Incorreta:</strong> Não está na tabela periódica.<br><strong>(D) Incorreta:</strong> É líquido." },
+
+            // BLOCO 3: ANÁLISE DE FÓRMULAS
+            { id: 11, text: "A fórmula H₂SO₄ (Ácido Sulfúrico) representa:", options: ["Substância Simples", "Substância Composta", "Mistura", "Dois elementos"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Tem elementos diferentes.<br><strong>(B) Correta:</strong> Tem Hidrogênio (H), Enxofre (S) e Oxigênio (O). É composta.<br><strong>(C) Incorreta:</strong> É uma única substância, não uma mistura de várias.<br><strong>(D) Incorreta:</strong> Tem 3 elementos (H, S, O)." },
+            { id: 12, text: "Ouro 18 quilates (Ouro + Cobre) é:", options: ["Substância Pura", "Mistura (Liga Metálica)", "Elemento Puro", "Simples"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Ouro 24k é puro. 18k tem cobre.<br><strong>(B) Correta:</strong> É uma mistura de metais para ficar mais resistente.<br><strong>(C) Incorreta:</strong> Não é puro.<br><strong>(D) Incorreta:</strong> Não é simples." },
+            { id: 13, text: "Gás Hélio (He) dentro de um balão é:", options: ["Simples", "Composta", "Mistura", "Composto"], correct: 0, explanation: "<strong>(A) Correta:</strong> He é um elemento único (Gás Nobre). É substância simples.<br><strong>(B) Incorreta:</strong> Só tem um elemento.<br><strong>(C) Incorreta:</strong> Só tem átomos de Hélio.<br><strong>(D) Incorreta:</strong> Sinônimo de B." },
+            { id: 14, text: "Uma barra de Cobre (Cu) puro é:", options: ["Simples", "Composta", "Mistura", "Líquido"], correct: 0, explanation: "<strong>(A) Correta:</strong> É formada apenas por átomos de Cobre. Simples.<br><strong>(B) Incorreta:</strong> Não tem outro elemento ligado.<br><strong>(C) Incorreta:</strong> É puro.<br><strong>(D) Incorreta:</strong> É sólido." },
+            { id: 15, text: "Quantos elementos há na sacarose (C₁₂H₂₂O₁₁)?", options: ["3", "45", "12", "11"], correct: 0, explanation: "<strong>(A) Correta:</strong> Carbono (C), Hidrogênio (H) e Oxigênio (O). Total de 3 tipos de elementos.<br><strong>(B) Incorreta:</strong> Isso é o total de átomos.<br><strong>(C) Incorreta:</strong> Quantidade de Carbonos.<br><strong>(D) Incorreta:</strong> Quantidade de Oxigênios." },
+
+            // BLOCO 4: VISUALIZAÇÃO MICROSCÓPICA
+            { id: 16, text: "Se vejo várias moléculas diferentes juntas no microscópio, tenho:", options: ["Uma mistura", "Uma substância pura", "Um elemento", "Um átomo"], correct: 0, explanation: "<strong>(A) Correta:</strong> Moléculas diferentes convivendo no mesmo espaço caracterizam uma mistura.<br><strong>(B) Incorreta:</strong> Pura teria todas as moléculas iguais.<br><strong>(C) Incorreta:</strong> Elemento é um tipo de átomo.<br><strong>(D) Incorreta:</strong> Átomo é a unidade." },
+            { id: 17, text: "Se todas as moléculas são idênticas e formadas por 2 tipos de átomos, é:", options: ["Pura Simples", "Pura Composta", "Mistura", "Elemento"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Simples teria só 1 tipo de átomo.<br><strong>(B) Correta:</strong> Moléculas idênticas = Pura. Átomos diferentes na molécula = Composta.<br><strong>(C) Incorreta:</strong> As moléculas são iguais, então não é mistura.<br><strong>(D) Incorreta:</strong> É molécula." },
+            { id: 18, text: "Álcool hidratado (Álcool + Água) é:", options: ["Pura", "Mistura Homogênea", "Mistura Heterogênea", "Simples"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Tem duas substâncias.<br><strong>(B) Correta:</strong> Álcool e água se dissolvem totalmente (uma fase), formando uma mistura homogênea.<br><strong>(C) Incorreta:</strong> Não vemos separação.<br><strong>(D) Incorreta:</strong> Tem componentes compostos." },
+            { id: 19, text: "Água e Óleo formam:", options: ["Mistura Homogênea", "Mistura Heterogênea", "Substância Composta", "Solução"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Eles se separam.<br><strong>(B) Correta:</strong> Não se misturam, formam duas fases visíveis (bifásica). Mistura Heterogênea.<br><strong>(C) Incorreta:</strong> São duas substâncias juntas.<br><strong>(D) Incorreta:</strong> Solução é homogênea." },
+            { id: 20, text: "O Granito (pedra com várias cores) é:", options: ["Mistura Heterogênea", "Mistura Homogênea", "Substância Pura", "Composto"], correct: 0, explanation: "<strong>(A) Correta:</strong> Conseguimos ver os componentes (quartzo, feldspato, mica) separados a olho nu.<br><strong>(B) Incorreta:</strong> Não é uniforme.<br><strong>(C) Incorreta:</strong> É uma mistura de minerais.<br><strong>(D) Incorreta:</strong> É mistura." },
+
+            // BLOCO 5: ALOTROPIA E ESTADOS
+            { id: 21, text: "O Oxigênio (O₂) e o Ozônio (O₃) são alótropos. Isso significa:", options: ["São substâncias simples diferentes do mesmo elemento", "São misturas", "São compostos", "São isótopos"], correct: 0, explanation: "<strong>(A) Correta:</strong> Alotropia é a capacidade de um mesmo elemento (O) formar diferentes substâncias simples (O₂ e O₃).<br><strong>(B) Incorreta:</strong> São puras.<br><strong>(C) Incorreta:</strong> São simples.<br><strong>(D) Incorreta:</strong> Isótopos diferem na massa, não na molécula." },
+            { id: 22, text: "Grafite e Diamante são feitos de Carbono. Eles são:", options: ["Substâncias Compostas", "Misturas", "Substâncias Simples (Alótropos)", "Ligas"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Só tem Carbono.<br><strong>(B) Incorreta:</strong> São puras.<br><strong>(C) Correta:</strong> Ambos são Carbono puro (C), organizados de forma diferente (Alotropia).<br><strong>(D) Incorreta:</strong> Liga envolve metal." },
+            { id: 23, text: "A mudança de estado físico (gelo virando água) muda a substância?", options: ["Sim, vira outra coisa", "Não, continua sendo a mesma substância", "Vira mistura", "Vira simples"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> A molécula não muda.<br><strong>(B) Correta:</strong> Fenômeno físico não altera a identidade química. Gelo é H₂O, vapor é H₂O.<br><strong>(C) Incorreta:</strong> Continua pura.<br><strong>(D) Incorreta:</strong> Continua composta." },
+            { id: 24, text: "Para separar os componentes de uma mistura, usamos:", options: ["Reações Químicas", "Métodos Físicos (filtração, destilação)", "Magia", "Esperar"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Reação cria novas substâncias.<br><strong>(B) Correta:</strong> Misturas são separadas por métodos físicos, sem quebrar as moléculas (ex: ferver para separar sal da água).<br><strong>(C) Incorreta:</strong> Ciência.<br><strong>(D) Incorreta:</strong> Ineficiente." },
+            { id: 25, text: "Para 'quebrar' uma substância composta em simples, precisamos de:", options: ["Métodos Físicos", "Reações Químicas", "Filtração", "Decantação"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Físico não quebra molécula.<br><strong>(B) Correta:</strong> Só reações químicas (como eletrólise ou decomposição) separam os átomos de uma molécula.<br><strong>(C) Incorreta:</strong> Separa mistura.<br><strong>(D) Incorreta:</strong> Separa mistura." },
+
+            // BLOCO 6: DESAFIOS FINAIS
+            { id: 26, text: "O soro fisiológico (água + sal) é uma:", options: ["Substância Pura", "Mistura Homogênea", "Mistura Heterogênea", "Substância Simples"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> Tem dois componentes.<br><strong>(B) Correta:</strong> O sal dissolve completamente na água, formando uma única fase visual.<br><strong>(C) Incorreta:</strong> Não vemos o sal.<br><strong>(D) Incorreta:</strong> É mistura." },
+            { id: 27, text: "Qual das opções representa uma substância pura?", options: ["Refrigerante", "Água da torneira", "Barra de Ouro 24k (100% Au)", "Sangue"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> Mistura (água, açúcar, gás...).<br><strong>(B) Incorreta:</strong> Mistura (tem cloro, flúor...).<br><strong>(C) Correta:</strong> Apenas o ouro 24k é puramente um elemento. Os outros são misturas.<br><strong>(D) Incorreta:</strong> Mistura (células, plasma...)." },
+            { id: 28, text: "A fórmula P₄ (Fósforo) indica:", options: ["Uma mistura", "Uma substância composta", "Uma substância simples", "4 elementos"], correct: 2, explanation: "<strong>(A) Incorreta:</strong> É pura.<br><strong>(B) Incorreta:</strong> Só tem P.<br><strong>(C) Correta:</strong> Apenas um tipo de elemento (Fósforo), logo é substância simples.<br><strong>(D) Incorreta:</strong> 4 átomos, mas 1 elemento." },
+            { id: 29, text: "A fórmula CO (Monóxido de Carbono) indica:", options: ["Simples (C e O são parecidos)", "Composta (Carbono e Oxigênio)", "Mistura", "Elemento"], correct: 1, explanation: "<strong>(A) Incorreta:</strong> São diferentes.<br><strong>(B) Correta:</strong> Carbono + Oxigênio = Composta. (Cuidado: Co é Cobalto, mas CO é Carbono e Oxigênio).<br><strong>(C) Incorreta:</strong> É pura.<br><strong>(D) Incorreta:</strong> É molécula." },
+            { id: 30, text: "Qual a melhor definição de 'Matéria'?", options: ["Tudo que tem massa e ocupa lugar no espaço", "Apenas sólidos", "Apenas o que podemos ver", "Energia"], correct: 0, explanation: "<strong>(A) Correta:</strong> Definição clássica da química. Inclui sólidos, líquidos e gases.<br><strong>(B) Incorreta:</strong> Ar também é matéria.<br><strong>(C) Incorreta:</strong> Ar é invisível e é matéria.<br><strong>(D) Incorreta:</strong> Energia (luz, calor) não é matéria." }
+        ];
+
+        // Lógica do Quiz
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            container.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                </div>
+                ${q.visual ? `<div class="question-visual">${q.visual}</div>` : ''}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação:'}</div>
+                        <div style="font-size:0.9rem; line-height:1.6;">${q.explanation}</div>
+                    </div>
+                ` : ''}
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 50 ? "⭐⭐⭐" : "⭐";
+            
+            // Gera resumo detalhado
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct) {
+                    summary += `<div style="margin-bottom:10px; padding:10px; background:#FEE2E2; border-radius:8px;">
+                        <strong>Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:#991B1B">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                        <span style="color:#166534">Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Tentar Novamente</button>`;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>
