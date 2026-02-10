@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estuda IFCE - Matemática 2024.2</title>
+    <style>
+        :root {
+            --primary: #34D399; /* Verde IFCE Suave */
+            --primary-dark: #065F46; /* Verde IFCE Escuro */
+            --secondary: #EF4444; /* Vermelho Destaque */
+            --bg: #F3F4F6;
+            --surface: #FFFFFF;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --success: #10B981;
+            --error: #EF4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), #047857);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* --- NAVEGAÇÃO --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .nav-controls {
+            background: var(--surface);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: var(--primary-dark);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* --- CARTÕES DE QUESTÃO --- */
+        .question-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-dark);
+            transition: transform 0.2s;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .q-number {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .q-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        .tag.math { background: #d1fae5; color: #065f46; }
+        .tag.dif-facil { background: #dbeafe; color: #1e40af; }
+        .tag.dif-medio { background: #fef3c7; color: #92400e; }
+        .tag.dif-dificil { background: #fee2e2; color: #991b1b; }
+
+        .enunciado {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        /* --- ALTERNATIVAS --- */
+        .alternatives {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .alt-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .alt-btn:hover {
+            border-color: var(--primary);
+            background: #f0fdf4;
+        }
+
+        .alt-letter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Estados de Resposta */
+        .alt-btn.selected {
+            border-color: var(--primary-dark);
+            background: #ecfdf5;
+        }
+        .alt-btn.selected .alt-letter {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .alt-btn.correct {
+            border-color: var(--success);
+            background: #d1fae5;
+        }
+        .alt-btn.correct .alt-letter {
+            background: var(--success);
+            color: white;
+        }
+
+        .alt-btn.incorrect {
+            border-color: var(--error);
+            background: #fee2e2;
+            opacity: 0.7;
+        }
+        .alt-btn.incorrect .alt-letter {
+            background: var(--error);
+            color: white;
+        }
+
+        /* --- RESOLUÇÃO --- */
+        .resolution-box {
+            margin-top: 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none; /* Hidden by default */
+        }
+
+        .res-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .res-content {
+            padding: 20px;
+        }
+
+        .step {
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .math-display {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            display: inline-block;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .error-analysis {
+            background: #fff1f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--error);
+        }
+
+        .pro-tip {
+            background: #ecfdf5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--success);
+            font-style: italic;
+        }
+
+        /* --- BOTÕES DE AÇÃO --- */
+        .action-area {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-resolve {
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.1s;
+        }
+        .btn-resolve:hover { transform: translateY(-2px); }
+
+        /* --- VISUAL DE SIMULADO --- */
+        #simulado-controls {
+            text-align: center;
+            margin: 40px 0;
+            display: none;
+        }
+
+        .btn-finish {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        /* --- RESULTADO --- */
+        .result-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .result-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .score-circle {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: var(--primary-dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 25px rgba(6, 95, 70, 0.3);
+        }
+
+        .score-val { font-size: 3rem; font-weight: 800; line-height: 1; }
+        .score-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.8; }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- SVG --- */
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4rem; }
+            .nav-controls { flex-direction: column; }
+            .q-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="badge">MATERIAL DE ESTUDO</div>
+        <h1>Matemática IFCE 2024.2</h1>
+        <p>Resoluções completas e comentadas para os Cursos Técnicos Integrados.</p>
+    </header>
+
+    <div class="container">
+        
+        <nav class="nav-controls">
+            <button class="mode-btn active" id="btnEstudo" onclick="switchMode('estudo')">📚 Modo Estudo</button>
+            <button class="mode-btn" id="btnSimulado" onclick="switchMode('simulado')">📝 Modo Simulado</button>
+        </nav>
+
+        <div id="questions-container"></div>
+
+        <div id="simulado-controls">
+            <button class="btn-finish" onclick="finishSimulado()">Finalizar Simulado</button>
+        </div>
+
+    </div>
+
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="score-circle">
+                <span class="score-val" id="finalScore">0</span>
+                <span class="score-label">Acertos</span>
+            </div>
+            <h2>Resultado Final</h2>
+            <p id="feedbackText" style="margin: 15px 0; color: #666;">...</p>
+            <button class="btn-resolve" onclick="closeResult()" style="width:100%; justify-content:center;">Ver Correção Detalhada</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DAS QUESTÕES (Extraídos do PDF) ---
+        const questions = [
+            {
+                id: 31,
+                topic: "Médias / Álgebra",
+                difficulty: "Médio",
+                skill: "Modelagem Algébrica",
+                text: "Uma turma de certa escola, em Fortaleza, no Ceará, está realizando um estudo sobre a média de idade dos alunos matriculados no Ensino Médio. Após coletar os dados de idade de todos os alunos, calculou-se a média aritmética, que foi de 17 anos. Suponha que um novo aluno com <strong>x</strong> anos se matriculou nessa turma. Se a média de idade dos alunos passar para 18 anos, o número de alunos dessa turma, antes da entrada do novo aluno, em função de x, é de:",
+                options: ["x", "x - 18", "17 - x", "17 + x", "18 - x"],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "Seja <strong>n</strong> o número inicial de alunos.",
+                        "A soma inicial das idades é: <span class='math-display'>Soma_1 = 17n</span>",
+                        "Entra um aluno com <strong>x</strong> anos. A nova soma é: <span class='math-display'>Soma_2 = 17n + x</span>",
+                        "O novo número de alunos é <strong>n + 1</strong>.",
+                        "A nova média é 18. Logo: <span class='math-display'>(17n + x) / (n + 1) = 18</span>",
+                        "Multiplicando cruzado: <span class='math-display'>17n + x = 18(n + 1)</span>",
+                        "Distribuindo: <span class='math-display'>17n + x = 18n + 18</span>",
+                        "Isolando o n: <span class='math-display'>x - 18 = 18n - 17n</span>",
+                        "Resultado final: <span class='math-display'>n = x - 18</span>"
+                    ],
+                    wrongAnalysis: "Muitos alunos tentam somar ou subtrair as médias diretamente (18-17=1) ou acham que a resposta depende apenas de 17 ou 18 sem montar a equação.",
+                    tip: "Em problemas de média, sempre trabalhe com a SOMA TOTAL (Média × Quantidade). Isso destrava a maioria das questões."
+                }
+            },
+            {
+                id: 32,
+                topic: "Matemática Financeira",
+                difficulty: "Difícil",
+                skill: "Juros Simples e Compostos",
+                text: "Um empreendedor está prestes a abrir sua própria empresa... e precisa de um empréstimo de R$ 200.000,00... Ele calculou que, ao final de 10 meses, pagaria um determinado valor, assumindo uma taxa de juros simples de 2% ao mês. No entanto, ele cometeu um erro ao utilizar juros simples, pois deveria considerar que os juros são compostos. A diferença entre o valor encontrado e o valor correto é de: <br><small>(Considere 1,02^10 = 1,21899)</small>",
+                options: ["R$ 1.876,76", "R$ 2.459,87", "R$ 3.798,88", "R$ 4.878,26", "R$ 5.897,65"],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "<strong>Cálculo Juros Simples:</strong> J = C.i.t",
+                        "J = 200.000 × 0,02 × 10 = 40.000",
+                        "Montante Simples = 200.000 + 40.000 = <strong>240.000,00</strong>",
+                        "<strong>Cálculo Juros Compostos:</strong> M = C(1+i)^t",
+                        "M = 200.000 × (1,02)^10",
+                        "M = 200.000 × 1,21899 = <strong>243.798,00</strong> (Aprox)",
+                        "<strong>Diferença:</strong> 243.798,88 - 240.000,00",
+                        "Resultado: <strong>R$ 3.798,88</strong>"
+                    ],
+                    wrongAnalysis: "O erro comum é esquecer de calcular o montante total nos compostos e comparar apenas com os juros.",
+                    tip: "Juros compostos crescem exponencialmente. Para períodos curtos a diferença é pouca, mas para 10 meses já é significativa."
+                }
+            },
+            {
+                id: 33,
+                topic: "Aritmética",
+                difficulty: "Médio",
+                skill: "Frações Geratrizes",
+                text: "Sabendo que x = 1,05; y = 2,323232... e z = 2,666..., o produto entre as razões x e z (x/z) é igual a:",
+                options: ["0,35378", "0,39375", "0,77853", "1,00475", "1,04523"],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "Transformar em fração:",
+                        "x = 105/100 = <strong>21/20</strong>",
+                        "z = 2,666... = (26-2)/9 = 24/9 = <strong>8/3</strong>",
+                        "A questão pede x dividido por z:",
+                        "<span class='math-display'>(21/20) ÷ (8/3)</span>",
+                        "Regra da divisão de fração: repete a primeira e multiplica pelo inverso da segunda.",
+                        "<span class='math-display'>(21/20) × (3/8) = 63 / 160</span>",
+                        "Fazendo a divisão: 63 ÷ 160 = <strong>0,39375</strong>"
+                    ],
+                    wrongAnalysis: "O principal erro é errar a transformação da dízima periódica (2,666...) ou inverter a divisão.",
+                    tip: "Dízima simples (0,aaaa...): a/9. Dízima composta: (tudo - parte não periódica) / (noves e zeros)."
+                }
+            },
+            {
+                id: 34,
+                topic: "Probabilidade",
+                difficulty: "Fácil",
+                skill: "Cálculo de Probabilidade",
+                text: "Uma loja... descobriu que 422 homens adultos, 126 mulheres adultas e 22 crianças se cadastraram... A probabilidade de uma criança ganhar os fones é de, aproximadamente:",
+                options: ["2,98%", "3,28%", "3,86%", "4,01%", "4,11%"],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "Cálculo do Espaço Amostral (Total):",
+                        "422 (homens) + 126 (mulheres) + 22 (crianças) = <strong>570 pessoas</strong>",
+                        "Evento Favorável (Crianças): 22",
+                        "Probabilidade = Favorável / Total",
+                        "<span class='math-display'>P = 22 / 570</span>",
+                        "P ≈ 0,03859...",
+                        "Multiplicando por 100 para porcentagem: <strong>3,86%</strong>"
+                    ],
+                    wrongAnalysis: "Esquecer de somar todos os grupos para achar o total resulta em porcentagens erradas.",
+                    tip: "Probabilidade é sempre (O que eu quero) dividido por (Tudo o que pode acontecer)."
+                }
+            },
+            {
+                id: 35,
+                topic: "Álgebra",
+                difficulty: "Médio",
+                skill: "Produtos Notáveis",
+                text: "Desenvolvendo a expressão (xy - xz)² - (xz - xy)², é possível encontrar:",
+                options: ["0", "1", "Expressão Algébrica Longa A", "Expressão Algébrica Longa B", "Expressão Algébrica Longa C"],
+                correct: 0, // A
+                resolution: {
+                    steps: [
+                        "Observe que <strong>(A - B)²</strong> é sempre igual a <strong>(B - A)²</strong>.",
+                        "Exemplo numérico: (5 - 2)² = 3² = 9. E (2 - 5)² = (-3)² = 9.",
+                        "Logo, (xy - xz)² é idêntico a (xz - xy)².",
+                        "Se você subtrai dois números iguais, o resultado é <strong>ZERO</strong>.",
+                        "Cálculo: K - K = 0."
+                    ],
+                    wrongAnalysis: "Tentar expandir toda a expressão (quadrado do primeiro menos duas vezes...) funciona, mas gasta muito tempo e aumenta chance de erro de sinal.",
+                    tip: "Antes de sair calculando, olhe a estrutura da expressão. A simetria muitas vezes resolve a questão em segundos."
+                }
+            },
+            {
+                id: 36,
+                topic: "Geometria Plana",
+                difficulty: "Médio",
+                skill: "Polígonos Regulares",
+                text: "O ângulo interno de um polígono regular é complementar e o dobro de um ângulo alfa. O possível polígono regular analisado pelo estudante foi um:",
+                options: ["círculo", "triângulo", "hexágono", "quadrado", "pentágono"],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "Sejam Ai (ângulo interno) e α (alfa).",
+                        "1. São complementares: <strong>Ai + α = 90°</strong>",
+                        "2. Ai é o dobro de alfa: <strong>Ai = 2α</strong>",
+                        "Substituindo (2) em (1):",
+                        "2α + α = 90° => 3α = 90° => α = 30°",
+                        "Logo, Ai = 2(30) = <strong>60°</strong>",
+                        "Qual polígono regular tem ângulo interno de 60°?",
+                        "O <strong>Triângulo Equilátero</strong> (Soma = 180, dividido por 3 = 60)."
+                    ],
+                    wrongAnalysis: "Confundir complementar (soma 90) com suplementar (soma 180).",
+                    tip: "Fórmula do ângulo interno: Ai = (n-2)×180 / n. Se n=3, Ai=60."
+                }
+            },
+            {
+                id: 37,
+                topic: "Aritmética",
+                difficulty: "Fácil",
+                skill: "Estimativa e Operações",
+                text: "Jogador ganha R$ 1,3 bilhão/ano. Trabalhador ganha R$ 1.412/mês. Tempo para o trabalhador juntar o que o jogador ganha em 1 ano:",
+                options: ["77 anos", "83 anos", "77 mil anos", "83 mil anos", "77 milhões de anos"],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "Renda do Jogador: 1.300.000.000",
+                        "Renda do Trabalhador (mensal): 1.412",
+                        "Quantos meses necessários? Dividir total pelo salário mensal.",
+                        "1.300.000.000 ÷ 1.412 ≈ 920.679 meses",
+                        "Converter meses para anos (dividir por 12):",
+                        "920.679 ÷ 12 ≈ <strong>76.723 anos</strong>",
+                        "Aproximando para as alternativas: 77 mil anos."
+                    ],
+                    wrongAnalysis: "Errar a quantidade de zeros no bilhão (9 zeros) ou esquecer de converter meses para anos.",
+                    tip: "Use notação científica ou conte os zeros com cuidado em questões de grandes números."
+                }
+            },
+            {
+                id: 38,
+                topic: "Regra de Três",
+                difficulty: "Difícil",
+                skill: "Regra de Três Composta",
+                text: "16 trabalhadores fazem 200m em 1 dia (8h). Faltam 1800m (total 2km). Saem 4 trabalhadores (ficam 12) e jornada cai para 6h. Quantos dias para terminar?",
+                options: ["12 dias", "14 dias", "16 dias", "18 dias", "20 dias"],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "Montando a tabela:",
+                        "Op: 16 -> 12 (Inversamente prop. aos dias)",
+                        "Horas: 8 -> 6 (Inversamente prop. aos dias)",
+                        "Obra: 200 -> 1800 (Diretamente prop. aos dias)",
+                        "Dias: 1 -> X",
+                        "Equação:",
+                        "<span class='math-display'>1/X = (12/16) × (6/8) × (200/1800)</span>",
+                        "Simplificando: 12/16 = 3/4; 6/8 = 3/4; 200/1800 = 1/9",
+                        "1/X = (3/4) × (3/4) × (1/9)",
+                        "1/X = 9 / 144",
+                        "1/X = 1 / 16",
+                        "<strong>X = 16 dias</strong>"
+                    ],
+                    wrongAnalysis: "O erro mais comum é não inverter as grandezas Operários e Horas na hora de montar a equação.",
+                    tip: "Analise cada grandeza em relação ao tempo. Mais gente? Menos tempo (inverso). Mais obra? Mais tempo (direto)."
+                }
+            },
+            {
+                id: 39,
+                topic: "Teoria dos Números",
+                difficulty: "Difícil",
+                skill: "Critérios de Divisibilidade",
+                text: "Número n = 3A2B é múltiplo de 12 e 16. O resto de sua divisão por 13 é:",
+                options: ["0", "2", "5", "7", "10"],
+                correct: 0, // A
+                resolution: {
+                    steps: [
+                        "Para ser divisível por 16, testamos múltiplos de 16 próximos a 3000.",
+                        "3008, 3024, ..., 3120, ...",
+                        "O número deve ter formato 3_2_. O número 3120 serve (A=1, B=0).",
+                        "Verificar se 3120 é divisível por 12: É par e a soma dos dígitos (6) é div por 3. Sim.",
+                        "Dividir 3120 por 13:",
+                        "312 ÷ 13 = 24. Resto 0.",
+                        "3120 ÷ 13 = 240.",
+                        "Resto = <strong>0</strong>."
+                    ],
+                    wrongAnalysis: "Tentar chutar A e B sem usar os critérios de divisibilidade torna a questão quase impossível.",
+                    tip: "Comece pelo critério mais restritivo (no caso, 16) para limitar as opções."
+                }
+            },
+            {
+                id: 40,
+                topic: "Geometria",
+                difficulty: "Fácil",
+                skill: "Teorema de Pitágoras",
+                text: "Um nadador quer nadar a distância AB. Ele sabe que AC = 600m e BC = 800m, e que o ângulo em C é de 90°. Qual a distância AB?",
+                options: ["900 m", "1.000 m", "1.200 m", "1.400 m", "1.600 m"],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "Trata-se de um triângulo retângulo onde AB é a hipotenusa.",
+                        "Teorema de Pitágoras: a² = b² + c²",
+                        "x² = 600² + 800²",
+                        "x² = 360.000 + 640.000",
+                        "x² = 1.000.000",
+                        "x = √1.000.000 = <strong>1.000 m</strong>"
+                    ],
+                    wrongAnalysis: "Somar 600 + 800 = 1400 (erro conceitual grave).",
+                    tip: "Note que é o triângulo pitagórico 3-4-5 multiplicado por 200 (600-800-1000)."
+                },
+                svg: `
+                <div class="svg-container">
+                    <svg width="250" height="150" viewBox="0 0 250 150">
+                        <path d="M 20 130 L 220 130" stroke="#333" stroke-width="2"/>
+                        <path d="M 220 130 L 220 10" stroke="#333" stroke-width="2"/>
+                        <path d="M 20 130 L 220 10" stroke="#EF4444" stroke-width="3" stroke-dasharray="5,5"/>
+                        <text x="100" y="145" font-size="12">800m</text>
+                        <text x="225" y="70" font-size="12">600m</text>
+                        <text x="100" y="60" font-size="14" fill="#EF4444" font-weight="bold">AB = ?</text>
+                        <rect x="200" y="110" width="20" height="20" fill="none" stroke="black"/>
+                    </svg>
+                </div>`
+            }
+        ];
+
+        // --- SISTEMA ---
+        let currentMode = 'estudo';
+        let userAnswers = {};
+
+        function init() {
+            renderQuestions();
+            loadProgress();
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('btnEstudo').classList.toggle('active', mode === 'estudo');
+            document.getElementById('btnSimulado').classList.toggle('active', mode === 'simulado');
+            
+            // Reset visual states
+            document.querySelectorAll('.resolution-box').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.alt-btn').forEach(el => {
+                el.classList.remove('correct', 'incorrect', 'selected');
+                // No modo simulado, limpar seleções visuais se reiniciar? Não, manter estado.
+            });
+            
+            // Show/Hide controls
+            document.getElementById('simulado-controls').style.display = mode === 'simulado' ? 'block' : 'none';
+            
+            // Re-render to apply logic
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                
+                // SVG se existir
+                const svgContent = q.svg ? q.svg : '';
+
+                let html = `
+                    <div class="q-header">
+                        <span class="q-number">QUESTÃO ${q.id}</span>
+                        <div class="q-tags">
+                            <span class="tag math">${q.topic}</span>
+                            <span class="tag dif-${q.difficulty.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}">${q.difficulty}</span>
+                        </div>
+                    </div>
+                    <div class="enunciado">${q.text}</div>
+                    ${svgContent}
+                    <div class="alternatives" id="alt-container-${index}">
+                        ${q.options.map((opt, i) => `
+                            <button class="alt-btn" onclick="handleAnswer(${index}, ${i}, this)">
+                                <div class="alt-letter">${String.fromCharCode(65+i)}</div>
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+
+                // Adicionar resolução (Apenas modo estudo)
+                if (currentMode === 'estudo') {
+                    html += `
+                        <div class="action-area">
+                            <button class="btn-resolve" onclick="toggleResolution(${index})">
+                                👁️ Ver Resolução Completa
+                            </button>
+                        </div>
+                        <div class="resolution-box" id="res-${index}">
+                            <div class="res-header">🎓 Resolução Pedagógica</div>
+                            <div class="res-content">
+                                ${q.resolution.steps.map(s => `<div class="step">${s}</div>`).join('')}
+                                <div class="error-analysis">
+                                    <strong>⚠️ Onde a maioria erra:</strong> ${q.resolution.wrongAnalysis}
+                                </div>
+                                <div class="pro-tip">
+                                    <strong>💡 Dica de Mestre:</strong> ${q.resolution.tip}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+            
+            // Restore answers state if any
+            restoreVisualState();
+        }
+
+        function handleAnswer(qIndex, optIndex, btnElement) {
+            // Salvar resposta
+            userAnswers[qIndex] = optIndex;
+            saveProgress();
+
+            const container = document.getElementById(`alt-container-${qIndex}`);
+            const buttons = container.querySelectorAll('.alt-btn');
+
+            // Limpar estilos anteriores
+            buttons.forEach(b => b.classList.remove('selected', 'correct', 'incorrect'));
+
+            if (currentMode === 'estudo') {
+                // Feedback imediato
+                const correctIndex = questions[qIndex].correct;
+                if (optIndex === correctIndex) {
+                    btnElement.classList.add('correct');
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+                } else {
+                    btnElement.classList.add('incorrect');
+                    buttons[correctIndex].classList.add('correct'); // Mostra a certa
+                }
+            } else {
+                // Modo simulado: apenas marca seleção
+                btnElement.classList.add('selected');
+            }
+        }
+
+        function toggleResolution(index) {
+            const resBox = document.getElementById(`res-${index}`);
+            const isHidden = resBox.style.display === 'none' || resBox.style.display === '';
+            resBox.style.display = isHidden ? 'block' : 'none';
+        }
+
+        function finishSimulado() {
+            let score = 0;
+            let feedback = '';
+            
+            questions.forEach((q, i) => {
+                if (userAnswers[i] === q.correct) score++;
+            });
+
+            const percentage = (score / questions.length) * 100;
+            
+            if(percentage === 100) feedback = "Perfeito! Você dominou o conteúdo.";
+            else if(percentage >= 70) feedback = "Muito bom! Alguns ajustes e você chega lá.";
+            else feedback = "Precisa revisar os conceitos básicos. Use o Modo Estudo.";
+
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('feedbackText').innerText = feedback;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function closeResult() {
+            document.getElementById('resultModal').style.display = 'none';
+            switchMode('estudo'); // Manda para estudo para ver as correções
+            // Highlight errors in study mode
+            restoreVisualState();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('ifce_math_answers', JSON.stringify(userAnswers));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('ifce_math_answers');
+            if (saved) {
+                userAnswers = JSON.parse(saved);
+                restoreVisualState();
+            }
+        }
+
+        function restoreVisualState() {
+            // Re-aplica as classes visuais baseadas nas respostas salvas
+            Object.keys(userAnswers).forEach(qIndex => {
+                const optIndex = userAnswers[qIndex];
+                const container = document.getElementById(`alt-container-${qIndex}`);
+                if (!container) return;
+                
+                const buttons = container.querySelectorAll('.alt-btn');
+                if (buttons[optIndex]) {
+                    if (currentMode === 'estudo') {
+                        const correctIndex = questions[qIndex].correct;
+                        if (parseInt(optIndex) === correctIndex) {
+                            buttons[optIndex].classList.add('correct');
+                        } else {
+                            buttons[optIndex].classList.add('incorrect');
+                            buttons[correctIndex].classList.add('correct');
+                        }
+                    } else {
+                        buttons[optIndex].classList.add('selected');
+                    }
+                }
+            });
+        }
+
+        // Iniciar
+        init();
+
+    </script>
+</body>
+</html>
