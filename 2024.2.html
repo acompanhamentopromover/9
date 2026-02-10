@@ -15,8 +15,9 @@
         :root {
             --bg-color: #F3F4F6;
             --text-color: #1F2937;
-            --ifce-green: #34D399; /* Verde tom IF */
-            --ifce-dark: #065F46;
+            /* CORES IFCE */
+            --ifce-green: #34D399; 
+            --ifce-dark-green: #065F46;
             --ifce-red: #EF4444;
             --white: #FFFFFF;
             
@@ -43,7 +44,7 @@
         .logo-header {
             width: 100%;
             max-width: 700px;
-            background: var(--ifce-dark);
+            background: var(--ifce-dark-green);
             color: white;
             padding: 20px;
             text-align: center;
@@ -51,9 +52,10 @@
             border-bottom-right-radius: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            border-top: 5px solid var(--ifce-red); /* Detalhe vermelho do IF */
         }
         
-        .logo-header h1 { font-size: 1.5rem; margin-bottom: 5px; }
+        .logo-header h1 { font-size: 1.5rem; margin-bottom: 5px; font-weight: 700; letter-spacing: 1px; }
         .logo-header p { font-size: 0.9rem; opacity: 0.9; }
 
         .container { width: 100%; max-width: 700px; padding: 0 20px; }
@@ -81,21 +83,21 @@
             transition: all 0.3s ease;
         }
         .toggle-btn.active {
-            background-color: var(--ifce-dark);
+            background-color: var(--ifce-dark-green);
             color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .section-view { display: none; animation: fadeIn 0.4s ease-out; }
 
-        /* --- CARDS DE CONTEÚDO --- */
+        /* --- CARDS --- */
         .card {
             background-color: var(--white);
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 20px;
-            border-left: 5px solid var(--ifce-dark);
+            border-left: 5px solid var(--ifce-red);
         }
 
         .math-block {
@@ -108,6 +110,7 @@
             font-weight: bold;
             color: #374151;
             overflow-x: auto;
+            font-size: 0.9rem;
         }
 
         /* --- QUESTÕES --- */
@@ -121,7 +124,7 @@
         
         .question-text {
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 15px;
             line-height: 1.5;
         }
@@ -153,29 +156,13 @@
             flex-shrink: 0;
         }
 
-        /* Estados dos botões */
         .option-btn:hover { border-color: var(--ifce-green); }
         
-        .option-btn.correct {
-            background-color: var(--correct-bg);
-            border-color: var(--correct-border);
-        }
-        .option-btn.correct .option-circle {
-            background-color: var(--correct-border);
-            border-color: var(--correct-border);
-            color: white;
-        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .option-circle { background-color: var(--correct-border); border-color: var(--correct-border); color: white; }
 
-        .option-btn.wrong {
-            background-color: var(--wrong-bg);
-            border-color: var(--wrong-border);
-            opacity: 0.8;
-        }
-        .option-btn.wrong .option-circle {
-            background-color: var(--wrong-border);
-            border-color: var(--wrong-border);
-            color: white;
-        }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .option-circle { background-color: var(--wrong-border); border-color: var(--wrong-border); color: white; }
         
         .option-btn.disabled { pointer-events: none; }
 
@@ -190,7 +177,7 @@
         }
         .feedback-title {
             font-weight: 700;
-            color: var(--ifce-dark);
+            color: var(--ifce-dark-green);
             margin-bottom: 5px;
             display: flex; align-items: center; gap: 5px;
         }
@@ -219,8 +206,8 @@
         }
         
         .map-dot.active {
-            background-color: var(--ifce-dark);
-            color: white; border-color: var(--ifce-dark);
+            background-color: var(--ifce-dark-green);
+            color: white; border-color: var(--ifce-dark-green);
             transform: scale(1.1);
         }
         .map-dot.correct { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
@@ -230,20 +217,21 @@
         #viewResult { text-align: center; display: none; }
         .result-circle {
             width: 120px; height: 120px;
-            background: var(--ifce-dark);
+            background: var(--ifce-dark-green);
             color: white;
             border-radius: 50%;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             margin: 0 auto 20px auto;
             box-shadow: 0 4px 10px rgba(6, 95, 70, 0.3);
+            border: 4px solid var(--ifce-red);
         }
         .result-score { font-size: 2.5rem; font-weight: 700; line-height: 1; }
         .result-total { font-size: 0.9rem; opacity: 0.8; }
 
         .btn-restart {
             width: 100%; padding: 15px;
-            background-color: var(--ifce-dark); color: white;
+            background-color: var(--ifce-dark-green); color: white;
             border: none; border-radius: 10px;
             font-size: 1rem; font-weight: 700;
             cursor: pointer; margin-top: 20px;
@@ -261,7 +249,7 @@
             font-weight: 600; border: none; cursor: pointer;
         }
         .btn-prev { background: #F3F4F6; color: #374151; }
-        .btn-next { background: var(--ifce-dark); color: white; }
+        .btn-next { background: var(--ifce-dark-green); color: white; }
         .btn-next:disabled, .btn-prev:disabled { opacity: 0.5; cursor: not-allowed; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -273,29 +261,29 @@
 
     <div class="logo-header">
         <h1>Matemática IFCE</h1>
-        <p>Edital 003/2024 - Cursos Integrados</p>
+        <p>Processo Seletivo 2024.2 - Cursos Integrados</p>
     </div>
 
     <div class="container">
         
         <div class="toggle-container">
-            <button class="toggle-btn active" id="btnResumo" onclick="setMode('resumo')">📚 Resumo</button>
-            <button class="toggle-btn" id="btnQuiz" onclick="setMode('quiz')">📝 Resolver Prova</button>
+            <button class="toggle-btn active" id="btnResumo" onclick="setMode('resumo')">📚 Resumo da Prova</button>
+            <button class="toggle-btn" id="btnQuiz" onclick="setMode('quiz')">📝 Resolver Questões</button>
         </div>
 
         <div id="viewResumo" class="section-view" style="display: block;">
             <div class="card">
-                <h3>O que caiu nesta prova?</h3>
-                <p style="margin-top:10px; color:#555;">Esta prova do IFCE (2024.2) focou bastante em matemática aplicada e interpretação de problemas.</p>
+                <h3 style="color:var(--ifce-dark-green);">Análise da Prova</h3>
+                <p style="margin-top:10px; color:#555;">Esta prova (2024.2) cobrou bastante interpretação e aplicação de fórmulas básicas em situações do cotidiano.</p>
                 <ul style="margin-left:20px; margin-top:10px; line-height:1.6;">
-                    <li><strong>Álgebra:</strong> Médias aritméticas, equações e fatoração.</li>
-                    <li><strong>Financeira:</strong> Diferença entre Juros Simples e Compostos.</li>
-                    <li><strong>Geometria:</strong> Polígonos, ângulos e Teorema de Pitágoras.</li>
-                    <li><strong>Aritmética:</strong> Regra de três composta, divisibilidade e dízimas.</li>
+                    <li><strong>Álgebra:</strong> Médias e Equações (Q31), Expressões (Q35).</li>
+                    <li><strong>Financeira:</strong> Juros Simples vs Compostos (Q32).</li>
+                    <li><strong>Aritmética:</strong> Frações (Q33), Porcentagem (Q34), Regra de Três (Q38), Divisibilidade (Q39).</li>
+                    <li><strong>Geometria:</strong> Polígonos (Q36), Teorema de Pitágoras (Q40).</li>
                 </ul>
             </div>
             
-            <button class="btn-restart" onclick="setMode('quiz')">Começar a Prova</button>
+            <button class="btn-restart" onclick="setMode('quiz')">Começar Simulado</button>
         </div>
 
         <div id="viewQuiz" class="section-view">
@@ -309,7 +297,7 @@
                 <span class="result-score" id="finalScore">0</span>
                 <span class="result-total">de 10</span>
             </div>
-            <h2>Prova Finalizada!</h2>
+            <h2 style="color:var(--ifce-dark-green);">Prova Finalizada!</h2>
             <p id="finalMessage" style="margin: 10px 0; color:#555;">Veja seu desempenho.</p>
             <div id="reviewContainer"></div>
             <button class="btn-restart" onclick="restartQuiz()">Refazer Prova</button>
@@ -326,17 +314,17 @@
         const questions = [
             {
                 id: 31,
-                text: "Uma turma está realizando um estudo sobre a média de idade dos alunos. A média atual é de 17 anos. Um novo aluno com <strong>x</strong> anos entrou na turma, e a média passou para 18 anos. Qual era o número de alunos (n) antes da entrada do novo aluno?",
+                text: "Uma turma de certa escola está realizando um estudo sobre a média de idade dos alunos. A média atual é de 17 anos. Um novo aluno com <strong>x</strong> anos entrou na turma, e a média passou para 18 anos. Qual era o número de alunos (n) dessa turma antes da entrada do novo aluno?",
                 options: ["x", "x - 18", "17 - x", "17 + x", "18 - x"],
                 correct: 1,
                 explanation: `
                     <strong>Resolução:</strong><br>
                     1. Soma das idades inicial = 17n.<br>
-                    2. Nova soma = 17n + x.<br>
+                    2. Nova soma (com aluno x) = 17n + x.<br>
                     3. Novo total de alunos = n + 1.<br>
                     4. Nova média: (17n + x) / (n + 1) = 18.<br>
-                    5. 17n + x = 18(n + 1) → 17n + x = 18n + 18.<br>
-                    6. x - 18 = 18n - 17n → <strong>n = x - 18</strong>.
+                    5. Multiplicando cruzado: 17n + x = 18(n + 1) → 17n + x = 18n + 18.<br>
+                    6. Isolando n: x - 18 = 18n - 17n → <strong>n = x - 18</strong>.
                 `
             },
             {
@@ -345,27 +333,29 @@
                 options: ["R$ 1.876,76", "R$ 2.459,87", "R$ 3.798,88", "R$ 4.878,26", "R$ 5.897,65"],
                 correct: 2,
                 explanation: `
-                    <strong>Simples:</strong> J = 200.000 × 0,02 × 10 = 40.000. Total = 240.000.<br>
-                    <strong>Compostos:</strong> M = 200.000 × (1,02)^10.<br>
+                    <strong>Juros Simples:</strong><br>
+                    J = C . i . t = 200.000 . 0,02 . 10 = 40.000.<br>
+                    Montante Simples = 240.000.<br><br>
+                    <strong>Juros Compostos:</strong><br>
+                    M = C . (1 + i)^t = 200.000 . (1,02)^10.<br>
                     (1,02)^10 ≈ 1,21899.<br>
-                    M ≈ 200.000 × 1,21899 = 243.798,88.<br>
+                    M = 200.000 . 1,21899 = 243.798,88.<br><br>
                     <strong>Diferença:</strong> 243.798,88 - 240.000 = <strong>R$ 3.798,88</strong>.
                 `
             },
             {
                 id: 33,
-                text: "Sabendo que x = 1,05; y = 2,323232... e z = 2,666..., calcule o valor da razão x / z.",
+                text: "Sabendo que x = 1,05; y = 2,323232... e z = 2,666..., calcule o valor do produto entre as razões x e z (x/z).",
                 options: ["0,35378", "0,39375", "0,77853", "1,00475", "1,04523"],
                 correct: 1,
                 explanation: `
-                    <strong>Frações Geratrizes:</strong><br>
+                    <strong>Transformando em fração:</strong><br>
                     x = 105/100 = 21/20<br>
                     z = (26-2)/9 = 24/9 = 8/3<br><br>
-                    <strong>Cálculo:</strong><br>
-                    x / z = (21/20) ÷ (8/3)<br>
-                    = (21/20) × (3/8)<br>
+                    <strong>Divisão x / z:</strong><br>
+                    (21/20) ÷ (8/3) = (21/20) . (3/8)<br>
                     = 63 / 160<br>
-                    = <strong>0,39375</strong>.
+                    Ao dividir 63 por 160, obtemos <strong>0,39375</strong>.
                 `
             },
             {
@@ -374,10 +364,10 @@
                 options: ["2,98%", "3,28%", "3,86%", "4,01%", "4,11%"],
                 correct: 2,
                 explanation: `
-                    <strong>Total de inscritos:</strong> 422 + 126 + 22 = 570.<br>
-                    <strong>Probabilidade:</strong> 22 / 570.<br>
-                    Calculation: 22 ÷ 570 ≈ 0,03859...<br>
-                    Em porcentagem: ≈ <strong>3,86%</strong>.
+                    <strong>Total de participantes:</strong> 422 + 126 + 22 = 570.<br>
+                    <strong>Probabilidade (Crianças):</strong> 22 / 570.<br>
+                    22 ÷ 570 ≈ 0,03859...<br>
+                    Multiplicando por 100 para %, temos aproximadamente <strong>3,86%</strong>.
                 `
             },
             {
@@ -386,9 +376,11 @@
                 options: ["0", "1", "Expressão Longa 1", "Expressão Longa 2", "Expressão Longa 3"],
                 correct: 0,
                 explanation: `
-                    <strong>Propriedade:</strong> O quadrado da diferença é igual, não importa a ordem. (a - b)² = (b - a)².<br>
-                    (xy - xz)² é igual a (xz - xy)².<br>
-                    Logo, um número menos ele mesmo é <strong>zero</strong>.
+                    <strong>Dica de Ouro:</strong><br>
+                    O quadrado da diferença é igual, não importa a ordem. (A - B)² é igual a (B - A)².<br>
+                    Ex: (5 - 3)² = 2² = 4. E (3 - 5)² = (-2)² = 4.<br><br>
+                    Logo, (xy - xz)² é idêntico a (xz - xy)².<br>
+                    Um número menos ele mesmo é igual a <strong>zero</strong>.
                 `
             },
             {
@@ -397,9 +389,11 @@
                 options: ["Círculo", "Triângulo", "Hexágono", "Quadrado", "Pentágono"],
                 correct: 1,
                 explanation: `
-                    <strong>Dados:</strong> Ai (interno) + α = 90 (complementar) e Ai = 2α.<br>
+                    <strong>Interpretando:</strong><br>
+                    1. Complementar soma 90°: Ai + α = 90.<br>
+                    2. Ai é o dobro de α: Ai = 2α.<br><br>
                     Substituindo: 2α + α = 90 → 3α = 90 → α = 30°.<br>
-                    Logo, o ângulo interno Ai = 60°.<br>
+                    Logo, o Ângulo Interno (Ai) = 60°.<br>
                     O único polígono regular com ângulo interno de 60° é o <strong>Triângulo Equilátero</strong>.
                 `
             },
@@ -410,64 +404,72 @@
                 correct: 2,
                 explanation: `
                     <strong>Renda Anual do Jogador:</strong> 1.300.000.000<br>
-                    <strong>Renda Mensal do Trabalhador:</strong> 1.412<br>
-                    <strong>Meses necessários:</strong> 1.300.000.000 ÷ 1.412 ≈ 920.679 meses.<br>
-                    <strong>Anos necessários:</strong> 920.679 ÷ 12 ≈ 76.723 anos.<br>
-                    Aproximadamente <strong>77 mil anos</strong>.
+                    <strong>Renda Mensal do Trabalhador:</strong> 1.412<br><br>
+                    Meses necessários: 1.300.000.000 ÷ 1.412 ≈ 920.679 meses.<br>
+                    Anos necessários: 920.679 ÷ 12 ≈ 76.723 anos.<br>
+                    Arredondando, são aproximadamente <strong>77 mil anos</strong>.
                 `
             },
             {
                 id: 38,
-                text: "16 trabalhadores fazem 200m de estrada em 1 dia (8h). Faltam 1800m (total era 2km). Saíram 4 trabalhadores e a jornada caiu para 6h. Quantos dias para terminar?",
+                text: "16 trabalhadores fazem 200m de estrada em 1 dia (8h). A obra tem 2km (2000m). Já fizeram 200m (faltam 1800m). Saíram 4 trabalhadores e a jornada caiu para 6h. Quantos dias para terminar?",
                 options: ["12 dias", "14 dias", "16 dias", "18 dias", "20 dias"],
                 correct: 2,
                 explanation: `
                     <strong>Regra de Três Composta:</strong><br>
-                    16 op -- 8h -- 200m -- 1 dia<br>
-                    12 op -- 6h -- 1800m -- X dias<br><br>
-                    Menos operários = Mais dias (Inverso)<br>
-                    Menos horas = Mais dias (Inverso)<br>
-                    Mais obra = Mais dias (Direto)<br><br>
-                    1/X = (12/16) * (6/8) * (200/1800)<br>
-                    1/X = (3/4) * (3/4) * (1/9) = 9/144 = 1/16.<br>
-                    <strong>X = 16 dias</strong>.
+                    Op | Horas | Obra | Dias<br>
+                    16 | 8h | 200m | 1<br>
+                    12 | 6h | 1800m| x<br><br>
+                    <strong>Análise:</strong><br>
+                    - Menos operários (16->12) -> Mais dias (Inverso)<br>
+                    - Menos horas (8->6) -> Mais dias (Inverso)<br>
+                    - Mais obra (200->1800) -> Mais dias (Direto)<br><br>
+                    1/x = (12/16) . (6/8) . (200/1800)<br>
+                    1/x = (3/4) . (3/4) . (1/9) = 9/144 = 1/16<br>
+                    <strong>x = 16 dias</strong>.
                 `
             },
             {
                 id: 39,
-                text: "Um número n = 3A2B é múltiplo de 12 e 16. Qual o resto da divisão de n por 13?",
+                text: "Um número natural n = 3A2B é múltiplo de 12 e divisível por 16. O resto de sua divisão por 13 é:",
                 options: ["0", "2", "5", "7", "10"],
                 correct: 0,
                 explanation: `
-                    Para ser múltiplo de 16 e terminar em 2B, testando múltiplos de 16 na casa dos 3000:<br>
-                    Encontramos <strong>3120</strong> (A=1, B=0).<br>
-                    Verificando: 3120 ÷ 16 = 195 (Ok). 3120 ÷ 12 = 260 (Ok).<br>
-                    Agora, divisão por 13:<br>
+                    Para ser divisível por 16, os últimos 4 dígitos (o número todo) devem ser div por 16.<br>
+                    Testando múltiplos de 16 na casa de 3000:<br>
+                    3008, 3024, ..., <strong>3120</strong>, 3136...<br>
+                    O número 3120 se encaixa no formato 3A2B (A=1, B=0).<br>
+                    Verificando 12: 3+1+2+0 = 6 (div por 3) e termina em 20 (div por 4). Ok.<br><br>
+                    <strong>Divisão por 13:</strong><br>
                     3120 ÷ 13 = 240.<br>
-                    <strong>Resto 0</strong>.
+                    O resto é <strong>0</strong>.
                 `
             },
             {
                 id: 40,
-                text: "Um nadador quer nadar a distância AB. Ele sabe que AC = 600m e BC = 800m, e que o ângulo em C é de 90° (encontro do espigão com a praia). Qual a distância AB?",
+                text: "Um nadador quer nadar a distância AB. Ele sabe que a distância da praia (AC) é 600m e a distância no espigão (BC) é 800m. O ângulo em C é 90°. Qual a distância AB?",
                 visual: `
-                    <svg width="200" height="150" viewBox="0 0 200 150">
-                        <line x1="20" y1="130" x2="180" y2="130" stroke="#333" stroke-width="2"/> <line x1="20" y1="130" x2="20" y2="10" stroke="#333" stroke-width="2"/> <line x1="20" y1="10" x2="180" y2="130" stroke="#EF4444" stroke-width="3"/> <text x="5" y="70" font-size="12">600m</text>
-                        <text x="100" y="145" font-size="12">800m</text>
+                    <svg width="250" height="150" viewBox="0 0 250 150">
+                        <line x1="20" y1="130" x2="220" y2="130" stroke="#333" stroke-width="2"/> 
+                        <text x="120" y="145" font-size="12">Praia (BC = 800m)</text>
+                        <line x1="220" y1="130" x2="220" y2="10" stroke="#333" stroke-width="2"/> 
+                        <text x="225" y="70" font-size="12">Espigão (AC = 600m)</text>
+                        <line x1="20" y1="130" x2="220" y2="10" stroke="#EF4444" stroke-width="3" stroke-dasharray="5"/>
                         <text x="100" y="60" font-size="12" fill="#EF4444" font-weight="bold">AB = ?</text>
-                        <rect x="20" y="120" width="10" height="10" fill="none" stroke="black"/>
+                        <rect x="200" y="110" width="20" height="20" fill="none" stroke="black"/>
+                        <circle cx="210" cy="120" r="2" fill="black"/>
                     </svg>
                 `,
                 options: ["900 m", "1.000 m", "1.200 m", "1.400 m", "1.600 m"],
                 correct: 1,
                 explanation: `
                     <strong>Teorema de Pitágoras:</strong><br>
-                    Trata-se de um triângulo retângulo onde AB é a hipotenusa.<br>
+                    Temos um triângulo retângulo onde os catetos são 600 e 800.<br>
                     x² = 600² + 800²<br>
                     x² = 360.000 + 640.000<br>
                     x² = 1.000.000<br>
-                    x = √1.000.000 = <strong>1.000 metros</strong>.<br>
-                    (Dica: É o triângulo 3-4-5 multiplicado por 200).
+                    x = √1.000.000 = <strong>1.000 metros</strong>.<br><br>
+                    <em>Dica: É o triângulo 3-4-5 multiplicado por 200.</em>
                 `
             }
         ];
@@ -505,7 +507,7 @@
                 if(userAnswers[idx] !== null) {
                     dot.classList.add(userAnswers[idx] === q.correct ? 'correct' : 'wrong');
                 }
-                dot.innerText = idx + 31; // As questões começam na 31 na prova original
+                dot.innerText = idx + 31; 
                 dot.onclick = () => {
                     currentQuestionIndex = idx;
                     renderQuestion();
