@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estuda IFCE | Matemática Pop</title>
+    <title>Estuda IFCE | Física Pop</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,22 +13,23 @@
 
     <style>
         :root {
-            /* PALETA POP IFCE */
-            --bg-page: #FFFDF5; /* Creme suave */
+            /* PALETA POP FÍSICA */
+            --bg-page: #F0F9FF; /* Azul claríssimo */
             --card-bg: #FFFFFF;
             --text-main: #1D1D1D;
             --border-color: #000000;
             
-            /* CORES DE DESTAQUE */
-            --accent-green: #4ADE80; /* Verde IF Pop */
-            --accent-blue: #60A5FA;
-            --accent-yellow: #FACC15;
-            --accent-pink: #F472B6;
-            --accent-red: #F87171;
+            /* CORES DE DESTAQUE (TEMA ENERGIA) */
+            --accent-blue: #3B82F6; /* Azul Elétrico */
+            --accent-orange: #F97316; /* Laranja Energético */
+            --accent-yellow: #FACC15; /* Amarelo Tensão */
+            --accent-green: #4ADE80; /* Verde Acerto */
+            --accent-red: #F87171; /* Vermelho Erro */
             
+            /* SOMBRAS CARTOON */
             --shadow-hard: 4px 4px 0px #000000;
             --shadow-btn: 2px 2px 0px #000000;
-            --shadow-hover: 6px 6px 0px #000000;
+            --shadow-hover: 5px 5px 0px #000000;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,26 +39,40 @@
             background-color: var(--bg-page);
             color: var(--text-main);
             padding-bottom: 100px;
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
         /* --- HEADER --- */
         .pop-header {
             text-align: center;
             padding: 40px 20px;
-            background: var(--accent-green);
+            background: var(--accent-blue);
             border-bottom: 3px solid var(--border-color);
             margin-bottom: 30px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .pop-header::after {
+            content: "⚡";
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.1;
+            right: -20px;
+            top: -20px;
+            transform: rotate(15deg);
         }
 
         .pop-header h1 {
             font-size: 2.5rem;
             font-weight: 800;
+            color: #fff;
             text-transform: uppercase;
-            text-shadow: 3px 3px 0px #fff;
+            text-shadow: 3px 3px 0px #000;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
         }
 
         .tag-header {
@@ -69,6 +84,8 @@
             font-size: 0.9rem;
             box-shadow: var(--shadow-btn);
             display: inline-block;
+            position: relative;
+            z-index: 2;
         }
 
         /* --- CONTAINER --- */
@@ -104,17 +121,13 @@
             transition: all 0.2s;
         }
 
-        .mode-btn:hover { background: #f3f4f6; }
+        .mode-btn:hover { background: #f1f5f9; }
 
         .mode-btn.active {
-            background: var(--accent-blue);
+            background: var(--accent-orange);
             border: 2px solid #000;
             color: #fff;
             box-shadow: var(--shadow-btn);
-        }
-
-        .mode-btn.active.simulado {
-            background: var(--accent-pink);
         }
 
         /* --- CARD DA QUESTÃO --- */
@@ -126,6 +139,7 @@
             margin-bottom: 30px;
             box-shadow: var(--shadow-hard);
             transition: transform 0.2s;
+            position: relative;
         }
 
         .q-header {
@@ -133,7 +147,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 2px dashed #ddd;
+            border-bottom: 2px dashed #cbd5e1;
             padding-bottom: 15px;
         }
 
@@ -148,11 +162,30 @@
             box-shadow: 2px 2px 0px #000;
         }
 
+        .q-topic {
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
         .q-text {
             font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 500;
+        }
+
+        /* --- ILUSTRAÇÕES SVG --- */
+        .visual-box {
+            background: #F8FAFC;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* --- OPÇÕES --- */
@@ -177,7 +210,7 @@
         .option-btn:hover:not(:disabled) {
             transform: translate(-2px, -2px);
             box-shadow: var(--shadow-hover);
-            background: #f9fafb;
+            background: #eff6ff;
         }
 
         .option-btn:active:not(:disabled) {
@@ -220,14 +253,13 @@
         /* --- RESOLUÇÃO --- */
         .resolution-box {
             margin-top: 25px;
-            background: #F0FDFA;
+            background: #FFF7ED; /* Laranja bem claro */
             border: 2px solid #000;
             border-radius: 16px;
-            padding: 0;
             overflow: hidden;
             display: none;
             box-shadow: var(--shadow-btn);
-            animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideUp 0.3s ease-out;
         }
 
         .res-header {
@@ -238,6 +270,9 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .res-body { padding: 20px; }
@@ -245,9 +280,9 @@
         .step-card {
             background: #fff;
             border: 1px solid #000;
-            border-left: 5px solid var(--accent-green);
-            padding: 10px 15px;
-            margin-bottom: 10px;
+            border-left: 5px solid var(--accent-orange);
+            padding: 12px 15px;
+            margin-bottom: 12px;
             border-radius: 8px;
             font-size: 0.95rem;
         }
@@ -258,22 +293,24 @@
             background: #eee;
             padding: 2px 6px;
             border-radius: 4px;
+            color: #d946ef;
         }
 
         .pro-tip {
             margin-top: 15px;
-            background: #FFFBEB;
-            border: 2px dashed var(--accent-yellow);
+            background: #EFF6FF;
+            border: 2px dashed var(--accent-blue);
             padding: 15px;
             border-radius: 12px;
             font-size: 0.9rem;
-            color: #78350F;
+            color: #1E3A8A;
+            font-weight: 500;
         }
 
-        /* --- MAPA DE NAVEGAÇÃO --- */
+        /* --- NAVEGAÇÃO INFERIOR --- */
         .nav-map {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             overflow-x: auto;
             padding: 10px 5px;
             margin-bottom: 20px;
@@ -297,17 +334,6 @@
         
         .nav-dot.right { background: var(--accent-green); }
         .nav-dot.wrong { background: var(--accent-red); }
-
-        /* --- SVG --- */
-        .svg-container {
-            background: #fff;
-            border: 2px solid #000;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-        }
 
         /* --- BOTÃO DE AÇÃO --- */
         .action-btn {
@@ -342,11 +368,11 @@
             box-shadow: var(--shadow-hard);
             margin-bottom: 20px;
         }
-        .big-score { font-size: 4rem; font-weight: 800; line-height: 1; color: var(--accent-green); text-shadow: 2px 2px 0 #000; }
+        .big-score { font-size: 4rem; font-weight: 800; line-height: 1; color: var(--accent-blue); text-shadow: 2px 2px 0 #000; }
 
-        @keyframes popUp {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
     </style>
@@ -354,15 +380,15 @@
 <body>
 
     <header class="pop-header">
-        <h1>Matemática IFCE</h1>
+        <h1>Física IFCE</h1>
         <span class="tag-header">2024.2 • INTEGRADO</span>
     </header>
 
     <div class="container">
         
         <div class="nav-panel">
-            <button class="mode-btn active" id="btnStudy" onclick="switchMode('study')">📚 MODO ESTUDO</button>
-            <button class="mode-btn" id="btnSim" onclick="switchMode('simulado')">🏆 SIMULADO</button>
+            <button class="mode-btn active" id="btnStudy" onclick="switchMode('study')">📚 ESTUDAR</button>
+            <button class="mode-btn" id="btnSim" onclick="switchMode('simulado')">⏱️ SIMULADO</button>
         </div>
 
         <div id="quiz-screen">
@@ -376,206 +402,187 @@
             <div class="score-card">
                 <h2>Mandou bem?</h2>
                 <div class="big-score" id="finalScore">0%</div>
-                <p id="finalMsg" style="margin-top:10px; font-weight:500;">...</p>
+                <p id="finalMsg" style="margin-top:10px; font-weight:500; color:#555;">...</p>
             </div>
-            <button class="action-btn" onclick="resetQuiz()">Tentar Novamente</button>
+            <button class="action-btn" onclick="resetQuiz()">Reiniciar Estudos</button>
         </div>
 
     </div>
 
     <script>
-        // --- DADOS DAS QUESTÕES ---
+        // --- DADOS DAS QUESTÕES DE FÍSICA ---
         const questions = [
             {
-                id: 31,
-                topic: "Álgebra",
-                difficulty: "Médio",
-                text: "Uma turma tem média de idade de 17 anos. Um novo aluno com <strong>x</strong> anos entra, e a média sobe para 18. Qual era o número de alunos (n) antes da entrada?",
-                options: ["x", "x - 18", "17 - x", "17 + x", "18 - x"],
-                correct: 1, // B
-                resolution: {
-                    steps: [
-                        "A soma inicial das idades é <span class='math-display'>17n</span>.",
-                        "Entra o aluno x. Nova soma: <span class='math-display'>17n + x</span>.",
-                        "O total de alunos agora é <span class='math-display'>n + 1</span>.",
-                        "A nova média é 18: <span class='math-display'>(17n + x)/(n + 1) = 18</span>.",
-                        "Multiplicando: <span class='math-display'>17n + x = 18n + 18</span>.",
-                        "Isolando n: <span class='math-display'>x - 18 = 18n - 17n</span> -> <span class='math-display'>n = x - 18</span>."
-                    ],
-                    tip: "Em problemas de média, trabalhe sempre com a SOMA TOTAL para montar a equação."
-                }
-            },
-            {
-                id: 32,
-                topic: "Financeira",
-                difficulty: "Difícil",
-                text: "Empréstimo de R$ 200.000 por 10 meses a 2% a.m. Errou usando Juros Simples, devia ser Composto. Qual a diferença? (Use 1,02¹⁰ = 1,21899)",
-                options: ["R$ 1.876,76", "R$ 2.459,87", "R$ 3.798,88", "R$ 4.878,26", "R$ 5.897,65"],
-                correct: 2, // C
-                resolution: {
-                    steps: [
-                        "<strong>Simples:</strong> J = 200.000 x 0,02 x 10 = 40.000. Total = <strong>240.000</strong>.",
-                        "<strong>Composto:</strong> M = 200.000 x 1,21899 = <strong>243.798,88</strong>.",
-                        "<strong>Diferença:</strong> 243.798,88 - 240.000 = <strong>3.798,88</strong>."
-                    ],
-                    tip: "Juros compostos (exponencial) sempre rendem mais que simples (linear) a longo prazo."
-                }
-            },
-            {
-                id: 33,
-                topic: "Aritmética",
-                difficulty: "Médio",
-                text: "Se x = 1,05 e z = 2,666..., calcule o valor de x / z.",
-                options: ["0,35378", "0,39375", "0,77853", "1,00475", "1,04523"],
-                correct: 1, // B
-                resolution: {
-                    steps: [
-                        "x = 105/100 = 21/20",
-                        "z = (26-2)/9 = 24/9 = 8/3",
-                        "Divisão: (21/20) ÷ (8/3)",
-                        "Repete a 1ª, inverte a 2ª: (21/20) × (3/8)",
-                        "Resultado: 63/160 = 0,39375"
-                    ],
-                    tip: "Sempre converta dízimas e decimais para fração antes de operar."
-                }
-            },
-            {
-                id: 34,
-                topic: "Probabilidade",
+                id: 26,
+                topic: "Grandezas Físicas",
                 difficulty: "Fácil",
-                text: "Sorteio: 422 homens, 126 mulheres, 22 crianças. Chance de uma criança ganhar?",
-                options: ["2,98%", "3,28%", "3,86%", "4,01%", "4,11%"],
-                correct: 2, // C
-                resolution: {
-                    steps: [
-                        "Total de pessoas = 422 + 126 + 22 = 570.",
-                        "Favoráveis (crianças) = 22.",
-                        "Probabilidade = 22 / 570",
-                        "P ≈ 0,03859... ou <strong>3,86%</strong>."
-                    ],
-                    tip: "Probabilidade é sempre (O que eu quero) dividido por (Tudo o que tem)."
-                }
-            },
-            {
-                id: 35,
-                topic: "Álgebra",
-                difficulty: "Médio",
-                text: "Qual o resultado de: (xy - xz)² - (xz - xy)² ?",
-                options: ["0", "1", "x²z²...", "Expressão longa", "Outra..."],
-                correct: 0, // A
-                resolution: {
-                    steps: [
-                        "Note que <span class='math-display'>(A - B)² = (B - A)²</span>.",
-                        "Ex: (5-2)² = 9 e (2-5)² = (-3)² = 9.",
-                        "Logo, os dois termos da subtração são idênticos.",
-                        "Algo menos ele mesmo é <strong>ZERO</strong>."
-                    ],
-                    tip: "Procure padrões antes de fazer contas longas."
-                }
-            },
-            {
-                id: 36,
-                topic: "Geometria",
-                difficulty: "Médio",
-                text: "Ângulo interno é complementar e o dobro de um ângulo alfa. Que polígono é esse?",
-                options: ["Círculo", "Triângulo", "Hexágono", "Quadrado", "Pentágono"],
-                correct: 1, // B
-                resolution: {
-                    steps: [
-                        "Ai + α = 90 (Complementar)",
-                        "Ai = 2α (Dobro)",
-                        "Substituindo: 2α + α = 90 -> 3α = 90 -> α = 30.",
-                        "Logo, Ai = 60°.",
-                        "O polígono regular com ângulo interno de 60° é o Triângulo."
-                    ],
-                    tip: "Soma dos ângulos internos do triângulo é 180 (60+60+60)."
-                }
-            },
-            {
-                id: 37,
-                topic: "Estimativa",
-                difficulty: "Fácil",
-                text: "Jogador: R$ 1,3 bi/ano. Trabalhador: R$ 1.412/mês. Tempo para o trabalhador juntar o ganho anual do jogador:",
-                options: ["77 anos", "83 anos", "77 mil anos", "83 mil anos", "77 milhões"],
-                correct: 2, // C
-                resolution: {
-                    steps: [
-                        "1,3 bilhão = 1.300.000.000",
-                        "Meses necessários = 1.300.000.000 / 1.412 ≈ 920.679 meses.",
-                        "Anos = 920.679 / 12 ≈ 76.723 anos.",
-                        "Aproximando: 77 mil anos."
-                    ],
-                    tip: "Cuidado com a quantidade de zeros em 'bilhão' (9 zeros)."
-                }
-            },
-            {
-                id: 38,
-                topic: "Regra de Três",
-                difficulty: "Difícil",
-                text: "16 op, 8h/dia, fizeram 200m. Faltam 1800m. Saem 4 op, jornada cai para 6h. Dias para terminar?",
-                options: ["12", "14", "16", "18", "20"],
-                correct: 2, // C
-                resolution: {
-                    steps: [
-                        "Op: 16 -> 12 (Inverso)",
-                        "Horas: 8 -> 6 (Inverso)",
-                        "Obra: 200 -> 1800 (Direto)",
-                        "1/X = (12/16) * (6/8) * (200/1800)",
-                        "1/X = (3/4) * (3/4) * (1/9) = 9/144 = 1/16",
-                        "X = 16 dias."
-                    ],
-                    tip: "Analise se cada grandeza ajuda ou atrapalha o tempo para definir se é direta ou inversa."
-                }
-            },
-            {
-                id: 39,
-                topic: "Divisibilidade",
-                difficulty: "Difícil",
-                text: "Número n = 3A2B é múltiplo de 12 e 16. Resto da divisão por 13?",
-                options: ["0", "2", "5", "7", "10"],
-                correct: 0, // A
-                resolution: {
-                    steps: [
-                        "Múltiplos de 16 próximos a 3000: 3008, 3024... <strong>3120</strong>.",
-                        "3120 serve? Termina em 20, formato 3A2B. Ok.",
-                        "3120 divide por 12? Sim (260).",
-                        "Dividindo 3120 por 13: Resultado 240, Resto 0."
-                    ],
-                    tip: "Comece testando a condição mais difícil (divisibilidade por 16)."
-                }
-            },
-            {
-                id: 40,
-                topic: "Geometria",
-                difficulty: "Fácil",
-                text: "Nadador quer ir de A a B. Sabe que AC=600m, BC=800m e o ângulo em C é 90°. Distância AB?",
+                text: "Grandezas físicas podem ser escalares ou vetoriais. Vetoriais precisam de módulo, direção e sentido. São exemplos de grandezas vetoriais:",
                 visual: `
-                    <svg width="200" height="150" viewBox="0 0 200 150">
-                        <line x1="20" y1="130" x2="180" y2="130" stroke="#000" stroke-width="3"/>
-                        <line x1="20" y1="130" x2="20" y2="10" stroke="#000" stroke-width="3"/>
-                        <line x1="20" y1="10" x2="180" y2="130" stroke="#F472B6" stroke-width="4" stroke-dasharray="5"/>
-                        <text x="100" y="60" font-size="14" fill="#F472B6" font-weight="bold">AB?</text>
-                        <rect x="20" y="115" width="15" height="15" fill="none" stroke="#000"/>
-                        <text x="5" y="70" font-size="12">600m</text>
-                        <text x="100" y="145" font-size="12">800m</text>
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <line x1="20" y1="40" x2="160" y2="40" stroke="#3B82F6" stroke-width="4" marker-end="url(#arrow)"/>
+                        <polygon points="160,30 180,40 160,50" fill="#3B82F6"/>
+                        <text x="80" y="30" font-size="12" font-weight="bold" fill="#3B82F6">Vetor (Direção!)</text>
+                        <circle cx="20" cy="40" r="5" fill="#333"/>
                     </svg>
                 `,
-                options: ["900 m", "1.000 m", "1.200 m", "1.400 m", "1.600 m"],
-                correct: 1, // B
+                options: [
+                    "Força, velocidade e trabalho",
+                    "Aceleração, momento linear e comprimento",
+                    "Deslocamento, velocidade e momento linear",
+                    "Comprimento, aceleração e energia cinética",
+                    "Energia potencial, deslocamento e velocidade"
+                ],
+                correct: 2, // C
                 resolution: {
                     steps: [
-                        "Triângulo Retângulo. AB é a hipotenusa.",
-                        "Pitágoras: <span class='math-display'>x² = 600² + 800²</span>",
-                        "x² = 360.000 + 640.000 = 1.000.000",
-                        "x = 1.000 metros.",
-                        "Dica: É o triângulo 3, 4, 5 multiplicado por 200."
+                        "<strong>Grandeza Escalar:</strong> Só precisa do número e unidade (Ex: Tempo, Massa, Energia, Trabalho, Comprimento).",
+                        "<strong>Grandeza Vetorial:</strong> Precisa dizer 'para onde' (Direção e Sentido). Ex: Força, Velocidade, Aceleração, Deslocamento.",
+                        "Analisando a opção C: Deslocamento (vetorial), Velocidade (vetorial) e Momento Linear (vetorial).",
+                        "Nas outras opções: Trabalho (escalar), Comprimento (escalar), Energia (escalar)."
                     ],
-                    tip: "Decore o triângulo 3-4-5. Ele cai em 80% das provas de geometria."
+                    tip: "Energia e Trabalho são sempre escalares! Se a opção tiver um deles, não é puramente vetorial."
+                }
+            },
+            {
+                id: 27,
+                topic: "Estática",
+                difficulty: "Fácil",
+                text: "Um aluno de 70 kg sobe numa balança com os dois pés. Depois, fica num pé só (esquerdo) e depois no outro (direito). Quais valores a balança marca?",
+                visual: `
+                    <svg width="150" height="100" viewBox="0 0 150 100">
+                        <rect x="30" y="80" width="90" height="10" fill="#333"/>
+                        <rect x="40" y="85" width="70" height="5" fill="#4ADE80"/>
+                        <text x="75" y="70" text-anchor="middle" font-weight="bold" font-size="20">70 kg</text>
+                        <path d="M 65 70 L 65 30" stroke="#333" stroke-width="4"/> <path d="M 85 70 L 85 50" stroke="#333" stroke-width="4" stroke-dasharray="4"/> </svg>
+                `,
+                options: [
+                    "35 kg e 70 kg",
+                    "70 kg e 35 kg",
+                    "70 kg e 40 kg",
+                    "70 kg e 70 kg",
+                    "70 kg e 140 kg"
+                ],
+                correct: 3, // D
+                resolution: {
+                    steps: [
+                        "A balança mede a força normal (reação ao peso) necessária para sustentar o corpo.",
+                        "O peso do aluno (massa x gravidade) <strong>não muda</strong> dependendo de como ele se apoia.",
+                        "Se ele está parado (equilíbrio), a balança precisa sustentar os mesmos 70 kg, seja com um pé ou com dois.",
+                        "Logo, a leitura será sempre <strong>70 kg</strong>."
+                    ],
+                    tip: "A massa é uma propriedade do corpo, não da pose! A menos que ele esteja pulando, o peso aparente é igual ao real."
+                }
+            },
+            {
+                id: 28,
+                topic: "Trabalho e Energia",
+                difficulty: "Médio",
+                text: "Dois amigos empurram um carro de 1,5 toneladas por 500m. Cada um aplica 500 N de força paralela ao movimento. Qual o trabalho TOTAL realizado?",
+                visual: `
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <rect x="20" y="30" width="60" height="30" fill="#F87171" stroke="#333" stroke-width="2"/>
+                        <circle cx="30" cy="60" r="8" fill="#333"/>
+                        <circle cx="70" cy="60" r="8" fill="#333"/>
+                        <line x1="80" y1="45" x2="150" y2="45" stroke="#3B82F6" stroke-width="3" marker-end="url(#arrow)"/>
+                        <text x="110" y="35" font-size="10" fill="#3B82F6" font-weight="bold">F = 1000N</text>
+                        <text x="110" y="70" font-size="10" fill="#333">d = 500m</text>
+                    </svg>
+                `,
+                options: [
+                    "50 J",
+                    "500 J",
+                    "5 x 10³ J",
+                    "5 x 10⁵ kJ",
+                    "5 x 10⁵ J"
+                ],
+                correct: 4, // E
+                resolution: {
+                    steps: [
+                        "<strong>1. Força Total:</strong> São 2 amigos, cada um faz 500 N.",
+                        "<span class='math-display'>F_total = 500 + 500 = 1000 N</span>",
+                        "<strong>2. Distância:</strong> <span class='math-display'>d = 500 m</span>",
+                        "<strong>3. Trabalho (W):</strong> Fórmula <span class='math-display'>W = F . d</span>",
+                        "W = 1000 . 500 = 500.000 Joules",
+                        "Em notação científica: <span class='math-display'>5 x 10⁵ J</span>"
+                    ],
+                    tip: "Cuidado! A massa do carro (1,5 ton) não entra na fórmula do trabalho, ela só serviria para calcular aceleração ou atrito."
+                }
+            },
+            {
+                id: 29,
+                topic: "Energia Potencial",
+                difficulty: "Médio",
+                text: "Um alpinista (80kg) carrega 20kg de bagagem até o topo do Everest (8850m). Qual a energia potencial gravitacional do conjunto? (g=10 m/s²)",
+                visual: `
+                    <svg width="150" height="120" viewBox="0 0 150 120">
+                        <polygon points="10,110 80,10 140,110" fill="#E2E8F0" stroke="#333"/>
+                        <circle cx="80" cy="10" r="3" fill="#F97316"/>
+                        <text x="90" y="10" font-size="10" fill="#F97316">m = 100kg</text>
+                        <line x1="80" y1="10" x2="80" y2="110" stroke="#3B82F6" stroke-dasharray="4"/>
+                        <text x="30" y="60" font-size="10" fill="#3B82F6">h = 8850m</text>
+                    </svg>
+                `,
+                options: [
+                    "8,850 J",
+                    "8,850 kJ",
+                    "8850 x 10³ J",
+                    "8850 x 10⁵ J",
+                    "8,850 x 10⁵ kJ"
+                ],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "<strong>1. Massa Total:</strong> 80 + 20 = <span class='math-display'>100 kg</span>",
+                        "<strong>2. Fórmula:</strong> <span class='math-display'>Epg = m . g . h</span>",
+                        "Epg = 100 . 10 . 8850",
+                        "Epg = 1000 . 8850 = 8.850.000 J",
+                        "<strong>3. Analisando opções:</strong>",
+                        "Opção B (8.850 kJ) é igual a 8.850.000 J? Sim! (k = 1000)",
+                        "Opção C (8850 x 10³ J) também é 8.850.000 J.",
+                        "A prova considerou a notação científica da opção C como correta ou o valor em kJ. Ambas representam o mesmo valor físico."
+                    ],
+                    tip: "O prefixo 'k' (quilo) sempre vale 10³ (mil). Ex: 1 kJ = 1000 J."
+                }
+            },
+            {
+                id: 30,
+                topic: "Cinemática",
+                difficulty: "Médio",
+                text: "Rafael Nadal sai do repouso e atinge 36 km/h em 2,5 segundos. Qual a aceleração média e o tipo de movimento?",
+                visual: `
+                    <svg width="200" height="60" viewBox="0 0 200 60">
+                        <circle cx="20" cy="30" r="10" fill="#FACC15" stroke="#333"/>
+                        <line x1="20" y1="30" x2="180" y2="30" stroke="#333" stroke-dasharray="4"/>
+                        <circle cx="180" cy="30" r="10" fill="#FACC15" stroke="#333" opacity="0.5"/>
+                        <text x="20" y="55" font-size="10">v=0</text>
+                        <text x="160" y="55" font-size="10">v=10m/s</text>
+                        <text x="90" y="20" font-size="10" fill="#F97316">t = 2,5s</text>
+                    </svg>
+                `,
+                options: [
+                    "4 m/s² e Movimento Variado",
+                    "4 m/s² e MRU",
+                    "4 m/s² e MRUV",
+                    "14,4 m/s² e Movimento Uniforme",
+                    "14,4 m/s² e MRU"
+                ],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "<strong>1. Converter Velocidade:</strong>",
+                        "36 km/h ÷ 3,6 = <span class='math-display'>10 m/s</span>",
+                        "<strong>2. Calcular Aceleração:</strong>",
+                        "a = Δv / Δt = (10 - 0) / 2,5",
+                        "a = 10 / 2,5 = <span class='math-display'>4 m/s²</span>",
+                        "<strong>3. Classificar:</strong>",
+                        "Como a velocidade muda com aceleração constante, é um Movimento Retilíneo Uniformemente Variado (MRUV)."
+                    ],
+                    tip: "Sempre converta km/h para m/s (dividindo por 3,6) antes de usar nas fórmulas de aceleração e força."
                 }
             }
         ];
 
-        // --- SISTEMA ---
+        // --- LÓGICA DO QUIZ ---
         let currentQ = 0;
         let mode = 'study';
         let userAnswers = new Array(questions.length).fill(null);
@@ -583,24 +590,25 @@
         function renderQuiz() {
             const container = document.getElementById('question-area');
             const q = questions[currentQ];
-            const visual = q.visual ? `<div class="svg-container">${q.visual}</div>` : '';
+            const letters = ['A', 'B', 'C', 'D', 'E'];
 
             // Render MAP
             const mapContainer = document.getElementById('qMap');
             mapContainer.innerHTML = questions.map((_, i) => {
                 let status = '';
                 if(userAnswers[i] !== null) status = userAnswers[i] === questions[i].correct ? 'right' : 'wrong';
-                return `<div class="nav-dot ${i === currentQ ? 'active' : ''} ${status}" onclick="goToQuestion(${i})">${i + 31}</div>`;
+                return `<div class="nav-dot ${i === currentQ ? 'active' : ''} ${status}" onclick="goToQuestion(${i})">${i + 26}</div>`;
             }).join('');
 
             let html = `
-                <div class="question-card fade-in">
+                <div class="question-card">
                     <div class="q-header">
-                        <span class="q-badge" style="background:${getDifColor(q.difficulty)}">${q.difficulty}</span>
-                        <span style="font-weight:700; color:#666;">${q.topic.toUpperCase()}</span>
+                        <span class="q-badge">Questão ${q.id}</span>
+                        <span class="q-topic">${q.topic}</span>
                     </div>
                     <div class="q-text">${q.text}</div>
-                    ${visual}
+                    
+                    ${q.visual ? `<div class="visual-box">${q.visual}</div>` : ''}
                     
                     <div class="options-box">
                         ${q.options.map((opt, i) => {
@@ -615,7 +623,7 @@
                             
                             return `
                             <button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${userAnswers[currentQ]!==null && mode==='study' ? 'disabled' : ''}>
-                                <div class="opt-letter">${String.fromCharCode(65+i)}</div>
+                                <div class="opt-letter">${letters[i]}</div>
                                 ${opt}
                             </button>`;
                         }).join('')}
@@ -626,7 +634,7 @@
                             <div class="res-header">💡 Resolução Pedagógica</div>
                             <div class="res-body">
                                 ${q.resolution.steps.map(s => `<div class="step-card">${s}</div>`).join('')}
-                                <div class="pro-tip"><strong>Dica de Mestre:</strong> ${q.resolution.tip}</div>
+                                <div class="pro-tip"><strong>Dica Ninja:</strong> ${q.resolution.tip}</div>
                             </div>
                         </div>
                     ` : ''}
@@ -651,7 +659,6 @@
                 }
                 renderQuiz();
             } else {
-                // Simulado apenas seleciona visualmente
                 renderQuiz();
             }
         }
@@ -672,7 +679,6 @@
 
         function switchMode(newMode) {
             mode = newMode;
-            // Reset
             userAnswers.fill(null);
             currentQ = 0;
             document.getElementById('result-screen').style.display = 'none';
@@ -680,7 +686,6 @@
             
             // UI Toggle
             document.getElementById('btnStudy').classList.toggle('active', mode === 'study');
-            document.getElementById('btnStudy').classList.toggle('simulado', false);
             document.getElementById('btnSim').classList.toggle('active', mode === 'simulado');
             document.getElementById('btnSim').classList.toggle('simulado', mode === 'simulado');
             
@@ -697,9 +702,9 @@
             document.getElementById('finalScore').innerText = `${percent}%`;
             
             let msg = "";
-            if(percent === 100) msg = "PERFEITO! Você dominou o conteúdo.";
-            else if(percent >= 70) msg = "MUITO BOM! Está quase lá.";
-            else msg = "PRECISA REVISAR! Volte para o Modo Estudo.";
+            if(percent === 100) msg = "FÍSICO NATO! Parabéns!";
+            else if(percent >= 70) msg = "MUITO BOM! Quase lá.";
+            else msg = "REVISE OS CONCEITOS! Volte para o Modo Estudo.";
             
             document.getElementById('finalMsg').innerText = msg;
             
@@ -708,12 +713,6 @@
 
         function resetQuiz() {
             switchMode('study');
-        }
-
-        function getDifColor(dif) {
-            if(dif === 'Fácil') return '#4ADE80';
-            if(dif === 'Médio') return '#FACC15';
-            return '#F87171';
         }
 
         // Init
