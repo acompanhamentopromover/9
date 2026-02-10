@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática IFCE - Prova 2024.2</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #F3F4F6;
+            --text-color: #1F2937;
+            --ifce-green: #34D399; /* Verde tom IF */
+            --ifce-dark: #065F46;
+            --ifce-red: #EF4444;
+            --white: #FFFFFF;
+            
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FEE2E2;
+            --wrong-border: #B91C1C;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* --- HEADER --- */
+        .logo-header {
+            width: 100%;
+            max-width: 700px;
+            background: var(--ifce-dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo-header h1 { font-size: 1.5rem; margin-bottom: 5px; }
+        .logo-header p { font-size: 0.9rem; opacity: 0.9; }
+
+        .container { width: 100%; max-width: 700px; padding: 0 20px; }
+
+        /* --- NAVEGAÇÃO SUPERIOR --- */
+        .toggle-container {
+            background-color: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 10px 0;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--ifce-dark);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.4s ease-out; }
+
+        /* --- CARDS DE CONTEÚDO --- */
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--ifce-dark);
+        }
+
+        .math-block {
+            font-family: 'Courier New', monospace;
+            background: #F9FAFB;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #E5E7EB;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #374151;
+            overflow-x: auto;
+        }
+
+        /* --- QUESTÕES --- */
+        .question-number {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #6B7280;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--white);
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        
+        .option-circle {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 2px solid #D1D5DB;
+            margin-right: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: #9CA3AF;
+            flex-shrink: 0;
+        }
+
+        /* Estados dos botões */
+        .option-btn:hover { border-color: var(--ifce-green); }
+        
+        .option-btn.correct {
+            background-color: var(--correct-bg);
+            border-color: var(--correct-border);
+        }
+        .option-btn.correct .option-circle {
+            background-color: var(--correct-border);
+            border-color: var(--correct-border);
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            opacity: 0.8;
+        }
+        .option-btn.wrong .option-circle {
+            background-color: var(--wrong-border);
+            border-color: var(--wrong-border);
+            color: white;
+        }
+        
+        .option-btn.disabled { pointer-events: none; }
+
+        /* --- FEEDBACK --- */
+        .feedback-box {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #F0FDF4;
+            border: 1px solid var(--ifce-green);
+            border-radius: 8px;
+            animation: slideDown 0.3s ease-out;
+        }
+        .feedback-title {
+            font-weight: 700;
+            color: var(--ifce-dark);
+            margin-bottom: 5px;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        /* --- MAPA DE NAVEGAÇÃO --- */
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { height: 4px; }
+        .question-map::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+        .map-dot {
+            min-width: 35px; height: 35px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem;
+            color: #6B7280; background: white;
+            cursor: pointer; transition: all 0.2s;
+        }
+        
+        .map-dot.active {
+            background-color: var(--ifce-dark);
+            color: white; border-color: var(--ifce-dark);
+            transform: scale(1.1);
+        }
+        .map-dot.correct { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .map-dot.wrong { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+
+        /* --- RESULTADO --- */
+        #viewResult { text-align: center; display: none; }
+        .result-circle {
+            width: 120px; height: 120px;
+            background: var(--ifce-dark);
+            color: white;
+            border-radius: 50%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 4px 10px rgba(6, 95, 70, 0.3);
+        }
+        .result-score { font-size: 2.5rem; font-weight: 700; line-height: 1; }
+        .result-total { font-size: 0.9rem; opacity: 0.8; }
+
+        .btn-restart {
+            width: 100%; padding: 15px;
+            background-color: var(--ifce-dark); color: white;
+            border: none; border-radius: 10px;
+            font-size: 1rem; font-weight: 700;
+            cursor: pointer; margin-top: 20px;
+        }
+
+        /* --- FOOTER DE NAVEGAÇÃO --- */
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: white; border-top: 1px solid #E5E7EB;
+            padding: 15px 20px; display: flex; justify-content: space-between;
+            z-index: 100;
+        }
+        .nav-btn {
+            padding: 10px 20px; border-radius: 8px;
+            font-weight: 600; border: none; cursor: pointer;
+        }
+        .btn-prev { background: #F3F4F6; color: #374151; }
+        .btn-next { background: var(--ifce-dark); color: white; }
+        .btn-next:disabled, .btn-prev:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <h1>Matemática IFCE</h1>
+        <p>Edital 003/2024 - Cursos Integrados</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnResumo" onclick="setMode('resumo')">📚 Resumo</button>
+            <button class="toggle-btn" id="btnQuiz" onclick="setMode('quiz')">📝 Resolver Prova</button>
+        </div>
+
+        <div id="viewResumo" class="section-view" style="display: block;">
+            <div class="card">
+                <h3>O que caiu nesta prova?</h3>
+                <p style="margin-top:10px; color:#555;">Esta prova do IFCE (2024.2) focou bastante em matemática aplicada e interpretação de problemas.</p>
+                <ul style="margin-left:20px; margin-top:10px; line-height:1.6;">
+                    <li><strong>Álgebra:</strong> Médias aritméticas, equações e fatoração.</li>
+                    <li><strong>Financeira:</strong> Diferença entre Juros Simples e Compostos.</li>
+                    <li><strong>Geometria:</strong> Polígonos, ângulos e Teorema de Pitágoras.</li>
+                    <li><strong>Aritmética:</strong> Regra de três composta, divisibilidade e dízimas.</li>
+                </ul>
+            </div>
+            
+            <button class="btn-restart" onclick="setMode('quiz')">Começar a Prova</button>
+        </div>
+
+        <div id="viewQuiz" class="section-view">
+            <div class="question-map" id="qMap"></div>
+            <div id="questionContainer">
+                </div>
+        </div>
+
+        <div id="viewResult" class="section-view">
+            <div class="result-circle">
+                <span class="result-score" id="finalScore">0</span>
+                <span class="result-total">de 10</span>
+            </div>
+            <h2>Prova Finalizada!</h2>
+            <p id="finalMessage" style="margin: 10px 0; color:#555;">Veja seu desempenho.</p>
+            <div id="reviewContainer"></div>
+            <button class="btn-restart" onclick="restartQuiz()">Refazer Prova</button>
+        </div>
+
+    </div>
+
+    <div class="quiz-footer" id="quizFooter" style="display:none;">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 31,
+                text: "Uma turma está realizando um estudo sobre a média de idade dos alunos. A média atual é de 17 anos. Um novo aluno com <strong>x</strong> anos entrou na turma, e a média passou para 18 anos. Qual era o número de alunos (n) antes da entrada do novo aluno?",
+                options: ["x", "x - 18", "17 - x", "17 + x", "18 - x"],
+                correct: 1,
+                explanation: `
+                    <strong>Resolução:</strong><br>
+                    1. Soma das idades inicial = 17n.<br>
+                    2. Nova soma = 17n + x.<br>
+                    3. Novo total de alunos = n + 1.<br>
+                    4. Nova média: (17n + x) / (n + 1) = 18.<br>
+                    5. 17n + x = 18(n + 1) → 17n + x = 18n + 18.<br>
+                    6. x - 18 = 18n - 17n → <strong>n = x - 18</strong>.
+                `
+            },
+            {
+                id: 32,
+                text: "Um empreendedor pegou R$ 200.000,00 emprestados. Ele calculou errado usando Juros Simples (2% a.m. por 10 meses), mas deveria ser Juros Compostos. Qual a diferença entre o valor correto e o valor calculado errado?",
+                options: ["R$ 1.876,76", "R$ 2.459,87", "R$ 3.798,88", "R$ 4.878,26", "R$ 5.897,65"],
+                correct: 2,
+                explanation: `
+                    <strong>Simples:</strong> J = 200.000 × 0,02 × 10 = 40.000. Total = 240.000.<br>
+                    <strong>Compostos:</strong> M = 200.000 × (1,02)^10.<br>
+                    (1,02)^10 ≈ 1,21899.<br>
+                    M ≈ 200.000 × 1,21899 = 243.798,88.<br>
+                    <strong>Diferença:</strong> 243.798,88 - 240.000 = <strong>R$ 3.798,88</strong>.
+                `
+            },
+            {
+                id: 33,
+                text: "Sabendo que x = 1,05; y = 2,323232... e z = 2,666..., calcule o valor da razão x / z.",
+                options: ["0,35378", "0,39375", "0,77853", "1,00475", "1,04523"],
+                correct: 1,
+                explanation: `
+                    <strong>Frações Geratrizes:</strong><br>
+                    x = 105/100 = 21/20<br>
+                    z = (26-2)/9 = 24/9 = 8/3<br><br>
+                    <strong>Cálculo:</strong><br>
+                    x / z = (21/20) ÷ (8/3)<br>
+                    = (21/20) × (3/8)<br>
+                    = 63 / 160<br>
+                    = <strong>0,39375</strong>.
+                `
+            },
+            {
+                id: 34,
+                text: "Em um sorteio, inscreveram-se 422 homens, 126 mulheres e 22 crianças. Qual a probabilidade aproximada de uma criança ganhar?",
+                options: ["2,98%", "3,28%", "3,86%", "4,01%", "4,11%"],
+                correct: 2,
+                explanation: `
+                    <strong>Total de inscritos:</strong> 422 + 126 + 22 = 570.<br>
+                    <strong>Probabilidade:</strong> 22 / 570.<br>
+                    Calculation: 22 ÷ 570 ≈ 0,03859...<br>
+                    Em porcentagem: ≈ <strong>3,86%</strong>.
+                `
+            },
+            {
+                id: 35,
+                text: "Desenvolvendo a expressão (xy - xz)² - (xz - xy)², o resultado é:",
+                options: ["0", "1", "Expressão Longa 1", "Expressão Longa 2", "Expressão Longa 3"],
+                correct: 0,
+                explanation: `
+                    <strong>Propriedade:</strong> O quadrado da diferença é igual, não importa a ordem. (a - b)² = (b - a)².<br>
+                    (xy - xz)² é igual a (xz - xy)².<br>
+                    Logo, um número menos ele mesmo é <strong>zero</strong>.
+                `
+            },
+            {
+                id: 36,
+                text: "O ângulo interno de um polígono regular é complementar e o dobro de um ângulo alfa. Qual é esse polígono?",
+                options: ["Círculo", "Triângulo", "Hexágono", "Quadrado", "Pentágono"],
+                correct: 1,
+                explanation: `
+                    <strong>Dados:</strong> Ai (interno) + α = 90 (complementar) e Ai = 2α.<br>
+                    Substituindo: 2α + α = 90 → 3α = 90 → α = 30°.<br>
+                    Logo, o ângulo interno Ai = 60°.<br>
+                    O único polígono regular com ângulo interno de 60° é o <strong>Triângulo Equilátero</strong>.
+                `
+            },
+            {
+                id: 37,
+                text: "Um jogador ganha R$ 1,3 bilhão por ano. Um trabalhador ganha R$ 1.412 por mês. Quantos anos o trabalhador levaria para juntar o que o jogador ganha em 1 ano?",
+                options: ["77 anos", "83 anos", "77 mil anos", "83 mil anos", "77 milhões de anos"],
+                correct: 2,
+                explanation: `
+                    <strong>Renda Anual do Jogador:</strong> 1.300.000.000<br>
+                    <strong>Renda Mensal do Trabalhador:</strong> 1.412<br>
+                    <strong>Meses necessários:</strong> 1.300.000.000 ÷ 1.412 ≈ 920.679 meses.<br>
+                    <strong>Anos necessários:</strong> 920.679 ÷ 12 ≈ 76.723 anos.<br>
+                    Aproximadamente <strong>77 mil anos</strong>.
+                `
+            },
+            {
+                id: 38,
+                text: "16 trabalhadores fazem 200m de estrada em 1 dia (8h). Faltam 1800m (total era 2km). Saíram 4 trabalhadores e a jornada caiu para 6h. Quantos dias para terminar?",
+                options: ["12 dias", "14 dias", "16 dias", "18 dias", "20 dias"],
+                correct: 2,
+                explanation: `
+                    <strong>Regra de Três Composta:</strong><br>
+                    16 op -- 8h -- 200m -- 1 dia<br>
+                    12 op -- 6h -- 1800m -- X dias<br><br>
+                    Menos operários = Mais dias (Inverso)<br>
+                    Menos horas = Mais dias (Inverso)<br>
+                    Mais obra = Mais dias (Direto)<br><br>
+                    1/X = (12/16) * (6/8) * (200/1800)<br>
+                    1/X = (3/4) * (3/4) * (1/9) = 9/144 = 1/16.<br>
+                    <strong>X = 16 dias</strong>.
+                `
+            },
+            {
+                id: 39,
+                text: "Um número n = 3A2B é múltiplo de 12 e 16. Qual o resto da divisão de n por 13?",
+                options: ["0", "2", "5", "7", "10"],
+                correct: 0,
+                explanation: `
+                    Para ser múltiplo de 16 e terminar em 2B, testando múltiplos de 16 na casa dos 3000:<br>
+                    Encontramos <strong>3120</strong> (A=1, B=0).<br>
+                    Verificando: 3120 ÷ 16 = 195 (Ok). 3120 ÷ 12 = 260 (Ok).<br>
+                    Agora, divisão por 13:<br>
+                    3120 ÷ 13 = 240.<br>
+                    <strong>Resto 0</strong>.
+                `
+            },
+            {
+                id: 40,
+                text: "Um nadador quer nadar a distância AB. Ele sabe que AC = 600m e BC = 800m, e que o ângulo em C é de 90° (encontro do espigão com a praia). Qual a distância AB?",
+                visual: `
+                    <svg width="200" height="150" viewBox="0 0 200 150">
+                        <line x1="20" y1="130" x2="180" y2="130" stroke="#333" stroke-width="2"/> <line x1="20" y1="130" x2="20" y2="10" stroke="#333" stroke-width="2"/> <line x1="20" y1="10" x2="180" y2="130" stroke="#EF4444" stroke-width="3"/> <text x="5" y="70" font-size="12">600m</text>
+                        <text x="100" y="145" font-size="12">800m</text>
+                        <text x="100" y="60" font-size="12" fill="#EF4444" font-weight="bold">AB = ?</text>
+                        <rect x="20" y="120" width="10" height="10" fill="none" stroke="black"/>
+                    </svg>
+                `,
+                options: ["900 m", "1.000 m", "1.200 m", "1.400 m", "1.600 m"],
+                correct: 1,
+                explanation: `
+                    <strong>Teorema de Pitágoras:</strong><br>
+                    Trata-se de um triângulo retângulo onde AB é a hipotenusa.<br>
+                    x² = 600² + 800²<br>
+                    x² = 360.000 + 640.000<br>
+                    x² = 1.000.000<br>
+                    x = √1.000.000 = <strong>1.000 metros</strong>.<br>
+                    (Dica: É o triângulo 3-4-5 multiplicado por 200).
+                `
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            document.getElementById('viewResumo').style.display = 'none';
+            document.getElementById('viewQuiz').style.display = 'none';
+            document.getElementById('viewResult').style.display = 'none';
+            document.getElementById('quizFooter').style.display = 'none';
+            
+            document.getElementById('btnResumo').classList.remove('active');
+            document.getElementById('btnQuiz').classList.remove('active');
+
+            if(mode === 'resumo') {
+                document.getElementById('viewResumo').style.display = 'block';
+                document.getElementById('btnResumo').classList.add('active');
+            } else if (mode === 'quiz') {
+                document.getElementById('viewQuiz').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnQuiz').classList.add('active');
+                renderMap();
+                renderQuestion();
+            }
+        }
+
+        function renderMap() {
+            const mapContainer = document.getElementById('qMap');
+            mapContainer.innerHTML = '';
+            questions.forEach((q, idx) => {
+                const dot = document.createElement('div');
+                dot.className = `map-dot ${idx === currentQuestionIndex ? 'active' : ''}`;
+                if(userAnswers[idx] !== null) {
+                    dot.classList.add(userAnswers[idx] === q.correct ? 'correct' : 'wrong');
+                }
+                dot.innerText = idx + 31; // As questões começam na 31 na prova original
+                dot.onclick = () => {
+                    currentQuestionIndex = idx;
+                    renderQuestion();
+                    renderMap();
+                };
+                mapContainer.appendChild(dot);
+            });
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            const userAnswer = userAnswers[currentQuestionIndex];
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+
+            let html = `
+                <div class="question-number">QUESTÃO ${q.id}</div>
+                <div class="question-text">${q.text}</div>
+                ${q.visual ? `<div style="text-align:center; margin-bottom:15px;">${q.visual}</div>` : ''}
+                <div class="options-list">
+            `;
+
+            q.options.forEach((opt, idx) => {
+                let statusClass = '';
+                if(userAnswer !== null) {
+                    if(idx === q.correct) statusClass = 'correct';
+                    else if(idx === userAnswer) statusClass = 'wrong';
+                    else statusClass = 'disabled';
+                }
+
+                html += `
+                    <div class="option-btn ${statusClass}" onclick="handleAnswer(${idx})">
+                        <div class="option-circle">${letters[idx]}</div>
+                        <div>${opt}</div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+
+            if(userAnswer !== null) {
+                const isCorrect = userAnswer === q.correct;
+                html += `
+                    <div class="feedback-box">
+                        <div class="feedback-title">
+                            ${isCorrect ? '✅ Resposta Correta!' : '❌ Atenção!'}
+                        </div>
+                        <div style="font-size:0.9rem; margin-top:5px;">
+                            ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            updateNav();
+        }
+
+        function handleAnswer(selectedIdx) {
+            if(userAnswers[currentQuestionIndex] !== null) return;
+
+            userAnswers[currentQuestionIndex] = selectedIdx;
+            
+            if(selectedIdx === questions[currentQuestionIndex].correct) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+
+            renderQuestion();
+            renderMap();
+        }
+
+        function changeQuestion(delta) {
+            const next = currentQuestionIndex + delta;
+            if(next >= 0 && next < questions.length) {
+                currentQuestionIndex = next;
+                renderQuestion();
+                renderMap();
+            }
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = currentQuestionIndex === 0;
+            const btnNext = document.getElementById('btnNext');
+            
+            if(currentQuestionIndex === questions.length - 1) {
+                btnNext.innerText = 'Finalizar';
+                btnNext.onclick = finishQuiz;
+            } else {
+                btnNext.innerText = 'Próxima';
+                btnNext.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finishQuiz() {
+            const correctCount = userAnswers.filter((ans, idx) => ans === questions[idx].correct).length;
+            document.getElementById('finalScore').innerText = correctCount;
+            
+            const msg = correctCount >= 7 ? "Excelente! Você está pronto!" : 
+                        correctCount >= 5 ? "Bom, mas precisa revisar alguns pontos." : 
+                        "Vamos estudar mais um pouco!";
+            
+            document.getElementById('finalMessage').innerText = msg;
+            
+            // Ocultar quiz e mostrar resultado
+            document.getElementById('viewQuiz').style.display = 'none';
+            document.getElementById('quizFooter').style.display = 'none';
+            document.getElementById('viewResult').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers.fill(null);
+            setMode('quiz');
+        }
+
+        // Iniciar
+        setMode('resumo');
+
+    </script>
+</body>
+</html>
