@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estuda IFCE | Biologia Pop</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            /* PALETA BIO POP */
+            --bg-page: #F0FDF4; /* Verde muito claro */
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1D;
+            --border-color: #000000;
+            
+            /* CORES DE DESTAQUE */
+            --accent-green: #10B981; /* Verde Esmeralda Principal */
+            --accent-pink: #F472B6; /* Rosa Célula */
+            --accent-blue: #60A5FA; /* Azul Água */
+            --accent-yellow: #FACC15; /* Amarelo Destaque */
+            
+            /* ESTADOS */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            
+            /* SOMBRAS CARTOON */
+            --shadow-hard: 4px 4px 0px #000000;
+            --shadow-btn: 2px 2px 0px #000000;
+            --shadow-hover: 5px 5px 0px #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            padding-bottom: 100px;
+            background-image: radial-gradient(#86efac 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* --- HEADER --- */
+        .pop-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--accent-green);
+            border-bottom: 3px solid var(--border-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pop-header::before {
+            content: "🧬";
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.15;
+            right: 10px;
+            bottom: -20px;
+            transform: rotate(20deg);
+        }
+
+        .pop-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tag-header {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-btn);
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            color: var(--accent-green);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- NAVEGAÇÃO / MODOS --- */
+        .nav-panel {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 30px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid transparent;
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover { background: #f3f4f6; }
+
+        .mode-btn.active {
+            background: var(--accent-pink);
+            border: 2px solid #000;
+            color: #fff;
+            box-shadow: var(--shadow-btn);
+        }
+
+        /* --- CARD DA QUESTÃO --- */
+        .question-card {
+            background: var(--card-bg);
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-hard);
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #e5e7eb;
+            padding-bottom: 15px;
+        }
+
+        .q-badge {
+            background: var(--accent-yellow);
+            border: 2px solid #000;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .q-topic {
+            font-weight: 700;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .q-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* --- ILUSTRAÇÕES SVG --- */
+        .visual-box {
+            background: #ECFDF5;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- OPÇÕES --- */
+        .option-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            text-align: left;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-hover);
+            background: #fdf2f8;
+        }
+
+        .option-btn:active:not(:disabled) {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .opt-letter {
+            width: 30px;
+            height: 30px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Estados de Resposta */
+        .option-btn.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
+        }
+        .option-btn.correct .opt-letter { background: var(--correct-border); }
+
+        .option-btn.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: #000;
+        }
+        .option-btn.wrong .opt-letter { background: var(--wrong-border); }
+
+        .option-btn.selected {
+            background: var(--accent-pink);
+            color: #fff;
+        }
+        .option-btn.selected .opt-letter { background: #fff; color: #000; }
+
+        /* --- RESOLUÇÃO --- */
+        .resolution-box {
+            margin-top: 25px;
+            background: #FDF2F8; /* Rosa muito claro */
+            border: 2px solid #000;
+            border-radius: 16px;
+            overflow: hidden;
+            display: none;
+            box-shadow: var(--shadow-btn);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .res-header {
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .res-body { padding: 20px; }
+
+        .step-card {
+            background: #fff;
+            border: 1px solid #000;
+            border-left: 5px solid var(--accent-green);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .pro-tip {
+            margin-top: 15px;
+            background: #ECFDF5;
+            border: 2px dashed var(--accent-green);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #065F46;
+            font-weight: 600;
+        }
+
+        /* --- NAVEGAÇÃO INFERIOR --- */
+        .nav-map {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .nav-dot {
+            width: 40px; height: 40px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
+            transition: transform 0.2s;
+        }
+
+        .nav-dot:hover { transform: translateY(-3px); }
+        .nav-dot.active { background: #000; color: #fff; transform: translateY(2px); box-shadow: none; }
+        
+        .nav-dot.right { background: #10B981; }
+        .nav-dot.wrong { background: #F87171; }
+
+        /* --- BOTÃO DE AÇÃO --- */
+        .action-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.2s;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+            background: #333;
+        }
+
+        /* --- RESULTADO --- */
+        #result-screen { text-align: center; display: none; }
+        .score-card {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 20px;
+        }
+        .big-score { font-size: 4rem; font-weight: 800; line-height: 1; color: var(--accent-green); text-shadow: 2px 2px 0 #000; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="pop-header">
+        <h1>Biologia IFCE</h1>
+        <span class="tag-header">2024.2 • INTEGRADO</span>
+    </header>
+
+    <div class="container">
+        
+        <div class="nav-panel">
+            <button class="mode-btn active" id="btnStudy" onclick="switchMode('study')">🧬 MODO ESTUDO</button>
+            <button class="mode-btn" id="btnSim" onclick="switchMode('simulado')">📝 SIMULADO</button>
+        </div>
+
+        <div id="quiz-screen">
+            <div class="nav-map" id="qMap"></div>
+            
+            <div id="question-area">
+                </div>
+        </div>
+
+        <div id="result-screen">
+            <div class="score-card">
+                <h2>Ciclo Completado!</h2>
+                <div class="big-score" id="finalScore">0%</div>
+                <p id="finalMsg" style="margin-top:10px; font-weight:500; color:#555;">...</p>
+            </div>
+            <button class="action-btn" onclick="resetQuiz()">Reiniciar Estudos</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DADOS DAS QUESTÕES DE BIOLOGIA ---
+        const questions = [
+            {
+                id: 21,
+                topic: "Saúde Pública",
+                difficulty: "Fácil",
+                text: "As arboviroses são doenças causadas por vírus transmitidos por artrópodes (mosquitos). As doenças mais comuns em ambientes urbanos transmitidas por esses vetores são:",
+                options: [
+                    "Dengue, Zika e Chikungunya.",
+                    "Giardíase, Zika e Tricomoníase.",
+                    "Amebíase, Dengue e Giardíase.",
+                    "Malária, Febre Amarela e Doença de Chagas.",
+                    "Leishmaniose, Tricomoníase e Doença de Chagas."
+                ],
+                correct: 0, // A
+                resolution: {
+                    steps: [
+                        "<strong>Arboviroses</strong> vêm de 'Arthropod-borne viruses' (vírus transmitidos por artrópodes).",
+                        "No Brasil, o principal vetor urbano é o mosquito <em>Aedes aegypti</em>.",
+                        "Ele transmite: <strong>Dengue, Zika e Chikungunya</strong>.",
+                        "Erros comuns: Giardíase e Amebíase (protozoários na água), Doença de Chagas (barbeiro, protozoário)."
+                    ],
+                    tip: "Lembre-se do Aedes aegypti: ele é o 'vilão' urbano das 3 principais doenças virais do Brasil."
+                }
+            },
+            {
+                id: 22,
+                topic: "Citologia",
+                difficulty: "Médio",
+                text: "Analise as figuras de divisão celular:<br><strong>A:</strong> Célula-mãe (46) -> 2 Células-filhas (46).<br><strong>B:</strong> Célula-mãe (46) -> 2 Células (46) -> 4 Células-filhas (23).<br>As figuras A e B representam, respectivamente:",
+                visual: `
+                    <svg width="250" height="150" viewBox="0 0 250 150">
+                        <rect x="20" y="20" width="80" height="110" fill="none" stroke="#ddd" rx="10"/>
+                        <text x="60" y="15" text-anchor="middle" font-size="10" font-weight="bold">A</text>
+                        <circle cx="60" cy="35" r="10" fill="#F472B6" stroke="#000"/><text x="60" y="38" text-anchor="middle" font-size="8">46</text>
+                        <path d="M 60 50 L 40 70 M 60 50 L 80 70" stroke="#000"/>
+                        <circle cx="40" cy="80" r="10" fill="#F472B6" stroke="#000"/><text x="40" y="83" text-anchor="middle" font-size="8">46</text>
+                        <circle cx="80" cy="80" r="10" fill="#F472B6" stroke="#000"/><text x="80" y="83" text-anchor="middle" font-size="8">46</text>
+
+                        <rect x="150" y="20" width="80" height="110" fill="none" stroke="#ddd" rx="10"/>
+                        <text x="190" y="15" text-anchor="middle" font-size="10" font-weight="bold">B</text>
+                        <circle cx="190" cy="35" r="10" fill="#10B981" stroke="#000"/><text x="190" y="38" text-anchor="middle" font-size="8">46</text>
+                        <path d="M 190 50 L 170 65 M 190 50 L 210 65" stroke="#000"/>
+                        <circle cx="170" cy="75" r="8" fill="#10B981" stroke="#000"/>
+                        <circle cx="210" cy="75" r="8" fill="#10B981" stroke="#000"/>
+                        <path d="M 170 85 L 160 95 M 170 85 L 180 95 M 210 85 L 200 95 M 210 85 L 220 95" stroke="#000"/>
+                        <circle cx="160" cy="105" r="6" fill="#10B981"/><text x="160" y="107" text-anchor="middle" font-size="6">23</text>
+                        <circle cx="180" cy="105" r="6" fill="#10B981"/><text x="180" y="107" text-anchor="middle" font-size="6">23</text>
+                        <circle cx="200" cy="105" r="6" fill="#10B981"/><text x="200" y="107" text-anchor="middle" font-size="6">23</text>
+                        <circle cx="220" cy="105" r="6" fill="#10B981"/><text x="220" y="107" text-anchor="middle" font-size="6">23</text>
+                    </svg>
+                `,
+                options: [
+                    "Mitose e Meiose.",
+                    "Meiose e Mitose.",
+                    "Metáfase e Anáfase.",
+                    "Ciclo celular e Mitose.",
+                    "Ciclo celular e Prófase."
+                ],
+                correct: 0, // A
+                resolution: {
+                    steps: [
+                        "<strong>Figura A:</strong> 1 célula mãe (46) gera 2 filhas idênticas (46). Mantém o número de cromossomos. Isso é <strong>Mitose</strong> (Equacional).",
+                        "<strong>Figura B:</strong> 1 célula mãe (46) gera 4 filhas com metade do DNA (23). Reduz o número. Isso é <strong>Meiose</strong> (Reducional).",
+                        "Portanto: Mitose e Meiose."
+                    ],
+                    tip: "MiTose = ManTém. Meiose = Meio (reduz à metade)."
+                }
+            },
+            {
+                id: 23,
+                topic: "Doenças Virais",
+                difficulty: "Médio",
+                text: "O HPV é uma infecção sexualmente transmissível. O tipo de alto risco pode causar:",
+                options: [
+                    "Sífilis.",
+                    "Clamídia.",
+                    "Herpes genital.",
+                    "Câncer do colo uterino.",
+                    "Vírus da imunodeficiência humana (HIV)."
+                ],
+                correct: 3, // D
+                resolution: {
+                    steps: [
+                        "<strong>HPV</strong> (Papilomavírus Humano) causa verrugas genitais.",
+                        "Os tipos de <strong>Alto Risco</strong> (como 16 e 18) alteram o DNA das células do colo do útero.",
+                        "Isso pode levar ao desenvolvimento de <strong>Câncer do Colo Uterino</strong>.",
+                        "Por isso a vacina e o exame preventivo (Papanicolau) são essenciais."
+                    ],
+                    tip: "HPV está fortemente ligado ao Câncer. Sífilis é bactéria. HIV afeta a imunidade."
+                }
+            },
+            {
+                id: 24,
+                topic: "Ecologia",
+                difficulty: "Fácil",
+                text: "A relação ecológica harmônica e interespecífica na qual uma espécie aproveita-se dos restos alimentares de outra, sem prejudicá-la, denomina-se:",
+                options: [
+                    "Sociedade.",
+                    "Mutualismo.",
+                    "Inquilinismo.",
+                    "Competição.",
+                    "Comensalismo."
+                ],
+                correct: 4, // E
+                resolution: {
+                    steps: [
+                        "<strong>Harmônica:</strong> Ninguém sai perdendo.",
+                        "<strong>Interespecífica:</strong> Entre espécies diferentes.",
+                        "<strong>Comer restos:</strong> Um ganha comida (+), o outro não se importa (0).",
+                        "Isso é <strong>Comensalismo</strong> (ex: rêmora e tubarão, hienas e leões).",
+                        "Mutualismo seria se ambos ganhassem (+/+)."
+                    ],
+                    tip: "Comensalismo vem de 'comer na mesma mesa'. Um come o que sobra, o outro não liga."
+                }
+            },
+            {
+                id: 25,
+                topic: "Histologia",
+                difficulty: "Fácil",
+                text: "A imagem mostra um aglomerado inicial de células se diferenciando em células nervosas, musculares, ósseas, etc. Esses grupos de células especializadas formam:",
+                visual: `
+                    <svg width="200" height="100" viewBox="0 0 200 100">
+                        <circle cx="100" cy="50" r="15" fill="#FCD34D" stroke="#000" stroke-width="2"/>
+                        <text x="100" y="54" text-anchor="middle" font-size="8">Tronco</text>
+                        
+                        <path d="M 85 50 L 40 30" stroke="#000" marker-end="url(#arrow)"/>
+                        <path d="M 85 50 L 40 70" stroke="#000" marker-end="url(#arrow)"/>
+                        <path d="M 115 50 L 160 30" stroke="#000" marker-end="url(#arrow)"/>
+                        <path d="M 115 50 L 160 70" stroke="#000" marker-end="url(#arrow)"/>
+
+                        <circle cx="30" cy="30" r="8" fill="#F472B6"/><text x="30" y="15" text-anchor="middle" font-size="6">Nervosa</text>
+                        <rect x="22" y="65" width="16" height="10" fill="#F87171"/><text x="30" y="90" text-anchor="middle" font-size="6">Muscular</text>
+                        <circle cx="170" cy="30" r="8" fill="#60A5FA"/><text x="170" y="15" text-anchor="middle" font-size="6">Óssea</text>
+                        <rect x="162" y="65" width="16" height="10" fill="#A78BFA"/><text x="170" y="90" text-anchor="middle" font-size="6">Epitelial</text>
+                    </svg>
+                `,
+                options: [
+                    "Órgãos.",
+                    "Tecidos.",
+                    "Sistema.",
+                    "Indivíduo.",
+                    "Moléculas."
+                ],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "<strong>Célula:</strong> Unidade básica.",
+                        "<strong>Tecido:</strong> Conjunto de células semelhantes com função específica (ex: tecido muscular, tecido nervoso).",
+                        "<strong>Órgão:</strong> Conjunto de tecidos (ex: coração).",
+                        "<strong>Sistema:</strong> Conjunto de órgãos.",
+                        "A questão fala de grupos de células especializadas: <strong>Tecidos</strong>."
+                    ],
+                    tip: "A hierarquia da vida é: Célula -> Tecido -> Órgão -> Sistema -> Organismo."
+                }
+            }
+        ];
+
+        // --- LÓGICA DO QUIZ ---
+        let currentQ = 0;
+        let mode = 'study';
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function renderQuiz() {
+            const container = document.getElementById('question-area');
+            const q = questions[currentQ];
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+
+            // Render MAP
+            const mapContainer = document.getElementById('qMap');
+            mapContainer.innerHTML = questions.map((_, i) => {
+                let status = '';
+                if(userAnswers[i] !== null) status = userAnswers[i] === questions[i].correct ? 'right' : 'wrong';
+                return `<div class="nav-dot ${i === currentQ ? 'active' : ''} ${status}" onclick="goToQuestion(${i})">${i + 21}</div>`;
+            }).join('');
+
+            let html = `
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-badge">Questão ${q.id}</span>
+                        <span class="q-topic">${q.topic}</span>
+                    </div>
+                    <div class="q-text">${q.text}</div>
+                    
+                    ${q.visual ? `<div class="visual-box">${q.visual}</div>` : ''}
+                    
+                    <div class="options-box">
+                        ${q.options.map((opt, i) => {
+                            let cls = '';
+                            if(mode === 'study' && userAnswers[currentQ] !== null) {
+                                if(i === q.correct) cls = 'correct';
+                                else if(i === userAnswers[currentQ]) cls = 'wrong';
+                                else cls = 'disabled';
+                            } else if(mode === 'simulado' && userAnswers[currentQ] === i) {
+                                cls = 'selected';
+                            }
+                            
+                            return `
+                            <button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${userAnswers[currentQ]!==null && mode==='study' ? 'disabled' : ''}>
+                                <div class="opt-letter">${letters[i]}</div>
+                                ${opt}
+                            </button>`;
+                        }).join('')}
+                    </div>
+
+                    ${(mode === 'study' && userAnswers[currentQ] !== null) ? `
+                        <div class="resolution-box" style="display:block">
+                            <div class="res-header">🧬 Análise Biológica</div>
+                            <div class="res-body">
+                                ${q.resolution.steps.map(s => `<div class="step-card">${s}</div>`).join('')}
+                                <div class="pro-tip"><strong>Dica Bio:</strong> ${q.resolution.tip}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <button class="action-btn" onclick="nextQuestion()">
+                        ${currentQ === questions.length - 1 ? (mode==='simulado' ? 'FINALIZAR ESTUDO' : 'VER RESULTADO') : 'Próxima Questão ➜'}
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function handleAnswer(i) {
+            if(mode === 'study' && userAnswers[currentQ] !== null) return;
+            
+            userAnswers[currentQ] = i;
+            
+            if(mode === 'study') {
+                if(i === questions[currentQ].correct) {
+                    confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 }, colors: ['#10B981', '#F472B6'] });
+                }
+                renderQuiz();
+            } else {
+                renderQuiz();
+            }
+        }
+
+        function nextQuestion() {
+            if(currentQ < questions.length - 1) {
+                currentQ++;
+                renderQuiz();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function goToQuestion(i) {
+            currentQ = i;
+            renderQuiz();
+        }
+
+        function switchMode(newMode) {
+            mode = newMode;
+            userAnswers.fill(null);
+            currentQ = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            
+            document.getElementById('btnStudy').classList.toggle('active', mode === 'study');
+            document.getElementById('btnSim').classList.toggle('active', mode === 'simulado');
+            
+            renderQuiz();
+        }
+
+        function finishQuiz() {
+            const score = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            const percent = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('finalScore').innerText = `${percent}%`;
+            
+            let msg = "";
+            if(percent === 100) msg = "BIÓLOGO NATO! Parabéns!";
+            else if(percent >= 60) msg = "BOM TRABALHO! Continue assim.";
+            else msg = "EVOLUÇÃO NECESSÁRIA! Revise os conceitos.";
+            
+            document.getElementById('finalMsg').innerText = msg;
+            
+            if(percent >= 70) confetti({ particleCount: 200, spread: 100 });
+        }
+
+        function resetQuiz() {
+            switchMode('study');
+        }
+
+        // Init
+        renderQuiz();
+
+    </script>
+</body>
+</html>

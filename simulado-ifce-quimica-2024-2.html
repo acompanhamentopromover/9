@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estuda IFCE | Química Lab</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            /* PALETA QUÍMICA POP */
+            --bg-page: #F3F0FF; /* Roxo muito claro */
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1D;
+            --border-color: #000000;
+            
+            /* CORES DE DESTAQUE */
+            --accent-purple: #9333EA; /* Roxo Principal */
+            --accent-teal: #2DD4BF; /* Verde Água (Vidraria) */
+            --accent-yellow: #FACC15; /* Amarelo (Atenção) */
+            --accent-pink: #F472B6; /* Rosa (Detalhes) */
+            
+            /* ESTADOS */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            
+            /* SOMBRAS */
+            --shadow-hard: 4px 4px 0px #000000;
+            --shadow-btn: 2px 2px 0px #000000;
+            --shadow-hover: 5px 5px 0px #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            padding-bottom: 100px;
+            background-image: radial-gradient(#d8b4fe 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* --- HEADER --- */
+        .pop-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--accent-purple);
+            border-bottom: 3px solid var(--border-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Elemento decorativo de fundo */
+        .pop-header::before {
+            content: "⚗️";
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.15;
+            left: 10px;
+            top: 10px;
+            transform: rotate(-15deg);
+        }
+
+        .pop-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tag-header {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-btn);
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            color: var(--accent-purple);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- NAVEGAÇÃO / MODOS --- */
+        .nav-panel {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 16px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 30px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid transparent;
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover { background: #f3f4f6; }
+
+        .mode-btn.active {
+            background: var(--accent-teal);
+            border: 2px solid #000;
+            color: #000;
+            box-shadow: var(--shadow-btn);
+        }
+
+        /* --- CARD DA QUESTÃO --- */
+        .question-card {
+            background: var(--card-bg);
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-hard);
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #e5e7eb;
+            padding-bottom: 15px;
+        }
+
+        .q-badge {
+            background: var(--accent-yellow);
+            border: 2px solid #000;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .q-topic {
+            font-weight: 700;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .q-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* --- ILUSTRAÇÕES SVG --- */
+        .visual-box {
+            background: #F0FDFA; /* Fundo teal bem claro */
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- OPÇÕES --- */
+        .option-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            text-align: left;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: var(--shadow-btn);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: var(--shadow-hover);
+            background: #fdf4ff;
+        }
+
+        .option-btn:active:not(:disabled) {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .opt-letter {
+            width: 30px;
+            height: 30px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Estados de Resposta */
+        .option-btn.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
+        }
+        .option-btn.correct .opt-letter { background: var(--correct-border); }
+
+        .option-btn.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: #000;
+        }
+        .option-btn.wrong .opt-letter { background: var(--wrong-border); }
+
+        .option-btn.selected {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+        .option-btn.selected .opt-letter { background: #fff; color: #000; }
+
+        /* --- RESOLUÇÃO --- */
+        .resolution-box {
+            margin-top: 25px;
+            background: #FAF5FF; /* Roxo muito claro */
+            border: 2px solid #000;
+            border-radius: 16px;
+            overflow: hidden;
+            display: none;
+            box-shadow: var(--shadow-btn);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .res-header {
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .res-body { padding: 20px; }
+
+        .step-card {
+            background: #fff;
+            border: 1px solid #000;
+            border-left: 5px solid var(--accent-purple);
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .math-display {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        .pro-tip {
+            margin-top: 15px;
+            background: #CCFBF1;
+            border: 2px dashed var(--accent-teal);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #115E59;
+            font-weight: 600;
+        }
+
+        /* --- NAVEGAÇÃO INFERIOR --- */
+        .nav-map {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .nav-dot {
+            width: 40px; height: 40px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
+            transition: transform 0.2s;
+        }
+
+        .nav-dot:hover { transform: translateY(-3px); }
+        .nav-dot.active { background: #000; color: #fff; transform: translateY(2px); box-shadow: none; }
+        
+        .nav-dot.right { background: #4ADE80; }
+        .nav-dot.wrong { background: #F87171; }
+
+        /* --- BOTÃO DE AÇÃO --- */
+        .action-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.2s;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+            background: #333;
+        }
+
+        /* --- RESULTADO --- */
+        #result-screen { text-align: center; display: none; }
+        .score-card {
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow-hard);
+            margin-bottom: 20px;
+        }
+        .big-score { font-size: 4rem; font-weight: 800; line-height: 1; color: var(--accent-purple); text-shadow: 2px 2px 0 #000; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="pop-header">
+        <h1>Química IFCE</h1>
+        <span class="tag-header">2024.2 • INTEGRADO</span>
+    </header>
+
+    <div class="container">
+        
+        <div class="nav-panel">
+            <button class="mode-btn active" id="btnStudy" onclick="switchMode('study')">⚗️ MODO ESTUDO</button>
+            <button class="mode-btn" id="btnSim" onclick="switchMode('simulado')">📝 SIMULADO</button>
+        </div>
+
+        <div id="quiz-screen">
+            <div class="nav-map" id="qMap"></div>
+            
+            <div id="question-area">
+                </div>
+        </div>
+
+        <div id="result-screen">
+            <div class="score-card">
+                <h2>Experimento Concluído!</h2>
+                <div class="big-score" id="finalScore">0%</div>
+                <p id="finalMsg" style="margin-top:10px; font-weight:500; color:#555;">...</p>
+            </div>
+            <button class="action-btn" onclick="resetQuiz()">Reiniciar Laboratório</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DADOS DAS QUESTÕES DE QUÍMICA ---
+        const questions = [
+            {
+                id: 41,
+                topic: "Propriedades da Matéria",
+                difficulty: "Médio",
+                text: "Uma amostra foi colocada numa proveta com água para medir densidade. <br><strong>Antes:</strong> Água = 64 mL | Balança = 100 g.<br><strong>Depois:</strong> Água + Amostra = 79 mL | Balança = 217 g.<br>Qual a densidade da amostra (g/mL)?",
+                visual: `
+                    <svg width="250" height="120" viewBox="0 0 250 120">
+                        <rect x="30" y="40" width="30" height="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <rect x="32" y="60" width="26" height="40" fill="#2DD4BF" opacity="0.6"/> <text x="70" y="70" font-size="10">64 mL</text>
+                        <rect x="20" y="100" width="50" height="10" fill="#333"/>
+                        <text x="45" y="118" font-size="10" text-anchor="middle">100g</text>
+
+                        <path d="M 100 60 L 130 60" stroke="#000" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <rect x="150" y="40" width="30" height="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <rect x="152" y="50" width="26" height="50" fill="#2DD4BF" opacity="0.6"/> <rect x="158" y="90" width="14" height="10" fill="#000"/> <text x="190" y="55" font-size="10">79 mL</text>
+                        <rect x="140" y="100" width="50" height="10" fill="#333"/>
+                        <text x="165" y="118" font-size="10" text-anchor="middle">217g</text>
+                    </svg>
+                `,
+                options: [
+                    "2,8 g/mL",
+                    "7,8 g/mL",
+                    "1,57 g/mL",
+                    "14,7 g/mL",
+                    "1,7 g/mL"
+                ],
+                correct: 1, // B
+                resolution: {
+                    steps: [
+                        "<strong>1. Massa da Amostra:</strong> Diferença na balança.",
+                        "<span class='math-display'>m = 217g - 100g = 117g</span>",
+                        "<strong>2. Volume da Amostra:</strong> Diferença no nível da água (Princípio de Arquimedes).",
+                        "<span class='math-display'>V = 79mL - 64mL = 15mL</span>",
+                        "<strong>3. Densidade:</strong> d = m / V",
+                        "<span class='math-display'>d = 117 / 15 = 7,8 g/mL</span>"
+                    ],
+                    tip: "Sempre calcule a variação (final - inicial) tanto para massa quanto para volume."
+                }
+            },
+            {
+                id: 42,
+                topic: "Estrutura Atômica",
+                difficulty: "Médio",
+                text: "O elemento Zinco (Zn) tem número atômico Z = 30. Quantos elétrons ele possui na sua <strong>camada de valência</strong>?",
+                visual: `
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <circle cx="30" cy="40" r="20" fill="#A855F7" opacity="0.2"/>
+                        <text x="30" y="45" text-anchor="middle" font-weight="bold" fill="#6B21A8">Zn</text>
+                        <line x1="60" y1="40" x2="190" y2="40" stroke="#000" stroke-width="2"/>
+                        <circle cx="80" cy="40" r="5" fill="#2DD4BF"/><text x="80" y="60" font-size="10" text-anchor="middle">1s²</text>
+                        <circle cx="100" cy="40" r="5" fill="#2DD4BF"/><text x="100" y="60" font-size="10" text-anchor="middle">2s²</text>
+                        <text x="120" y="45" font-size="14">...</text>
+                        <circle cx="170" cy="40" r="8" fill="#F472B6" stroke="#000"/><text x="170" y="65" font-size="10" text-anchor="middle" font-weight="bold">4s²</text>
+                    </svg>
+                `,
+                options: [
+                    "14 elétrons",
+                    "3 elétrons",
+                    "2 elétrons",
+                    "8 elétrons",
+                    "4 elétrons"
+                ],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "Fazer a distribuição eletrônica de Pauling para Z=30:",
+                        "<span class='math-display'>1s² 2s² 2p⁶ 3s² 3p⁶ 4s² 3d¹⁰</span>",
+                        "<strong>Camada de Valência</strong> é a camada mais externa (maior número quântico principal).",
+                        "A maior camada é a 4 (4s²).",
+                        "Quantidade de elétrons nela: <strong>2 elétrons</strong>."
+                    ],
+                    tip: "Cuidado! O subnível mais energético (3d¹⁰) nem sempre é a camada de valência (4s²)."
+                }
+            },
+            {
+                id: 43,
+                topic: "Tabela Periódica",
+                difficulty: "Médio",
+                text: "Um elemento tem distribuição eletrônica: <span class='math-display'>1s² 2s² 2p⁶ 3s² 3p²</span>. Como ele é classificado na Tabela Periódica?",
+                visual: `
+                    <svg width="200" height="60" viewBox="0 0 200 60">
+                        <rect x="20" y="10" width="160" height="40" fill="#F3F0FF" stroke="#9333EA" rx="5"/>
+                        <text x="100" y="35" text-anchor="middle" font-weight="bold" fill="#9333EA">... 3s² 3p²</text>
+                        <text x="100" y="55" text-anchor="middle" font-size="10" fill="#666">Camada 3, Grupo 14 (4A)</text>
+                    </svg>
+                `,
+                options: [
+                    "Elemento Representativo",
+                    "Elemento de Transição",
+                    "Metal Alcalino",
+                    "Halogênio",
+                    "Calcogênio"
+                ],
+                correct: 0, // A
+                resolution: {
+                    steps: [
+                        "A distribuição termina em <strong>p</strong> (3p²).",
+                        "Elementos que terminam em <strong>s</strong> ou <strong>p</strong> são chamados de <strong>Representativos</strong>.",
+                        "Elementos terminados em <strong>d</strong> são de Transição Externa.",
+                        "Elementos terminados em <strong>f</strong> são de Transição Interna.",
+                        "Logo, é um elemento representativo (Grupo 14/4A - Silício)."
+                    ],
+                    tip: "Bloco S ou P = Representativo. Bloco D ou F = Transição."
+                }
+            },
+            {
+                id: 44,
+                topic: "Ligações Químicas",
+                difficulty: "Difícil",
+                text: "Considere as moléculas: Oxigênio (O₂), Nitrogênio (N₂), Água (H₂O) e Metano (CH₄). Quais apresentam <strong>ligações múltiplas</strong> (duplas ou triplas)?",
+                visual: `
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <text x="30" y="45" font-family="monospace" font-weight="bold" font-size="16">O=O</text>
+                        <text x="90" y="45" font-family="monospace" font-weight="bold" font-size="16">N≡N</text>
+                        <text x="150" y="45" font-family="monospace" font-weight="bold" font-size="16">H-O-H</text>
+                    </svg>
+                `,
+                options: [
+                    "H₂O e CH₄",
+                    "N₂ e H₂O",
+                    "CH₄ e O₂",
+                    "O₂ e N₂",
+                    "O₂ e H₂O"
+                ],
+                correct: 3, // D
+                resolution: {
+                    steps: [
+                        "<strong>O₂ (Oxigênio):</strong> O Grupo 16 precisa de 2 elétrons. Faz ligação dupla (O=O).",
+                        "<strong>N₂ (Nitrogênio):</strong> Grupo 15 precisa de 3 elétrons. Faz ligação tripla (N≡N).",
+                        "<strong>H₂O:</strong> Ligações simples (H-O-H).",
+                        "<strong>CH₄:</strong> Ligações simples (C-H).",
+                        "Múltiplas = Duplas ou Triplas. Resposta: O₂ e N₂."
+                    ],
+                    tip: "Lembre-se: HONC 1234. Hidrogênio faz 1, Oxigênio 2, Nitrogênio 3, Carbono 4 ligações."
+                }
+            },
+            {
+                id: 45,
+                topic: "Funções Inorgânicas",
+                difficulty: "Fácil",
+                text: "O Nitrato de Potássio (KNO₃) é usado como conservante em carnes. Qual sua função química?",
+                visual: `
+                    <svg width="150" height="80" viewBox="0 0 150 80">
+                        <rect x="40" y="20" width="70" height="40" fill="#fff" stroke="#000" rx="5"/>
+                        <text x="75" y="45" text-anchor="middle" font-weight="bold">KNO₃</text>
+                        <text x="75" y="75" text-anchor="middle" font-size="10" fill="#666">K⁺ + NO₃⁻</text>
+                    </svg>
+                `,
+                options: [
+                    "Ácido",
+                    "Óxido",
+                    "Sal",
+                    "Base",
+                    "Hidreto"
+                ],
+                correct: 2, // C
+                resolution: {
+                    steps: [
+                        "Para identificar a função, olhe a fórmula:",
+                        "Começa com H? Não (não é ácido).",
+                        "Termina com OH? Não (não é base).",
+                        "Tem apenas 2 elementos com O no final? Não, tem 3 (K, N, O). (não é óxido binário).",
+                        "É um composto iônico com cátion diferente de H+ e ânion diferente de OH-? <strong>Sim</strong>.",
+                        "Logo, é um <strong>SAL</strong>."
+                    ],
+                    tip: "Sais vêm da reação de neutralização (Ácido + Base -> Sal + Água)."
+                }
+            }
+        ];
+
+        // --- LÓGICA DO QUIZ (Mesma do anterior para consistência) ---
+        let currentQ = 0;
+        let mode = 'study';
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function renderQuiz() {
+            const container = document.getElementById('question-area');
+            const q = questions[currentQ];
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+
+            // Render MAP
+            const mapContainer = document.getElementById('qMap');
+            mapContainer.innerHTML = questions.map((_, i) => {
+                let status = '';
+                if(userAnswers[i] !== null) status = userAnswers[i] === questions[i].correct ? 'right' : 'wrong';
+                return `<div class="nav-dot ${i === currentQ ? 'active' : ''} ${status}" onclick="goToQuestion(${i})">${i + 41}</div>`;
+            }).join('');
+
+            let html = `
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-badge">Questão ${q.id}</span>
+                        <span class="q-topic">${q.topic}</span>
+                    </div>
+                    <div class="q-text">${q.text}</div>
+                    
+                    ${q.visual ? `<div class="visual-box">${q.visual}</div>` : ''}
+                    
+                    <div class="options-box">
+                        ${q.options.map((opt, i) => {
+                            let cls = '';
+                            if(mode === 'study' && userAnswers[currentQ] !== null) {
+                                if(i === q.correct) cls = 'correct';
+                                else if(i === userAnswers[currentQ]) cls = 'wrong';
+                                else cls = 'disabled';
+                            } else if(mode === 'simulado' && userAnswers[currentQ] === i) {
+                                cls = 'selected';
+                            }
+                            
+                            return `
+                            <button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${userAnswers[currentQ]!==null && mode==='study' ? 'disabled' : ''}>
+                                <div class="opt-letter">${letters[i]}</div>
+                                ${opt}
+                            </button>`;
+                        }).join('')}
+                    </div>
+
+                    ${(mode === 'study' && userAnswers[currentQ] !== null) ? `
+                        <div class="resolution-box" style="display:block">
+                            <div class="res-header">🧪 Análise Química</div>
+                            <div class="res-body">
+                                ${q.resolution.steps.map(s => `<div class="step-card">${s}</div>`).join('')}
+                                <div class="pro-tip"><strong>Reagente Limitante (Dica):</strong> ${q.resolution.tip}</div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <button class="action-btn" onclick="nextQuestion()">
+                        ${currentQ === questions.length - 1 ? (mode==='simulado' ? 'FINALIZAR EXPERIMENTO' : 'VER RESULTADO') : 'Próxima Questão ➜'}
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function handleAnswer(i) {
+            if(mode === 'study' && userAnswers[currentQ] !== null) return;
+            
+            userAnswers[currentQ] = i;
+            
+            if(mode === 'study') {
+                if(i === questions[currentQ].correct) {
+                    confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 }, colors: ['#9333EA', '#2DD4BF'] });
+                }
+                renderQuiz();
+            } else {
+                renderQuiz();
+            }
+        }
+
+        function nextQuestion() {
+            if(currentQ < questions.length - 1) {
+                currentQ++;
+                renderQuiz();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function goToQuestion(i) {
+            currentQ = i;
+            renderQuiz();
+        }
+
+        function switchMode(newMode) {
+            mode = newMode;
+            userAnswers.fill(null);
+            currentQ = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            
+            document.getElementById('btnStudy').classList.toggle('active', mode === 'study');
+            document.getElementById('btnSim').classList.toggle('active', mode === 'simulado');
+            
+            renderQuiz();
+        }
+
+        function finishQuiz() {
+            const score = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            const percent = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('finalScore').innerText = `${percent}%`;
+            
+            let msg = "";
+            if(percent === 100) msg = "VOCÊ É UM ALQUIMISTA! Parabéns!";
+            else if(percent >= 60) msg = "BOA REAÇÃO! Continue estudando.";
+            else msg = "MISTURA INSTÁVEL! Revise os conceitos.";
+            
+            document.getElementById('finalMsg').innerText = msg;
+            
+            if(percent >= 70) confetti({ particleCount: 200, spread: 100 });
+        }
+
+        function resetQuiz() {
+            switchMode('study');
+        }
+
+        // Init
+        renderQuiz();
+
+    </script>
+</body>
+</html>
