@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estuda IFCE | Linguagens</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            /* PALETA JORNAL LITERÁRIO */
+            --bg-page: #FDFBF7; /* Cor de Papel */
+            --text-main: #2C3E50;
+            --text-serif: #1F2937;
+            
+            /* DESTAQUES */
+            --accent-blue: #34495E; /* Azul Petróleo */
+            --accent-orange: #D35400; /* Laranja Queimado (Destaque) */
+            --accent-paper: #FFF; 
+            
+            /* FEEDBACK */
+            --correct-bg: #E8F8F5;
+            --correct-border: #16A085;
+            --wrong-bg: #FDEDEC;
+            --wrong-border: #C0392B;
+            
+            --border-color: #BDC3C7;
+            --shadow-card: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-hard: 4px 4px 0px #2C3E50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            padding-bottom: 100px;
+            /* Textura sutil de papel */
+            background-image: radial-gradient(#E5E7EB 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* --- HEADER JORNAL --- */
+        .journal-header {
+            background-color: var(--accent-blue);
+            color: #ECF0F1;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-orange);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-hard);
+        }
+
+        .journal-header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .journal-meta {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            background: rgba(0,0,0,0.2);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+
+        /* --- LAYOUT PRINCIPAL (SPLIT) --- */
+        .container {
+            width: 100%;
+            max-width: 1100px; 
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* --- CONTROLES --- */
+        .nav-panel {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .mode-btn {
+            background: white;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .mode-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* --- ÁREA DE LEITURA (TEXTO) --- */
+        .text-panel {
+            background: #FFFFFF;
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 0;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            max-height: 400px; /* Mobile: Compacto */
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .text-content {
+            padding: 30px;
+            overflow-y: auto;
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            color: var(--text-serif);
+            font-size: 1.05rem;
+        }
+
+        /* Scrollbar estilizada */
+        .text-content::-webkit-scrollbar { width: 8px; }
+        .text-content::-webkit-scrollbar-thumb { background: #BDC3C7; border-radius: 4px; }
+
+        .text-title {
+            font-weight: 900;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--accent-blue);
+            line-height: 1.2;
+        }
+
+        .text-meta {
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+            font-style: italic;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .text-panel.expanded { max-height: 80vh; }
+
+        .expand-btn {
+            background: #ECF0F1;
+            border: none;
+            border-top: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-blue);
+            width: 100%;
+            display: block;
+        }
+
+        /* --- QUESTÃO --- */
+        .q-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 15px;
+        }
+
+        .q-badge {
+            background: var(--accent-orange);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .q-text {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* --- OPÇÕES --- */
+        .option-btn {
+            display: flex;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 12px;
+            background: #F8F9F9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #FFF;
+            border-color: var(--accent-blue);
+            transform: translateX(5px);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .opt-letter {
+            min-width: 32px;
+            height: 32px;
+            background: var(--accent-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Estados */
+        .option-btn.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
+            color: #064E3B;
+        }
+        .option-btn.correct .opt-letter { background: var(--correct-border); }
+
+        .option-btn.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: #7B241C;
+        }
+        .option-btn.wrong .opt-letter { background: var(--wrong-border); }
+
+        .option-btn.selected {
+            background: #D6EAF8;
+            border-color: var(--accent-blue);
+        }
+
+        /* --- RESOLUÇÃO --- */
+        .resolution-box {
+            margin-top: 25px;
+            background: #FEF9E7; /* Papel amarelado */
+            border-left: 5px solid var(--accent-orange);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            animation: fadeIn 0.4s ease;
+            font-family: 'Merriweather', serif;
+        }
+
+        .res-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .grammar-tip {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.8);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px dashed var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* --- NAVEGAÇÃO INFERIOR --- */
+        .nav-footer {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover { background: var(--accent-blue); color: white; }
+        .nav-btn.primary { background: var(--accent-blue); color: white; }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* --- RESULTADO --- */
+        #result-screen { text-align: center; display: none; padding: 40px; }
+        .score-display { font-size: 4rem; font-weight: 800; color: var(--accent-blue); margin: 20px 0; font-family: 'Merriweather', serif; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVIDADE DESKTOP --- */
+        @media (min-width: 900px) {
+            .container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            .text-wrapper {
+                flex: 1;
+                position: sticky;
+                top: 20px;
+            }
+            .text-panel {
+                max-height: 80vh; /* Altura fixa no desktop */
+            }
+            .expand-btn { display: none; } /* Esconde botão expandir no PC */
+            .quiz-wrapper { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="journal-header">
+        <h1>Diário do IFCE</h1>
+        <div class="journal-meta">Língua Portuguesa & Literatura • Edital 2024.2</div>
+    </header>
+
+    <div class="container">
+        
+        <div class="nav-panel">
+            <button class="mode-btn active" id="btnStudy" onclick="setMode('study')">📖 Modo Leitura</button>
+            <button class="mode-btn" id="btnSim" onclick="setMode('simulado')">✍️ Modo Prova</button>
+        </div>
+
+        <div class="text-wrapper" id="textColumn">
+            <div class="text-panel" id="textPanel">
+                <div class="text-content">
+                    <div class="text-title">Fortalezas dentro de uma só: como o mar é elo da capital alencarina</div>
+                    <div class="text-meta">Por Fernanda Alves e Priscila Baima</div>
+                    
+                    <p>Cheia de riquezas, com um mar azul esverdeado, conhecida pelas altas temperaturas, Fortaleza completa 298 anos de existência neste sábado (13). A capital do Ceará é o principal destino escolhido pelos turistas no Nordeste e o 4º no Brasil, conforme os dados do Censo 2022.</p>
+                    <p>Com um nome que simboliza força, a origem vem da colonização dos holandeses, ao construírem o Forte de Schoonenborch, que foi tomado pelos portugueses, os quais assumiram a posse da região pelo Tratado de Tordesilhas.</p>
+                    <p><strong>Além dos</strong> colonizadores europeus, nas descendências da população, estão os povos indígenas e africanos. E a presença das pessoas de todos os lugares segue presente na atualidade. Seja do interior, de outros estados, ou países, Fortaleza é distribuída em vários espaços, com "outras fortalezas", que formam uma só.</p>
+                    <p>Da Barra do Ceará, passando pela Praia de Iracema, Mucuripe, até a Praia do Futuro, o mar reúne todas as diferenças em um único espaço, como um elo, sem distinções. É andando pelas ruas que esse cenário torna-se perceptível. Na Barra do Ceará, quem mora por perto aproveita um forró nas barracas, caminha pelo calçadão, toma uma água, mergulha no rio, surfa, ou faz um passeio de barco.</p>
+                    <p>Pela Beira-Mar... milhares de histórias cruzam por nós... Em uma dessas andanças, encontramos o Françoar Gayer... Mas sente que falta zelo pelo mar. "Acho que o povo é muito hospitaleiro... O que deixa, para mim, a desejar é o político que esquece do mar... [O mar] é mais importante do que essa orla. Acho que é mais importante do que até o povo. Para mim, não existe coisa igual ao mar. Não existe beleza igual. Ela é pura, é sintética, é real", relatou o homem.</p>
+                    <p>[...] Caminhando mais um pouco, há o Mercado dos Peixes... Emerson Silva já trabalha <strong>por lá</strong> há 10 anos... Ele não enxerga que precise sair de Fortaleza, porque tudo que precisa já está <strong>aqui</strong>.</p>
+                </div>
+                <button class="expand-btn" onclick="toggleText()">Ler Texto Completo ⬇</button>
+            </div>
+        </div>
+
+        <div class="quiz-wrapper" style="flex:1;">
+            <div id="quiz-container">
+                </div>
+            <div id="result-screen">
+                <h2>Edição Fechada!</h2>
+                <div class="score-display" id="finalScore">0%</div>
+                <p id="finalMsg">...</p>
+                <button class="nav-btn primary" onclick="location.reload()">Ler Novamente</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-footer">
+        <button class="nav-btn" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <span style="font-weight:600; color:#34495E;" id="progressText">1 / 10</span>
+        <button class="nav-btn primary" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                type: "Interpretação",
+                text: "O objetivo principal do texto é:",
+                options: [
+                    "Fazer uma declaração de amor à capital do Ceará.",
+                    "Apresentar a origem do nome da cidade de Fortaleza.",
+                    "Exaltar as potencialidades turísticas da capital do Ceará.",
+                    "Explicar a constituição diversa da população de Fortaleza.",
+                    "Defender que o mar unifica a natureza diversa de Fortaleza."
+                ],
+                correct: 4, // E
+                resolution: {
+                    text: "O título ('como o mar é elo') e o corpo do texto enfatizam que, apesar das diferenças ('várias fortalezas'), o mar funciona como um elemento de união ('elo', 'reúne todas as diferenças'). Embora fale de turismo e história, o foco central (tese) é o papel unificador do mar.",
+                    tip: "Sempre olhe para o título e o parágrafo de conclusão. Eles geralmente resumem a tese central."
+                }
+            },
+            {
+                id: 2,
+                type: "Tom do Texto",
+                text: "Considerando o texto em sua totalidade, as autoras têm uma visão:",
+                options: [
+                    "Fictícia da cidade.",
+                    "Realista da cidade.",
+                    "Idealizada da cidade.",
+                    "Decadente da cidade.",
+                    "Preconceituosa da cidade."
+                ],
+                correct: 2, // C
+                resolution: {
+                    text: "O texto foca nos 'encantos', 'riquezas', 'beleza', e 'amor'. Embora cite um problema pontual (zelo pelo mar na fala de um entrevistado), a voz das autoras constrói uma imagem poética, positiva e quase perfeita da cidade (idealizada), típica de textos comemorativos.",
+                    tip: "Idealizar = focar apenas nas qualidades, elevando o objeto a um patamar de perfeição."
+                }
+            },
+            {
+                id: 3,
+                type: "Coesão",
+                text: "No 2º parágrafo, o conector 'além de' é utilizado para:",
+                options: [
+                    "Introduzir uma explicação.",
+                    "Adicionar uma informação.",
+                    "Adicionar uma informação (período).",
+                    "Adicionar uma informação (parágrafo).",
+                    "Introduzir uma explicação (parágrafo)."
+                ],
+                correct: 1, // B
+                resolution: {
+                    text: "'Além de' é uma locução prepositiva de <strong>adição</strong>. Ela soma os colonizadores europeus aos povos indígenas e africanos na formação da população.",
+                    tip: "Conectores de adição: E, Nem, Também, Além de, Bem como."
+                }
+            },
+            {
+                id: 4,
+                type: "Tipologia Textual",
+                text: "O terceiro parágrafo ('Da Barra do Ceará...') apresenta características dominantes da sequência:",
+                options: [
+                    "Injuntiva.",
+                    "Narrativa.",
+                    "Descritiva.",
+                    "Explicativa.",
+                    "Argumentativa."
+                ],
+                correct: 2, // C
+                resolution: {
+                    text: "O parágrafo lista locais e caracteriza o cenário ('mar reúne diferenças', 'cenário torna-se perceptível'). O foco é pintar uma imagem do ambiente na mente do leitor através de adjetivos e verbos de estado/percepção.",
+                    tip: "Injuntiva = Ordem/Instrução. Narrativa = Ação no tempo. Descritiva = Característica no espaço."
+                }
+            },
+            {
+                id: 5,
+                type: "Numerais",
+                text: "A forma correta de escrever, por extenso, 298 (como ordinal) é:",
+                options: [
+                    "ducentésimo nonagésimo oitavo.",
+                    "ducentézimo nongentézimo oitavo.",
+                    "dois centésimos nongentésimo oitavo.",
+                    "centésimo segundo nonagésimo oitavo.",
+                    "centézimo segundo nonagézimo oitavo."
+                ],
+                correct: 0, // A
+                resolution: {
+                    text: "200 = Ducentésimo. 90 = Nonagésimo. 8 = Oitavo. Logo: Ducentésimo nonagésimo oitavo.",
+                    tip: "Cuidado com a grafia! É com 's' (centésimo, milésimo) e não 'z'."
+                }
+            },
+            {
+                id: 6,
+                type: "Verbos",
+                text: "Em 'É andando... que esse cenário torna-se perceptível', se passarmos para o Pretérito Imperfeito:",
+                options: [
+                    "era e tornou-se.",
+                    "foi e tornou-se.",
+                    "foi e tornava-se.",
+                    "fora e tornara-se.",
+                    "era e tornava-se."
+                ],
+                correct: 4, // E
+                resolution: {
+                    text: "Pretérito Imperfeito indica continuidade no passado. 'É' (Presente) vira <strong>Era</strong>. 'Torna-se' (Presente) vira <strong>Tornava-se</strong>.",
+                    tip: "Imperfeito do Indicativo: Terminações em -va (amava) ou -ia (fazia). Indica hábito no passado."
+                }
+            },
+            {
+                id: 7,
+                type: "Referenciação",
+                text: "Sobre as palavras 'lá' [2] e 'aqui' [3] no texto, é correto afirmar:",
+                options: [
+                    "A 2ª é sinônimo de Mercado.",
+                    "A 3ª é substantivo (Fortaleza).",
+                    "A 4ª é advérbio e substitui Mercado.",
+                    "A 3ª ('aqui') é advérbio e revela que as autoras estão em Fortaleza.",
+                    "A 1ª é substantivo (Mucuripe)."
+                ],
+                correct: 3, // D
+                resolution: {
+                    text: "A palavra 'aqui' ('tudo que precisa já está aqui') é um advérbio de lugar. O uso do 'aqui' pelo narrador (autoras) indica que elas estão fisicamente no local que descrevem (Fortaleza) no momento da escrita.",
+                    tip: "Dêiticos (aqui, lá, este, aquele) dependem da posição de quem fala."
+                }
+            },
+            {
+                id: 8,
+                type: "Conectivos",
+                text: "O conector 'Mas' em 'Mas sente que falta zelo' pode ser substituído por:",
+                options: [
+                    "Assim.",
+                    "Porém.",
+                    "Por isso.",
+                    "Portanto.",
+                    "Além disso."
+                ],
+                correct: 1, // B
+                resolution: {
+                    text: "'Mas' é conjunção adversativa (ideia contrária/oposição). Pode ser trocada por <strong>Porém, Todavia, Contudo, Entretanto</strong>.",
+                    tip: "Decore o time das adversativas: Mas, Porém, Contudo, Todavia, Entretanto, No entanto."
+                }
+            },
+            {
+                id: 9,
+                type: "Acentuação",
+                text: "Palavras acentuadas pela regra dos HIATOS:",
+                options: [
+                    "autônomo, histórias e mídia.",
+                    "países, paraíso e perceptível.",
+                    "água, aniversário e centenário.",
+                    "construírem, reúne e distribuída.",
+                    "também, experiência e sintética."
+                ],
+                correct: 3, // D
+                resolution: {
+                    text: "<strong>Cons-tru-í-rem</strong> (i tônico sozinho), <strong>re-ú-ne</strong> (u tônico sozinho), <strong>dis-tri-bu-í-da</strong> (i tônico sozinho). Todas são hiatos tônicos.",
+                    tip: "Regra do Hiato: Acentua-se 'i' e 'u' tônicos, sozinhos na sílaba ou com 's' (ex: Sa-ú-de, Fa-ís-ca)."
+                }
+            },
+            {
+                id: 10,
+                type: "Discurso",
+                text: "No 7º parágrafo ('Mas sente que falta zelo...'), há:",
+                options: [
+                    "Duas citações diretas para ilustrar.",
+                    "Apenas uma citação direta para confirmar.",
+                    "Duas citações (direta/indireta) negando.",
+                    "Uma citação indireta confirmando.",
+                    "Duas citações (direta/indireta) confirmando."
+                ],
+                correct: 0, // A
+                resolution: {
+                    text: "O parágrafo traz a fala exata do entrevistado entre aspas ('Acho que o povo...') e depois outra ('Ela é pura...'). São citações diretas (reprodução fiel da fala) que ilustram a opinião dele sobre o zelo pelo mar.",
+                    tip: "Aspas = Citação Direta. Dizer 'ele disse que...' = Citação Indireta."
+                }
+            }
+        ];
+
+        let currentQ = 0;
+        let mode = 'study';
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function toggleText() {
+            const panel = document.getElementById('textPanel');
+            panel.classList.toggle('expanded');
+            const btn = document.querySelector('.expand-btn');
+            btn.textContent = panel.classList.contains('expanded') ? 'Recolher Texto ⬆' : 'Ler Texto Completo ⬇';
+        }
+
+        function renderQuestion() {
+            const container = document.getElementById('quiz-container');
+            const q = questions[currentQ];
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            
+            let html = `
+                <div class="q-card">
+                    <div class="q-header">
+                        <span class="q-badge">${q.type}</span>
+                        <span style="font-weight:700; color:#BDC3C7;">QUESTÃO ${q.id}</span>
+                    </div>
+                    <div class="q-text">${q.text}</div>
+                    
+                    <div class="options-list">
+                        ${q.options.map((opt, i) => {
+                            let status = '';
+                            if (mode === 'study' && userAnswers[currentQ] !== null) {
+                                if (i === q.correct) status = 'correct';
+                                else if (i === userAnswers[currentQ]) status = 'wrong';
+                                else status = 'disabled';
+                            } else if (mode === 'simulado' && userAnswers[currentQ] === i) {
+                                status = 'selected';
+                            }
+                            
+                            return `
+                            <button class="option-btn ${status}" onclick="handleAnswer(${i})" ${mode==='study' && userAnswers[currentQ]!==null ? 'disabled' : ''}>
+                                <div class="opt-letter">${letters[i]}</div>
+                                <span>${opt}</span>
+                            </button>`;
+                        }).join('')}
+                    </div>
+
+                    ${(mode === 'study' && userAnswers[currentQ] !== null) ? `
+                        <div class="resolution-box" style="display:block">
+                            <div class="res-title">
+                                <span>${userAnswers[currentQ] === q.correct ? '✅' : '❌'}</span>
+                                Análise Pedagógica
+                            </div>
+                            <p>${q.resolution.text}</p>
+                            <div class="grammar-tip"><strong>💡 Dica Gramatical:</strong> ${q.resolution.tip}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            container.innerHTML = html;
+            
+            // Atualiza navegação
+            document.getElementById('progressText').textContent = `${currentQ + 1} / ${questions.length}`;
+            document.getElementById('btnPrev').disabled = currentQ === 0;
+            const btnNext = document.getElementById('btnNext');
+            
+            if (currentQ === questions.length - 1) {
+                btnNext.textContent = mode === 'simulado' ? 'Finalizar' : 'Ver Resultado';
+                btnNext.onclick = finishQuiz;
+            } else {
+                btnNext.textContent = 'Próxima';
+                btnNext.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function handleAnswer(index) {
+            if (mode === 'study' && userAnswers[currentQ] !== null) return;
+            userAnswers[currentQ] = index;
+            
+            if (mode === 'study') {
+                if (index === questions[currentQ].correct) {
+                    confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 }, colors: ['#16A085', '#D35400'] });
+                }
+                renderQuestion();
+            } else {
+                renderQuestion(); // Apenas marca selecionado
+            }
+        }
+
+        function changeQuestion(delta) {
+            const next = currentQ + delta;
+            if (next >= 0 && next < questions.length) {
+                currentQ = next;
+                renderQuestion();
+            }
+        }
+
+        function setMode(newMode) {
+            mode = newMode;
+            userAnswers.fill(null);
+            currentQ = 0;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            
+            document.getElementById('btnStudy').classList.toggle('active', mode === 'study');
+            document.getElementById('btnSim').classList.toggle('active', mode === 'simulado');
+            
+            renderQuestion();
+        }
+
+        function finishQuiz() {
+            const score = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            const percent = Math.round((score / questions.length) * 100);
+            
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('finalScore').innerText = `${percent}%`;
+            
+            let msg = "";
+            if(percent >= 70) {
+                msg = "EXCELENTE LEITURA! Você domina o texto.";
+                confetti({ particleCount: 200, spread: 100 });
+            } else {
+                msg = "ATENÇÃO AOS DETALHES! Releia o texto com calma.";
+            }
+            document.getElementById('finalMsg').textContent = msg;
+        }
+
+        // Init
+        renderQuestion();
+
+    </script>
+</body>
+</html>
