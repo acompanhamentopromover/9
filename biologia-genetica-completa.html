@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genética e Hereditariedade - Guia de Estudo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            /* TEMA: MENDEL EXPLORER (Verde Ervilha & Roxo DNA) */
+            --bg-color: #F0FDF4; /* Fundo Verde Suave */
+            --text-color: #064E3B; /* Texto Verde Escuro */
+            --border-color: #000000;
+            
+            --theme-light: #DCFCE7; 
+            --theme-medium: #22C55E;
+            --theme-dark: #14532D; 
+            --theme-contrast: #7C3AED; /* Roxo Profundo para Destaques */
+            --theme-accent: #F97316; /* Laranja para Alertas */
+            --theme-text-active: #FFFFFF;
+            
+            /* FEEDBACK */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+            
+            --white: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* ANIMAÇÕES */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- HEADER --- */
+        .logo-header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            padding: 20px 0 10px 0;
+        }
+
+        .css-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--theme-dark);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            border: 3px solid var(--theme-dark);
+            padding: 5px 15px;
+            border-radius: 12px;
+            background: var(--white);
+            box-shadow: 4px 4px 0px var(--theme-medium);
+        }
+
+        .container { width: 100%; max-width: 600px; padding: 20px; }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-close {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 2px solid var(--theme-light);
+        }
+
+        .toggle-container {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            margin-bottom: 25px;
+            box-shadow: 3px 3px 0px var(--border-color);
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn.active {
+            background-color: var(--theme-dark);
+            color: var(--theme-text-active);
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+        
+        /* --- CONTEÚDO --- */
+        .card-content {
+            background-color: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--theme-contrast);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--theme-light);
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .definition-box {
+            background-color: #F5F3FF;
+            border-left: 4px solid var(--theme-contrast);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .visual-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            background: #FAFAFA;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px dashed #ddd;
+        }
+
+        svg { max-width: 100%; height: auto; }
+
+        /* --- QUIZ --- */
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .dif-facil { background: #BBF7D0; color: #14532D; }
+        .dif-medio { background: #FEF08A; color: #713F12; }
+        .dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+        .question-map {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .question-map::-webkit-scrollbar { display: none; }
+
+        .map-dot {
+            min-width: 35px; height: 35px; border: 2px solid #ccc; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.8rem; color: #888; background: white; cursor: pointer;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .map-dot.active {
+            border-color: var(--border-color); background-color: var(--theme-dark);
+            color: white; box-shadow: 2px 2px 0px var(--border-color); transform: scale(1.1);
+        }
+        
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn {
+            display: flex; align-items: center; width: 100%; padding: 16px;
+            background-color: var(--white); border: 2px solid #ccc; border-radius: 12px;
+            margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .opt-circle {
+            width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ccc;
+            margin-right: 15px; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1rem; flex-shrink: 0;
+        }
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.8; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        .feedback-box {
+            display: block; margin-top: 20px; background-color: #F8FAFC;
+            border: 2px solid var(--theme-contrast); border-radius: 12px; padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .feedback-title { font-weight: 800; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 10px; color: var(--theme-contrast); }
+        .feedback-content { font-size: 0.95rem; line-height: 1.6; color: #222; margin-bottom: 15px; font-weight: 500; }
+
+        /* --- RESULTADO --- */
+        #viewResult { text-align: center; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            background: white; border: 2px solid black; border-radius: 20px;
+            padding: 30px; box-shadow: 6px 6px 0px black; margin-bottom: 30px;
+        }
+        .stars-container { font-size: 3rem; margin: 10px 0; }
+        .percentage-big { font-size: 3.5rem; font-weight: 800; color: var(--theme-dark); line-height: 1; margin: 10px 0; }
+        
+        .btn-retry {
+            width: 100%; padding: 15px; background-color: var(--theme-dark); color: white;
+            border: 2px solid black; border-radius: 12px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 4px 4px 0px black; transition: transform 0.1s;
+        }
+
+        .quiz-footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--white); border-top: 2px solid var(--border-color);
+            padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100;
+        }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 2px solid var(--border-color); cursor: pointer; }
+        .btn-next { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--border-color); }
+        .btn-prev { background-color: #f0f0f0; color: #555; }
+
+    </style>
+</head>
+<body>
+
+    <div class="logo-header">
+        <div class="css-logo">🧬 Promover Bio</div>
+    </div>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="9ano-biologia.html" class="btn-close">⬅ Voltar</a>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #888;">GENÉTICA</span>
+        </nav>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Explicação</button>
+            <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Praticar</button>
+        </div>
+
+        <div id="viewExplanation" class="section-view" style="display: block;">
+            
+            <h1 style="font-size: 1.6rem; margin-bottom: 10px; line-height: 1.2; font-weight: 700;">Genética Descomplicada</h1>
+            <p style="color: #555; margin-bottom: 25px;">O guia definitivo para entender como somos feitos e como passamos isso adiante.</p>
+            
+            <div class="card-content">
+                <div class="section-title">1. A "Biblioteca" da Vida</div>
+                <p style="font-size:0.95rem; margin-bottom:15px;">A genética começa com moléculas. Vamos usar a analogia da biblioteca:</p>
+                
+                <div class="visual-row">
+                    <svg width="280" height="120" viewBox="0 0 280 120">
+                        <rect x="10" y="10" width="80" height="60" fill="#E9D5FF" stroke="#8B5CF6" rx="5"/>
+                        <text x="50" y="45" text-anchor="middle" font-size="10" font-weight="bold">Núcleo</text>
+                        <text x="50" y="85" text-anchor="middle" font-size="8">"A Biblioteca"</text>
+
+                        <path d="M 95 40 L 115 40" stroke="#000" marker-end="url(#arrow)"/>
+
+                        <path d="M 130 20 L 150 60 M 150 20 L 130 60" stroke="#14532D" stroke-width="4" stroke-linecap="round"/>
+                        <text x="140" y="85" text-anchor="middle" font-size="8">"Livro"</text>
+                        
+                        <path d="M 165 40 L 185 40" stroke="#000" marker-end="url(#arrow)"/>
+
+                        <path d="M 200 30 Q 210 45 200 60 T 200 90" stroke="#8B5CF6" fill="none" stroke-width="2"/>
+                        <rect x="210" y="40" width="40" height="15" fill="#F97316" stroke="#000"/>
+                        <text x="230" y="51" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">GENE</text>
+                        <text x="230" y="85" text-anchor="middle" font-size="8">"Receita"</text>
+                    </svg>
+                </div>
+
+                <div class="definition-box">
+                    <ul>
+                        <li><strong>DNA:</strong> É a molécula química (papel e tinta) que forma tudo. Uma longa fita em dupla hélice.</li>
+                        <li><strong>Gene:</strong> É um <strong>trecho funcional</strong> do DNA (uma receita) que contém a instrução para uma característica (ex: cor dos olhos).</li>
+                        <li><strong>Cromossomo:</strong> É a molécula de DNA inteira, <strong>extremamente compactada</strong> e enrolada. Nós temos 46 em cada célula.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">2. Cromatina x Cromossomo</div>
+                <p style="font-size:0.95rem; margin-bottom:15px;">Muitos alunos confundem! Eles são feitos da <strong>mesma coisa</strong> (DNA + Proteínas), mas em estados diferentes.</p>
+                
+                <div class="visual-row">
+                    <svg width="280" height="140" viewBox="0 0 280 140">
+                        <text x="60" y="20" text-anchor="middle" font-weight="bold" fill="#7C3AED">CROMATINA</text>
+                        <path d="M 20 50 Q 40 30 60 50 T 100 50 T 140 50" stroke="#7C3AED" stroke-width="2" fill="none"/>
+                        <circle cx="100" cy="50" r="3" fill="#000"/> <text x="60" y="80" text-anchor="middle" font-size="9">Fio solto (Lã)</text>
+                        <text x="60" y="95" text-anchor="middle" font-size="8">Na Interfase</text>
+                        <text x="60" y="110" text-anchor="middle" font-size="8">(Célula trabalhando)</text>
+
+                        <path d="M 120 70 L 160 70" stroke="#000" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="140" y="60" text-anchor="middle" font-size="8" font-weight="bold">CONDENSAÇÃO</text>
+
+                        <text x="220" y="20" text-anchor="middle" font-weight="bold" fill="#14532D">CROMOSSOMO</text>
+                        <path d="M 210 40 L 230 100 M 230 40 L 210 100" stroke="#14532D" stroke-width="6" stroke-linecap="round"/>
+                        <text x="220" y="115" text-anchor="middle" font-size="9">Novelo fechado</text>
+                        <text x="220" y="130" text-anchor="middle" font-size="8">Na Divisão Celular</text>
+                    </svg>
+                </div>
+
+                <div class="definition-box" style="background-color: #E0F2FE; border-left-color: #0284C7;">
+                    Imagine um <strong>fio de lã</strong>:<br>
+                    1. <strong>Cromatina:</strong> É o fio desenrolado e espalhado. A célula usa o DNA assim no dia a dia para "ler" as receitas.<br>
+                    2. <strong>Cromossomo:</strong> É o fio enrolado num <strong>novelo bem apertado</strong>. A célula faz isso apenas quando vai se dividir, para facilitar o transporte sem embaraçar.
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">3. Passando a Herança (Gametas)</div>
+                <div class="visual-row">
+                    <svg width="250" height="120" viewBox="0 0 250 120">
+                        <circle cx="40" cy="30" r="20" fill="#BFDBFE"/>
+                        <text x="40" y="35" text-anchor="middle" font-size="10">Pai (46)</text>
+                        <path d="M 40 55 L 40 75" stroke="#000" marker-end="url(#arrow)"/>
+                        <circle cx="40" cy="90" r="10" fill="#93C5FD"/>
+                        <text x="40" y="115" text-anchor="middle" font-size="8">Esp. (23)</text>
+
+                        <text x="80" y="90" font-size="20">+</text>
+
+                        <circle cx="120" cy="30" r="20" fill="#FBCFE8"/>
+                        <text x="120" y="35" text-anchor="middle" font-size="10">Mãe (46)</text>
+                        <path d="M 120 55 L 120 75" stroke="#000" marker-end="url(#arrow)"/>
+                        <circle cx="120" cy="90" r="10" fill="#F9A8D4"/>
+                        <text x="120" y="115" text-anchor="middle" font-size="8">Óvulo (23)</text>
+
+                        <text x="150" y="90" font-size="20">=</text>
+
+                        <circle cx="200" cy="90" r="25" fill="#BBF7D0" stroke="#000"/>
+                        <text x="200" y="95" text-anchor="middle" font-size="12" font-weight="bold">46</text>
+                        <text x="200" y="60" text-anchor="middle" font-size="8">Bebê (Zigoto)</text>
+                    </svg>
+                </div>
+                <div class="definition-box">
+                    <strong>Gametas (n):</strong> São células especiais que carregam apenas <strong>metade</strong> do DNA (23 cromossomos). A fecundação soma 23 + 23 = 46.
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">4. Genótipo e Fenótipo</div>
+                <div class="visual-row">
+                    <div style="background:#fff; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+                        <span style="font-size:1.5rem; font-weight:bold; color:#15803d;">AA</span><br>
+                        <small>Homozigoto<br>Dominante</small>
+                    </div>
+                    <div style="background:#fff; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+                        <span style="font-size:1.5rem; font-weight:bold; color:#15803d;">Aa</span><br>
+                        <small>Heterozigoto<br>(Híbrido)</small>
+                    </div>
+                    <div style="background:#fff; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+                        <span style="font-size:1.5rem; font-weight:bold; color:#be123c;">aa</span><br>
+                        <small>Homozigoto<br>Recessivo</small>
+                    </div>
+                </div>
+                <ul style="font-size:0.9rem; padding-left:20px; line-height:1.6;">
+                    <li><strong>Genótipo:</strong> O código interno (letras).</li>
+                    <li><strong>Fenótipo:</strong> O que vemos (olho azul). <em>Fenótipo = Genótipo + Ambiente</em>.</li>
+                    <li><strong>Dominante (A):</strong> Manda sozinho. <strong>Recessivo (a):</strong> Precisa de dupla.</li>
+                </ul>
+            </div>
+
+            <div class="card-content">
+                <div class="section-title">5. Prevendo o Futuro (Mendel)</div>
+                <div class="visual-row">
+                    <svg width="160" height="160" viewBox="0 0 160 160">
+                        <text x="80" y="20" text-anchor="middle" font-size="10" font-weight="bold">Pai (Aa)</text>
+                        <text x="20" y="80" text-anchor="middle" font-size="10" font-weight="bold" transform="rotate(-90, 20, 80)">Mãe (Aa)</text>
+                        <rect x="40" y="40" width="50" height="50" fill="#DCFCE7" stroke="#000"/>
+                        <rect x="90" y="40" width="50" height="50" fill="#DCFCE7" stroke="#000"/>
+                        <rect x="40" y="90" width="50" height="50" fill="#DCFCE7" stroke="#000"/>
+                        <rect x="90" y="90" width="50" height="50" fill="#FECACA" stroke="#000"/>
+                        <text x="65" y="35" text-anchor="middle">A</text>
+                        <text x="115" y="35" text-anchor="middle">a</text>
+                        <text x="30" y="70" text-anchor="middle">A</text>
+                        <text x="30" y="120" text-anchor="middle">a</text>
+                        <text x="65" y="70" text-anchor="middle" font-weight="bold">AA</text>
+                        <text x="115" y="70" text-anchor="middle" font-weight="bold">Aa</text>
+                        <text x="65" y="120" text-anchor="middle" font-weight="bold">Aa</text>
+                        <text x="115" y="120" text-anchor="middle" font-weight="bold" fill="#B91C1C">aa</text>
+                    </svg>
+                </div>
+                <div class="definition-box">
+                    <strong>Cruzamento (Aa x Aa):</strong> 25% AA, 50% Aa, 25% aa.
+                </div>
+            </div>
+
+            <button onclick="setMode('practice')" style="width: 100%; padding: 15px; background: var(--text-color); color: white; border: none; border-radius: 12px; font-weight: 700; margin-bottom: 20px;">
+                Iniciar Quiz Completo (30 Questões) ➜
+            </button>
+        </div>
+
+        <div id="viewPractice" class="section-view">
+            <div style="margin-bottom: 15px;">
+                <h2>Hora de Praticar!</h2>
+                <p style="color: #666; font-size: 0.9rem;">Teste seu conhecimento em todos os níveis.</p>
+            </div>
+            <div class="question-map" id="qMap"></div>
+            <div id="quizContainer" style="margin-bottom: 100px;"></div>
+        </div>
+
+        <div id="viewResult">
+            <div class="result-card">
+                <h2>Resultado Final</h2>
+                <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+                <div class="percentage-big" id="finalPercent">0%</div>
+                <p class="score-text" id="finalScoreText">Você acertou 0 de 30</p>
+                <div id="review-container"></div>
+            </div>
+            <div id="action-buttons"></div>
+        </div>
+
+    </div>
+
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+        <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+    </footer>
+
+    <script>
+        const questions = [
+            // --- BLOCO 1: BASE MOLECULAR (1-5) ---
+            { 
+                id: 1, level: "Fácil", 
+                text: "O que é o Genoma?", 
+                options: ["Apenas os genes dos olhos", "O conjunto completo de DNA de um organismo", "Uma proteína do sangue", "Uma célula nervosa"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Perfeito! Genoma é como se fosse a biblioteca inteira, contendo todos os livros (cromossomos) e receitas (genes) de um ser vivo.", 
+                    options: ["Isso seria apenas uma parte ínfima do código.", "Correto. É o código total.", "Proteína é o produto final (o bolo), não a receita.", "Célula é a estrutura onde o genoma mora."] 
+                } 
+            },
+            { 
+                id: 2, level: "Fácil", 
+                text: "Qual a função de um Gene?", 
+                options: ["Dar energia", "Conter a instrução para produzir uma característica (proteína)", "Proteger a célula", "Destruir vírus"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Isso! O gene é um pedaço do DNA que funciona como uma receita de bolo para fazer uma proteína específica.", 
+                    options: ["Função da mitocôndria.", "Correto. É a unidade de informação.", "Função da membrana.", "Função dos anticorpos."] 
+                } 
+            },
+            { 
+                id: 3, level: "Fácil", 
+                text: "Onde encontramos os Cromossomos em uma célula humana?", 
+                options: ["No Citoplasma", "Na Membrana", "Dentro do Núcleo", "Fora da célula"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "Exato! O núcleo é o cofre forte que protege os cromossomos (o DNA organizado).", 
+                    options: ["Apenas em bactérias (procariontes) o DNA fica no citoplasma.", "Membrana é a 'parede' externa.", "Correto. O núcleo é o cofre.", "Nunca, o DNA é precioso demais para ficar fora."] 
+                } 
+            },
+            { 
+                id: 4, level: "Médio", 
+                text: "O que são Cromossomos Homólogos?", 
+                options: ["Cromossomos idênticos criados na divisão", "Pares de cromossomos (um do pai, um da mãe) que trazem genes para as mesmas características", "Cromossomos quebrados", "Cromossomos sexuais"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Pense neles como um par de sapatos: um pé esquerdo (pai) e um pé direito (mãe). Combinam, mas não são idênticos.", 
+                    options: ["Essas são cromátides irmãs (cópias).", "Correto. Eles formam os pares.", "Não.", "Sexuais são um tipo específico (par 23), mas homólogos é o conceito geral dos pares."] 
+                } 
+            },
+            { 
+                id: 5, level: "Médio", 
+                text: "A estrutura de 'Dupla Hélice' refere-se a qual molécula?", 
+                options: ["Proteína", "RNA", "DNA", "Lipídio"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "Famosa escada em caracol! Watson e Crick descobriram que o DNA tem duas fitas entrelaçadas.", 
+                    options: ["Proteínas têm formas variadas e complexas.", "RNA geralmente é fita simples.", "Correto. Dupla hélice.", "Gorduras não formam hélice genética."] 
+                } 
+            },
+
+            // --- BLOCO 2: CROMATINA E CROMOSSOMOS (6-10) ---
+            {
+                id: 6, level: "Médio", 
+                text: "Qual a diferença entre Cromatina e Cromossomo?", 
+                options: ["São substâncias diferentes", "Cromatina é o DNA desenrolado (ativo); Cromossomo é o DNA compactado para a divisão", "Cromatina fica no citoplasma", "Cromossomo só existe em bactérias"], 
+                correct: 1, 
+                explanation: {
+                    correct: "Correto! É a mesma molécula (DNA), mudando apenas o estado. Cromatina = Fio solto. Cromossomo = Novelo.",
+                    options: ["São feitos da mesma coisa (DNA+Proteínas).", "Correto.", "Ambos ficam no núcleo.", "Eucariontes têm cromossomos."]
+                }
+            },
+            {
+                id: 7, level: "Médio", 
+                text: "Quando a célula NÃO está se dividindo (Interfase), o DNA está na forma de:", 
+                options: ["Cromossomo condensado", "Cromatina (fio longo)", "Desaparecido", "RNA"], 
+                correct: 1, 
+                explanation: {
+                    correct: "Na Interfase, a célula precisa ler o DNA para trabalhar, então ele tem que estar desenrolado (Cromatina).",
+                    options: ["Isso ocorre na divisão (mitose).", "Correto.", "Sempre presente.", "DNA é a base, não RNA."]
+                }
+            },
+            {
+                id: 8, level: "Médio", 
+                text: "Por que o DNA se compacta em Cromossomos durante a divisão?", 
+                options: ["Para caber no núcleo", "Para facilitar o transporte e evitar quebras", "Para produzir proteínas", "Para descansar"], 
+                correct: 1, 
+                explanation: {
+                    correct: "Imagine tentar separar dois pratos de espaguete misturados! Enrolar em 'novelos' (cromossomos) facilita a separação correta.",
+                    options: ["Já cabe como cromatina.", "Correto. Organização para o transporte.", "Compactado ele não produz.", "Célula trabalha muito na divisão."]
+                }
+            },
+            {
+                id: 9, level: "Difícil", 
+                text: "As histonas são proteínas que ajudam a formar:", 
+                options: ["A membrana", "A cromatina e os cromossomos (enrolando o DNA)", "O ribossomo", "A mitocôndria"], 
+                correct: 1, 
+                explanation: {
+                    correct: "As histonas funcionam como os carretéis onde a linha (DNA) se enrola.",
+                    options: ["Lipídios e outras proteínas.", "Correto.", "Feito de RNA.", "Outra estrutura."]
+                }
+            },
+            {
+                id: 10, level: "Difícil", 
+                text: "Humanos têm 46 filamentos de cromatina. Na divisão, quantos cromossomos se formam?", 
+                options: ["23", "46", "92", "Milhares"], 
+                correct: 1, 
+                explanation: {
+                    correct: "O número se mantém. Cada fio de cromatina vira um cromossomo. Temos 46 de cada.",
+                    options: ["Gametas.", "Correto.", "Após duplicação temos 92 cromátides, mas 46 cromossomos duplicados.", "Não."]
+                }
+            },
+
+            // --- BLOCO 3: GAMETAS E TRANSMISSÃO (11-15) ---
+            { 
+                id: 11, level: "Fácil", 
+                text: "Quantos cromossomos tem um espermatozoide ou óvulo humano?", 
+                options: ["46", "23", "92", "12"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Metade do total! Gametas são haploides (n=23) para que, ao somar (23+23), o bebê tenha 46.", 
+                    options: ["Isso é uma célula do corpo (somática).", "Correto (metade).", "Excesso fatal.", "Número errado."] 
+                } 
+            },
+            { 
+                id: 12, level: "Fácil", 
+                text: "O que acontece na Fecundação?", 
+                options: ["O DNA se perde", "A célula se divide", "O gameta masculino se une ao feminino formando o Zigoto", "Ocorre uma mutação"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "É o encontro mágico! 23 cromossomos do pai + 23 da mãe = 46 cromossomos do novo indivíduo (Zigoto).", 
+                    options: ["Nunca.", "Isso vem depois (mitose).", "Correto. União.", "Não necessariamente."] 
+                } 
+            },
+            { 
+                id: 13, level: "Médio", 
+                text: "Quem define o sexo biológico do bebê na espécie humana?", 
+                options: ["A mãe", "O pai", "O médico", "A temperatura"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "O pai! A mãe só tem cromossomo X. O pai tem X e Y. Se ele doar o X, nasce menina (XX). Se doar Y, nasce menino (XY).", 
+                    options: ["A mãe sempre doa X.", "Correto. O pai tem X e Y.", "Incorreto.", "Em répteis (tartarugas), sim. Em humanos, não."] 
+                } 
+            },
+            { 
+                id: 14, level: "Médio", 
+                text: "Células haploides (n) são:", 
+                options: ["Células da pele", "Células do cérebro", "Gametas (Sexuais)", "Células musculares"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "Haploide = Metade do conjunto. Apenas os gametas são assim para permitir a reprodução.", 
+                    options: ["Diploide (2n).", "Diploide (2n).", "Correto.", "Diploide (2n)."] 
+                } 
+            },
+            { 
+                id: 15, level: "Difícil", 
+                text: "O processo de divisão celular que forma os gametas (reduzindo os cromossomos à metade) chama-se:", 
+                options: ["Mitose", "Meiose", "Fecundação", "Clonagem"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Meiose vem de 'meio'. Ela divide o número de cromossomos pela metade para criar óvulos e espermatozoides.", 
+                    options: ["Mitose cria cópias idênticas (crescimento).", "Correto.", "União, não divisão.", "Cópia exata."] 
+                } 
+            },
+
+            // --- BLOCO 4: GENÉTICA MENDELIANA (16-20) ---
+            { 
+                id: 16, level: "Fácil", 
+                text: "O que é Fenótipo?", 
+                options: ["O conjunto de genes", "A aparência física ou característica observável", "O nome do pai", "O tipo de célula"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Fenótipo é a 'FOTO'. É o que você vê ou mede: olho azul, cabelo crespo, tipo sanguíneo.", 
+                    options: ["Isso é Genótipo.", "Correto.", "Não.", "Não."] 
+                } 
+            },
+            { 
+                id: 17, level: "Fácil", 
+                text: "Um indivíduo com genótipo 'Aa' é chamado de:", 
+                options: ["Homozigoto Dominante", "Homozigoto Recessivo", "Heterozigoto", "Puro"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "Hetero = Diferente. Ele tem um alelo dominante (A) e um recessivo (a). Também chamado de 'híbrido'.", 
+                    options: ["Seria AA.", "Seria aa.", "Correto. Letras diferentes.", "Seria letras iguais."] 
+                } 
+            },
+            { 
+                id: 18, level: "Médio", 
+                text: "O que significa dizer que um alelo é Dominante (A)?", 
+                options: ["Que ele é mais frequente", "Que ele manifesta sua característica mesmo em dose simples (Aa)", "Que ele é melhor", "Que ele mata o recessivo"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Dominante é aquele que 'aparece' e manda no pedaço, escondendo o efeito do recessivo quando estão juntos.", 
+                    options: ["Nem sempre. Polidactilia é dominante mas é rara.", "Correto.", "Não, há doenças dominantes.", "Não mata, só esconde."] 
+                } 
+            },
+            { 
+                id: 19, level: "Médio", 
+                text: "Cruzando dois heterozigotos (Aa x Aa), qual a chance de nascer um filho 'aa'?", 
+                options: ["100%", "50%", "25% (1/4)", "0%"], 
+                correct: 2, 
+                explanation: { 
+                    correct: "Faça o quadro: AA, Aa, Aa, aa. Apenas 1 em 4 é 'aa'.", 
+                    options: ["Não.", "Seria Aa x aa.", "Correto.", "Não."] 
+                } 
+            },
+            { 
+                id: 20, level: "Difícil", 
+                text: "A 1ª Lei de Mendel (Lei da Segregação) afirma que:", 
+                options: ["Os genes se misturam para sempre", "Cada característica é determinada por dois fatores que se separam na formação dos gametas", "O pai passa todos os genes", "A mãe passa todos os genes"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Mendel descobriu que temos parzinhos de genes, mas só passamos UM deles para cada filho (via gameta).", 
+                    options: ["Não se misturam, se separam.", "Correto.", "Só metade.", "Só metade."] 
+                } 
+            },
+
+            // --- BLOCO 5: HEREDOGRAMAS E SANGUE (21-25) ---
+            { 
+                id: 21, level: "Fácil", 
+                text: "No heredograma, o símbolo 'Quadrado' representa:", 
+                options: ["Mulher", "Homem", "Animal", "Doença"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Convenção universal: Quadrado = Macho, Círculo = Fêmea.", 
+                    options: ["Círculo.", "Correto.", "Não.", "Pintado indica característica."] 
+                } 
+            },
+            { 
+                id: 22, level: "Médio", 
+                text: "Pais normais têm um filho afetado por uma doença. A doença é:", 
+                options: ["Dominante", "Recessiva", "Impossível", "Infecciosa"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Dica de Ouro! Se os pais são iguais (normais) e o filho é diferente (afetado), os pais são híbridos (Aa) e a doença é recessiva (aa).", 
+                    options: ["Se fosse dominante, um dos pais teria que ter a doença.", "Correto.", "Genética explica.", "Falamos de hereditariedade."] 
+                } 
+            },
+            { 
+                id: 23, level: "Médio", 
+                text: "Qual tipo sanguíneo é o Doador Universal (pode doar para todos)?", 
+                options: ["A", "B", "AB", "O negativo"], 
+                correct: 3, 
+                explanation: { 
+                    correct: "O tipo O Negativo não tem 'crachás' (antígenos) na superfície, então o corpo de ninguém o ataca.", 
+                    options: ["Atacado por B e O.", "Atacado por A e O.", "Receptor universal.", "Correto."] 
+                } 
+            },
+            { 
+                id: 24, level: "Difícil", 
+                text: "Um pai tipo sanguíneo A e uma mãe tipo B podem ter um filho tipo O?", 
+                options: ["Nunca", "Sim, se ambos forem heterozigotos (IAi e IBi)", "Apenas se for erro", "Sim, mas o filho terá problemas"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Sim! Se o pai for IAi e a mãe IBi, o filho pode receber o 'i' de cada um e ser 'ii' (Tipo O).", 
+                    options: ["Podem sim.", "Correto.", "Não é erro.", "Filho saudável."] 
+                } 
+            },
+            { 
+                id: 25, level: "Difícil", 
+                text: "O que é Codominância?", 
+                options: ["Um gene vence o outro", "Os dois alelos se expressam juntos sem se misturar", "O gene recessivo some", "Uma mutação ruim"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Exemplo: Sangue tipo AB. Tanto o A quanto o B aparecem. Ou uma flor com pétalas brancas E vermelhas (não rosa).", 
+                    options: ["Dominância completa.", "Correto.", "Não.", "Não é mutação."] 
+                } 
+            },
+
+            // --- BLOCO 6: DIVERSIDADE E MUTAÇÕES (26-30) ---
+            { 
+                id: 26, level: "Fácil", 
+                text: "O que é uma Mutação?", 
+                options: ["A morte da célula", "Uma alteração na sequência do DNA", "Um tipo de vírus", "A divisão celular"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "É qualquer mudança nas letras do DNA. Pode ser causada por sol, radiação ou erro de cópia.", 
+                    options: ["Apoptose.", "Correto.", "Não.", "Mitose."] 
+                } 
+            },
+            { 
+                id: 27, level: "Médio", 
+                text: "As mutações são sempre ruins?", 
+                options: ["Sim, sempre causam câncer", "Não, elas geram variabilidade e evolução", "Sim, matam o ser vivo", "Não, elas não fazem nada"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Sem mutação, todos seríamos iguais! Algumas são neutras, outras ruins, e algumas criam vantagens evolutivas.", 
+                    options: ["Nem sempre.", "Correto.", "Nem sempre.", "Fazem sim."] 
+                } 
+            },
+            { 
+                id: 28, level: "Médio", 
+                text: "Gêmeos univitelinos (idênticos) têm o mesmo DNA?", 
+                options: ["Não", "Sim, são clones naturais", "Apenas 50%", "Depende do pai"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "Sim! Eles vêm do mesmo óvulo e mesmo espermatozoide que se dividiu depois. Têm o mesmo 'código de barras'.", 
+                    options: ["Têm sim.", "Correto.", "Isso são irmãos comuns ou gêmeos bivitelinos.", "Não."] 
+                } 
+            },
+            { 
+                id: 29, level: "Difícil", 
+                text: "A Síndrome de Down é um exemplo de:", 
+                options: ["Doença viral", "Alteração cromossômica (Trissomia do 21)", "Falta de vitaminas", "Gene recessivo simples"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "É um erro de quantidade. A pessoa tem 47 cromossomos em vez de 46 (tem 3 cópias do cromossomo 21).", 
+                    options: ["Não.", "Correto.", "Não.", "Erro numérico, não gênico."] 
+                } 
+            },
+            { 
+                id: 30, level: "Difícil", 
+                text: "O que é Variabilidade Genética?", 
+                options: ["Todos serem iguais", "Diferenças genéticas entre indivíduos da mesma espécie", "Ter muitas células", "Mudar de cor"], 
+                correct: 1, 
+                explanation: { 
+                    correct: "É o 'tempero' da vida. Quanto mais variabilidade, maior a chance da espécie sobreviver a mudanças.", 
+                    options: ["Isso é clone.", "Correto.", "Multicelular.", "Camuflagem."] 
+                } 
+            }
+        ];
+
+        // LÓGICA DO SISTEMA
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        function setMode(mode) {
+            const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if(mode === 'explanation') {
+                document.getElementById('viewExplanation').style.display = 'block';
+                document.getElementById('btnExp').classList.add('active');
+                document.getElementById('btnPrac').classList.remove('active');
+            } else if (mode === 'practice') {
+                document.getElementById('viewPractice').style.display = 'block';
+                document.getElementById('quizFooter').style.display = 'flex';
+                document.getElementById('btnExp').classList.remove('active');
+                document.getElementById('btnPrac').classList.add('active');
+                renderQuestion();
+                renderMap();
+            } else if (mode === 'result') {
+                document.getElementById('viewResult').style.display = 'block';
+            }
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('quizContainer');
+            const letters = ['A', 'B', 'C', 'D'];
+            const ans = userAnswers[currentQuestion];
+
+            // Badge
+            let badgeClass = '';
+            if(q.level === 'Fácil') badgeClass = 'dif-facil';
+            else if(q.level === 'Médio') badgeClass = 'dif-medio';
+            else badgeClass = 'dif-dificil';
+
+            container.innerHTML = `
+                <div class="card-content">
+                    <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+                    <div style="margin-bottom: 20px;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #888;">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                        <h2 style="font-size: 1.1rem; margin-top: 5px;">${q.text}</h2>
+                    </div>
+                    <div class="options-list">
+                        ${q.options.map((opt, i) => {
+                            let cls = '';
+                            if (ans !== null) {
+                                if (i === q.correct) cls = 'correct';
+                                else if (i === ans) cls = 'wrong';
+                                else cls = 'disabled';
+                            }
+                            return `
+                                <div class="option-btn ${cls}" onclick="handleAnswer(${i})">
+                                    <div class="opt-circle">${letters[i]}</div>
+                                    <div>${opt}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                    ${ans !== null ? `
+                        <div class="feedback-box">
+                            <div class="feedback-title">${ans === q.correct ? '✅ Acertou!' : '❌ Veja a explicação:'}</div>
+                            <div class="feedback-content">${q.explanation.correct}</div>
+                            <div style="margin-top:15px; border-top:1px dashed #ccc; padding-top:10px;">
+                                <small><strong>Análise das alternativas:</strong></small>
+                                ${q.explanation.options.map((exp, i) => `<div style="margin-bottom:5px; font-size:0.85rem; color:${i === q.correct ? '#059669' : '#BE123C'};"><strong>${letters[i]})</strong> ${exp}</div>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            updateNav();
+        }
+
+        function handleAnswer(idx) {
+            if (userAnswers[currentQuestion] !== null) return;
+            userAnswers[currentQuestion] = idx;
+            if (idx === questions[currentQuestion].correct) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                document.body.classList.add('shake-effect');
+                setTimeout(() => document.body.classList.remove('shake-effect'), 500);
+            }
+            renderQuestion();
+            renderMap();
+        }
+
+        function renderMap() {
+            const map = document.getElementById('qMap');
+            map.innerHTML = questions.map((q, i) => {
+                let cls = 'map-dot';
+                if (i === currentQuestion) cls += ' active';
+                if (userAnswers[i] !== null) {
+                    cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+                }
+                return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
+        }
+
+        function goTo(i) { currentQuestion = i; renderQuestion(); renderMap(); }
+        function changeQuestion(d) {
+            let n = currentQuestion + d;
+            if (n >= 0 && n < questions.length) goTo(n);
+        }
+
+        function updateNav() {
+            document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+            const next = document.getElementById('btnNext');
+            if (currentQuestion === questions.length - 1) {
+                next.textContent = "Finalizar";
+                next.onclick = finish;
+            } else {
+                next.textContent = "Próxima";
+                next.onclick = () => changeQuestion(1);
+            }
+        }
+
+        function finish() {
+            let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+            let percent = Math.round((correct / questions.length) * 100);
+            
+            document.getElementById('finalPercent').textContent = percent + "%";
+            document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length}`;
+            document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+            
+            let summary = '<div style="text-align:left; margin-top:20px;">';
+            if (percent < 80) {
+                summary += `<div style="background:#FFE4E6; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #BE123C; color:#991B1B;">
+                    <strong>⚠️ Atenção:</strong> Você precisa de 80% para dominar este módulo. Tente novamente!
+                </div>`;
+                document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Refazer Atividade</button>`;
+            } else {
+                summary += `<div style="background:#D1FAE5; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #059669; color:#065F46;">
+                    <strong>🎉 Parabéns!</strong> Você dominou a Genética!
+                </div>`;
+                document.getElementById('action-buttons').innerHTML = `<button class="btn-retry" onclick="reset()">🔄 Praticar Novamente</button>`;
+            }
+
+            if (correct < questions.length) {
+                summary += '<h4>Revise seus erros:</h4>';
+                questions.forEach((q, i) => {
+                    if(userAnswers[i] !== q.correct) {
+                        summary += `<div style="margin-bottom:10px; padding:10px; background:#F8FAFC; border-radius:8px; border:1px solid #eee;">
+                            <strong>Q${i+1}:</strong> ${q.text}<br>
+                            <span style="color:#BE123C; font-size:0.9rem;">Sua resposta: ${q.options[userAnswers[i]]}</span><br>
+                            <span style="color:#059669; font-size:0.9rem;">Correta: ${q.options[q.correct]}</span>
+                        </div>`;
+                    }
+                });
+            }
+            summary += '</div>';
+            
+            document.getElementById('review-container').innerHTML = summary;
+            setMode('result');
+        }
+
+        function reset() { userAnswers = new Array(questions.length).fill(null); currentQuestion = 0; setMode('explanation'); }
+        setMode('explanation');
+    </script>
+</body>
+</html>
