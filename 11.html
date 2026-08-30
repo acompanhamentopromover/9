@@ -165,6 +165,27 @@
             background: var(--white); border: 2px solid #000; padding: 8px 20px;
             font-weight: 700; border-radius: 4px; cursor: pointer; 
         }
+
+        /* PROGRESSO E RESULTADOS */
+        .progress-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+            background: #e5e5e5;
+        }
+        .progress-fill {
+            height: 100%; background: var(--correct-bg); width: 0%;
+            transition: width 0.3s ease;
+        }
+        .results-box {
+            text-align: center; padding: 30px; background: var(--white);
+            border: 2px solid #000; border-radius: 6px; box-shadow: 4px 4px 0px #000;
+            margin-top: 20px; display: none; flex-direction: column; gap: 15px;
+            align-items: center;
+        }
+        .reset-btn {
+            background: var(--wrong-bg); border: 2px solid #000; padding: 12px 20px;
+            font-weight: 700; border-radius: 4px; cursor: pointer;
+            box-shadow: 2px 2px 0px #000; margin-top: 10px; max-width: 250px;
+        }
     </style>
 </head>
 <body>
@@ -283,11 +304,13 @@
 
         <main id="viewPractice" class="view-section">
             <div id="quizContainer"></div>
+            <div id="resultsContainer" class="results-box"></div>
         </main>
     </div>
 
     <!-- RODAPÉ DE NAVEGAÇÃO DO QUIZ -->
     <footer class="quiz-footer" id="quizFooter">
+        <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
         <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← Anterior</button>
         <span id="qCount" style="font-weight: 700; align-self: center;">1/15</span>
         <button class="nav-btn" style="background: var(--theme-contrast);" id="btnNext" onclick="navigate(1)">Próxima →</button>
@@ -477,7 +500,14 @@
             }
         ];
 
-        const state = { currentIndex: 0, answers: new Array(15).fill(null) };
+        const SAVED_KEY = 'ifce_math_progress_9ano';
+        let savedAnswers = new Array(15).fill(null);
+        try {
+            const localData = localStorage.getItem(SAVED_KEY);
+            if (localData) savedAnswers = JSON.parse(localData);
+        } catch (e) { console.error("Erro ao ler localStorage", e); }
+
+        const state = { currentIndex: 0, answers: savedAnswers };
 
         function changeView(view) {
             document.getElementById('viewExplanation').classList.remove('active');
@@ -494,6 +524,7 @@
                 document.getElementById('btnPrac').classList.add('active');
                 document.getElementById('quizFooter').style.display = 'flex';
                 renderQ();
+                updateProgress();
                 window.scrollTo(0,0);
             }
         }
@@ -546,7 +577,51 @@
         function answer(idx) {
             if (state.answers[state.currentIndex] !== null) return;
             state.answers[state.currentIndex] = idx;
+            
+            try {
+                localStorage.setItem(SAVED_KEY, JSON.stringify(state.answers));
+            } catch(e) {}
+
             renderQ();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = state.answers.filter(a => a !== null).length;
+            const pct = (answered / 15) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+            
+            if (answered === 15) {
+                showResults();
+            } else {
+                document.getElementById('resultsContainer').style.display = 'none';
+            }
+        }
+
+        function showResults() {
+            const corrects = state.answers.reduce((acc, ans, i) => acc + (ans === questionsDatabase[i].correctIndex ? 1 : 0), 0);
+            const resHtml = `
+                <h2 style="font-family: 'Space Grotesk'; font-size: 1.8rem; margin-bottom: 5px;">Simulado Concluído!</h2>
+                <p style="font-size: 1.1rem; font-weight: 500;">Você acertou <strong>${corrects}</strong> de 15 questões.</p>
+                <button class="reset-btn" onclick="resetProgress()">Zerar e Refazer Prova</button>
+            `;
+            const rContainer = document.getElementById('resultsContainer');
+            rContainer.innerHTML = resHtml;
+            rContainer.style.display = 'flex';
+            
+            if (state.currentIndex === 14) {
+                setTimeout(() => rContainer.scrollIntoView({ behavior: 'smooth', block: 'end' }), 300);
+            }
+        }
+
+        function resetProgress() {
+            try { localStorage.removeItem(SAVED_KEY); } catch(e) {}
+            state.answers = new Array(15).fill(null);
+            state.currentIndex = 0;
+            document.getElementById('resultsContainer').style.display = 'none';
+            renderQ();
+            updateProgress();
+            window.scrollTo(0,0);
         }
 
         function navigate(dir) {
@@ -554,6 +629,7 @@
             if (n >= 0 && n < 15) {
                 state.currentIndex = n;
                 renderQ();
+                if(state.answers.filter(a => a !== null).length === 15) showResults();
             }
         }
     </script>
