@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funções e Domínio - Estudo para Prova</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            /* Paleta Minimalista (Neobrutalismo Clean) */
+            --bg-color: #fafafa;
+            --text-color: #111111;
+            --border-color: #111111;
+            --white: #FFFFFF;
+            
+            --theme-light: #fef08a; /* Amarelo pastel */
+            --theme-medium: #c4b5fd; /* Roxo pastel */
+            --theme-dark: #111111; /* Preto sólido */
+            --theme-contrast: #38bdf8; /* Azul claro */
+            
+            --correct-bg: #86efac;
+            --wrong-bg: #fca5a5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding: 20px 15px 120px 15px;
+            /* Fundo limpo minimalista */
+            background-image: linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container { 
+            width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 20px; 
+        }
+
+        /* CABEÇALHO */
+        .logo-header { text-align: left; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        
+        h1 { 
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: -0.5px;
+        }
+        
+        .subtitle { 
+            font-size: 1rem; font-weight: 600; color: #555;
+        }
+
+        /* BOTÕES DE NAVEGAÇÃO */
+        .toggle-container { 
+            display: flex; gap: 10px; position: sticky; top: 10px; z-index: 50; 
+        }
+        
+        .toggle-btn { 
+            flex: 1; padding: 12px 0; border: 2px solid var(--border-color);
+            background: var(--white); font-weight: 700; font-size: 1rem;
+            box-shadow: 3px 3px 0px var(--border-color); cursor: pointer;
+            transition: all 0.1s; border-radius: 4px;
+        }
+        
+        .toggle-btn.active { 
+            background: var(--theme-dark); color: var(--white);
+            transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border-color); 
+        }
+        
+        .view-section { display: none; flex-direction: column; gap: 25px; }
+        .view-section.active { display: flex; }
+
+        .theory-box { 
+            background: var(--white); border: 2px solid var(--border-color);
+            padding: 25px; box-shadow: 4px 4px 0px var(--border-color);
+            border-radius: 6px; font-weight: 500; line-height: 1.6;
+        }
+        
+        .theory-box h3 { 
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;
+            border-bottom: 2px solid #000; padding-bottom: 8px;
+            margin-bottom: 15px; display: inline-block;
+        }
+        
+        .highlight-box { 
+            background: var(--theme-light); border: 2px solid #000;
+            padding: 15px; font-weight: 600; border-radius: 4px;
+            margin: 15px 0; 
+        }
+        
+        .example-box {
+            background: var(--white); border: 2px dashed #666;
+            padding: 15px; font-size: 0.95rem; margin-top: 15px; border-radius: 4px;
+        }
+
+        .svg-container {
+            width: 100%; display: flex; justify-content: center; margin: 15px 0;
+            background: var(--bg-color); border: 2px solid #000; border-radius: 4px; padding: 10px;
+        }
+
+        /* FRAÇÕES VERTICAIS */
+        .frac {
+            display: inline-flex; flex-direction: column; align-items: center;
+            vertical-align: middle; margin: 0 2px; font-size: 0.9em; line-height: 1.2;
+        }
+        .frac .num { border-bottom: 1.5px solid currentColor; padding: 0 3px; width: 100%; text-align: center; }
+        .frac .den { padding: 0 3px; width: 100%; text-align: center; }
+
+        /* QUIZ UI */
+        .quiz-question-card { 
+            background: var(--white); border: 2px solid #000; border-radius: 6px;
+            padding: 25px; box-shadow: 4px 4px 0px #000; margin-bottom: 10px;
+        }
+        
+        .difficulty-badge { 
+            font-size: 0.8rem; border: 1px solid #000;
+            padding: 3px 10px; font-weight: 700; text-transform: uppercase;
+            display: inline-block; margin-bottom: 15px; border-radius: 20px;
+        }
+        
+        .option-btn { 
+            width: 100%; text-align: left; background: var(--bg-color);
+            border: 2px solid #000; padding: 12px; margin-bottom: 10px; font-weight: 600;
+            font-size: 0.95rem; cursor: pointer; border-radius: 4px;
+            display: flex; align-items: center; transition: all 0.1s;
+        }
+        
+        .option-btn:hover:not(:disabled) { 
+            background: var(--white); box-shadow: 2px 2px 0px var(--theme-contrast); 
+        }
+        
+        .option-btn.correct { background: var(--correct-bg); border-color: #000; }
+        .option-btn.wrong { background: var(--wrong-bg); opacity: 0.7;}
+        .option-btn.disabled { pointer-events: none; }
+        
+        .opt-circle { 
+            width: 28px; height: 28px; border: 2px solid #000; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            margin-right: 12px; background: var(--white); flex-shrink: 0; font-size: 0.85rem;
+        }
+        
+        .btn-action { 
+            width: 100%; background: var(--theme-contrast); border: 2px solid #000; 
+            padding: 15px; font-weight: 700; color: #000; text-transform: uppercase; 
+            box-shadow: 4px 4px 0px #000; font-size: 1.1rem; cursor: pointer; 
+            transition: all 0.1s; border-radius: 4px;
+        }
+        
+        .btn-action:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0px #000; }
+
+        .quiz-footer { 
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: var(--white); border-top: 2px solid #000; padding: 15px;
+            display: none; justify-content: space-between; z-index: 100;
+            box-shadow: 0px -4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .nav-btn { 
+            background: var(--white); border: 2px solid #000; padding: 8px 20px;
+            font-weight: 700; border-radius: 4px; cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="logo-header">
+            <h1>Preparação para Prova</h1>
+            <div class="subtitle">Funções e Domínio (15 Questões Base)</div>
+        </header>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btnExp" onclick="changeView('explanation')">Resumo & Teoria</button>
+            <button class="toggle-btn" id="btnPrac" onclick="changeView('practice')">Resolver Prova (15Q)</button>
+        </div>
+
+        <main id="viewExplanation" class="view-section active">
+            
+            <div class="theory-box">
+                <h3>1. Diagrama de Flechas (É função ou não?)</h3>
+                <p>Para uma relação ser considerada uma <strong>Função</strong> de A em B, CADA elemento do conjunto de partida (A) deve ter UMA, e SOMENTE UMA, flecha saindo dele.</p>
+                
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 140" width="100%" height="140" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Conjunto A -->
+                        <ellipse cx="60" cy="70" rx="35" ry="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <text x="60" y="25" text-anchor="middle" font-weight="bold">A</text>
+                        <circle cx="60" cy="50" r="3" fill="#000"/> <text x="45" y="54" font-size="12">1</text>
+                        <circle cx="60" cy="90" r="3" fill="#000"/> <text x="45" y="94" font-size="12">2</text>
+                        
+                        <!-- Conjunto B -->
+                        <ellipse cx="240" cy="70" rx="35" ry="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <text x="240" y="25" text-anchor="middle" font-weight="bold">B</text>
+                        <circle cx="240" cy="50" r="3" fill="#000"/> <text x="255" y="54" font-size="12">3</text>
+                        <circle cx="240" cy="90" r="3" fill="#000"/> <text x="255" y="94" font-size="12">4</text>
+
+                        <!-- Flechas Corretas (Função) -->
+                        <path d="M 65 50 Q 150 40 230 50" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+                        <path d="M 65 90 Q 150 100 230 90" fill="none" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow)"/>
+                        
+                        <text x="150" y="130" text-anchor="middle" font-weight="bold" fill="#16a34a">VÁLIDO (É FUNÇÃO)</text>
+                        
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#22c55e"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 140" width="100%" height="140" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="60" cy="70" rx="35" ry="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <circle cx="60" cy="70" r="3" fill="#000"/> <text x="45" y="74" font-size="12">y</text>
+                        
+                        <ellipse cx="240" cy="70" rx="35" ry="60" fill="none" stroke="#000" stroke-width="2"/>
+                        <circle cx="240" cy="40" r="3" fill="#000"/> <text x="255" y="44" font-size="12">a</text>
+                        <circle cx="240" cy="100" r="3" fill="#000"/> <text x="255" y="104" font-size="12">b</text>
+
+                        <!-- Flechas Erradas -->
+                        <path d="M 65 70 Q 150 45 230 40" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+                        <path d="M 65 70 Q 150 95 230 100" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+                        
+                        <text x="150" y="130" text-anchor="middle" font-weight="bold" fill="#dc2626">INVÁLIDO (2 FLECHAS DO 'y')</text>
+
+                        <defs>
+                            <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="theory-box">
+                <h3>2. Campo de Existência (Domínio)</h3>
+                <p>O Domínio são todos os valores numéricos que a letra (x, r, z) pode assumir sem "quebrar" a matemática.</p>
+                
+                <div class="highlight-box">
+                    <strong>Regra da Fração:</strong> O denominador NÃO PODE ser zero.
+                </div>
+                <div class="example-box">
+                    <strong>Exemplo de Prova:</strong> Determine o domínio de f(x) = <span class="frac"><span class="num">7</span><span class="den">4x - 5</span></span><br><br>
+                    <em>Solução:</em> Pega-se a parte de baixo e diz que é diferente de zero.<br>
+                    4x - 5 ≠ 0<br>
+                    4x ≠ 5<br>
+                    x ≠ <span class="frac"><span class="num">5</span><span class="den">4</span></span> ➔ <strong>D = {x ∈ ℝ | x ≠ <span class="frac"><span class="num">5</span><span class="den">4</span></span>}</strong>
+                </div>
+
+                <div class="highlight-box" style="margin-top:20px;">
+                    <strong>Regra da Raiz Quadrada:</strong> O número dentro da raiz TEM QUE SER maior ou igual a zero (≥ 0).
+                </div>
+                <div class="example-box">
+                    <strong>Exemplo de Prova:</strong> Campo de existência de f(x) = √(3x - 12)<br><br>
+                    <em>Solução:</em><br>
+                    3x - 12 ≥ 0<br>
+                    3x ≥ 12<br>
+                    x ≥ 4 ➔ <strong>D = {x ∈ ℝ | x ≥ 4}</strong>
+                </div>
+            </div>
+
+            <div class="theory-box">
+                <h3>3. Encontrando Valores</h3>
+                <p>A função é uma máquina. Você joga o 'x' (Domínio) e sai o 'y' (Imagem).</p>
+                <div class="example-box">
+                    <strong>Questão Típica:</strong> "Obtenha o elemento do domínio da função f(x) = 5x - 8 cuja imagem é 12."<br><br>
+                    <em>Solução:</em> Se a imagem é 12, igualamos a função a 12.<br>
+                    12 = 5x - 8<br>
+                    12 + 8 = 5x<br>
+                    20 = 5x ➔ <strong>x = 4</strong>
+                </div>
+            </div>
+
+            <button class="btn-action" onclick="changeView('practice')">
+                Ir Para as 15 Questões
+            </button>
+        </main>
+
+        <main id="viewPractice" class="view-section">
+            <div id="quizContainer"></div>
+        </main>
+    </div>
+
+    <!-- RODAPÉ DE NAVEGAÇÃO DO QUIZ -->
+    <footer class="quiz-footer" id="quizFooter">
+        <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← Anterior</button>
+        <span id="qCount" style="font-weight: 700; align-self: center;">1/15</span>
+        <button class="nav-btn" style="background: var(--theme-contrast);" id="btnNext" onclick="navigate(1)">Próxima →</button>
+    </footer>
+
+    <script>
+        const questionsDatabase = [
+            {
+                level: "Questão 13 (Imagem)",
+                text: "Considerando o diagrama de flechas a seguir (conjunto A={1,2,3,4,5} apontando respectivamente para o conjunto B={2,3,4,5,6} dentro do CD={1,2,3,4,5,6,7}), identifique os elementos do domínio (D), do contradomínio (CD) e da imagem (IM).",
+                options: [
+                    "D={1,2,3,4,5}; CD={1,2,3,4,5,6,7}; IM={2,3,4,5,6}",
+                    "D={1,2,3,4,5}; CD={2,3,4,5,6}; IM={1,2,3,4,5,6,7}",
+                    "D={2,3,4,5,6}; CD={1,2,3,4,5}; IM={1,2,3,4,5,6,7}",
+                    "D={1,2,3,4,5,6,7}; CD={1,2,3,4,5}; IM={2,3,4,5,6}"
+                ],
+                correctIndex: 0,
+                explanation: { correctText: "O Domínio é todo o conjunto de partida A. Contradomínio é todo o B. Imagem são os de B que receberam flechas." }
+            },
+            {
+                level: "Questão 22a (Imagem)",
+                text: "Em cada um dos casos a seguir, identifique se f é função ou não: Um diagrama onde o elemento 'γ' do conjunto de partida x possui 3 flechas apontando para o conjunto de chegada f(x).",
+                options: [
+                    "Sim, é uma função.",
+                    "Não é função, pois o elemento γ possui mais de uma correspondência.",
+                    "Não é função, pois sobram elementos no contradomínio.",
+                    "Sim, pois todos os elementos de x saem flechas."
+                ],
+                correctIndex: 1,
+                explanation: { correctText: "Para ser função, cada elemento do domínio só pode atirar UMA única flecha." }
+            },
+            {
+                level: "Questão 22c (Imagem)",
+                text: "Identifique se f é função ou não: Um gráfico no plano cartesiano (hipérbole dividida) onde, se você traçar uma reta vertical tracejada, ela intercepta o gráfico em dois pontos distintos.",
+                options: [
+                    "É função constante.",
+                    "Sim, é função, pois é uma hipérbole.",
+                    "Não é função, pois a reta intercepta em dois pontos (um 'x' tem dois 'y').",
+                    "Não é função, pois não cruza o eixo x."
+                ],
+                correctIndex: 2,
+                explanation: { correctText: "Teste da reta vertical: se cortar o gráfico em mais de um ponto, falha na regra da unicidade. Não é função." }
+            },
+            {
+                level: "Questão 1a (Imagem)",
+                text: "Determine o campo de existência das seguintes funções: a) y = 2x + 7",
+                options: [
+                    "D = ℝ",
+                    "x ≠ 0",
+                    'x ≥ -<span class="frac"><span class="num">7</span><span class="den">2</span></span>',
+                    'x ≠ -<span class="frac"><span class="num">7</span><span class="den">2</span></span>'
+                ],
+                correctIndex: 0,
+                explanation: { correctText: "É uma função polinomial do 1º grau (linear). Não tem raiz par nem fração, então serve qualquer valor Real." }
+            },
+            {
+                level: "Questão 1b (Imagem)",
+                text: "Determine o campo de existência das seguintes funções: b) f(x) = √(3x - 12)",
+                options: [
+                    "x > 4",
+                    "x ≤ 4",
+                    "x ≠ 4",
+                    "x ≥ 4"
+                ],
+                correctIndex: 3,
+                explanation: { correctText: "O que está dentro da raiz deve ser ≥ 0. 3x - 12 ≥ 0 ➔ 3x ≥ 12 ➔ x ≥ 4." }
+            },
+            {
+                level: "Questão 1c (Imagem)",
+                text: 'Determine o campo de existência das seguintes funções: c) f(x) = <span class="frac"><span class="num">7</span><span class="den">4x - 5</span></span>',
+                options: [
+                    "D = ℝ",
+                    'x ≠ <span class="frac"><span class="num">5</span><span class="den">4</span></span>',
+                    'x = <span class="frac"><span class="num">5</span><span class="den">4</span></span>',
+                    "x ≠ 7"
+                ],
+                correctIndex: 1,
+                explanation: { correctText: 'O denominador não pode ser zero. 4x - 5 ≠ 0 ➔ 4x ≠ 5 ➔ x ≠ <span class="frac"><span class="num">5</span><span class="den">4</span></span>.' }
+            },
+            {
+                level: "Questão 1d/g (Imagem)",
+                text: 'Determine o campo de existência das seguintes funções: g(x) = <span class="frac"><span class="num">4x - 5</span><span class="den">7</span></span>',
+                options: [
+                    "x ≠ 7",
+                    'x ≠ <span class="frac"><span class="num">5</span><span class="den">4</span></span>',
+                    "D = ℝ",
+                    "x > 7"
+                ],
+                correctIndex: 2,
+                explanation: { correctText: "O denominador é 7 (número fixo), nunca será zero. Falta uma variável embaixo para haver restrição. D=ℝ." }
+            },
+            {
+                level: "Questão 2 (Imagem)",
+                text: "Obtenha o elemento do domínio da função f(x) = 5x - 8 cuja imagem é 12.",
+                options: [
+                    "x = 20",
+                    "x = 4",
+                    "x = 52",
+                    "x = -4"
+                ],
+                correctIndex: 1,
+                explanation: { correctText: "Imagem=12 significa f(x)=12. Então: 12 = 5x - 8 ➔ 20 = 5x ➔ x = 4." }
+            },
+            {
+                level: "Questão 14b (Imagem)",
+                text: 'Identifique o domínio das seguintes funções: b) f(z) = <span class="frac"><span class="num">5z</span><span class="den">z - 3</span></span>',
+                options: [
+                    "ℝ - {3}",
+                    "ℝ - {-3}",
+                    "ℝ - {0}",
+                    'ℝ - {<span class="frac"><span class="num">5</span><span class="den">3</span></span>}'
+                ],
+                correctIndex: 0,
+                explanation: { correctText: "Denominador ≠ 0. Então: z - 3 ≠ 0 ➔ z ≠ 3. O conjunto real excluindo o 3." }
+            },
+            {
+                level: "Questão 14c (Imagem)",
+                text: 'Identifique o domínio das seguintes funções: c) f(r) = <span class="frac"><span class="num">5r</span><span class="den">r² - 1</span></span>',
+                options: [
+                    "ℝ - {1}",
+                    "ℝ - {-1}",
+                    "ℝ - {-1, 1}",
+                    "ℝ - {0}"
+                ],
+                correctIndex: 2,
+                explanation: { correctText: "Denominador r² - 1 ≠ 0 ➔ r² ≠ 1 ➔ r ≠ √1 ➔ r ≠ 1 e r ≠ -1." }
+            },
+            {
+                level: "Questão 15 (Imagem Univ.)",
+                text: '(Unigranrio-RJ) Sabe-se que f(<span class="frac"><span class="num">2x</span><span class="den">3</span></span> - 3) = x + 1. Desta forma, pode-se afirmar que f(-1) vale:',
+                options: [
+                    "4",
+                    "3",
+                    "2",
+                    "0"
+                ],
+                correctIndex: 0,
+                explanation: { correctText: 'Iguala-se o interior: <span class="frac"><span class="num">2</span><span class="den">3</span></span>x - 3 = -1 ➔ <span class="frac"><span class="num">2</span><span class="den">3</span></span>x = 2 ➔ x = 3. Substitui do outro lado: f(-1) = 3 + 1 = 4.' }
+            },
+            {
+                level: "Questão 16a (Imagem)",
+                text: "Caio convidou 10 familiares... juntar um valor de R$ 2.000,00... valor dividido em partes iguais. Considerando o valor V que cada um vai pagar e n o número de pessoas, escreva uma expressão para V(n).",
+                options: [
+                    "V(n) = 2000 - n",
+                    "V(n) = 2000n",
+                    'V(n) = <span class="frac"><span class="num">2000</span><span class="den">n</span></span>',
+                    'V(n) = <span class="frac"><span class="num">n</span><span class="den">2000</span></span>'
+                ],
+                correctIndex: 2,
+                explanation: { correctText: "Divisão em partes iguais é apenas pegar o montante e dividir pela quantidade de pessoas (n)." }
+            },
+            {
+                level: "Questão 16b (Imagem)",
+                text: 'Com relação à função V(n) = <span class="frac"><span class="num">2000</span><span class="den">n</span></span> do rateio dos 10 familiares, determine o domínio dessa função no contexto do problema.',
+                options: [
+                    "Qualquer número real (ℝ)",
+                    "Qualquer número positivo maior que zero",
+                    "Conjunto D = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}",
+                    "D = ℝ - {0}"
+                ],
+                correctIndex: 2,
+                explanation: { correctText: "Trata-se de pessoas, logo devem ser números inteiros. Como são 10 familiares, o 'n' vai de 1 a 10." }
+            },
+            {
+                level: "Questão 17a (Imagem)",
+                text: "Um conjunto A é formado pelos elementos {2, 5, 9, 13}. Calcule todos os elementos do conjunto imagem de A, Im(A), sabendo que sua lei de formação é f(x) = x² + 6.",
+                options: [
+                    "{10, 31, 87, 175}",
+                    "{8, 11, 15, 19}",
+                    "{4, 25, 81, 169}",
+                    "{10, 25, 90, 160}"
+                ],
+                correctIndex: 0,
+                explanation: { correctText: "Basta substituir cada X na fórmula: 2²+6=10, 5²+6=31, 9²+6=87, 13²+6=175." }
+            },
+            {
+                level: "Questão 15 (Texto Imagem)",
+                text: "Lucro de 10% do valor de P. Imposto de 15% sobre o lucro. Imposto só é pago se for > 10. Calcule a condição de existência de P para que ela DEIXE de pagar imposto.",
+                options: [
+                    "P > 666,66",
+                    "P ≤ 100,00",
+                    "P = 1500,00",
+                    "P ≤ 666,66"
+                ],
+                correctIndex: 3,
+                explanation: { correctText: 'Imposto = 15% de (10% de P) = 0,15 * 0,10 * P = 0,015P. Não pagar significa: 0,015P ≤ 10 ➔ P ≤ <span class="frac"><span class="num">10</span><span class="den">0,015</span></span> ➔ P ≤ 666,66.' }
+            }
+        ];
+
+        const state = { currentIndex: 0, answers: new Array(15).fill(null) };
+
+        function changeView(view) {
+            document.getElementById('viewExplanation').classList.remove('active');
+            document.getElementById('viewPractice').classList.remove('active');
+            document.getElementById('btnExp').classList.remove('active');
+            document.getElementById('btnPrac').classList.remove('active');
+            document.getElementById('quizFooter').style.display = 'none';
+
+            if (view === 'explanation') {
+                document.getElementById('viewExplanation').classList.add('active');
+                document.getElementById('btnExp').classList.add('active');
+            } else {
+                document.getElementById('viewPractice').classList.add('active');
+                document.getElementById('btnPrac').classList.add('active');
+                document.getElementById('quizFooter').style.display = 'flex';
+                renderQ();
+                window.scrollTo(0,0);
+            }
+        }
+
+        function renderQ() {
+            const q = questionsDatabase[state.currentIndex];
+            const ans = state.answers[state.currentIndex];
+
+            const html = `
+                <div class="quiz-question-card">
+                    <div class="difficulty-badge" style="background: var(--theme-light);">${q.level}</div>
+                    <h3 style="font-size:1.15rem; font-weight:700; margin-bottom: 20px; line-height: 1.4;">
+                        ${state.currentIndex + 1}. ${q.text}
+                    </h3>
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correctIndex) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `<button class="option-btn ${cls}" 
+                            onclick="answer(${i})" ${ans !== null ? 'disabled' : ''}>
+                            <div class="opt-circle">${['A', 'B', 'C', 'D'][i]}</div>
+                            <div>${opt}</div>
+                        </button>`;
+                    }).join('')}
+                    ${ans !== null ? `<div class="highlight-box" style="margin-top: 20px; border: 2px dashed #000; background: var(--bg-color);">
+                        <strong>Resolução Rápida:</strong> <br>${q.explanation.correctText}
+                    </div>` : ''}
+                </div>
+            `;
+            document.getElementById('quizContainer').innerHTML = html;
+            
+            document.getElementById('btnPrev').disabled = state.currentIndex === 0;
+            document.getElementById('qCount').textContent = `${state.currentIndex + 1}/15`;
+            const btnN = document.getElementById('btnNext');
+            btnN.textContent = state.currentIndex === 14 ? "Finalizar" : "Próxima →";
+            
+            if(ans === q.correctIndex) {
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.7 },
+                    colors: ['#86efac', '#38bdf8', '#fef08a']
+                });
+            }
+        }
+
+        function answer(idx) {
+            if (state.answers[state.currentIndex] !== null) return;
+            state.answers[state.currentIndex] = idx;
+            renderQ();
+        }
+
+        function navigate(dir) {
+            const n = state.currentIndex + dir;
+            if (n >= 0 && n < 15) {
+                state.currentIndex = n;
+                renderQ();
+            }
+        }
+    </script>
+</body>
+</html>
