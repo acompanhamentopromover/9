@@ -11,15 +11,15 @@
     <style>
         :root {
             /* Tema Biologia (Tons de Verde e Laranja) */
-            --bg-color: #F0FDF4; /* Verde super claro */
-            --text-color: #0F172A; /* Slate 900 escuro */
-            --border-color: #064E3B; /* Verde musgo (borda) */
+            --bg-color: #F0FDF4; 
+            --text-color: #0F172A; 
+            --border-color: #064E3B; 
             --white: #FFFFFF;
-            --theme-light: #DCFCE7; /* Verde leve */
-            --theme-medium: #4ADE80; /* Verde médio */
-            --theme-dark: #166534; /* Verde musgo escuro */
-            --theme-contrast: #EA580C; /* Laranja contraste para chamar atenção */
-            --theme-accent: #22C55E; /* Verde vibrante */
+            --theme-light: #DCFCE7; 
+            --theme-medium: #4ADE80; 
+            --theme-dark: #166534; 
+            --theme-contrast: #EA580C; 
+            --theme-accent: #22C55E; 
             --theme-text-active: #FFFFFF;
 
             /* NÃO ALTERAR AS CORES ABAIXO */
@@ -67,7 +67,7 @@
 
         .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
         .toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
-        .toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+        .toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
         .toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
 
         .view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
@@ -84,7 +84,7 @@
         .theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
         .theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
 
-        .visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.2rem; color: var(--theme-contrast); text-align: center; }
+        .visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.1rem; color: var(--theme-contrast); text-align: center; }
         .highlight-box { background-color: var(--theme-light); border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #064E3B; }
         .highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
 
@@ -128,8 +128,24 @@
         .btn-next { background-color: var(--theme-dark); color: white; }
         .btn-prev { background-color: white; color: var(--text-color); }
 
-        .svg-container { width: 100%; text-align: center; margin: 20px 0; padding: 10px; background: #FAFAFA; border: 2px dashed #CBD5E1; border-radius: 12px; }
-        .svg-container svg { max-width: 100%; height: auto; max-height: 180px; }
+        .svg-container { width: 100%; text-align: center; margin: 15px 0; padding: 10px; background: #FAFAFA; border: 2px dashed #CBD5E1; border-radius: 12px; display: flex; justify-content: center;}
+        .svg-container svg { width: 100%; max-width: 250px; height: auto; }
+
+        /* Estilos Flashcards */
+        .flashcard-wrapper { perspective: 1000px; width: 100%; height: 350px; cursor: pointer; margin-bottom: 20px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; background-color: white; border: 3px solid var(--border-color); border-radius: 20px; box-shadow: 4px 4px 0px var(--border-color); padding: 30px 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .card-back { transform: rotateY(180deg); border-color: var(--theme-contrast); background-color: #FAFAFA; }
+        .fc-question-text { font-size: 1.2rem; font-weight: 800; color: var(--theme-dark); line-height: 1.4; }
+        .fc-answer-text { font-size: 1.05rem; font-weight: 600; color: var(--text-color); line-height: 1.5; }
+        .macete-box { margin-top: 15px; padding: 12px; border-radius: 8px; background: #FEF3C7; color: #92400E; font-size: 0.9rem; font-weight: 700; border-left: 4px solid #D97706; width: 100%; }
+        .feedback-controls-fc { display: flex; gap: 15px; width: 100%; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .feedback-controls-fc.visible { opacity: 1; pointer-events: auto; }
+        .btn-fc { flex: 1; padding: 15px; border-radius: 12px; font-weight: 800; font-family: 'Poppins', sans-serif; cursor: pointer; border: 2px solid; color: white; transition: transform 0.1s; text-transform: uppercase;}
+        .btn-fc:active { transform: scale(0.95); }
+        .btn-fc-wrong { background-color: var(--wrong-border); border-color: #9F1239; box-shadow: 3px 3px 0px #9F1239; }
+        .btn-fc-correct { background-color: var(--correct-border); border-color: #047857; box-shadow: 3px 3px 0px #047857; }
     </style>
 </head>
 <body>
@@ -137,20 +153,21 @@
 <div class="container">
     <header class="logo-header">
         <div class="css-logo"><span class="pulse-effect">🧬</span> PROMOVER</div>
-        <h1>BIOLOGIA / 9º ANO</h1>
-        <p class="subtitle">Evolução & Bioenergética (Teoria Completa)</p>
+        <h1>BIOLOGIA & QUÍMICA / 9º ANO</h1>
+        <p class="subtitle">Evolução & Bioenergética (Teoria & Flashcards)</p>
     </header>
 
     <div class="toggle-container">
         <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">Teoria Total</button>
-        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prática (30)</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prática (30 Q)</button>
+        <button class="toggle-btn" id="btnFlash" onclick="setMode('flashcards')">Flashcards</button>
     </div>
 
     <!-- START STREAMING_CHUNK:Renderizando seção teórica completa... -->
     <div id="viewExplanation" class="view-section" style="display: flex;">
         <div class="search-container">
             <span class="search-icon" aria-hidden="true">🔍</span>
-            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar teoria ou conceito...">
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar teoria, conceito ou fórmula...">
         </div>
         <div id="no-results"><p>Termo não encontrado.</p></div>
 
@@ -159,12 +176,7 @@
             <span class="section-badge">Introdução à Evolução</span>
             <div class="theory-box">
                 <h3>1. Fixismo vs. Evolução e a Viagem do Beagle</h3>
-                <p>Até o século XIX, a visão dominante era o <strong>Fixismo</strong> (espécies eram imutáveis e criadas de forma antropocêntrica). Em 1831, Charles Darwin viajou no navio <em>H.M.S. Beagle</em>, onde sua visão mudou radicalmente.</p>
-                <div class="highlight-box">
-                    <strong>Observações nas Ilhas Galápagos:</strong><br>
-                    • <strong>Tartarugas:</strong> Tinham cascos diferentes dependendo da ilha.<br>
-                    • <strong>Tentilhões (aves):</strong> Possuíam bicos de formatos variados, perfeitamente adaptados ao tipo de alimento disponível em sua ilha.
-                </div>
+                <p>Até o século XIX, a visão dominante era o <strong>Fixismo</strong> (espécies imutáveis). Em 1831, Charles Darwin viajou no navio <em>H.M.S. Beagle</em>, notando nas Ilhas Galápagos que as tartarugas tinham cascos diferentes e os tentilhões possuíam bicos perfeitamente adaptados ao alimento de cada ilha.</p>
             </div>
         </div>
 
@@ -173,17 +185,15 @@
             <span class="section-badge">Mecanismos Evolutivos</span>
             <div class="theory-box">
                 <h3>2. Lamarckismo x Darwinismo (Papel do Ambiente)</h3>
-                <p>Dois naturalistas com ideias opostas sobre como a evolução ocorre:</p>
                 <div class="highlight-box warning">
                     <strong>Lamarck: O ambiente PROVOCA (força) a mudança.</strong><br>
-                    • <em>Lei do Uso e Desuso:</em> O animal usa um órgão e ele cresce.<br>
-                    • <em>Transmissão de Caracteres Adquiridos:</em> O que ganha em vida, passa aos filhos (Ex: Girafa esticou o pescoço e os filhos nasceram com pescoço longo). <u>Isso é cientificamente incorreto hoje.</u>
+                    • <em>Uso e Desuso:</em> Órgão usado cresce.<br>
+                    • <em>Caracteres Adquiridos:</em> Passa aos filhos (Cientificamente incorreto hoje).
                 </div>
                 <div class="highlight-box">
-                    <strong>Darwin (e Alfred Wallace): O ambiente SELECIONA a mudança.</strong><br>
-                    • <em>Superprodução:</em> Nascem mais indivíduos do que o ambiente suporta, gerando competição.<br>
-                    • <em>Seleção Natural:</em> Já existe variabilidade. O ambiente apenas seleciona o mais adaptado que sobrevive e reproduz.<br>
-                    <em>Obs:</em> Wallace chegou a conclusões idênticas, forçando Darwin a publicar "A Origem das Espécies" em 1859.
+                    <strong>Darwin e Wallace: O ambiente SELECIONA a mudança.</strong><br>
+                    • <em>Superprodução:</em> Mais nascem do que sobrevivem, gerando competição.<br>
+                    • <em>Seleção Natural:</em> Variações já existem; o ambiente seleciona o mais apto.
                 </div>
             </div>
         </div>
@@ -192,13 +202,8 @@
         <div class="content-group">
             <span class="section-badge">Neodarwinismo</span>
             <div class="theory-box">
-                <h3>3. A Falha de Darwin e o Melanismo Industrial</h3>
-                <p><strong>A Falha de Darwin:</strong> Ele não sabia explicar a origem das variações. A <strong>Genética</strong> resolveu o mistério: a variação vem de <strong>mutações no DNA</strong>.</p>
-                <p>Curiosidade: Animais "primitivos" como esponjas marinhas abundam hoje pois suas adaptações ainda garantem sua sobrevivência (elas não "falharam" evolutivamente).</p>
-                <div class="highlight-box">
-                    <strong>O Caso do Melanismo Industrial (Biston betularia):</strong><br>
-                    Na Inglaterra do séc XIX, a poluição escureceu as árvores. Mariposas claras começaram a ser comidas por pássaros (predação). Mariposas escuras (variação genética pré-existente) ganharam a vantagem da camuflagem e se multiplicaram.
-                </div>
+                <h3>3. Neodarwinismo e Melanismo Industrial</h3>
+                <p>A falha de Darwin foi explicada pela <strong>Genética</strong>: as variações vêm de <strong>mutações no DNA</strong>. No caso da <em>Biston betularia</em>, a fuligem industrial escureceu os troncos, dando vantagem de camuflagem às mariposas escuras.</p>
             </div>
         </div>
 
@@ -207,95 +212,24 @@
             <span class="section-badge">Tipos de Seleção</span>
             <div class="theory-box">
                 <h3>4. Gráficos de Seleção Natural e Sexual</h3>
-                <ul style="padding-left: 20px; margin-bottom: 10px;">
-                    <li><strong>Direcional:</strong> Favorece apenas UM extremo (ex: elimina plantas baixas).</li>
-                    <li><strong>Estabilizadora:</strong> Favorece a MÉDIA (o centro), eliminando os dois extremos.</li>
-                    <li><strong>Disruptiva:</strong> Favorece AMBOS os extremos, eliminando a média (gera populações polimórficas/dois picos).</li>
+                <ul style="padding-left: 20px;">
+                    <li><strong>Direcional:</strong> Favorece apenas um extremo.</li>
+                    <li><strong>Estabilizadora:</strong> Favorece o meio (média).</li>
+                    <li><strong>Disruptiva:</strong> Favorece ambos os extremos (dois picos).</li>
                 </ul>
-                <div class="svg-container">
-                    <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="10" y1="90" x2="90" y2="90" stroke="#0F172A" stroke-width="2"/>
-                        <line x1="110" y1="90" x2="190" y2="90" stroke="#0F172A" stroke-width="2"/>
-                        <line x1="210" y1="90" x2="290" y2="90" stroke="#0F172A" stroke-width="2"/>
-                        
-                        <path d="M10,90 Q30,90 40,50 T70,90" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4"/>
-                        <path d="M30,90 Q50,90 60,30 T90,90" fill="none" stroke="#22C55E" stroke-width="3"/>
-                        <text x="50" y="110" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">DIRECIONAL</text>
-                        
-                        <path d="M110,90 Q150,20 190,90" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4"/>
-                        <path d="M130,90 Q150,10 170,90" fill="none" stroke="#EA580C" stroke-width="3"/>
-                        <text x="150" y="110" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">ESTABILIZADORA</text>
-                        
-                        <path d="M210,90 Q250,30 290,90" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="4"/>
-                        <path d="M210,90 Q230,30 250,90 Q270,30 290,90" fill="none" stroke="#3B82F6" stroke-width="3"/>
-                        <text x="250" y="110" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">DISRUPTIVA</text>
-                    </svg>
-                </div>
-                <p><strong>Seleção Sexual:</strong> Disputa por parceiros. Machos criam traços vistosos (como a cauda pesada e brilhante do pavão) para atrair fêmeas, mesmo que isso dificulte fugir de predadores.</p>
+                <p><strong>Seleção Sexual:</strong> Disputa por parceiros (ex: cauda do pavão).</p>
             </div>
         </div>
 
-        <!-- 5. Especiação e Árvore Filogenética -->
-        <div class="content-group">
-            <span class="section-badge">Especiação</span>
-            <div class="theory-box">
-                <h3>5. Seleção Artificial, Especiação e Ancestral Comum</h3>
-                <p><strong>Seleção Artificial:</strong> Ação humana escolhe características. Ex: Cruzamentos guiados transformaram a <em>Brassica oleracea</em> (planta silvestre) em repolho e brócolis, ou a criação de raças de cães e pombos.</p>
-                <div class="highlight-box">
-                    <strong>Isolamento Geográfico:</strong> Uma montanha/rio divide uma espécie. Pressões/mutações diferentes ocorrem nos dois lados. Com o tempo, gera o <strong>Isolamento Reprodutivo</strong> (não cruzam mais) = NASCE UMA NOVA ESPÉCIE!
-                </div>
-                <p><strong>Árvore Filogenética:</strong> O <em>"tronco"</em> representa a espécie original (Ancestral Comum). As <em>"pontas/galhos"</em> são as novas linhagens (espécies atuais ou extintas).</p>
-                <div class="svg-container">
-                    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M100,100 L100,70 L50,30 L50,15" fill="none" stroke="#166534" stroke-width="4"/>
-                        <path d="M100,70 L150,30 L150,15" fill="none" stroke="#166534" stroke-width="4"/>
-                        <path d="M75,50 L100,15" fill="none" stroke="#166534" stroke-width="4"/>
-                        <circle cx="100" cy="100" r="6" fill="#EA580C"/>
-                        <text x="100" y="115" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">Ancestral Comum</text>
-                        <text x="50" y="10" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">Espécie A</text>
-                        <text x="100" y="10" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">Espécie B</text>
-                        <text x="150" y="10" font-size="10" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">Espécie C</text>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. Fotossíntese Completa -->
+        <!-- 5. Fotossíntese Completa -->
         <div class="content-group">
             <span class="section-badge">Bioenergética: Fotossíntese</span>
             <div class="theory-box">
-                <h3>6. A Usina de Energia: Fotossíntese</h3>
-                <p>Ocorre nos <strong>Cloroplastos</strong> (possuem membrana dupla, estroma e discos chamados <em>tilacoides</em>, cujas pilhas são o <em>granum</em>). A clorofila absorve luz Azul e Vermelha e reflete o Verde.</p>
+                <h3>5. A Usina de Energia: Fotossíntese</h3>
+                <p>Ocorre nos <strong>Cloroplastos</strong> (estroma, tilacoides e granum). A clorofila absorve luz azul e vermelha e reflete o verde.</p>
                 <div class="highlight-box">
-                    <strong>Etapa Fotoquímica (Fase Clara):</strong> Depende da luz. Ocorre a <strong>Fotólise da água</strong> (quebra do H<sub>2</sub>O), que é a responsável por liberar todo o O<sub>2</sub> que respiramos.<br><br>
-                    <strong>Etapa Química (Fase Escura):</strong> Independe da luz <em>diretamente no momento que ocorre</em>. Usa energia para fixar o CO<sub>2</sub> e fabricar a Glicose.
-                </div>
-                <div class="svg-container" style="background-color: transparent; border: none;">
-                    <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="10" y="10" width="280" height="100" rx="15" fill="#DCFCE7" stroke="#22C55E" stroke-width="3"/>
-                        <text x="150" y="28" font-size="11" font-family="sans-serif" font-weight="900" text-anchor="middle" fill="#166534">CLOROPLASTO</text>
-                        
-                        <circle cx="75" cy="70" r="22" fill="#4ADE80" stroke="#166534" stroke-width="2"/>
-                        <text x="75" y="73" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0F172A">Fase Clara</text>
-                        
-                        <circle cx="225" cy="70" r="22" fill="#166534" stroke="#064E3B" stroke-width="2"/>
-                        <text x="225" y="73" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#FFFFFF">Fase Escura</text>
-                        
-                        <path d="M75,25 L75,45" fill="none" stroke="#EAB308" stroke-width="3"/>
-                        <text x="75" y="20" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">Luz + H₂O</text>
-                        
-                        <path d="M75,95 L75,115" fill="none" stroke="#3B82F6" stroke-width="3"/>
-                        <text x="75" y="123" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">O₂ (Sai)</text>
-
-                        <path d="M225,25 L225,45" fill="none" stroke="#64748B" stroke-width="3"/>
-                        <text x="225" y="20" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">CO₂ (Entra)</text>
-
-                        <path d="M225,95 L225,115" fill="none" stroke="#EA580C" stroke-width="3"/>
-                        <text x="225" y="123" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle">Glicose</text>
-
-                        <path d="M100,70 L200,70" fill="none" stroke="#0F172A" stroke-width="2" stroke-dasharray="4"/>
-                        <text x="150" y="65" font-size="8" font-family="sans-serif" font-weight="bold" text-anchor="middle">Energia (ATP)</text>
-                    </svg>
+                    <strong>Etapa Fotoquímica (Clara):</strong> Ocorre a <strong>Fotólise da água</strong> (quebra do H<sub>2</sub>O), liberando o oxigênio (O<sub>2</sub>).<br><br>
+                    <strong>Etapa Química (Escura):</strong> Usa a energia para fixar o CO<sub>2</sub> e fabricar a Glicose.
                 </div>
                 <div class="visual-area">
                     6 CO<sub>2</sub> + 12 H<sub>2</sub>O + Luz → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6 O<sub>2</sub> + 6 H<sub>2</sub>O
@@ -303,99 +237,37 @@
             </div>
         </div>
 
-        <!-- 7. Respiração Aeróbica -->
+        <!-- 6. Respiração Aeróbica -->
         <div class="content-group">
             <span class="section-badge">Metabolismo Aeróbico</span>
             <div class="theory-box">
-                <h3>7. Respiração Celular Aeróbica e Mitocôndria</h3>
-                <p>Produz incríveis <strong>30 ATPs</strong>. Ocorre na <strong>Mitocôndria</strong> (que tem DNA próprio e ribossomos). Em esportes intensos, você fica ofegante para captar mais O<sub>2</sub> no pulmão e mandar pelo sangue para as células produzirem ATP.</p>
-                <div class="svg-container" style="background-color: transparent; border: none; margin-bottom: 0;">
-                    <svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="100" cy="45" rx="80" ry="35" fill="#FFE4E6" stroke="#BE123C" stroke-width="3"/>
-                        <path d="M30,45 Q40,15 50,45 T70,45 T90,45 T110,45 T130,45 T150,45 T170,45" fill="none" stroke="#E11D48" stroke-width="3"/>
-                        <text x="100" y="88" font-size="10" font-family="sans-serif" font-weight="900" text-anchor="middle" fill="#881337">MITOCÔNDRIA (30 ATPs)</text>
-                        <text x="100" y="30" font-size="9" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#BE123C">Cristas Mitocondriais</text>
-                    </svg>
-                </div>
+                <h3>6. Respiração Celular Aeróbica (30 ATPs)</h3>
+                <p>Ocorre na <strong>Mitocôndria</strong> em três etapas:</p>
                 <ul style="padding-left: 20px;">
-                    <li><strong>1. Glicólise:</strong> Ocorre no <strong>Citoplasma</strong>. Quebra glicose em Ácido Pirúvico. (2 ATP)</li>
-                    <li><strong>2. Ciclo de Krebs:</strong> Ocorre na <strong>Matriz Mitocondrial</strong>. Libera CO<sub>2</sub>. (2 ATP)</li>
-                    <li><strong>3. Fosforilação Oxidativa:</strong> Nas <strong>Cristas Mitocondriais</strong>. O O<sub>2</sub> atua como aceptor final e vira Água (H<sub>2</sub>O). Rende muito (26 ATP).</li>
+                    <li><strong>1. Glicólise:</strong> Citoplasma (2 ATP).</li>
+                    <li><strong>2. Ciclo de Krebs:</strong> Matriz Mitocondrial (2 ATP, libera CO<sub>2</sub>).</li>
+                    <li><strong>3. Fosforilação Oxidativa:</strong> Cristas Mitocondriais (O<sub>2</sub> é o aceptor final, forma H<sub>2</sub>O, rende 26 ATP).</li>
                 </ul>
-                <div class="highlight-box warning">
-                    <strong>Processos Inversos:</strong> A equação da Respiração é o INVERSO da Fotossíntese! O "lixo" (produtos) de uma, é a "comida" (reagentes) da outra.
-                </div>
             </div>
         </div>
 
-        <!-- 8. Fermentação e ATP -->
+        <!-- 7. Fermentação e ATP -->
         <div class="content-group">
             <span class="section-badge">Metabolismo Anaeróbico e ATP</span>
             <div class="theory-box">
-                <h3>8. Fermentação e a Moeda ATP</h3>
-                <p><strong>Fermentação (Anaeróbica):</strong> Sem O<sub>2</sub>. Quebra incompleta que gera uma "miséria" de energia: <strong>apenas 2 ATPs</strong>.</p>
-                <ul style="padding-left: 20px;">
-                    <li><strong>Lática:</strong> Bactérias (iogurte) e Músculos (gera acúmulo de ácido lático = fadiga/dor).</li>
-                    <li><strong>Etílica:</strong> Fungos/Leveduras. Fermento de pão e cerveja (Gera álcool etílico e CO<sub>2</sub>).</li>
-                    <li><strong>Acética:</strong> Produz vinagre ao ar livre.</li>
-                </ul>
-                <p><strong>A Moeda ATP (Trifosfato de Adenosina):</strong> Feito de Adenina, Ribose e 3 fosfatos. O grande segredo: A energia é liberada quando se <strong>quebra a terceira ligação fosfato</strong>, transformando o ATP em ADP (Difosfato).</p>
+                <h3>7. Fermentação (Apenas 2 ATPs) e a Moeda ATP</h3>
+                <p>Quebra incompleta sem oxigênio. Tipos: <strong>Lática</strong> (músculos e iogurte), <strong>Etílica</strong> (pão e cerveja) e <strong>Acética</strong> (vinagre).</p>
+                <p><strong>ATP:</strong> A energia é liberada quando se <strong>quebra a terceira ligação fosfato</strong>, virando ADP.</p>
             </div>
         </div>
 
-        <!-- 9. Ciclos Biogeoquímicos -->
+        <!-- 8. Ciclos Biogeoquímicos -->
         <div class="content-group">
             <span class="section-badge">Ecologia Química</span>
             <div class="theory-box">
-                <h3>9. Ciclos Biogeoquímicos Essenciais</h3>
-                <p><strong>Ciclo do Oxigênio:</strong> 99% do O<sub>2</sub> do mundo não vem de florestas, mas sim do <strong>Fitoplâncton</strong> (algas microscópicas no oceano).</p>
-                <div class="highlight-box">
-                    <strong>Ciclo do Carbono e Conchas:</strong> Humanos desequilibram o ciclo queimando fósseis e desmatando (aumenta CO<sub>2</sub> = Efeito Estufa). O pior: Esse excesso de CO<sub>2</sub> dissolve no oceano, prejudicando a união de íons de cálcio para formar <strong>Carbonato de Cálcio (CaCO<sub>3</sub>)</strong>, o componente vital que forma conchas e recifes de corais, que acabam derretendo/morrendo.
-                </div>
-            </div>
-        </div>
-
-        <!-- 7. Respiração Aeróbica -->
-        <div class="content-group">
-            <span class="section-badge">Metabolismo Aeróbico</span>
-            <div class="theory-box">
-                <h3>7. Respiração Celular Aeróbica e Mitocôndria</h3>
-                <p>Produz incríveis <strong>30 ATPs</strong>. Ocorre na <strong>Mitocôndria</strong> (que tem DNA próprio e ribossomos). Em esportes intensos, você fica ofegante para captar mais $O_2$ no pulmão e mandar pelo sangue para as células produzirem ATP.</p>
-                <ul style="padding-left: 20px;">
-                    <li><strong>1. Glicólise:</strong> Ocorre no <strong>Citoplasma</strong>. Quebra glicose em Ácido Pirúvico. (2 ATP)</li>
-                    <li><strong>2. Ciclo de Krebs:</strong> Ocorre na <strong>Matriz Mitocondrial</strong>. Libera $CO_2$. (2 ATP)</li>
-                    <li><strong>3. Fosforilação Oxidativa:</strong> Nas <strong>Cristas Mitocondriais</strong>. O $O_2$ atua como aceptor final e vira Água ($H_2O$). Rende muito (26 ATP).</li>
-                </ul>
-                <div class="highlight-box warning">
-                    <strong>Processos Inversos:</strong> A equação da Respiração é o INVERSO da Fotossíntese! O "lixo" (produtos) de uma, é a "comida" (reagentes) da outra.
-                </div>
-            </div>
-        </div>
-
-        <!-- 8. Fermentação e ATP -->
-        <div class="content-group">
-            <span class="section-badge">Metabolismo Anaeróbico e ATP</span>
-            <div class="theory-box">
-                <h3>8. Fermentação e a Moeda ATP</h3>
-                <p><strong>Fermentação (Anaeróbica):</strong> Sem $O_2$. Quebra incompleta que gera uma "miséria" de energia: <strong>apenas 2 ATPs</strong>.</p>
-                <ul style="padding-left: 20px;">
-                    <li><strong>Lática:</strong> Bactérias (iogurte) e Músculos (gera acúmulo de ácido lático = fadiga/dor).</li>
-                    <li><strong>Etílica:</strong> Fungos/Leveduras. Fermento de pão e cerveja (Gera álcool etílico e $CO_2$).</li>
-                    <li><strong>Acética:</strong> Produz vinagre ao ar livre.</li>
-                </ul>
-                <p><strong>A Moeda ATP (Trifosfato de Adenosina):</strong> Feito de Adenina, Ribose e 3 fosfatos. O grande segredo: A energia é liberada quando se <strong>quebra a terceira ligação fosfato</strong>, transformando o ATP em ADP (Difosfato).</p>
-            </div>
-        </div>
-
-        <!-- 9. Ciclos Biogeoquímicos -->
-        <div class="content-group">
-            <span class="section-badge">Ecologia Química</span>
-            <div class="theory-box">
-                <h3>9. Ciclos Biogeoquímicos Essenciais</h3>
-                <p><strong>Ciclo do Oxigênio:</strong> 99% do $O_2$ do mundo não vem de florestas, mas sim do <strong>Fitoplâncton</strong> (algas microscópicas no oceano).</p>
-                <div class="highlight-box">
-                    <strong>Ciclo do Carbono e Conchas:</strong> Humanos desequilibram o ciclo queimando fósseis e desmatando (aumenta $CO_2$ = Efeito Estufa). O pior: Esse excesso de $CO_2$ dissolve no oceano, prejudicando a união de íons de cálcio para formar <strong>Carbonato de Cálcio ($CaCO_3$)</strong>, o componente vital que forma conchas e recifes de corais, que acabam derretendo/morrendo.
-                </div>
+                <h3>8. Ciclos do Oxigênio e Carbono</h3>
+                <p><strong>Oxigênio:</strong> 99% vem do fitoplâncton oceânico.<br>
+                <strong>Carbono e Conchas:</strong> O excesso de CO<sub>2</sub> na atmosfera dissolve-se nos oceanos, prejudicando a formação do <strong>Carbonato de Cálcio (CaCO<sub>3</sub>)</strong> das conchas e corais.</p>
             </div>
         </div>
 
@@ -409,11 +281,44 @@
         <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
             <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo Final</h2>
             <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">
-                30 questões clínicas mapeando todo o conteúdo dos dois manuais. Você deve acertar <strong>80% (24/30)</strong> para dominar a disciplina.
+                30 questões cobrindo toda a teoria. Meta de aprovação: <strong>80% (24/30)</strong>.
             </p>
         </div>
         <div class="question-map" id="qMap"></div>
         <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <!-- START STREAMING_CHUNK:Renderizando seção de Flashcards... -->
+    <div id="viewFlashcards" class="view-section" style="display: none; align-items: center; flex-direction: column;">
+        <div style="width: 100%; text-align: center; margin-bottom: 10px;">
+            <h2 style="color:var(--theme-dark); font-weight:900;">Memória Ativa: Foco no que é Difícil</h2>
+            <p style="color: #64748B; font-size: 0.9rem; font-weight:600;" id="flashProgress">Cartas dominadas: 0/10</p>
+        </div>
+        <div class="flashcard-wrapper" onclick="flipCard()">
+            <div class="flashcard" id="flashcardElement">
+                <div class="card-face card-front">
+                    <span class="section-badge" style="position:absolute; top:20px;">CONCEITO / PEGADINHA</span>
+                    <p class="fc-question-text" id="fcFrontText">Carregando...</p>
+                    <div style="position: absolute; bottom: 20px; font-size: 0.8rem; color: #94A3B8; font-weight: 600;">👆 Toque para revelar o Conceito</div>
+                </div>
+                <div class="card-face card-back">
+                    <span class="section-badge" style="position:absolute; top:20px; background:#E2E8F0; color:#475569; border-color:#CBD5E1;">RESPOSTA OFICIAL</span>
+                    <p class="fc-answer-text" id="fcBackText">...</p>
+                    <div class="macete-box" id="fcMaceteBox" style="display: none;">
+                        <strong>💡 Macete:</strong> <span id="fcMaceteText">...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feedback-controls-fc" id="fcFeedbackPanel">
+            <button class="btn-fc btn-fc-wrong" onclick="handleFlashFeedback('wrong')">🔴 Errei</button>
+            <button class="btn-fc btn-fc-correct" onclick="handleFlashFeedback('correct')">🟢 Dominei</button>
+        </div>
+        <div id="fcCompletion" style="display:none; text-align:center; padding:20px; background: white; border-radius: 12px; border: 3px solid var(--correct-border); box-shadow: 4px 4px 0px var(--correct-border); width: 100%;">
+            <h3 style="color:var(--correct-border); font-weight:900; font-size:1.5rem;">🎉 Conteúdo Consolidado!</h3>
+            <p style="margin-bottom:15px; font-weight:600; color: #475569;">Você fortaleceu as sinapses para gabaritar a prova!</p>
+            <button class="btn-action" onclick="resetFlashcards()">🔄 Reiniciar Baralho</button>
+        </div>
     </div>
 
     <div id="viewResult" class="view-section">
@@ -433,7 +338,7 @@
     <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
 </footer>
 
-<!-- START STREAMING_CHUNK:Inicializando banco de questões completas... -->
+<!-- START STREAMING_CHUNK:Inicializando banco de dados e lógica... -->
 <script>
     const searchInput = document.getElementById('searchInput');
     const contentGroups = document.querySelectorAll('.content-group');
@@ -455,15 +360,14 @@
     });
 
     const questions = [
-        // FÁCEIS (1-10) - Fundamentos básicos da teoria evolutiva e bioenergética
         {
             id: 1, level: "Fácil",
             text: "Até o século XIX, predominava uma visão científica de que todas as espécies eram imutáveis e fixas. Como era chamado esse pensamento?",
             options: ["Evolucionismo", "Fixismo", "Lamarckismo", "Neodarwinismo"],
             correct: 1,
             explanation: {
-                correct: "O Fixismo defendia que as formas vivas eram imutáveis, perfeitas e criadas de forma antropocêntrica.",
-                options: ["Defende a mudança ao longo do tempo.", "Correta. A ideia de que nada muda (fixo).", "Uma teoria evolutiva (que contraria o fixismo).", "Teoria genética moderna."]
+                correct: "O Fixismo defendia que as formas vivas eram imutáveis e criadas de forma fixa.",
+                options: ["Defende a mudança ao longo do tempo.", "Correta.", "Teoria evolutiva.", "Teoria genética moderna."]
             }
         },
         {
@@ -472,293 +376,288 @@
             options: ["No citoplasma; Saldo de 2 ATP.", "Na matriz mitocondrial; Saldo de 30 ATP.", "Nas cristas mitocondriais; Saldo de 26 ATP.", "No estroma do cloroplasto; Saldo de 2 ATP."],
             correct: 0,
             explanation: {
-                correct: "A Glicólise (quebra da glicose) é a única etapa que acontece solta no líquido celular (Citoplasma) e rende miseros 2 ATPs.",
-                options: ["Correta.", "Na matriz ocorre o Ciclo de Krebs.", "Nas cristas ocorre a fosforilação oxidativa.", "Estroma pertence à planta (fotossíntese)."]
+                correct: "A Glicólise ocorre no citoplasma e rende 2 ATPs.",
+                options: ["Correta.", "Matriz sedia o Ciclo de Krebs.", "Cristas sediam a fosforilação.", "Estroma é da planta."]
             }
         },
         {
             id: 3, level: "Fácil",
-            text: "Nas Ilhas Galápagos, Charles Darwin notou que diferentes ilhas abrigavam aves (tentilhões) com uma característica visual marcante. Qual era?",
-            options: ["A cor brilhante das penas.", "As asas desenvolvidas para natação.", "Os bicos de formatos variados, adaptados ao tipo de alimento local.", "Os olhos saltados para enxergar no escuro."],
+            text: "Nas Ilhas Galápagos, Charles Darwin notou que diferentes ilhas abrigavam tentilhões com qual característica marcante?",
+            options: ["Cor brilhante das penas.", "Asas para natação.", "Bicos de formatos variados, adaptados ao tipo de alimento local.", "Olhos saltados para escuro."],
             correct: 2,
             explanation: {
-                correct: "A marca clássica de Galápagos foi notar que os bicos dos tentilhões eram moldados pela dieta de cada ilha (sementes, insetos, etc).",
-                options: ["Não foi o destaque evolutivo observado.", "Eles não nadavam.", "Correta. Adaptação alimentar perfeita.", "Observação não correspondente aos fatos."]
+                correct: "Os bicos dos tentilhões eram moldados pela dieta de cada ilha.",
+                options: ["Não foi o destaque.", "Eles não nadavam.", "Correta.", "Observação incorreta."]
             }
         },
         {
             id: 4, level: "Fácil",
-            text: "Segundo a 'Lei do Uso e Desuso' proposta por Lamarck, o que aconteceria a um órgão muito utilizado?",
-            options: ["Ele sofreria mutações genéticas invisíveis.", "Ele seria destruído pelo esforço.", "Ele não mudaria, mas seus filhos seriam fortes.", "Ele cresceria ou se desenvolveria fortemente, e o que não fosse usado atrofiaria."],
+            text: "Segundo a 'Lei do Uso e Desuso' de Lamarck, o que aconteceria a um órgão muito utilizado?",
+            options: ["Sofreria mutações genéticas.", "Seria destruído pelo esforço.", "Não mudaria, mas os filhos seriam fortes.", "Cresceria ou se desenvolveria fortemente."],
             correct: 3,
             explanation: {
-                correct: "Lamarck defendia que o uso excessivo de um órgão fisicamente o fortaleceria/aumentaria (como o pescoço da girafa).",
-                options: ["Ele não sabia sobre genética/mutações.", "Ele acreditava no oposto, no fortalecimento.", "Lamarck focava na mudança física em vida.", "Correta. Essa era a regra mecânica dele."]
+                correct: "Lamarck defendia que o uso excessivo aumentava o órgão em vida.",
+                options: ["Ele não sabia de DNA.", "Acreditava no fortalecimento.", "Foco na mudança física.", "Correta."]
             }
         },
         {
             id: 5, level: "Fácil",
-            text: "O Fitoplâncton (algas microscópicas oceânicas) é o maior protagonista em qual ciclo biogeoquímico vital?",
-            options: ["No ciclo do Fósforo.", "No ciclo do Oxigênio, sendo produtor de quase 99% deste gás na biosfera.", "No ciclo da Água doce.", "No ciclo do Nitrogênio do solo."],
+            text: "O Fitoplâncton (algas microscópicas oceânicas) é o maior protagonista em qual ciclo biogeoquímico?",
+            options: ["Ciclo do Fósforo.", "Ciclo do Oxigênio (produzindo quase 99% do gás).", "Ciclo da Água doce.", "Ciclo do Nitrogênio."],
             correct: 1,
             explanation: {
-                correct: "Essas microalgas são o verdadeiro 'pulmão do mundo', realizando fotossíntese maciça e liberando O<sub>2</sub>.",
-                options: ["Não são o destaque do fósforo.", "Correta. Produtores primários globais de O<sub>2</sub>.", "Fitoplâncton vive majoritariamente em água salgada.", "Bactérias cuidam do Nitrogênio."]
+                correct: "As microalgas são os verdadeiros produtores primários de O<sub>2</sub> global.",
+                options: ["Não são destaque do fósforo.", "Correta.", "Vivem em água salgada.", "Bactérias cuidam do nitrogênio."]
             }
         },
         {
             id: 6, level: "Fácil",
-            text: "A fotólise da água é uma reação química fundamental. Em qual etapa da fotossíntese ela ocorre e que gás é liberado?",
-            options: ["Etapa Escura; Gás Carbônico.", "Etapa Clara (Fotoquímica); Gás Oxigênio (O<sub>2</sub>).", "Etapa Escura; Glicose.", "Etapa Clara (Fotoquímica); Nitrogênio."],
+            text: "A fotólise da água ocorre em qual etapa da fotossíntese e libera qual gás?",
+            options: ["Etapa Escura; Gás Carbônico.", "Etapa Clara (Fotoquímica); Gás Oxigênio (O<sub>2</sub>).", "Etapa Escura; Glicose.", "Etapa Clara; Nitrogênio."],
             correct: 1,
             explanation: {
-                correct: "A luz 'quebra' (lise) a molécula de água (H<sub>2</sub>O), liberando o oxigênio atmosférico que nós respiramos.",
-                options: ["Não há fotólise na fase escura.", "Correta. A luz faz a quebra da água.", "Fase escura gera glicose, mas não por fotólise da água.", "Não libera nitrogênio."]
+                correct: "A luz quebra a molécula de H<sub>2</sub>O na fase clara, liberando O<sub>2</sub>.",
+                options: ["Sem fotólise na escura.", "Correta.", "Fase escura gera glicose.", "Não libera nitrogênio."]
             }
         },
         {
             id: 7, level: "Fácil",
-            text: "A molécula de ATP é a 'moeda energética' da célula. Qual é o seu nome completo e por que a palavra começa com 'Tri'?",
-            options: ["Trifosfato de Adenosina; Porque contém três grupos fosfatos ligados.", "Triglicerídeo Ativo; Porque é feito de gordura tripla.", "Trifosfato de Aminoácido; Porque compõe proteínas triplas.", "Tradução Polimérica; Porque tem três açúcares fortes."],
+            text: "Por que a molécula de ATP é chamada de 'Trifosfato de Adenosina'?",
+            options: ["Porque contém três grupos fosfatos ligados.", "Porque é feita de gordura tripla.", "Porque compõe proteínas triplas.", "Porque tem três açúcares."],
             correct: 0,
             explanation: {
-                correct: "ATP é formado por Adenina, Ribose e três grupos fosfatos. A energia está nas ligações entre esses fosfatos.",
-                options: ["Correta. A sigla T indica Tri (três fosfatos).", "Não é gordura (triglicerídeo).", "Não é feito de aminoácidos estruturais.", "Invenção de palavras sem sentido biológico."]
+                correct: "Possui três fosfatos cujas ligações guardam energia.",
+                options: ["Correta.", "Não é gordura.", "Não é proteína.", "Invenção sem sentido."]
             }
         },
         {
             id: 8, level: "Fácil",
-            text: "O que a 'Árvore Filogenética' representa evolutivamente através do seu 'tronco' na base do desenho?",
-            options: ["As espécies que já foram extintas e fracassaram.", "A espécie original, ou Ancestral Comum de todos os galhos.", "As aves que Darwin estudou nas ilhas.", "A árvore real onde as mariposas inglesas pousavam."],
+            text: "O que o 'tronco' na base de uma Árvore Filogenética representa?",
+            options: ["Espécies extintas sem sucesso.", "O Ancestral Comum de todos os galhos.", "As aves de Darwin.", "A madeira das árvores."],
             correct: 1,
             explanation: {
-                correct: "O tronco único embaixo ilustra a espécie progenitora, da qual todas as ramificações (novas espécies) surgiram.",
-                options: ["O tronco indica origem, não fracasso.", "Correta. Ancestral Comum.", "Representação gráfica abrangente, não apenas para aves.", "Não é uma árvore literal de madeira."]
+                correct: "O tronco único representa a espécie progenitora original.",
+                options: ["Não indica fracasso.", "Correta.", "Abrangente para qualquer grupo.", "Não é madeira literal."]
             }
         },
         {
             id: 9, level: "Fácil",
-            text: "Onde exatamente, dentro do Cloroplasto, a planta aloja a Clorofila (pigmento verde) para captar luz?",
-            options: ["Na membrana externa.", "Solta no citoplasma da folha.", "Nos Tilacoides (que formam o granum).", "Na matriz mitocondrial."],
+            text: "Onde a clorofila fica alojada dentro do Cloroplasto?",
+            options: ["Na membrana externa.", "Solta no citoplasma.", "Nos Tilacoides (granum).", "Na matriz mitocondrial."],
             correct: 2,
             explanation: {
-                correct: "A clorofila fica alojada nas membranas dos discos achatados chamados tilacoides, essenciais para a fase clara.",
-                options: ["A membrana externa apenas protege.", "Clorofila não fica solta no líquido.", "Correta. Fica dentro das estruturas de 'moeda' empilhadas.", "Mitocôndria não faz fotossíntese."]
+                correct: "Fica nas membranas dos discos de tilacoides.",
+                options: ["Apenas protege.", "Não fica solta.", "Correta.", "Mitocôndria não faz fotossíntese."]
             }
         },
         {
             id: 10, level: "Fácil",
-            text: "Qual é a lógica básica, conhecida como a grande sacada química da vida, comparando a Fotossíntese e a Respiração?",
-            options: ["São idênticas e ocorrem na mesma organela.", "São processos INVERSOS. O que uma usa como reagente, a outra devolve como produto final.", "Ambas gastam glicose e oxigênio para funcionar.", "Somente a respiração produz água na biologia."],
+            text: "Qual é a relação geral entre Fotossíntese e Respiração Celular?",
+            options: ["São idênticas.", "São processos INVERSOS. O produto de uma é o reagente da outra.", "Ambas gastam glicose.", "Somente a respiração produz água."],
             correct: 1,
             explanation: {
-                correct: "Elas fecham um ciclo perfeito: Fotossíntese cria Glicose+O<sub>2</sub> (e consome CO<sub>2</sub>+H<sub>2</sub>O). A respiração consome Glicose+O<sub>2</sub> (e joga fora CO<sub>2</sub>+H<sub>2</sub>O).",
-                options: ["São organelas diferentes (Cloroplasto x Mitocôndria).", "Correta. A balança perfeita da vida.", "Fotossíntese FABRICA a glicose.", "A fotossíntese também produz água residual."]
+                correct: "Fecham um ciclo perfeito de matéria e energia.",
+                options: ["Organelas diferentes.", "Correta.", "Fotossíntese fabrica glicose.", "Fotossíntese também gera água."]
             }
         },
-
-        // MÉDIAS (11-20) - Distinções sutis, mecanismos em 2 passos, gráficos.
         {
             id: 11, level: "Médio",
-            text: "Qual foi a 'Falha de Darwin' que apenas a ciência posterior (Neodarwinismo) conseguiu responder?",
-            options: ["Ele não sabia provar a gravidade nas ilhas.", "Ele desconhecia o fato de que os seres morriam por predação.", "Ele via as diferenças nas espécies, mas não sabia explicar a origem das variações (DNA/Mutações).", "Ele negou que a girafa existisse em Galápagos."],
+            text: "Qual foi a 'Falha de Darwin' resolvida posteriormente pelo Neodarwinismo?",
+            options: ["Ignorar a gravidade.", "Desconhecer a predação.", "Não saber explicar a origem das variações (mutações no DNA).", "Negar a existência de ilhas."],
             correct: 2,
             explanation: {
-                correct: "O Neodarwinismo integrou a Genética à seleção natural, explicando que as variações vêm das mutações aleatórias do material genético.",
-                options: ["Isso seria Isaac Newton (Física).", "Ele focava grandemente na predação e competição.", "Correta. A molécula de DNA ainda era um mistério.", "Não havia girafas em Galápagos, ele estudava tartarugas/aves."]
+                correct: "O Neodarwinismo uniu Darwin à Genética moderna.",
+                options: ["Física.", "Ele focava em predação.", "Correta.", "Ilhas reais."]
             }
         },
         {
             id: 12, level: "Médio",
-            text: "Analise o caso da Mariposa Biston betularia (Melanismo Industrial). Qual era a 'Vantagem Adaptativa' das mariposas escuras?",
-            options: ["Elas respiravam fuligem para ganhar energia e crescer.", "A cor escura serviu de camuflagem nos troncos manchados pelas fábricas, livrando-as dos pássaros.", "Elas mataram as mariposas brancas em combate por comida.", "O DNA negro as impedia de voar em direção ao fogo das fábricas."],
+            text: "Qual era a Vantagem Adaptativa das mariposas escuras no Melanismo Industrial?",
+            options: ["Respiravam fuligem.", "Camuflagem perfeita nos troncos escurecidos pela poluição, escapando de pássaros.", "Matavam as brancas.", "Impedidas de voar no fogo."],
             correct: 1,
             explanation: {
-                correct: "A característica negra (que já existia) garantiu sobrevivência passiva, pois os predadores (pássaros) só viam e comiam as mariposas claras.",
-                options: ["Animais não respiram fuligem por energia.", "Correta. Camuflagem tática pura.", "A competição não foi combate físico, foi predação externa.", "Não há registro desse comportamento no Melanismo."]
+                correct: "A cor escura evitou a predação visual dos pássaros.",
+                options: ["Não respiram fuligem.", "Correta.", "Não foi combate direto.", "Comportamento inexistente."]
             }
         },
         {
             id: 13, level: "Médio",
-            text: "Graficamente, o que significa uma Seleção Natural do tipo ESTABILIZADORA?",
-            options: ["Favorece a sobrevivência da MÉDIA populacional, e o gráfico sobe forte ao centro, matando os extremos.", "Favorece ambos os extremos simultaneamente, gerando um gráfico de dois picos altos.", "Faz o gráfico deslizar inteiro para a direita, favorecendo só os maiores.", "Gera uma linha reta e morta."],
+            text: "O que caracteriza graficamente uma Seleção Natural Estabilizadora?",
+            options: ["Favorece a MÉDIA, estreitando o pico central e eliminando os extremos.", "Favorece ambos os extremos.", "Desloca o gráfico para a direita.", "Gera linha reta."],
             correct: 0,
             explanation: {
-                correct: "Na estabilizadora, os indivíduos fora do padrão (muito grandes ou muito pequenos) são prejudicados. O ambiente premeia a mediocridade/meio-termo.",
-                options: ["Correta. O intermediário é o rei.", "Isso descreve a seleção Disruptiva.", "Isso descreve a seleção Direcional.", "Isso indicaria extinção sem curva normal."]
+                correct: "O fenótipo intermediário é o mais avantajado.",
+                options: ["Correta.", "Isso é disruptiva.", "Isso é direcional.", "Isso indicaria extinção."]
             }
         },
         {
             id: 14, level: "Médio",
-            text: "A respeito das 'Couve-flor, repolho e brócolis' derivadas da planta silvestre Brassica oleracea, temos um exemplo de:",
-            options: ["Seleção Sexual para atrair abelhas.", "Seleção Natural Disruptiva na floresta.", "Seleção Artificial feita através de cruzamentos guiados intencionalmente pelo ser humano.", "Mutações radioativas acidentais."],
+            text: "A origem do brócolis, couve-flor e repolho a partir da planta silvestre Brassica oleracea é exemplo de:",
+            options: ["Seleção Sexual.", "Seleção Natural Disruptiva.", "Seleção Artificial promovida pelo ser humano.", "Mutação radioativa."],
             correct: 2,
             explanation: {
-                correct: "Quando a característica não é escolhida pela 'pressão de predadores ou ambiente livre', mas porque o homem quis cruzar e cultivar, chama-se Seleção Artificial.",
-                options: ["Isso ocorre em aves (cauda do pavão).", "Isso forma dois extremos na natureza.", "Correta. Ação humana direta agrícola.", "Não teve uso de radiação no século antigo."]
+                correct: "Cruzamentos guiados intencionalmente pelo homem.",
+                options: ["Ocorre em aves.", "Ambiente livre.", "Correta.", "Sem radiação."]
             }
         },
         {
             id: 15, level: "Médio",
-            text: "Um rio divide geograficamente dois grupos de lebres. Após milênios de separação e mutações isoladas, o que decretará que elas viraram ESPÉCIES DIFERENTES (Especiação)?",
-            options: ["Quando elas aprenderem a nadar.", "Quando sofrerem o Isolamento Reprodutivo (não conseguirem mais cruzar e gerar descendentes férteis).", "Quando as árvores de um lado do rio caírem.", "Seus pelos ficarem exatamente da mesma cor."],
+            text: "O que consolida de fato o surgimento de uma nova espécie (Especiação)?",
+            options: ["Aprender a nadar.", "O Isolamento Reprodutivo (impossibilidade de cruzamento fértil).", "Queda de árvores.", "Mesma cor de pelo."],
             correct: 1,
             explanation: {
-                correct: "A prova final da formação de uma nova espécie biológica é a barreira genética. Se cruzarem e não der filho (ou o filho for estéril), viraram espécies diferentes.",
-                options: ["Isso seria apenas uma adaptação física.", "Correta. O marco zero da Especiação.", "Mudança ambiental não decreta espécie nova se elas ainda cruzam.", "Cores diferentes ocorrem na mesma espécie (cães)."]
+                correct: "Se não geram descendentes férteis, são espécies distintas.",
+                options: ["Adaptação física.", "Correta.", "Mudança ambiental simples.", "Cores variam na mesma espécie."]
             }
         },
         {
             id: 16, level: "Médio",
-            text: "Onde ocorre o Ciclo de Krebs e a Fosforilação Oxidativa (as etapas mais produtivas da respiração), respectivamente?",
-            options: ["Matriz Mitocondrial e Cristas Mitocondriais.", "Citoplasma e Estroma do Cloroplasto.", "Cristas Mitocondriais e Citoplasma.", "Tilacoides e Matriz Mitocondrial."],
+            text: "O Ciclo de Krebs e a Fosforilação Oxidativa ocorrem, respectivamente, em quais locais da mitocôndria?",
+            options: ["Matriz Mitocondrial e Cristas Mitocondriais.", "Citoplasma e Estroma.", "Cristas e Citoplasma.", "Tilacoides e Matriz."],
             correct: 0,
             explanation: {
-                correct: "O fluido central (Matriz) hospeda o Ciclo de Krebs (2 ATPs). As dobras (Cristas) abrigam a Fosforilação, que finaliza consumindo O<sub>2</sub> e gerando 26 ATPs.",
-                options: ["Correta.", "Citoplasma sedia a Glicólise inicial.", "Ordem e local invertidos/errados.", "Tilacoides são da Fotossíntese."]
+                correct: "Krebs na matriz interna; Fosforilação nas dobras das cristas.",
+                options: ["Correta.", "Glicólise é no citoplasma.", "Invertido.", "Tilacoides são do cloroplasto."]
             }
         },
         {
             id: 17, level: "Médio",
-            text: "Um fungo/levedura utilizado na panificação faz a massa de pão inchar. Qual tipo de metabolismo energético ele realiza e qual o produto final que expande a massa?",
-            options: ["Respiração Aeróbica; produz Oxigênio puro.", "Fermentação Lática; produz Ácido Lático pesado.", "Fermentação Etílica; quebra a glicose gerando Álcool e Gás Carbônico (CO<sub>2</sub>) que infla a massa.", "Fotossíntese; produz muita glicose."],
+            text: "A levedura na massa de pão realiza qual metabolismo que faz a massa crescer?",
+            options: ["Respiração Aeróbica.", "Fermentação Lática.", "Fermentação Etílica (gera álcool e CO<sub>2</sub>).", "Fotossíntese."],
             correct: 2,
             explanation: {
-                correct: "As leveduras do fermento agem sem ar (anaerobiose). Ao quebrar o açúcar, liberam Etanol (que evapora no forno) e CO<sub>2</sub> (gás que faz o pão estufar).",
-                options: ["Pão não é feito injetando oxigênio puro.", "Lática não gera gás (faria iogurte, não pão fofo).", "Correta. É o mesmo processo da cerveja.", "Fungos não têm clorofila (não fazem fotossíntese)."]
+                correct: "Libera gás carbônico que estufa o pão.",
+                options: ["Não usa oxigênio livre.", "Faria iogurte.", "Correta.", "Fungos não fazem fotossíntese."]
             }
         },
         {
             id: 18, level: "Médio",
-            text: "O excesso de Gás Carbônico (CO<sub>2</sub>) jogado na atmosfera afeta os oceanos, prejudicando gravemente a formação de:",
-            options: ["Oxigênio gasoso nas ondas.", "Ozônio na crosta terrestre.", "Fósforo para os peixes respirarem.", "Carbonato de Cálcio (CaCO<sub>3</sub>), destruindo lentamente conchas e os recifes de corais."],
+            text: "O excesso de CO<sub>2</sub> lançado nos oceanos prejudica a formação de:",
+            options: ["Oxigênio gasoso.", "Ozônio.", "Fósforo.", "Carbonato de Cálcio (CaCO<sub>3</sub>), destruindo conchas e corais."],
             correct: 3,
             explanation: {
-                correct: "O CO<sub>2</sub> na água acidifica o mar, o que dificulta a união de íons de cálcio para montar a estrutura das rochas biológicas (as conchas/corais).",
-                options: ["Não afeta o oxigênio mecânico das ondas.", "O ozônio fica na estratosfera (ar).", "Fósforo não tem relação direta primária respiratória aqui.", "Correta. Afeta o calcário marinho."]
+                correct: "Acidifica a água e impede a montagem do calcário biológico.",
+                options: ["Oxigênio mecânico.", "Estratosfera.", "Fósforo inalterado.", "Correta."]
             }
         },
         {
             id: 19, level: "Médio",
-            text: "O que a 'Quebra da Terceira Ligação Fosfato' faz estruturalmente com a molécula de ATP?",
-            options: ["Ela vira uma proteína superpoderosa e vermelha.", "Gera a detonação imediata da mitocôndria, destruindo a célula.", "Libera uma quantidade gigante de energia utilizável e transforma o ATP em ADP (Difosfato).", "Faz o ATP engordar e virar glicose."],
+            text: "O que acontece na molécula de ATP ao liberar energia?",
+            options: ["Vira proteína.", "Detona a célula.", "Quebra o terceiro grupo fosfato, virando ADP.", "Vira glicose."],
             correct: 2,
             explanation: {
-                correct: "A energia para você pensar, bater o coração ou correr sai dessa ligação explosiva. Tri (3) perde um, e vira Di (2).",
-                options: ["ATP é um nucleotídeo, não proteína.", "Não explode/destrói a célula, apenas fornece energia limpa.", "Correta. A mola propulsora da biologia.", "ATP não vira glicose."]
+                correct: "Perde o terceiro fosfato e libera a energia da ligação.",
+                options: ["Não é proteína.", "Energia controlada.", "Correta.", "Não vira glicose."]
             }
         },
         {
             id: 20, level: "Médio",
-            text: "Como você pode explicar a relação entre a falta de ar (ofegante) e a mitocôndria após correr intensamente?",
-            options: ["A mitocôndria não requer ar, o corpo fica ofegante para esfriar a boca.", "As mitocôndrias do músculo pedem desesperadamente por O<sub>2</sub> para quebrar glicose rápido (via Fosforilação) e gerar ATP. O pulmão acelera para atender essa demanda.", "O pulmão ofegante inibe a produção de 30 ATPs e trava a célula.", "O ar extra serve apenas para fazer fermentação lática."],
+            text: "Por que ficamos ofegantes após um exercício intenso?",
+            options: ["Para resfriar a boca.", "As mitocôndrias exigem mais O<sub>2</sub> para gerar ATP rápido; o pulmão acelera para suprir.", "Inibe a produção de energia.", "Para fazer fermentação."],
             correct: 1,
             explanation: {
-                correct: "O pulmão e o sangue trabalham como operários de entrega rápida. Quando a mitocôndria exige gerar 30 ATPs por segundo, ela grita por Oxigênio.",
-                options: ["Errado, não resfriamos como cães.", "Correta. Relação perfeita de fisiologia (pulmão -> célula).", "O ar extra AUMENTA a produção, não inibe.", "Fermentação acontece justamente quando NÃO há ar extra."]
+                correct: "Alta demanda de respiração celular exige mais oxigênio circulante.",
+                options: ["Não é para resfriar.", "Correta.", "Aumenta a produção.", "Fermentação ocorre na falta de ar."]
             }
         },
-
-        // DIFÍCEIS (21-30) - Conceitos químicos densos, análises interpretativas cruzadas.
-        // START STREAMING_CHUNK:Carregando blocos avançados...
         {
             id: 21, level: "Difícil",
-            text: "Na mecânica da Seleção Sexual, o macho do pavão com sua cauda enorme e pesada parece contrariar a lógica de sobrevivência. Como a teoria explica isso?",
-            options: ["A cauda grande permite que o pavão faça mais fotossíntese para repor a energia da fuga.", "Para a biologia evolutiva, a vantagem de REPRODUÇÃO (atrair a fêmea) é mais forte do que a ameaça de predação (ser devorado mais facilmente).", "As fêmeas odeiam a cauda grande e tentam extingui-los, o que prova a Seleção Disruptiva.", "A cauda assusta todos os leopardos, garantindo imortalidade."],
+            text: "Como a biologia explica a cauda pesada e vistosa do pavão, que atrai predadores?",
+            options: ["Faz fotossíntese.", "A vantagem reprodutiva (atrair fêmeas) supera o risco de predação (trade-off).", "Assusta leopardos.", "Mutação disruptiva."],
             correct: 1,
             explanation: {
-                correct: "É um trade-off evolutivo. Ele corre enorme risco de morrer jovem pelos predadores, mas se a fêmea cruzar apenas com ele, seus genes belos seguem adiante.",
-                options: ["Animais não têm clorofila/fotossíntese.", "Correta. O poder reprodutivo supera o risco de vida individual.", "Fêmeas de pavão ESCOLHEM ativamente as maiores caudas.", "A cauda pesada o torna uma presa lenta e fácil."]
+                correct: "O sucesso reprodutivo compensa o risco de vida individual.",
+                options: ["Sem clorofila.", "Correta.", "Atrai predadores.", "Não é disruptiva."]
             }
         },
         {
             id: 22, level: "Difícil",
-            text: "Analise o saldo de energia de uma levedura em um ambiente SEM oxigênio (barril selado) comparado a um ambiente COM oxigênio abundante (copo aberto). Respectivamente, qual metabolismo ocorreu e quantos ATPs renderam?",
-            options: ["1º Fermentação Etílica (2 ATP) / 2º Respiração Aeróbica (30 ATP).", "1º Fotossíntese (30 ATP) / 2º Fermentação Lática (2 ATP).", "1º Respiração Anaeróbica (30 ATP) / 2º Respiração Aeróbica (2 ATP).", "1º Fermentação Acética (0 ATP) / 2º Ciclo de Krebs (100 ATP)."],
+            text: "Qual o saldo de ATP de uma levedura sem oxigênio versus com oxigênio?",
+            options: ["1º Fermentação Etílica (2 ATP) / 2º Respiração Aeróbica (30 ATP).", "1º Fotossíntese / 2º Fermentação.", "1º Anaeróbica (30) / 2º Aeróbica (2).", "0 ATP / 100 ATP."],
             correct: 0,
             explanation: {
-                correct: "As leveduras são anaeróbias facultativas. Sem ar, fazem Fermentação (pouca eficiência: 2 ATP). Com ar (O<sub>2</sub>), ligam a mitocôndria e rendem o máximo possível (30 ATP).",
-                options: ["Correta. Exatidão dos números e processos.", "Fungo (levedura) não faz fotossíntese.", "Anaerobiose gera muito menos energia, não mais.", "Processos e números de energia estão todos incorretos."]
+                correct: "Sem oxigênio faz fermentação pobre (2); com oxigênio rende o máximo (30).",
+                options: ["Correta.", "Fungos não fazem fotossíntese.", "Invertido.", "Números errados."]
             }
         },
         {
             id: 23, level: "Difícil",
-            text: "Por que nós sentimos queimação e fadiga aguda nos músculos ao fazer um levantamento de peso extremo e repetitivo (déficit de oxigênio celular)?",
-            options: ["Porque o excesso de 30 ATPs queima as proteínas das fibras por choque térmico.", "Porque, sem Oxigênio suficiente, a célula entra em Fermentação Lática, gerando acúmulo tóxico de Ácido Lático no tecido.", "Porque a quebra do gás carbônico (CO<sub>2</sub>) congela as articulações temporariamente.", "Porque a mitocôndria começa a fazer fotólise da água para sobreviver."],
+            text: "Por que sentimos queimação muscular em exercícios extremos?",
+            options: ["Excesso de ATP.", "Falta de O<sub>2</sub> força a Fermentação Lática, acumulando ácido lático tóxico.", "Quebra de CO<sub>2</sub>.", "Fotólise interna."],
             correct: 1,
             explanation: {
-                correct: "O sistema cardiovascular não dá conta do recado rápido. Sem oxigênio, a célula apela para o modo de emergência (Fermentação Lática), e o resíduo ácido queima o tecido.",
-                options: ["O ATP não causa choque térmico destrutivo no tecido.", "Correta. O Ácido Lático abaixa o pH e causa a dor.", "Músculo não quebra CO<sub>2</sub>, ele expele.", "Fotólise é evento restrito aos cloroplastos vegetais."]
+                correct: "O ácido lático reduz o pH e gera a dor de fadiga.",
+                options: ["Não queima por excesso.", "Correta.", "Músculo expele CO<sub>2</sub>.", "Fotólise é em planta."]
             }
         },
         {
             id: 24, level: "Difícil",
-            text: "A Fotossíntese na Etapa Química (Fase Escura) é frequentemente descrita de forma incorreta como ocorrendo apenas de noite. Qual a verdade funcional sobre essa fase?",
-            options: ["Ela ocorre exclusivamente à meia-noite e precisa de baixas temperaturas para fixar nitrogênio.", "Ela depende do raio de luz batendo nela naquele momento exato para quebrar o açúcar em CO<sub>2</sub>.", "Ela independe da luz DIRETAMENTE no momento em que ocorre, usando os estoques de energia já convertidos na fase clara para fixar o CO<sub>2</sub> e moldar a Glicose.", "Ela usa a escuridão absoluta para evaporar o H<sub>2</sub>O que restou da fotólise, formando o ozônio."],
+            text: "Qual é a verdade funcional sobre a Fase Escura (Química) da Fotossíntese?",
+            options: ["Ocorre só à meia-noite.", "Precisa de luz batendo na hora.", "Independe da luz diretamente, usando a energia da fase clara para fixar o CO<sub>2</sub>.", "Evapora água no escuro."],
             correct: 2,
             explanation: {
-                correct: "O termo 'escura' não significa noite. Ela pode e costuma ocorrer de dia simultaneamente, apenas NÃO USA o fóton de luz para suas reações químicas locais de ciclo do carbono.",
-                options: ["Falsa intuição sobre a biologia do processo.", "Ela FIXA açúcar, não quebra (isso é respiração).", "Correta. Usa a energia guardada do processo claro.", "A água já foi destruída na fase clara para ceder elétrons."]
+                correct: "Ocorre de dia junto com a clara, mas não usa fótons de luz diretamente.",
+                options: ["Não é só à noite.", "Não quebra açúcar.", "Correta.", "A água foi quebrada na clara."]
             }
         },
         {
             id: 25, level: "Difícil",
-            text: "Na última e mais potente etapa da Respiração Aeróbica, a 'Fosforilação Oxidativa', qual molécula atua fundamentalmente como 'aceptor final', evitando o travamento do sistema e gerando qual resíduo?",
-            options: ["A Glicose é o aceptor final, gerando 2 moléculas de CO<sub>2</sub>.", "O Ácido Lático é o aceptor, gerando 30 moléculas de Etanol inflamável.", "O Oxigênio (O<sub>2</sub>) inspirado é o aceptor final de elétrons e hidrogênios exaustos, unindo-se a eles para formar Água (H<sub>2</sub>O).", "O ATP é o aceptor que recebe luz solar e evapora gerando Fósforo gasoso."],
+            text: "Na Fosforilação Oxidativa, qual molécula atua como aceptor final de elétrons e que resíduo gera?",
+            options: ["Glicose gerando CO<sub>2</sub>.", "Ácido lático.", "Oxigênio (O<sub>2</sub>), gerando Água (H<sub>2</sub>O).", "ATP gerando fósforo."],
             correct: 2,
             explanation: {
-                correct: "O Oxigênio limpa a 'esteira de produção' na mitocôndria. Se ele não vier (falta de ar), a esteira trava e você morre. O lixo que ele gera ao varrer a célula é água.",
-                options: ["A glicose já foi estilhaçada na Glicólise inicial.", "Descreve distorções da fermentação.", "Correta. A razão mecânica de precisarmos respirar O<sub>2</sub>.", "Não usa luz e não há fósforo gasoso celular envolvido."]
+                correct: "O oxigênio limpa a cadeia mitocondrial e forma água.",
+                options: ["Glicose é quebrada antes.", "Fermentação.", "Correta.", "Não gera fósforo gasoso."]
             }
         },
         {
             id: 26, level: "Difícil",
-            text: "Sobre a pigmentação fotossintetizante (clorofila), por que a imensa maioria das folhas e florestas do mundo apresentam a coloração VERDE para os nossos olhos?",
-            options: ["Porque o verde é o comprimento de onda da luz solar que a clorofila absorve com mais força e eficiência para usar na fotólise.", "Porque a clorofila é um prisma invertido que exala clorofluorcarbonetos de coloração esmeralda durante a Fase Escura.", "Porque o pigmento químico da clorofila NÃO USA eficientemente a luz verde, rebatendo (refletindo) esse comprimento de onda de volta para o ambiente.", "Porque o carbono da atmosfera pinta as membranas externas ao longo dos séculos de evolução."],
+            text: "Por que a imensa maioria das folhas e florestas nos parece verde?",
+            options: ["O verde é a luz que a clorofila absorve com mais força.", "Exalam clorofluorcarbonetos.", "A clorofila não usa a luz verde, refletindo-a de volta.", "O carbono pinta as folhas."],
             correct: 2,
             explanation: {
-                correct: "Na óptica da física biológica, a cor que enxergamos é a luz que o objeto NÃO reteve. A planta absorve famintamente o vermelho e o azul, e 'cospe' o verde inútil para fora.",
-                options: ["É exatamente o contrário. A luz que ela absorve (usa) não chega aos nossos olhos.", "Física óptica fantasma sem embasamento real.", "Correta. Refletância espectral.", "Carbono atmosférico é gás incolor CO2."]
+                correct: "A cor vista é a luz rejeitada/refletida pelo pigmento.",
+                options: ["O que absorve não é visto.", "Falsidade óptica.", "Correta.", "Carbono é gás."]
             }
         },
         {
             id: 27, level: "Difícil",
-            text: "Qual é o principal fator provocado pela Atividade Humana (antrópica) que prejudica severamente a estabilidade do Ciclo do Carbono Global hoje?",
-            options: ["A extração excessiva de conchas calcárias da areia das praias do Caribe para a indústria civil.", "A queima massiva de combustíveis fósseis (reservas subterrâneas presas de petróleo e carvão), jogando volumes colossais de CO<sub>2</sub> no ar, somada ao desmatamento.", "O uso de bactérias da Fermentação Acética no vinagre, que respiram o CO<sub>2</sub> das indústrias.", "A mutação das mariposas Biston betularia, cujas asas escuras absorvem e sequestram o carbono atmosférico em excesso."],
+            text: "Qual a principal ação humana que desestabiliza severamente o Ciclo do Carbono?",
+            options: ["Extração de conchas.", "Queima massiva de combustíveis fósseis e desmatamento.", "Uso de vinagre.", "Mutações em mariposas."],
             correct: 1,
             explanation: {
-                correct: "A Terra enterrou carbono profundo por bilhões de anos. Em 200 anos de indústria, nós cavamos e botamos fogo em tudo, saturando a fina atmosfera com gases estufa.",
-                options: ["Impacto micro-local, não afeta o clima/ciclo global de CO<sub>2</sub>.", "Correta. Agravamento direto do Efeito Estufa.", "Fermentação de vinagre não impacta as indústrias.", "O peso molecular de asas de insetos não impacta a atmosfera global."]
+                correct: "Libera carbono fóssil milenar e reduz as árvores que o absorvem.",
+                options: ["Impacto local.", "Correta.", "Vinagre irrelevante.", "Insetos não afetam o clima."]
             }
         },
         {
             id: 28, level: "Difícil",
-            text: "Se você perguntasse a Jean-Baptiste Lamarck no século XIX por que as mariposas da Inglaterra do Melanismo Industrial se tornaram negras, qual destas frases se alinharia perfeitamente à teoria dele?",
-            options: ["'As mariposas sofreram recombinação genética (mutação) no DNA antes da poluição surgir.'", "'Elas foram intencionalmente cruzadas e selecionadas geneticamente pelo ser humano em laboratório.'", "'As brancas já nasciam desvantajosas e a seleção da natureza eliminou as piores e abraçou as melhores aleatoriamente.'", "'O ar sujo as forçou e induziu fisiologicamente a escurecerem suas asas durante a vida para se esconder, passando essa cor adquirida aos ovos.'"],
+            text: "Como Lamarck explicaria o Melanismo Industrial das mariposas?",
+            options: ["Mutação genética prévia.", "Seleção artificial humana.", "Seleção natural de Darwin.", "A poluição forçou as asas a escurecerem em vida, passando aos ovos."],
             correct: 3,
             explanation: {
-                correct: "A lógica vitalista (e falha) do lamarckismo via a mudança ocorrendo EM VIDA devido à exigência bruta e cruel do ambiente agressivo, alterando o corpo e gerando herança biológica.",
-                options: ["Esta é a visão do Neodarwinismo (século XX).", "Isto seria Seleção Artificial agrícola.", "Esta é a visão brutal e mecânica de Darwin (Seleção Natural).", "Correta. 'Forçou' e 'Cor Adquirida' são as chaves lamarckistas."]
+                correct: "A herança de caracteres adquiridos por exigência do meio.",
+                options: ["Neodarwinismo.", "Não foi humano.", "Darwinismo.", "Correta."]
             }
         },
         {
             id: 29, level: "Difícil",
-            text: "A respeito das 'esponjas marinhas', elas figuram como os animais multicelulares mais basais e 'primitivos' da história. Sob as regras do Darwinismo Moderno, por que um ser tão primitivo não foi extinto ou 'evoluído' para algo complexo em bilhões de anos?",
-            options: ["Porque as barreiras geográficas subaquáticas impedem o DNA de sofrer a mutação do tipo disruptiva cruzada.", "Porque a evolução não é uma escada linear rumo à perfeição complexa. As adaptações rudimentares das esponjas ainda funcionam tão bem no ambiente de fundo marinho que a seleção natural os preserva do jeito que estão.", "Porque o ancestral comum delas, o tronco da árvore filogenética, foi pulverizado pela falta de fotossíntese abissal, congelando os ramos genéticos.", "Porque na fase fotoquímica profunda da oceanografia, elas realizam fotólise da água sem ATP, driblando as mutações clássicas de Wallace."],
+            text: "Por que as esponjas marinhas (animais primitivos) não foram extintas ou 'evoluídas' para formas complexas?",
+            options: ["Barreiras geográficas estáticas.", "Evolução não é escada rumo à complexidade; a adaptação simples delas ainda funciona perfeitamente.", "Falta de ancestral comum.", "Fotossíntese abissal."],
             correct: 1,
             explanation: {
-                correct: "Mito fatal na escola: Evolução não significa 'melhora' ou 'virar humano/complexo'. Significa apenas 'estar adaptado à situação presente'. Se o simples funciona para elas, a biologia não gasta energia alterando.",
-                options: ["O tipo disruptivo não é bloqueado pela barreira de água.", "Correta. Adaptação eficiente = sobrevivência duradoura.", "Falta de conexão teórica com genoma.", "Esponja marinha é animal heterotrófico (não faz fotossíntese)."]
+                correct: "Evolução é adaptação ao presente, não progresso linear.",
+                options: ["Barreira sem nexo.", "Correta.", "Possuem ancestral.", "São heterotróficas."]
             }
         },
         {
             id: 30, level: "Difícil",
-            text: "Quais as três formas de manifestação da Seleção Natural (gráficos fenotípicos) frente à frequência da variação numa população?",
+            text: "Quais são as três formas clássicas de manifestação da Seleção Natural nas populações?",
             options: ["Estabilizadora, Direcional e Disruptiva.", "Lamarckista, Darwiniana e Mendeliana.", "Homóloga, Análoga e Vestigial.", "Aeróbica, Lática e Etílica."],
             correct: 0,
             explanation: {
-                correct: "São as três formas clássicas do funil do ambiente atuar nas características (curvas de sino na estatística evolutiva).",
-                options: ["Correta. (Média, Extremo Único, Duplo Extremo).", "Cientistas/Escolas de pensamento, não pressões fenotípicas da natureza.", "Tipos de Órgãos evolutivos, não gráficos de seleção.", "Tipos de metabolismo energético das aulas de Bioquímica."]
+                correct: "As três curvas estatísticas de pressão ambiental.",
+                options: ["Correta.", "Escolas de pensamento.", "Órgãos.", "Metabolismos."]
             }
         }
     ];
@@ -769,21 +668,28 @@
     let userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(questions.length).fill(null);
 
     function setMode(mode) {
-        const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+        const views = ['viewExplanation', 'viewPractice', 'viewFlashcards', 'viewResult'];
         views.forEach(v => document.getElementById(v).style.display = 'none');
         document.getElementById('quizFooter').style.display = 'none';
+
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.remove('active');
+        document.getElementById('btnFlash').classList.remove('active');
 
         if(mode === 'explanation') {
             document.getElementById('viewExplanation').style.display = 'flex';
             document.getElementById('btnExp').classList.add('active');
-            document.getElementById('btnPrac').classList.remove('active');
         } else if (mode === 'practice') {
             document.getElementById('viewPractice').style.display = 'block';
             document.getElementById('quizFooter').style.display = 'flex';
-            document.getElementById('btnExp').classList.remove('active');
             document.getElementById('btnPrac').classList.add('active');
             renderQuestion();
             renderMap();
+        } else if (mode === 'flashcards') {
+            document.getElementById('viewFlashcards').style.display = 'flex';
+            document.getElementById('btnFlash').classList.add('active');
+            if (fcDeck.length === 0 && fcMastered === 0) resetFlashcards();
+            else renderFlashcard();
         } else if (mode === 'result') {
             document.getElementById('viewResult').style.display = 'block';
             document.getElementById('quizFooter').style.display = 'none';
@@ -791,7 +697,6 @@
         }
     }
 
-    // START STREAMING_CHUNK:Lógica principal do Quiz e LocalStorage...
     function renderQuestion() {
         if(questions.length === 0) return;
         const q = questions[currentQuestion];
@@ -915,7 +820,6 @@
         }
     }
 
-    // START STREAMING_CHUNK:Finalização e Relatórios...
     function finish() {
         let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
         let percent = Math.round((correct / questions.length) * 100);
@@ -935,7 +839,7 @@
             document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>`;
         } else {
             summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
-                <strong>✅ Excelente Desempenho!</strong> Você demonstrou uma base sólida, clínica e exata sobre os conceitos avaliados. A sua aprovação técnica está garantida neste módulo.
+                <strong>✅ Excelente Desempenho!</strong> Você demonstrou uma base sólida e exata sobre os conceitos avaliados. A sua aprovação técnica está garantida neste módulo.
             </div>`;
             document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>`;
         }
@@ -962,6 +866,148 @@
         userAnswers = new Array(questions.length).fill(null);
         currentQuestion = 0;
         setMode('practice');
+    }
+
+    // Sistema de Flashcards
+    const flashcardsData = [
+        {
+            q: "Qual é a diferença fundamental entre a teoria de Lamarck e a de Darwin quanto ao papel do ambiente?",
+            a: "Lamarck: O ambiente PROVOCA (força) a mudança física. Darwin: O ambiente apenas SELECIONA as variações naturais que já nasceram com os indivíduos.",
+            macete: "Lamarck força a barra / Darwin apenas escolhe."
+        },
+        {
+            q: "O que a 'Falha de Darwin' não conseguia explicar e quem preencheu essa lacuna?",
+            a: "Darwin não sabia a origem das variações. O Neodarwinismo preencheu isso com a Genética (Mutações no DNA).",
+            macete: "A chave que faltava era o DNA."
+        },
+        {
+            q: "Quais são as 3 etapas da Respiração Celular Aeróbica e onde cada uma ocorre?",
+            a: "1. Glicólise (Citoplasma)<br>2. Ciclo de Krebs (Matriz Mitocondrial)<br>3. Fosforilação Oxidativa (Cristas Mitocondriais).",
+            macete: "G.K.F - C.M.C"
+        },
+        {
+            q: "Qual é o saldo de ATP (energia) gerado na Respiração Aeróbica comparado à Fermentação?",
+            a: "Respiração Aeróbica rende 30 ATPs (eficiente). Fermentação rende apenas 2 ATPs (quebra incompleta).",
+            macete: "Com oxigênio = rico (30); Sem oxigênio = miséria (2)."
+        },
+        {
+            q: "Na Fotossíntese, quem quebra a água (fotólise) e quem fixa o dióxido de carbono?",
+            a: "A Etapa Fotoquímica (Fase Clara) quebra a H₂O e libera O₂. A Etapa Química (Fase Escura) fixa o CO₂ para gerar Glicose.",
+            macete: "Clara = Água e O₂ | Escura = Gás carbônico e Glicose."
+        },
+        {
+            q: "Como a molécula de ATP libera energia para o uso imediato da célula?",
+            a: "Através da quebra da terceira ligação química entre os grupos fosfatos, transformando-se em ADP.",
+            macete: "Tri (3) perde um e vira Di (2)."
+        },
+        {
+            q: "Qual é o principal aceptor final de elétrons na Fosforilação Oxidativa e qual produto ele forma?",
+            a: "O Oxigênio (O₂), que se une aos hidrogênios exaustos e forma Água (H₂O).",
+            macete: "Sem oxigênio a esteira trava e vira água no final."
+        },
+        {
+            q: "O que ocorre no Ciclo do Carbono oceânico que prejudica conchas e corais diante do excesso de CO₂?",
+            a: "O excesso acidifica a água, dificultando a união para formar o Carbonato de Cálcio (CaCO₃), derretendo as estruturas.",
+            macete: "Muito CO₂ no ar = Mar ácido = Adeus conchas."
+        },
+        {
+            q: "Diferencie os gráficos da Seleção Estabilizadora, Direcional e Disruptiva.",
+            a: "Estabilizadora favorece o meio (pico central alto). Direcional favorece um extremo (desloca pro lado). Disruptiva favorece ambos os extremos (dois picos).",
+            macete: "Meio / Lado / Dois Picos."
+        },
+        {
+            q: "Qual é a relação geral entre as equações químicas da Fotossíntese e da Respiração Aeróbica?",
+            a: "Elas são processos INVERSOS. Os reagentes de uma são os produtos finais da outra.",
+            macete: "O lixo de uma organela é a comida da outra."
+        }
+    ];
+
+    let fcDeck = [];
+    let fcMastered = 0;
+    let fcIsFlipped = false;
+    let fcIsAnimating = false;
+
+    function resetFlashcards() {
+        fcDeck = [...flashcardsData];
+        for (let i = fcDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [fcDeck[i], fcDeck[j]] = [fcDeck[j], fcDeck[i]];
+        }
+        fcMastered = 0;
+        document.getElementById('fcCompletion').style.display = 'none';
+        document.getElementById('flashcardElement').style.display = 'block';
+        renderFlashcard();
+    }
+
+    function renderFlashcard() {
+        document.getElementById('flashProgress').textContent = `Cartas Dominadas: ${fcMastered}/${flashcardsData.length}`;
+        
+        if(fcDeck.length === 0) {
+            document.getElementById('flashcardElement').style.display = 'none';
+            document.getElementById('fcFeedbackPanel').classList.remove('visible');
+            document.getElementById('fcCompletion').style.display = 'block';
+            if (window.confetti) {
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 }, colors: ['#047857', '#3B82F6', '#F59E0B'] });
+            }
+            return;
+        }
+
+        const card = fcDeck[0];
+        document.getElementById('fcFrontText').innerHTML = card.q;
+        document.getElementById('fcBackText').innerHTML = card.a;
+        
+        if (card.macete) {
+            document.getElementById('fcMaceteBox').style.display = 'block';
+            document.getElementById('fcMaceteText').innerHTML = card.macete;
+        } else {
+            document.getElementById('fcMaceteBox').style.display = 'none';
+        }
+
+        document.getElementById('flashcardElement').classList.remove('flipped');
+        document.getElementById('fcFeedbackPanel').classList.remove('visible');
+        fcIsFlipped = false;
+    }
+
+    function flipCard() {
+        if (fcIsFlipped || fcIsAnimating || fcDeck.length === 0) return;
+        fcIsFlipped = true;
+        document.getElementById('flashcardElement').classList.add('flipped');
+        setTimeout(() => {
+            document.getElementById('fcFeedbackPanel').classList.add('visible');
+        }, 300);
+    }
+
+    function handleFlashFeedback(status) {
+        if (fcIsAnimating) return;
+        fcIsAnimating = true;
+        document.getElementById('fcFeedbackPanel').classList.remove('visible');
+        
+        const cardData = fcDeck.shift();
+        if (status === 'correct') {
+            fcMastered++;
+        } else {
+            fcDeck.push(cardData);
+        }
+
+        const fcEl = document.getElementById('flashcardElement');
+        fcEl.style.transform = 'rotateY(180deg) translateX(100px)';
+        fcEl.style.opacity = '0';
+        
+        setTimeout(() => {
+            fcEl.style.transition = 'none';
+            fcEl.style.transform = ''; 
+            renderFlashcard(); 
+            
+            setTimeout(() => {
+                fcEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.3s ease';
+                fcEl.style.opacity = '1';
+                
+                setTimeout(() => {
+                    fcEl.style.transition = ''; 
+                    fcIsAnimating = false;
+                }, 600);
+            }, 50);
+        }, 300);
     }
 
     setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
