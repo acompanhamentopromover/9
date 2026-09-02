@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometria Circular e Polígonos - Promover</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            /* Tema Matemática (Azul Cobalto e Âmbar) */
+            --bg-color: #F8FAFC; 
+            --text-color: #0F172A; 
+            --border-color: #1E3A8A; 
+            --white: #FFFFFF;
+            --theme-light: #DBEAFE; 
+            --theme-medium: #60A5FA; 
+            --theme-dark: #1E3A8A; 
+            --theme-contrast: #F59E0B; 
+            --theme-accent: #3B82F6; 
+            --theme-text-active: #FFFFFF;
+
+            /* NÃO ALTERAR AS CORES ABAIXO */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+            background-image: linear-gradient(var(--theme-light) 1px, transparent 1px),
+            linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+            100% { transform: translateX(0); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+        
+        @keyframes fadeIn { from {opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from {transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+
+        .pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.15); color: var(--theme-contrast); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); color: var(--theme-contrast); }
+            100% { transform: scale(1); }
+        }
+
+        .logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+        .css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+        h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+        .subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center; }
+
+        .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+        .toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+        .toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+        .toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+
+        .view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+        
+        .search-container {position: relative; width: 100%; }
+        .search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+        .search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+        .search-icon {position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+        #no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+
+        .content-group { display: flex; flex-direction: column; gap: 12px; }
+        .section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+        .theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+        .theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+        .theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+
+        .visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.1rem; color: var(--theme-contrast); text-align: center; flex-direction: column;}
+        .highlight-box { background-color: var(--theme-light); border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #1E3A8A; }
+        .highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+
+        .difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+        .dif-facil {background: #D1FAE5; color: #065F46; }
+        .dif-medio { background: #FEF08A; color: #713F12; }
+        .dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+        .question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+        .question-map::-webkit-scrollbar { display: none; }
+        .map-dot {min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+        .map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+        .option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+        .opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+        
+        .option-btn.correct {background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+        .option-btn.correct .opt-circle {background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+        .option-btn.wrong .opt-circle {background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled {pointer-events: none; opacity: 0.7; }
+
+        .feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+        .feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+        .feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+        .feedback-item.correct-opt {border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+        .feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+        .result-card {background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+        .stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+        .percentage-big {font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+
+        .btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+        .btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+
+        .quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+        .nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+        .btn-next { background-color: var(--theme-dark); color: white; }
+        .btn-prev { background-color: white; color: var(--text-color); }
+
+        .svg-container { width: 100%; text-align: center; margin: 15px 0; padding: 10px; background: #FAFAFA; border: 2px dashed #CBD5E1; border-radius: 12px; display: flex; justify-content: center;}
+        .svg-container svg { width: 100%; max-width: 250px; height: auto; }
+        .math-eq { font-family: monospace; font-size: 1.1rem; color: var(--theme-dark); background: var(--theme-light); padding: 2px 6px; border-radius: 4px; }
+
+        .flashcard-wrapper { perspective: 1000px; width: 100%; height: 350px; cursor: pointer; margin-bottom: 20px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; background-color: white; border: 3px solid var(--border-color); border-radius: 20px; box-shadow: 4px 4px 0px var(--border-color); padding: 30px 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .card-back { transform: rotateY(180deg); border-color: var(--theme-contrast); background-color: #FAFAFA; }
+        .fc-question-text { font-size: 1.25rem; font-weight: 800; color: var(--theme-dark); line-height: 1.4; }
+        .fc-answer-text { font-size: 1.1rem; font-weight: 600; color: var(--text-color); line-height: 1.5; }
+        .macete-box { margin-top: 15px; padding: 12px; border-radius: 8px; background: #FEF3C7; color: #92400E; font-size: 0.95rem; font-weight: 700; border-left: 4px solid #D97706; width: 100%; }
+        .feedback-controls-fc { display: flex; gap: 15px; width: 100%; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .feedback-controls-fc.visible { opacity: 1; pointer-events: auto; }
+        .btn-fc { flex: 1; padding: 15px; border-radius: 12px; font-weight: 800; font-family: 'Poppins', sans-serif; cursor: pointer; border: 2px solid; color: white; transition: transform 0.1s; text-transform: uppercase;}
+        .btn-fc:active { transform: scale(0.95); }
+        .btn-fc-wrong { background-color: var(--wrong-border); border-color: #9F1239; box-shadow: 3px 3px 0px #9F1239; }
+        .btn-fc-correct { background-color: var(--correct-border); border-color: #047857; box-shadow: 3px 3px 0px #047857; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">📐</span> PROMOVER</div>
+        <h1>MATEMÁTICA / 9º ANO</h1>
+        <p class="subtitle">Geometria Plana: Círculos e Polígonos</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">Teoria Total</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prática (30)</button>
+        <button class="toggle-btn" id="btnFlash" onclick="setMode('flashcards')">Fórmulas</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar polígonos ou círculos...">
+        </div>
+        <div id="no-results"><p>Termo não encontrado.</p></div>
+
+        <!-- 1. Polígonos Convexos e Côncavos -->
+        <div class="content-group">
+            <span class="section-badge">Fundamentos de Polígonos</span>
+            <div class="theory-box">
+                <h3>1. Convexo vs Côncavo</h3>
+                <p>Polígonos são figuras planas e fechadas formadas por segmentos de reta. Um <strong>Polígono Regular</strong> é a elite geométrica: todos os lados e ângulos são exatamente iguais.</p>
+                <div class="svg-container" style="gap: 20px;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <svg viewBox="0 0 100 100" style="max-width: 120px;">
+                            <polygon points="20,80 50,20 80,80" fill="#DBEAFE" stroke="#1E3A8A" stroke-width="3" stroke-linejoin="round"/>
+                        </svg>
+                        <span style="font-size: 0.85rem; font-weight:bold; margin-top:5px; color:#1E3A8A;">Convexo</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <svg viewBox="0 0 100 100" style="max-width: 120px;">
+                            <polygon points="20,80 50,20 80,80 50,60" fill="#FEF2F2" stroke="#BE123C" stroke-width="3" stroke-linejoin="round"/>
+                        </svg>
+                        <span style="font-size: 0.85rem; font-weight:bold; margin-top:5px; color:#BE123C;">Côncavo (Boca)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Fórmulas e a Dica de Ouro -->
+        <div class="content-group">
+            <span class="section-badge">Fórmulas Essenciais</span>
+            <div class="theory-box">
+                <h3>2. O Arsenal de Fórmulas</h3>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Total de Diagonais (d):</strong> <span class="math-eq">d = n(n-3) / 2</span></li>
+                    <li><strong>Diagonais de 1 vértice:</strong> <span class="math-eq">d<sub>v</sub> = n - 3</span></li>
+                    <li><strong>Soma Interna (S<sub>i</sub>):</strong> <span class="math-eq">S<sub>i</sub> = (n-2) &times; 180&deg;</span></li>
+                    <li><strong>Soma Externa (S<sub>e</sub>):</strong> <span class="math-eq">S<sub>e</sub> = 360&deg; (Sempre!)</span></li>
+                </ul>
+                <div class="highlight-box warning" style="margin-top: 15px;">
+                    <strong>Dica de Ouro (Apenas Regulares):</strong><br>
+                    Para descobrir os lados (n) pelo ângulo interno (a<sub>i</sub>), NÃO use a fórmula gigante! É muito mais rápido achar o Ângulo Externo: <span class="math-eq">a<sub>e</sub> = 180&deg; - a<sub>i</sub></span> e depois fazer <span class="math-eq">n = 360&deg; / a<sub>e</sub></span>. Menos conta, menos chance de erro.
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Elementos do Círculo -->
+        <div class="content-group">
+            <span class="section-badge">A Circunferência</span>
+            <div class="theory-box">
+                <h3>3. Geometria Circular</h3>
+                <p>O comprimento (perímetro) da circunferência é dado pela fórmula clássica <span class="math-eq">C = 2&pi;R</span>.</p>
+                <div class="visual-area">
+                    <span>Para descobrir apenas o pedaço do arco (L):</span>
+                    <span class="math-eq" style="font-size: 1.3rem;">L = (&alpha; / 360&deg;) &times; 2&pi;R</span>
+                </div>
+                <div class="highlight-box">
+                    <strong>Relações Angulares:</strong><br>
+                    • <strong>Ângulo Central:</strong> Igual ao arco que o subtende. (&alpha; = arco)<br>
+                    • <strong>Ângulo Inscrito:</strong> O vértice toca a borda. Vale <u>exatamente a metade</u> do arco! (&alpha; = arco / 2)<br>
+                    • <strong>Excêntrico Interior (+):</strong> Semissoma dos arcos cruzados.<br>
+                    • <strong>Excêntrico Exterior (-):</strong> Semidiferença dos arcos.
+                </div>
+                <div class="svg-container" style="gap: 20px;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <svg viewBox="0 0 100 100" style="max-width: 120px;">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#1E3A8A" stroke-width="2"/>
+                            <path d="M50,50 L80,20 A45,45 0 0,1 95,50 Z" fill="#DBEAFE" stroke="#1E3A8A" stroke-width="1.5"/>
+                            <circle cx="50" cy="50" r="3" fill="#1E3A8A"/>
+                        </svg>
+                        <span style="font-size: 0.8rem; font-weight:bold; margin-top:5px; color:#1E3A8A;">Central (Igual)</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <svg viewBox="0 0 100 100" style="max-width: 120px;">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#BE123C" stroke-width="2"/>
+                            <path d="M15,20 L90,30 A45,45 0 0,1 70,90 Z" fill="#FEF2F2" stroke="#BE123C" stroke-width="1.5"/>
+                        </svg>
+                        <span style="font-size: 0.8rem; font-weight:bold; margin-top:5px; color:#BE123C;">Inscrito (Metade)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Polígonos Inscritos -->
+        <div class="content-group">
+            <span class="section-badge">Figuras no Círculo</span>
+            <div class="theory-box">
+                <h3>4. Polígonos Inscritos</h3>
+                <p><strong>Triângulo Retângulo:</strong> Se ele for inscrito, sua hipotenusa é <u>obrigatoriamente</u> o Diâmetro. O raio é metade da hipotenusa.</p>
+                <p><strong>Hexágono Regular:</strong> Ele se divide em 6 triângulos equiláteros perfeitos. Logo, o lado do hexágono é exatamente igual ao Raio (L = R).</p>
+                
+                <div class="svg-container" style="gap: 20px;">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <svg viewBox="0 0 100 100" style="max-width: 140px;">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#1E3A8A" stroke-width="2"/>
+                            <polygon points="50,5 89,27.5 89,72.5 50,95 11,72.5 11,27.5" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+                            <line x1="11" y1="27.5" x2="50" y2="50" stroke="#1E3A8A" stroke-width="1.5" stroke-dasharray="3"/>
+                            <line x1="50" y1="5" x2="50" y2="50" stroke="#1E3A8A" stroke-width="1.5" stroke-dasharray="3"/>
+                            <circle cx="50" cy="50" r="3" fill="#BE123C"/>
+                            <text x="35" y="35" font-size="10" font-weight="bold" fill="#BE123C">L=R</text>
+                        </svg>
+                        <span style="font-size: 0.8rem; font-weight:bold; margin-top:5px; color:#1E3A8A;">Lado = Raio</span>
+                    </div>
+                </div>
+
+                <div class="visual-area">
+                    <span>Área do Hexágono Inscrito:</span>
+                    <span class="math-eq">A = 6 &times; (R<sup>2</sup>&radic;3) / 4 = 3R<sup>2</sup>&radic;3 / 2</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Simulado de Geometria (30 Q) →
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">
+                O raciocínio matemático exige caneta e papel. Resolva as 30 questões derivadas das bancas oficiais. Meta de aprovação: <strong>80% (24/30)</strong>.
+            </p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewFlashcards" class="view-section" style="display: none; align-items: center; flex-direction: column;">
+        <div style="width: 100%; text-align: center; margin-bottom: 10px;">
+            <h2 style="color:var(--theme-dark); font-weight:900;">Treino de Fórmulas e Resolução</h2>
+            <p style="color: #64748B; font-size: 0.9rem; font-weight:600;" id="flashProgress">Cartas dominadas: 0/10</p>
+        </div>
+        <div class="flashcard-wrapper" onclick="flipCard()">
+            <div class="flashcard" id="flashcardElement">
+                <div class="card-face card-front">
+                    <span class="section-badge" style="position:absolute; top:20px;">FÓRMULA / LÓGICA</span>
+                    <p class="fc-question-text" id="fcFrontText">Carregando...</p>
+                    <div style="position: absolute; bottom: 20px; font-size: 0.8rem; color: #94A3B8; font-weight: 600;">👆 Toque para revelar a Resolução</div>
+                </div>
+                <div class="card-face card-back">
+                    <span class="section-badge" style="position:absolute; top:20px; background:#E2E8F0; color:#475569; border-color:#CBD5E1;">RESPOSTA DA RESOLUÇÃO</span>
+                    <p class="fc-answer-text" id="fcBackText">...</p>
+                    <div class="macete-box" id="fcMaceteBox" style="display: none;">
+                        <strong>💡 Dica:</strong> <span id="fcMaceteText">...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="feedback-controls-fc" id="fcFeedbackPanel">
+            <button class="btn-fc btn-fc-wrong" onclick="handleFlashFeedback('wrong')">🔴 Errei</button>
+            <button class="btn-fc btn-fc-correct" onclick="handleFlashFeedback('correct')">🟢 Dominei</button>
+        </div>
+        <div id="fcCompletion" style="display:none; text-align:center; padding:20px; background: white; border-radius: 12px; border: 3px solid var(--correct-border); box-shadow: 4px 4px 0px var(--correct-border); width: 100%;">
+            <h3 style="color:var(--correct-border); font-weight:900; font-size:1.5rem;">🎉 Fórmulas Memorizadas!</h3>
+            <p style="margin-bottom:15px; font-weight:600; color: #475569;">Você solidificou o raciocínio matemático para as fórmulas de Geometria.</p>
+            <button class="btn-action" onclick="resetFlashcards()">🔄 Reiniciar Baralho</button>
+        </div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Analítico</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const contentGroups = document.querySelectorAll('.content-group');
+    const noResultsMsg = document.getElementById('no-results');
+
+    searchInput.addEventListener('input', function(e) {
+        const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        let totalVisible = 0;
+        contentGroups.forEach(group => {
+            const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (textContent.includes(term)) {
+                group.style.display = 'flex';
+                totalVisible++;
+            } else {
+                group.style.display = 'none';
+            }
+        });
+        noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+    });
+
+    const questions = [
+        // FÁCEIS (1-10)
+        {
+            id: 1, level: "Fácil",
+            text: "Qual é a soma exata dos ângulos internos de um hexágono convexo?",
+            options: ["360&deg;", "540&deg;", "720&deg;", "900&deg;"],
+            correct: 2,
+            explanation: {
+                correct: "O hexágono tem n=6. Aplicando S<sub>i</sub> = (6-2) &times; 180&deg; = 4 &times; 180&deg; = 720&deg;.",
+                options: ["Soma para Quadriláteros.", "Soma para Pentágonos.", "Correta. Exato para o hexágono.", "Soma para Heptágonos (7 lados)."]
+            }
+        },
+        {
+            id: 2, level: "Fácil",
+            text: "Quantas diagonais no total possui um polígono de 5 lados (pentágono)?",
+            options: ["3", "5", "7", "10"],
+            correct: 1,
+            explanation: {
+                correct: "O pentágono (n=5) é especial, seu número de diagonais iguala o de lados: d = 5(5-3)/2 = 10/2 = 5.",
+                options: ["Cálculo incorreto da fórmula.", "Correta. O pentágono possui a estrela perfeita de 5 diagonais.", "Resultado incorreto.", "Erro comum de esquecer de dividir a fórmula por 2."]
+            }
+        },
+        {
+            id: 3, level: "Fácil",
+            text: "Em um polígono convexo de 15 lados (pentadecágono), qual é a soma dos seus ângulos externos?",
+            options: ["180&deg;", "360&deg;", "2340&deg;", "2700&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "Pegadinha clássica! A soma dos ângulos externos de QUALQUER polígono convexo é sempre 360&deg;, não importa o número de lados.",
+                options: ["Esse valor é a meia-volta, não a soma total.", "Correta. É um valor constante (360&deg;).", "Essa seria a soma dos ângulos internos.", "Erro de multiplicação ao tentar achar a soma interna."]
+            }
+        },
+        {
+            id: 4, level: "Fácil",
+            text: "Qual é a medida do ângulo externo de um octógono regular (8 lados)?",
+            options: ["40&deg;", "45&deg;", "60&deg;", "135&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "A soma dos ângulos externos é sempre 360&deg;. Em um polígono regular, basta dividir: a<sub>e</sub> = 360&deg; / 8 = 45&deg;.",
+                options: ["Cálculo de divisão incorreto.", "Correta.", "Seria o externo do hexágono.", "Esse é o ângulo interno do octógono (180 - 45)."]
+            }
+        },
+        {
+            id: 5, level: "Fácil",
+            text: "Quantas diagonais partem de um ÚNICO vértice de um decágono (10 lados)?",
+            options: ["5", "7", "10", "35"],
+            correct: 1,
+            explanation: {
+                correct: "A fórmula para diagonais de APENAS um vértice é d<sub>v</sub> = n - 3. Assim, 10 - 3 = 7 diagonais.",
+                options: ["Erro de subtração.", "Correta.", "Número de lados, não diagonais do vértice.", "Esse é o número TOTAL de diagonais do decágono."]
+            }
+        },
+        {
+            id: 6, level: "Fácil",
+            text: `Determine o valor do ângulo inscrito (x) sabendo que o arco correspondente mede 140&deg;.<br>
+            <div style="text-align:center; margin-top:15px;"><svg viewBox="0 0 100 110" style="max-width:110px;"><circle cx="50" cy="50" r="45" fill="none" stroke="#1E3A8A" stroke-width="2"/><path d="M15,25 L90,30 A45,45 0 0,1 70,90 Z" fill="none" stroke="#F59E0B" stroke-width="1.5"/><text x="10" y="20" font-size="10" font-weight="bold" fill="#0F172A">B (x)</text><text x="50" y="105" font-size="10" font-weight="bold" fill="#0F172A" text-anchor="middle">Arco 140&deg;</text></svg></div>`,
+            options: ["35&deg;", "70&deg;", "140&deg;", "280&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "O ângulo inscrito (vértice na borda) vale sempre a METADE do arco que ele projeta. Logo, 140 / 2 = 70&deg;.",
+                options: ["Cálculo incorreto da metade.", "Correta. Ângulo inscrito é a metade do arco.", "O aluno confundiu com a regra do ângulo central (que seria igual ao arco).", "O aluno multiplicou ao invés de dividir."]
+            }
+        },
+        {
+            id: 7, level: "Fácil",
+            text: "Um ângulo central mede 100&deg;. Qual é a medida do arco que ele subtende (enxerga) na circunferência?",
+            options: ["50&deg;", "100&deg;", "200&deg;", "360&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "O ângulo central (vértice no centro 'O') possui a medida EXATAMENTE IGUAL ao arco correspondente.",
+                options: ["Seria a medida se ele fosse um ângulo inscrito.", "Correta. Central = Arco.", "Cálculo multiplicado incorretamente.", "Círculo total."]
+            }
+        },
+        {
+            id: 8, level: "Fácil",
+            text: "Um triângulo retângulo está inscrito em uma circunferência. Qual elemento do triângulo coincide obrigatoriamente com o Diâmetro?",
+            options: ["O cateto menor.", "O cateto maior.", "A hipotenusa.", "A altura relativa."],
+            correct: 2,
+            explanation: {
+                correct: "Por regra geométrica imutável, todo triângulo retângulo inscrito projeta um arco de 180&deg;, o que força sua hipotenusa a ser o diâmetro da circunferência.",
+                options: ["Catetos não passam pelo centro nesse caso.", "Catetos são cordas menores.", "Correta. A hipotenusa corta o centro exato.", "A altura é um segmento perpendicular interno."]
+            }
+        },
+        {
+            id: 9, level: "Fácil",
+            text: "Dois ângulos inscritos na mesma circunferência subtendem o exato mesmo arco AB. Se o primeiro mede 30&deg;, qual é a medida do segundo ângulo inscrito?",
+            options: ["15&deg;", "30&deg;", "60&deg;", "90&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "Ângulos inscritos que apontam para o mesmo arco possuem sempre a mesma medida matemática. Logo, vale 30&deg; também.",
+                options: ["Dividiu por 2 incorretamente.", "Correta. Eles são congruentes.", "Multiplicou por 2 (o arco mede 60, mas o ângulo é 30).", "Valor arbitrário incorreto."]
+            }
+        },
+        {
+            id: 10, level: "Fácil",
+            text: "Qual é o comprimento de uma circunferência inteira cujo raio (R) mede 5 cm?",
+            options: ["5&pi; cm", "10&pi; cm", "25&pi; cm", "100&pi; cm"],
+            correct: 1,
+            explanation: {
+                correct: "A fórmula do comprimento é C = 2&pi;R. Substituindo R=5, temos C = 2 &times; &pi; &times; 5 = 10&pi; cm.",
+                options: ["Esqueceu de multiplicar pelo 2 da fórmula.", "Correta. 2 * 5 * pi.", "O aluno calculou a ÁREA (&pi;R&sup2;) em vez do comprimento.", "Erro grosseiro de cálculo."]
+            }
+        },
+
+        // MÉDIAS (11-20)
+        {
+            id: 11, level: "Médio",
+            text: "Se a soma dos ângulos internos (S<sub>i</sub>) de um polígono convexo é 1080&deg;, quantos lados esse polígono tem?",
+            options: ["6", "7", "8", "9"],
+            correct: 2,
+            explanation: {
+                correct: "Aplicamos a fórmula S<sub>i</sub> = (n-2) &times; 180&deg;. Logo, 1080 = (n-2) &times; 180 &rarr; 1080 / 180 = n-2 &rarr; 6 = n-2 &rarr; n = 8 (Octógono).",
+                options: ["Errou a adição do 2 no final da equação.", "Erro de divisão.", "Correta. Trata-se de um octógono.", "Soma errada ao resolver a equação linear."]
+            }
+        },
+        {
+            id: 12, level: "Médio",
+            text: "Qual é o único polígono em que o número total de diagonais é exatamente igual ao número de lados (d = n)?",
+            options: ["Triângulo", "Quadrilátero", "Pentágono", "Hexágono"],
+            correct: 2,
+            explanation: {
+                correct: "Igualando n(n-3)/2 = n, cortamos 'n' de ambos os lados, restando n-3 = 2 &rarr; n = 5.",
+                options: ["O triângulo não possui diagonais (d=0).", "O quadrilátero tem 2 diagonais e 4 lados.", "Correta. O pentágono tem 5 lados e 5 diagonais.", "Hexágono tem 6 lados e 9 diagonais."]
+            }
+        },
+        {
+            id: 13, level: "Médio",
+            text: "O ângulo interno de um polígono regular mede 144&deg;. Usando a 'Dica de Ouro', quantas diagonais no total esse polígono possui?",
+            options: ["20", "27", "35", "44"],
+            correct: 2,
+            explanation: {
+                correct: "1º passo (Ângulo Externo): a<sub>e</sub> = 180 - 144 = 36&deg;. 2º passo (Lados): n = 360 / 36 = 10 lados. 3º passo (Diagonais): d = 10(7)/2 = 35.",
+                options: ["Erro comum de cálculo (Octógono tem 20).", "Diagonais de um Eneágono.", "Correta. Trata-se de um Decágono com 35 diagonais.", "Diagonais de um Hendecágono."]
+            }
+        },
+        {
+            id: 14, level: "Médio",
+            text: "Em um polígono regular, o ângulo interno é o quádruplo (4x) do ângulo externo. Que polígono é este?",
+            options: ["Hexágono", "Octógono", "Decágono", "Dodecágono"],
+            correct: 2,
+            explanation: {
+                correct: "Sabemos que a<sub>i</sub> + a<sub>e</sub> = 180&deg;. Substituindo: 4a<sub>e</sub> + a<sub>e</sub> = 180 &rarr; 5a<sub>e</sub> = 180 &rarr; a<sub>e</sub> = 36&deg;. Logo, n = 360 / 36 = 10 (Decágono).",
+                options: ["Hexágono tem relação de 2 para 1.", "Octógono tem relação de 3 para 1.", "Correta.", "Dodecágono tem relação de 5 para 1."]
+            }
+        },
+        {
+            id: 15, level: "Médio",
+            text: "De APENAS UM dos vértices de um polígono convexo, é possível traçar exatamente 12 diagonais. Qual é a soma dos ângulos internos desse polígono?",
+            options: ["2160&deg;", "2340&deg;", "2520&deg;", "2700&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "Sabemos que d<sub>v</sub> = n - 3 = 12 &rarr; n = 15 lados. Agora a soma interna: S<sub>i</sub> = (15-2) &times; 180 = 13 &times; 180 = 2340&deg;.",
+                options: ["Usou n=14 por engano.", "Correta.", "Usou n=16.", "Usou n=17."]
+            }
+        },
+        {
+            id: 16, level: "Médio",
+            text: `(ENEM) Uma pizza circular de 30 cm de diâmetro (Raio=15) é dividida em 8 fatias. Deseja-se fazer uma nova pizza com 10 fatias, de modo que a área de CADA fatia nova seja igual à área da fatia antiga. Qual o raio aproximado da nova pizza?<br>
+            <div style="text-align:center; margin-top:15px; display:flex; justify-content:center; gap:10px; align-items:center;">
+                <svg viewBox="0 0 100 50" style="max-width:140px;">
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="#1E3A8A" stroke-width="2" stroke-dasharray="3"/>
+                    <path d="M25,25 L25,5 A20,20 0 0,1 39.1,10.8 Z" fill="#F59E0B" stroke="#1E3A8A" stroke-width="1"/>
+                    <circle cx="75" cy="25" r="23" fill="none" stroke="#BE123C" stroke-width="2" stroke-dasharray="3"/>
+                    <path d="M75,25 L75,2 A23,23 0 0,1 88.5,6.4 Z" fill="#F59E0B" stroke="#BE123C" stroke-width="1"/>
+                </svg>
+            </div>`,
+            options: ["15,00 cm", "16,50 cm", "18,75 cm", "33,00 cm"],
+            correct: 1,
+            explanation: {
+                correct: "A área da fatia antiga é &pi;(15)<sup>2</sup> / 8. A nova deve ser &pi;(R)<sup>2</sup> / 10. Igualando: 225/8 = R<sup>2</sup>/10 &rarr; R<sup>2</sup> = 281.25. Extraindo a raiz (&radic;281.25), R &approx; 16,50 cm.",
+                options: ["Manteria a pizza com mesmo raio, não atingindo o objetivo.", "Correta. A matemática iguala as frações perfeitamente.", "Usou proporção linear simples, esquecendo que área é R elevado ao quadrado.", "Cálculo absurdo (maior que o diâmetro original)."]
+            }
+        },
+        {
+            id: 17, level: "Médio",
+            text: "Em uma circunferência com raio igual a 3 cm, inscreveu-se um ângulo de 45&deg;. Determine o comprimento linear do arco menor (em cm) subtendido por este ângulo.",
+            options: ["1,5&pi;", "2&pi;", "3&pi;", "4,5&pi;"],
+            correct: 0,
+            explanation: {
+                correct: "Se o ângulo inscrito é 45&deg;, o arco é o dobro: 90&deg; (isso é 1/4 da circunferência total). O comprimento total é 2&pi;(3) = 6&pi;. Logo, o arco é 6&pi; / 4 = 1,5&pi; cm.",
+                options: ["Correta. Representa 90 graus na borda (3&pi;/2).", "Cálculo fracionário incorreto.", "Seria a metade exata (180 graus).", "Maior que a proporção exigida."]
+            }
+        },
+        {
+            id: 18, level: "Médio",
+            text: "Um triângulo retângulo de catetos 10 cm e 24 cm está INSCRITO em uma circunferência. Qual é o raio dessa circunferência?",
+            options: ["10 cm", "12 cm", "13 cm", "26 cm"],
+            correct: 2,
+            explanation: {
+                correct: "A hipotenusa é o diâmetro. Pitágoras: H<sup>2</sup> = 10<sup>2</sup> + 24<sup>2</sup> = 100 + 576 = 676. H = &radic;676 = 26. O raio é a metade da hipotenusa, logo 26 / 2 = 13 cm.",
+                options: ["Valor do cateto menor.", "Erro de divisão do teorema de Pitágoras.", "Correta. Raio = Hipotenusa / 2.", "Atenção: 26 é o Diâmetro (Hipotenusa), a questão pediu o Raio!"]
+            }
+        },
+        {
+            id: 19, level: "Médio",
+            text: "Um jardim será construído no formato de um hexágono regular cujo perímetro total será de 60 metros. Utilizando 1,7 como aproximação para &radic;3, qual a área do jardim?",
+            options: ["150 m&sup2;", "200 m&sup2;", "255 m&sup2;", "300 m&sup2;"],
+            correct: 2,
+            explanation: {
+                correct: "Se o perímetro é 60, o lado L = 10m. Área = 3 &times; L<sup>2</sup> &times; &radic;3 / 2 &rarr; 3 &times; 100 &times; 1.7 / 2 = 510 / 2 = 255 m<sup>2</sup>.",
+                options: ["Esqueceu de multiplicar pela raiz aproximada de 3.", "Erro de substituição de L.", "Correta.", "Erro comum ao não dividir por 2 na fórmula do hexágono."]
+            }
+        },
+        {
+            id: 20, level: "Médio",
+            text: "Uma colônia circular de bactérias teve um aumento no seu raio de exatos 30% em um dia. Qual foi a taxa de crescimento da sua ÁREA total?",
+            options: ["30%", "60%", "69%", "169%"],
+            correct: 2,
+            explanation: {
+                correct: "A área depende do raio ao quadrado. Aumento de 30% no raio significa multiplicar por 1.30. A nova área é (1.30R)<sup>2</sup> = 1.69 R<sup>2</sup>. Ou seja, cresceu 69%.",
+                options: ["A área não cresce na mesma proporção linear do raio.", "O aluno apenas multiplicou o aumento por 2 (erro comum).", "Correta. 1,3 ao quadrado = 1,69.", "169% é o valor final (área total), mas o crescimento foi apenas os 69% adicionais."]
+            }
+        },
+
+        // DIFÍCEIS (21-30)
+        {
+            id: 21, level: "Difícil",
+            text: "O número de diagonais de um polígono regular é exatamente o TRIPLO do seu número de lados (d = 3n). Quantas diagonais passam pelo centro geométrico desse polígono?",
+            options: ["0", "3", "4", "9"],
+            correct: 0,
+            explanation: {
+                correct: "Igualando a fórmula: n(n-3)/2 = 3n &rarr; n-3 = 6 &rarr; n = 9 (Eneágono). A regra diz que APENAS polígonos de lado PAR possuem diagonais passando pelo centro. Como 9 é ímpar, a resposta é 0.",
+                options: ["Correta. Eneágono não tem diagonais centrais.", "Valor aleatório sem respaldo da fórmula n/2.", "Tentativa de usar n/2 (9/2 arredondado).", "É o número de lados, não as diagonais pelo centro."]
+            }
+        },
+        {
+            id: 22, level: "Difícil",
+            text: "Dois polígonos regulares, A e B, possuem número de lados representados por 'n' e 'n+3', respectivamente. A diferença de diagonais entre eles (d<sub>B</sub> - d<sub>A</sub>) é de 21. Quantos lados tem o polígono A?",
+            options: ["6 (Hexágono)", "7 (Heptágono)", "8 (Octógono)", "10 (Decágono)"],
+            correct: 1,
+            explanation: {
+                correct: "Algebra pesada: [(n+3)(n)/2] - [n(n-3)/2] = 21. Expandindo: (n&sup2;+3n - n&sup2;+3n)/2 = 21 &rarr; 6n/2 = 21 &rarr; 3n = 21 &rarr; n = 7 lados.",
+                options: ["Não fecha a equação para diferença 21.", "Correta. n=7, logo o polígono B tem 10 lados.", "Não fecha a matemática de diferença.", "Seria a resposta do polígono B, e não o A."]
+            }
+        },
+        {
+            id: 23, level: "Difícil",
+            text: "A soma dos ângulos internos de um polígono regular é igual a 5 vezes a soma de seus ângulos externos (S<sub>i</sub> = 5S<sub>e</sub>). Quantas diagonais esse polígono possui?",
+            options: ["20", "35", "54", "90"],
+            correct: 2,
+            explanation: {
+                correct: "Sabemos que S<sub>e</sub> = 360&deg;. Logo, S<sub>i</sub> = 5 &times; 360 = 1800&deg;. Fórmula: (n-2)180 = 1800 &rarr; n-2 = 10 &rarr; n = 12 lados. Diagonais: d = 12(9)/2 = 54.",
+                options: ["Diagonais de um octógono.", "Diagonais de um decágono.", "Correta. Dodecágono possui 54 diagonais.", "Multiplicação sem dividir por 2 na fórmula final."]
+            }
+        },
+        {
+            id: 24, level: "Difícil",
+            text: "Se aumentarmos em exatamente +1 o número de lados de um polígono, o seu total de diagonais sofrerá um aumento de +10. Quantos lados possuía o polígono original?",
+            options: ["9", "10", "11", "12"],
+            correct: 2,
+            explanation: {
+                correct: "Equacionando a diferença: d(n+1) - d(n) = 10. Desenvolvendo a álgebra chega-se em n - 1 = 10, logo n = 11 lados originais.",
+                options: ["Teria ganho apenas 8 diagonais extras.", "Teria ganho 9 diagonais extras.", "Correta. E o novo polígono passaria a ter 12.", "O 12 é o número final de lados do novo polígono, e não o original."]
+            }
+        },
+        {
+            id: 25, level: "Difícil",
+            text: "A razão (divisão) entre o Ângulo Interno e o Externo de um polígono regular é exatos 5/1. Quantas diagonais exclusivas este polígono tem que NÃO passam pelo seu centro?",
+            options: ["6", "48", "54", "60"],
+            correct: 1,
+            explanation: {
+                correct: "a<sub>i</sub> = 5a<sub>e</sub>. Como a soma dá 180, temos 6a<sub>e</sub> = 180 &rarr; a<sub>e</sub> = 30&deg;. Lados: n = 360/30 = 12. Diagonais = 54. Pelo centro passam n/2 = 6. As que NÃO passam: 54 - 6 = 48.",
+                options: ["Esse é o número das que PASSAM pelo centro.", "Correta. Subtração impecável.", "Esse é o número TOTAL de diagonais.", "Erro genérico de matemática e proporção."]
+            }
+        },
+        {
+            id: 26, level: "Difícil",
+            text: "Considere duas retas SECANTES que partem de um ponto fora de uma circunferência (Ângulo Excêntrico Exterior). Elas cortam na borda dois arcos que medem, respectivamente, 77&deg; e 21&deg;. Qual é a medida do ângulo externo formado?",
+            options: ["28&deg;", "49&deg;", "56&deg;", "98&deg;"],
+            correct: 0,
+            explanation: {
+                correct: "A fórmula do ângulo excêntrico exterior é a SEMIDIFERENÇA dos arcos. &alpha; = (77&deg; - 21&deg;) / 2 &rarr; &alpha; = 56 / 2 = 28&deg;.",
+                options: ["Correta. Diferença exata dividida por 2.", "Erro de soma (Excêntrico Interior) de 77+21/2.", "O aluno esqueceu de dividir a diferença pela metade.", "O aluno apenas somou os arcos."]
+            }
+        },
+        {
+            id: 27, level: "Difícil",
+            text: "Em um Ângulo Excêntrico Exterior, os arcos interceptados medem 110&deg; (Maior) e 50&deg; (Menor). Qual é a medida angular (x) fora do círculo?",
+            options: ["30&deg;", "50&deg;", "80&deg;", "160&deg;"],
+            correct: 0,
+            explanation: {
+                correct: "Aplicando a regra da semidiferença para ângulos exteriores: x = (110 - 50) / 2 = 60 / 2 = 30&deg;.",
+                options: ["Correta.", "Esse seria o valor se subtraísse direto e não dividisse, ou pegadinha do arco menor.", "Soma dividida por dois (regra do interior).", "Apenas somou tudo de forma errônea."]
+            }
+        },
+        {
+            id: 28, level: "Difícil",
+            text: "Um hexágono regular de área 6&radic;3 cm&sup2; está INSCRITO em um círculo. Determine a área matemática da região que fica interna ao círculo, mas externa ao hexágono.",
+            options: ["&pi; - 6&radic;3 cm&sup2;", "4&pi; - 6&radic;3 cm&sup2;", "6&pi; - 4&radic;3 cm&sup2;", "8&pi; - 6&radic;3 cm&sup2;"],
+            correct: 1,
+            explanation: {
+                correct: "Área hex = 6 &times; (R&sup2;&radic;3) / 4 = 6&radic;3 &rarr; R&sup2; = 4 &rarr; R = 2. Área do círculo = &pi;R&sup2; = 4&pi;. Área pedida = Círculo - Hexágono = 4&pi; - 6&radic;3.",
+                options: ["Cálculo do raio furado.", "Correta.", "Inverteu a posição das constantes.", "Encontrou raio = 4 de forma equivocada e elevou."]
+            }
+        },
+        {
+            id: 29, level: "Difícil",
+            text: "Em uma circunferência, a soma das medidas do Ângulo Central e do Ângulo Inscrito que subtendem o mesmo arco correspondente a exatamente 1/6 (um sexto) da circunferência resulta em:",
+            options: ["60&deg;", "90&deg;", "120&deg;", "180&deg;"],
+            correct: 1,
+            explanation: {
+                correct: "O círculo tem 360&deg;. O arco é 1/6, ou seja, 60&deg;. O Ângulo Central é igual (60&deg;). O Ângulo Inscrito é metade (30&deg;). Soma total = 60 + 30 = 90&deg;.",
+                options: ["Valor apenas do Ângulo Central.", "Correta. A soma geométrica das duas pontas.", "Erro de multiplicação ao achar o inscrito.", "Teria que ser metade da circunferência (arco 180)."]
+            }
+        },
+        {
+            id: 30, level: "Difícil",
+            text: "O ângulo excêntrico interior formado pelo cruzamento de duas cordas cruza dois arcos de medidas 80&deg; e 40&deg;. Qual é a medida (x) desse ângulo interno no ponto de cruzamento das cordas?",
+            options: ["20&deg;", "40&deg;", "60&deg;", "120&deg;"],
+            correct: 2,
+            explanation: {
+                correct: "O ângulo excêntrico interior (dentro da pizza) usa a regra da SEMISSOMA. x = (80 + 40) / 2 = 120 / 2 = 60&deg;.",
+                options: ["Usou a regra da subtração (Exterior) = 80-40/2.", "Esqueceu de dividir pela metade e fez a diferença crua.", "Correta.", "Apenas somou, sem o fator de divisão geométrica."]
+            }
+        }
+    ];
+
+    const storageKey = 'promover_mat_quiz_' + document.title.replace(/\s+/g,'_');
+    let currentQuestion = 0;
+    let savedAnswers = localStorage.getItem(storageKey);
+    let userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(questions.length).fill(null);
+    let isAnimating = false;
+
+    function setMode(mode) {
+        const views = ['viewExplanation', 'viewPractice', 'viewFlashcards', 'viewResult'];
+        views.forEach(v => document.getElementById(v).style.display = 'none');
+        document.getElementById('quizFooter').style.display = 'none';
+
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.remove('active');
+        document.getElementById('btnFlash').classList.remove('active');
+
+        if(mode === 'explanation') {
+            document.getElementById('viewExplanation').style.display = 'flex';
+            document.getElementById('btnExp').classList.add('active');
+        } else if (mode === 'practice') {
+            document.getElementById('viewPractice').style.display = 'block';
+            document.getElementById('quizFooter').style.display = 'flex';
+            document.getElementById('btnPrac').classList.add('active');
+            renderQuestion();
+            renderMap();
+        } else if (mode === 'flashcards') {
+            document.getElementById('viewFlashcards').style.display = 'flex';
+            document.getElementById('btnFlash').classList.add('active');
+            if (fcDeck.length === 0 && fcMastered === 0) resetFlashcards();
+            else renderFlashcard();
+        } else if (mode === 'result') {
+            document.getElementById('viewResult').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+    }
+
+    function renderQuestion() {
+        if(questions.length === 0) return;
+        const q = questions[currentQuestion];
+        const container = document.getElementById('quizContainer');
+        const letters = ['A', 'B', 'C', 'D'];
+        const ans = userAnswers[currentQuestion];
+        let badgeClass = '';
+        
+        if(q.level === 'Fácil') badgeClass = 'dif-facil';
+        else if(q.level === 'Médio') badgeClass = 'dif-medio';
+        else badgeClass = 'dif-dificil';
+
+        container.innerHTML = `
+            <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+                <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+                <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+                </div>
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                            <button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                                <div class="opt-circle">${letters[i]}</div>
+                                <div>${opt}</div>
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+                ${ans !== null ? `
+                    <div class="feedback-box">
+                        <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                            ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada!'}
+                        </div>
+                        <div class="feedback-item correct-opt"><strong>A Resposta Correta:</strong> ${q.options[q.correct]}</div>
+                        <div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                            ${q.explanation.correct}
+                        </div>
+                        <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                            <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                            ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        updateNav();
+    }
+
+    function handleAnswer(idx) {
+        if (userAnswers[currentQuestion] !== null || isAnimating) return;
+        isAnimating = true;
+        
+        userAnswers[currentQuestion] = idx;
+        localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+        
+        if (idx === questions[currentQuestion].correct) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#3B82F6', '#1E3A8A', '#F59E0B'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#3B82F6', '#1E3A8A', '#F59E0B'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        } else {
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.classList.remove('shake-effect');
+            void quizContainer.offsetWidth;
+            quizContainer.classList.add('shake-effect');
+            setTimeout(() => quizContainer.classList.remove('shake-effect'), 500); // Bug do Shake corrigido
+        }
+        
+        renderQuestion();
+        renderMap();
+        
+        setTimeout(() => {
+            isAnimating = false;
+        }, 500);
+    }
+
+    function renderMap() {
+        if(questions.length === 0) return;
+        const map = document.getElementById('qMap');
+        map.innerHTML = questions.map((q, i) => {
+            let cls = 'map-dot';
+            if (i === currentQuestion) cls += ' active';
+            if (userAnswers[i] !== null) {
+                cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+            }
+            return `<div class="${cls}" onclick="goTo(${i})">${i + 1}</div>`;
+        }).join('');
+        
+        setTimeout(() => {
+            const activeDot = map.querySelector('.map-dot.active');
+            if (activeDot) {
+                activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }, 50);
+    }
+
+    function goTo(i) {
+        if (window.confetti) confetti.reset();
+        currentQuestion = i;
+        renderQuestion();
+        renderMap();
+    }
+
+    function changeQuestion(d) {
+        let n = currentQuestion + d;
+        if (n >= 0 && n < questions.length) goTo(n);
+    }
+
+    function updateNav() {
+        document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+        const next = document.getElementById('btnNext');
+        if (currentQuestion === questions.length - 1) {
+            next.textContent = "Finalizar Diagnóstico";
+            next.onclick = finish;
+        } else {
+            next.textContent = "Avançar";
+            next.onclick = () => changeQuestion(1);
+        }
+    }
+
+    function finish() {
+        let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+        let percent = Math.round((correct / questions.length) * 100);
+        
+        if (window.confetti) confetti.reset();
+        
+        document.getElementById('finalPercent').textContent = percent + "%";
+        document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+        document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐" : percent >= 60 ? "⭐⭐" : "⭐";
+        
+        let summary = '<div style="text-align:left; margin-top:20px;">';
+        
+        if (percent < 80) {
+            summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+                <strong>⚠️ Domínio Matemático Insuficiente!</strong> Seu desempenho na geometria não atingiu a nota de corte (80%). Revisite os diagramas e as fórmulas lógicas.
+            </div>`;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>`;
+        } else {
+            summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+                <strong>✅ Excelente Desempenho!</strong> Você demonstrou uma base geométrica impecável. Sua aprovação técnica neste módulo de Polígonos e Círculos está garantida.
+            </div>`;
+            document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>`;
+        }
+
+        if (correct < questions.length) {
+            summary += `<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas Numéricas:</h4>`;
+            questions.forEach((q, i) => {
+                if(userAnswers[i] !== q.correct && userAnswers[i] !== null) {
+                    summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                        <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                        <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ${q.options[userAnswers[i]]}</span>
+                        <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+        }
+        summary += '</div>';
+        document.getElementById('review-container').innerHTML = summary;
+        setMode('result');
+    }
+
+    function reset() {
+        localStorage.removeItem(storageKey);
+        userAnswers = new Array(questions.length).fill(null);
+        currentQuestion = 0;
+        setMode('practice');
+    }
+
+    const flashcardsData = [
+        {
+            q: "Como encontrar de forma rápida o número de lados (n) de um polígono regular se a questão te der o valor do Ângulo Interno?",
+            a: "NUNCA use a fórmula gigante do ângulo interno! A resolução ideal é achar o Ângulo Externo (A_e = 180° - A_i) e, em seguida, fazer n = 360° / A_e.",
+            macete: "A soma dos ângulos externos é sempre 360°. Essa é a 'Dica de Ouro' para fugir de equações complicadas!"
+        },
+        {
+            q: "Qual é a fórmula de resolução para calcular a Soma dos Ângulos Internos (S_i) de qualquer polígono convexo?",
+            a: "S_i = (n - 2) × 180°",
+            macete: "Lembre-se que (n-2) indica a quantidade exata de triângulos que você consegue desenhar dentro da figura partindo de um vértice."
+        },
+        {
+            q: "Qual é a fórmula completa para calcular o número TOTAL de diagonais (d) que um polígono de 'n' lados possui?",
+            a: "d = [n × (n - 3)] / 2",
+            macete: "O 'n-3' é porque de um vértice não sai diagonal para si mesmo nem para os vizinhos imediatos. Dividimos por 2 para não contar a ida e a volta!"
+        },
+        {
+            q: "Como estruturar a resolução para encontrar o comprimento exato de um ARCO da circunferência quando fornecem o Ângulo Central (α)?",
+            a: "Primeiro, determine o comprimento total da borda (C = 2πR). Depois, monte a proporção: L = (α / 360°) × 2πR",
+            macete: "Se o ângulo central for 90°, o arco é automaticamente 1/4 da circunferência total. Matemática rápida!"
+        },
+        {
+            q: "Como você resolve equações relacionando o Ângulo Central e o Ângulo Inscrito?",
+            a: "A regra de resolução é simples: O Ângulo Central mede EXATAMENTE a medida do arco. O Ângulo Inscrito (com o vértice na borda) mede SEMPRE A METADE da medida do arco.",
+            macete: "Logo, se eles olham para o mesmo arco, o Central será sempre o dobro do Inscrito."
+        },
+        {
+            q: "Um Triângulo Retângulo está inscrito dentro de um círculo. Como você procede na resolução para encontrar a medida do Raio?",
+            a: "A regra fixa é: A hipotenusa desse triângulo retângulo SEMPRE será o Diâmetro. Use Pitágoras para achar a Hipotenusa, depois simplesmente divida por 2 para ter o Raio.",
+            macete: "Um triângulo retângulo divide a 'pizza' geometricamente ao meio, determinando um arco perfeito de 180°."
+        },
+        {
+            q: "Como resolver um Hexágono Regular Inscrito para encontrar a sua Área Total?",
+            a: "O Lado de um hexágono inscrito é sempre IGUAL ao Raio do círculo (L=R). Como ele se divide em 6 triângulos equiláteros, a resolução é: Área = 6 × (R²√3 / 4).",
+            macete: "Dentre todos os polígonos, APENAS no Hexágono Regular o lado será a cópia exata geométrica do raio!"
+        },
+        {
+            q: "Como formular a resolução do Ângulo Excêntrico EXTERIOR (formado pelo bico de duas retas secantes fora do círculo)?",
+            a: "A medida desse ângulo é a SEMIDIFERENÇA dos arcos interceptados. O cálculo é: (Arco Maior - Arco Menor) dividido por 2.",
+            macete: "Exterior começa com Ex... Lembre da exclusão/subtração: 'Sinal de Menos'!"
+        },
+        {
+            q: "Como formular a resolução do Ângulo Excêntrico INTERIOR (o cruzamento em 'X' de duas cordas fora do ponto central)?",
+            a: "A medida desse ângulo é a SEMISSOMA dos arcos formados. A resolução exige somar os dois arcos opostos interceptados e dividir o resultado por 2.",
+            macete: "Interior inclui... Lembre da adição: 'Sinal de Mais'!"
+        },
+        {
+            q: "Qual é a regra de resolução para descobrir quantas diagonais passam EXATAMENTE pelo centro de um polígono regular?",
+            a: "Apenas polígonos com número PAR de lados têm diagonais centrais. Se for ímpar (como o Pentágono), a resposta é 0. Se for par, a resolução é: Diagonais no centro = n / 2.",
+            macete: "Ímpar não tem 'meio' perfeito entre vértices opostos, portanto, NENHUMA cruza o centro exato."
+        }
+    ];
+
+    let fcDeck = [];
+    let fcMastered = 0;
+    let fcIsFlipped = false;
+    let fcIsAnimating = false;
+
+    function resetFlashcards() {
+        fcDeck = [...flashcardsData];
+        // Embaralhamento seguro do baralho
+        for (let i = fcDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [fcDeck[i], fcDeck[j]] = [fcDeck[j], fcDeck[i]];
+        }
+        fcMastered = 0;
+        document.getElementById('fcCompletion').style.display = 'none';
+        document.getElementById('flashcardElement').style.display = 'block';
+        renderFlashcard();
+    }
+
+    function renderFlashcard() {
+        document.getElementById('flashProgress').textContent = `Fórmulas Dominadas: ${fcMastered}/${flashcardsData.length}`;
+        
+        if(fcDeck.length === 0) {
+            document.getElementById('flashcardElement').style.display = 'none';
+            document.getElementById('fcFeedbackPanel').classList.remove('visible');
+            document.getElementById('fcCompletion').style.display = 'block';
+            if (window.confetti) {
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 }, colors: ['#047857', '#3B82F6', '#F59E0B'] });
+            }
+            return;
+        }
+
+        const card = fcDeck[0];
+        document.getElementById('fcFrontText').innerHTML = card.q;
+        document.getElementById('fcBackText').innerHTML = card.a;
+        
+        if (card.macete) {
+            document.getElementById('fcMaceteBox').style.display = 'block';
+            document.getElementById('fcMaceteText').innerHTML = card.macete;
+        } else {
+            document.getElementById('fcMaceteBox').style.display = 'none';
+        }
+
+        document.getElementById('flashcardElement').classList.remove('flipped');
+        document.getElementById('fcFeedbackPanel').classList.remove('visible');
+        fcIsFlipped = false;
+    }
+
+    function flipCard() {
+        if (fcIsFlipped || fcIsAnimating || fcDeck.length === 0) return;
+        fcIsFlipped = true;
+        document.getElementById('flashcardElement').classList.add('flipped');
+        setTimeout(() => {
+            document.getElementById('fcFeedbackPanel').classList.add('visible');
+        }, 300);
+    }
+
+    function handleFlashFeedback(status) {
+        if (fcIsAnimating) return;
+        fcIsAnimating = true;
+        document.getElementById('fcFeedbackPanel').classList.remove('visible');
+        
+        const cardData = fcDeck.shift();
+        if (status === 'correct') {
+            fcMastered++;
+        } else {
+            fcDeck.push(cardData);
+        }
+
+        const fcEl = document.getElementById('flashcardElement');
+        fcEl.style.transform = 'rotateY(180deg) translateX(100px)';
+        fcEl.style.opacity = '0';
+        
+        setTimeout(() => {
+            fcEl.style.transition = 'none';
+            fcEl.style.transform = ''; 
+            renderFlashcard(); 
+            
+            setTimeout(() => {
+                fcEl.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.3s ease';
+                fcEl.style.opacity = '1';
+                
+                setTimeout(() => {
+                    fcEl.style.transition = ''; 
+                    fcIsAnimating = false;
+                }, 600);
+            }, 50);
+        }, 300);
+    }
+
+    setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
