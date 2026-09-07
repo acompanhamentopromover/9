@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivelamento de Frações - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+  --bg-color: #F8FAFC;
+  --text-color: #0F172A;
+  --border-color: #0F172A;
+  --white: #FFFFFF;
+  --theme-light: #E0F2FE;
+  --theme-medium: #7DD3FC;
+  --theme-dark: #0284C7;
+  --theme-contrast: #EA580C; 
+  --theme-accent: #38BDF8;
+  --theme-text-active: #FFFFFF;
+  --correct-bg: #D1FAE5;
+  --correct-border: #059669;
+  --wrong-bg: #FFE4E6;
+  --wrong-border: #BE123C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+  display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+  background-image: linear-gradient(var(--theme-light) 1px, transparent 1px),
+  linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.9em;
+  margin: 0 4px;
+}
+.frac > span:first-child {
+  border-bottom: 2px solid currentColor;
+  padding: 0 2px;
+  line-height: 1.2;
+}
+.frac > span:last-child {
+  padding: 0 2px;
+  line-height: 1.2;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from {opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from {transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.15); color: var(--theme-contrast); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); color: var(--theme-contrast); }
+  100% { transform: scale(1); }
+}
+
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center; }
+
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; font-weight: bold; font-size: 1.2rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil {background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot {min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+
+.option-btn.correct {background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle {background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle {background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn:disabled {pointer-events: none; opacity: 0.9; }
+
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt {border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+.result-card {background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big {font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="logo-header">
+    <div class="css-logo"><span class="pulse-effect">●</span> PROMOVER</div>
+    <h1>NIVELAMENTO DE BASE</h1>
+    <p class="subtitle">O Raio-X das Frações Algébricas</p>
+  </header>
+
+  <div class="toggle-container">
+    <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">Teoria</button>
+    <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prática (5)</button>
+  </div>
+
+  <div id="viewExplanation" class="view-section" style="display: flex;">
+    
+    <div style="background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+      <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">
+        Frações não são bicho-papão, elas são apenas <strong>divisões disfarçadas</strong>. Se você trava na hora de achar o Vértice de uma parábola, o problema não é a função, é a aritmética básica. Vamos desmontar isso agora.
+      </p>
+    </div>
+
+    <div class="content-group">
+      <span class="section-badge">1. Potência com Sinal</span>
+      <div class="theory-box">
+        <h3>Base Negativa ao Quadrado</h3>
+        <p>A regra de ouro: <strong>Qualquer número negativo elevado ao quadrado fica POSITIVO</strong>. Ao elevar uma fração, você eleva o numerador (cima) e o denominador (baixo).</p>
+        <div class="visual-area">
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <span>(</span>
+            <span class="frac"><span>-7</span><span>3</span></span>
+            <span>)<sup>2</sup></span>
+            <span> = </span>
+            <span class="frac"><span>(-7) × (-7)</span><span>3 × 3</span></span>
+            <span> = </span>
+            <span class="frac"><span>49</span><span>9</span></span>
+          </div>
+        </div>
+        <div class="highlight-box warning">
+          <strong>Aviso:</strong> Menos com menos dá mais. Nunca escreva <span class="frac"><span>-49</span><span>9</span></span>.
+        </div>
+      </div>
+    </div>
+
+    <div class="content-group">
+      <span class="section-badge">2. Multiplicação</span>
+      <div class="theory-box">
+        <h3>Direto e Reto</h3>
+        <p>Na multiplicação, não precisa de MMC. Você multiplica o de cima com o de cima, e o de baixo com o de baixo. Se um número estiver "sozinho", o denominador dele é 1.</p>
+        <div class="visual-area">
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <span>-4</span>
+            <span> × </span>
+            <span>(</span>
+            <span class="frac"><span>-1</span><span>6</span></span>
+            <span>)</span>
+            <span> × 12</span>
+          </div>
+          <div style="font-size: 0.9em; font-weight: 500;">
+            1º) Jogo de sinal: (-) com (-) vira (+).<br>
+            2º) Multiplica os de cima: 4 × 1 × 12 = 48.<br>
+            3º) O 6 continua embaixo.
+          </div>
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <span>= </span>
+            <span class="frac"><span>48</span><span>6</span></span>
+            <span> = 8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-group">
+      <span class="section-badge">3. Divisão de Frações</span>
+      <div class="theory-box">
+        <h3>O Pulo do Gato (Yv)</h3>
+        <p>É aqui que a fórmula do Y<sub>v</sub> destrói os alunos desatentos. Como calcular a divisão de duas frações?</p>
+        <div class="highlight-box">
+          <strong>Regra:</strong> Repete a primeira fração e <strong>multiplica pelo inverso</strong> da segunda.
+        </div>
+        <div class="visual-area">
+          <div style="display:flex; align-items:center; gap: 10px;">
+            <span class="frac"><span><span class="frac"><span>121</span><span>9</span></span></span><span><span class="frac"><span>4</span><span>6</span></span></span></span>
+            <span> → </span>
+            <span class="frac"><span>121</span><span>9</span></span>
+            <span> × </span>
+            <span class="frac"><span>6</span><span>4</span></span>
+          </div>
+          <div style="display:flex; align-items:center; gap: 10px; margin-top: 10px;">
+            <span>= </span>
+            <span class="frac"><span>726</span><span>36</span></span>
+            <span> (simplificando por 6) = </span>
+            <span class="frac"><span>121</span><span>6</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-action" onclick="setMode('practice')">
+      Iniciar Treino Prático (5 Q) →
+    </button>
+  </div>
+
+  <div id="viewPractice" class="view-section">
+    <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+      <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+      <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">
+        Essas 5 questões são as exatas etapas da questão do Vôlei desmembradas. O objetivo não é errar rápido, é acertar com calma.
+      </p>
+    </div>
+    <div class="question-map" id="qMap"></div>
+    <div id="quizContainer" style="margin-bottom: 100px;"></div>
+  </div>
+
+  <div id="viewResult" class="view-section">
+    <div class="result-card">
+      <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+      <div class="stars-container" id="finalStars">★</div>
+      <div class="percentage-big" id="finalPercent">0%</div>
+      <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 5</p>
+      <div id="review-container"></div>
+    </div>
+    <div id="action-buttons"></div>
+  </div>
+
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+  <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+  <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+// Banco de Questões Focado em Aritmética Base
+const questions = [
+  {
+    id: 1, level: "Fácil",
+    text: "Qual é o resultado exato de <span style='display:inline-flex; align-items:center; vertical-align:middle;'>(<span class='frac'><span>-7</span><span>3</span></span>)<sup>2</sup></span> ?",
+    options: [
+      "<span class='frac'><span>-49</span><span>9</span></span>", 
+      "<span class='frac'><span>49</span><span>9</span></span>", 
+      "<span class='frac'><span>-14</span><span>6</span></span>", 
+      "<span class='frac'><span>14</span><span>9</span></span>", 
+      "<span class='frac'><span>49</span><span>3</span></span>"
+    ],
+    correct: 1,
+    explanation: {
+      correct: "Análise correta.<br><br><strong>Passo 1:</strong> Toda base negativa elevada a um expoente par (quadrado) resulta num número <strong>positivo</strong>.<br><br><strong>Passo 2:</strong> A potência distribui para o numerador e denominador:<br>(-7)² = (-7) × (-7) = 49<br>(3)² = 3 × 3 = 9<br><br><strong>Conclusão:</strong> O resultado é exato <span class='frac'><span>49</span><span>9</span></span>.",
+      options: [
+        "Erro de sinal! Número negativo elevado ao quadrado fica positivo (- com - é +).",
+        "Alternativa Correta.",
+        "Erro grave. Você multiplicou a base por 2 em vez de elevar ao quadrado.",
+        "Você multiplicou o numerador por 2 e elevou o denominador ao quadrado. Sem coerência.",
+        "Esqueceu de elevar o denominador (3) ao quadrado."
+      ]
+    }
+  },
+  {
+    id: 2, level: "Fácil",
+    text: "Resolva a multiplicação: <span style='display:inline-flex; align-items:center; vertical-align:middle;'>-4 × (<span class='frac'><span>-1</span><span>6</span></span>) × 12</span>",
+    options: [
+      "-8", 
+      "8", 
+      "<span class='frac'><span>-48</span><span>6</span></span>", 
+      "<span class='frac'><span>8</span><span>6</span></span>", 
+      "12"
+    ],
+    correct: 1,
+    explanation: {
+      correct: "Cálculo preciso.<br><br><strong>Passo 1 (Sinal):</strong> Temos dois números negativos multiplicando. Menos com menos = <strong>Mais (+)</strong>.<br><br><strong>Passo 2 (Numeradores):</strong> Multiplicamos todos os números 'de cima' (4 × 1 × 12) = 48.<br><br><strong>Passo 3 (Denominador):</strong> O 6 se mantém embaixo.<br><br><strong>Passo 4 (Divisão Final):</strong> <span class='frac'><span>48</span><span>6</span></span> = <strong>8</strong>.",
+      options: [
+        "Erro de sinal. Você ignorou que 'menos com menos' dá 'mais'.",
+        "Alternativa Correta.",
+        "Faltou fazer o jogo de sinais e você não finalizou a divisão exata.",
+        "Erro operacional na multiplicação dos numeradores.",
+        "Chute cego sem base matemática estruturada."
+      ]
+    }
+  },
+  {
+    id: 3, level: "Médio",
+    text: "Faça a soma com denominadores diferentes (MMC): <span style='display:inline-flex; align-items:center; vertical-align:middle;'><span class='frac'><span>49</span><span>9</span></span> + 8</span>",
+    options: [
+      "<span class='frac'><span>57</span><span>9</span></span>", 
+      "<span class='frac'><span>57</span><span>17</span></span>", 
+      "<span class='frac'><span>121</span><span>9</span></span>", 
+      "<span class='frac'><span>49</span><span>72</span></span>", 
+      "<span class='frac'><span>121</span><span>72</span></span>"
+    ],
+    correct: 2,
+    explanation: {
+      correct: "Isso mesmo, você dominou o MMC.<br><br><strong>Passo 1:</strong> O número 8 inteiro possui denominador invisível igual a 1 ( <span class='frac'><span>8</span><span>1</span></span> ).<br><br><strong>Passo 2:</strong> O MMC entre 9 e 1 é o próprio <strong>9</strong>.<br><br><strong>Passo 3:</strong> Divide o MMC pelo de baixo e multiplica pelo de cima:<br>Para a primeira fração: (9 ÷ 9) × 49 = 49<br>Para o número inteiro: (9 ÷ 1) × 8 = 72<br><br><strong>Passo 4:</strong> Somar os numeradores mantendo a base:<br><span class='frac'><span>49 + 72</span><span>9</span></span> = <strong><span class='frac'><span>121</span><span>9</span></span></strong>.",
+      options: [
+        "A rasteira primária. Você somou apenas o 49 com o 8 e ignorou totalmente o denominador e o MMC.",
+        "Erro grotesco. Você somou numerador com numerador e denominador com denominador.",
+        "Alternativa Correta.",
+        "Você multiplicou 9 por 8 e jogou no denominador. Errado.",
+        "Errou ao aplicar o MMC na base mantida. A base final tem que ser 9."
+      ]
+    }
+  },
+  {
+    id: 4, level: "Médio",
+    text: "Resolva a divisão de frações: <span style='display:inline-flex; align-items:center; vertical-align:middle;'><span class='frac'><span><span class='frac'><span>121</span><span>9</span></span></span><span><span class='frac'><span>-4</span><span>6</span></span></span></span></span>",
+    options: [
+      "<span class='frac'><span>-121</span><span>6</span></span>", 
+      "<span class='frac'><span>121</span><span>6</span></span>", 
+      "<span class='frac'><span>-484</span><span>54</span></span>", 
+      "<span class='frac'><span>484</span><span>54</span></span>", 
+      "<span class='frac'><span>-121</span><span>9</span></span>"
+    ],
+    correct: 0,
+    explanation: {
+      correct: "Regra perfeitamente aplicada.<br><br><strong>Passo 1 (A Regra):</strong> Repete a primeira fração e multiplica pelo inverso da segunda.<br><span class='frac'><span>121</span><span>9</span></span> × ( <span class='frac'><span>6</span><span>-4</span></span> )<br><br><strong>Passo 2 (Sinal e Multiplicação):</strong> Positivo com negativo = Resultado Negativo.<br>Cima: 121 × 6 = 726<br>Baixo: 9 × 4 = 36<br>Resultado temporário: <span class='frac'><span>-726</span><span>36</span></span><br><br><strong>Passo 3 (Simplificação):</strong> Dividindo em cima e embaixo por 6:<br><span class='frac'><span>-726 ÷ 6</span><span>36 ÷ 6</span></span> = <strong><span class='frac'><span>-121</span><span>6</span></span></strong>.",
+      options: [
+        "Alternativa Correta.",
+        "Você ignorou o sinal negativo do denominador original.",
+        "Rasteira comum! Você multiplicou direto (cima com cima, baixo com baixo) em vez de inverter a segunda fração.",
+        "Multiplicou sem inverter e ainda errou o jogo de sinais.",
+        "Isolou frações erroneamente. Cadê a influência do denominador 6/4?"
+      ]
+    }
+  },
+  {
+    id: 5, level: "Difícil",
+    text: "O Desafio Final do Y<sub>v</sub>. Calcule Y<sub>v</sub> = <span class='frac'><span>-Δ</span><span>4a</span></span> sabendo que Δ = <span class='frac'><span>121</span><span>9</span></span> e a = <span class='frac'><span>-1</span><span>6</span></span>.",
+    options: [
+      "<span class='frac'><span>121</span><span>6</span></span>", 
+      "<span class='frac'><span>-121</span><span>6</span></span>", 
+      "<span class='frac'><span>121</span><span>36</span></span>", 
+      "<span class='frac'><span>-121</span><span>36</span></span>", 
+      "<span class='frac'><span>121</span><span>9</span></span>"
+    ],
+    correct: 0,
+    explanation: {
+      correct: "Excepcional! Você desarmou a bomba da questão do Vôlei.<br><br><strong>Passo 1 (Substituir o denominador 4a):</strong><br>4 × ( <span class='frac'><span>-1</span><span>6</span></span> ) = <span class='frac'><span>-4</span><span>6</span></span>.<br><br><strong>Passo 2 (Montar a divisão principal):</strong><br>A fórmula exige -Δ, logo o topo fica negativo.<br>Y<sub>v</sub> = <span class='frac'><span>-<span class='frac'><span>121</span><span>9</span></span></span><span>-<span class='frac'><span>4</span><span>6</span></span></span></span><br><br><strong>Passo 3 (Inversão e Jogo de Sinal):</strong> Menos dividido por menos dá Mais (+).<br><span class='frac'><span>121</span><span>9</span></span> × <span class='frac'><span>6</span><span>4</span></span><br><br><strong>Passo 4 (Simplificação):</strong><br>121 × 6 = 726<br>9 × 4 = 36<br><span class='frac'><span>726</span><span>36</span></span> (simplificando tudo por 6) = <strong><span class='frac'><span>121</span><span>6</span></span></strong>.",
+      options: [
+        "Alternativa Correta.",
+        "Atenção aos sinais! -Δ e 4a eram negativos, então - com - vira +.",
+        "Erro operacional na hora de inverter a segunda fração. Você apenas dividiu os denominadores originais.",
+        "Sinal errado e falta de inversão fracionária.",
+        "Equívoco fatal, isolou o numerador sem operar o coeficiente 'a'."
+      ]
+    }
+  }
+];
+
+const storageKey = 'promover_quiz_nivelamento_fracoes';
+let savedAnswers = localStorage.getItem(storageKey);
+let userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(questions.length).fill(null);
+let currentQuestion = 0;
+
+function setMode(mode) {
+  const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+  views.forEach(v => document.getElementById(v).style.display = 'none');
+  document.getElementById('quizFooter').style.display = 'none';
+
+  if (mode === 'explanation') {
+    document.getElementById('viewExplanation').style.display = 'flex';
+    document.getElementById('btnExp').classList.add('active');
+    document.getElementById('btnPrac').classList.remove('active');
+  } else if (mode === 'practice') {
+    document.getElementById('viewPractice').style.display = 'block';
+    document.getElementById('quizFooter').style.display = 'flex';
+    document.getElementById('btnExp').classList.remove('active');
+    document.getElementById('btnPrac').classList.add('active');
+    
+    let firstUnanswered = userAnswers.indexOf(null);
+    if(firstUnanswered !== -1) {
+      currentQuestion = firstUnanswered;
+    }
+    renderQuestion();
+    renderMap();
+  } else if (mode === 'result') {
+    document.getElementById('viewResult').style.display = 'block';
+    document.getElementById('quizFooter').style.display = 'none';
+    window.scrollTo(0,0);
+  }
+}
+
+function renderQuestion() {
+  if (questions.length === 0) return;
+  const q = questions[currentQuestion];
+  const container = document.getElementById('quizContainer');
+  const letters = ['A', 'B', 'C', 'D', 'E']; 
+  const ans = userAnswers[currentQuestion];
+  let badgeClass = '';
+
+  if (q.level === 'Fácil') badgeClass = 'dif-facil';
+  else if (q.level === 'Médio') badgeClass = 'dif-medio';
+  else badgeClass = 'dif-dificil';
+
+  let htmlOptions = '';
+  q.options.forEach((opt, i) => {
+    let cls = '';
+    if (ans !== null) {
+      if (i === q.correct) cls = 'correct';
+      else if (i === ans) cls = 'wrong';
+      else cls = 'disabled';
+    }
+    let disableAttr = ans !== null ? 'disabled' : '';
+    htmlOptions += '<button class="option-btn ' + cls + '" onclick="handleAnswer(' + i + ')" ' + disableAttr + '>';
+    htmlOptions += '<div class="opt-circle">' + letters[i] + '</div>';
+    htmlOptions += '<div style="font-size: 1.1em; display:flex; align-items:center;">' + opt + '</div>';
+    htmlOptions += '</button>';
+  });
+
+  let htmlFeedback = '';
+  if(ans !== null) {
+    let titleColor = ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)';
+    let titleText = ans === q.correct ? '☑ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada:';
+    
+    htmlFeedback += '<div class="feedback-box" id="feedback-anchor">';
+    htmlFeedback += '<div class="feedback-title" style="color:' + titleColor + '">' + titleText + '</div>';
+    htmlFeedback += '<div class="feedback-item correct-opt"><strong>Análise Conclusiva (Alternativa Correta):</strong><br><br>' + q.options[q.correct] + '</div>';
+    htmlFeedback += '<div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">' + q.explanation.correct + '</div>';
+    htmlFeedback += '<div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">';
+    htmlFeedback += '<small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>';
+    
+    q.explanation.options.forEach((exp, i) => {
+      if(i !== q.correct) {
+        htmlFeedback += '<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>(' + letters[i] + ')</strong> ' + exp + '</div>';
+      }
+    });
+    htmlFeedback += '</div></div>';
+  }
+
+  container.innerHTML = 
+    '<div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">' +
+      '<span class="difficulty-badge ' + badgeClass + '">' + q.level + '</span>' +
+      '<div style="margin-bottom: 20px;">' +
+        '<span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ' + (currentQuestion + 1) + ' DE ' + questions.length + '</span>' +
+        '<h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">' + q.text + '</h2>' +
+      '</div>' +
+      '<div class="options-list">' + htmlOptions + '</div>' + htmlFeedback +
+    '</div>';
+
+  updateNav();
+}
+
+function handleAnswer(idx) {
+  if (userAnswers[currentQuestion] !== null) return;
+  userAnswers[currentQuestion] = idx;
+  localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+
+  if (idx === questions[currentQuestion].correct) {
+    const duration = 1500;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({ particleCount: 5, angle: 60, spread: 55, origin: {x: 0, y: 0.6}, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+      confetti({ particleCount: 5, angle: 120, spread: 55, origin: {x: 1, y: 0.6}, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    }());
+  } else {
+    const quizContainer = document.getElementById('quizContainer');
+    quizContainer.classList.remove('shake-effect');
+    void quizContainer.offsetWidth;
+    quizContainer.classList.add('shake-effect');
+  }
+
+  renderQuestion();
+  renderMap();
+
+  setTimeout(() => {
+    const fbAnchor = document.getElementById('feedback-anchor');
+    if(fbAnchor) fbAnchor.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }, 100);
+}
+
+function renderMap() {
+  if (questions.length === 0) return;
+  const map = document.getElementById('qMap');
+  
+  let htmlMap = '';
+  questions.forEach((q, i) => {
+    let cls = 'map-dot';
+    if (i === currentQuestion) cls += ' active';
+    if (userAnswers[i] !== null) {
+      cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+    }
+    htmlMap += '<div class="' + cls + '" onclick="goTo(' + i + ')">' + (i + 1) + '</div>';
+  });
+  
+  map.innerHTML = htmlMap;
+  
+  setTimeout(() => {
+    const activeDot = map.querySelector('.map-dot.active');
+    if (activeDot) {
+      activeDot.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+    }
+  }, 50);
+}
+
+function goTo(i) {
+  if (window.confetti) confetti.reset();
+  currentQuestion = i;
+  renderQuestion();
+  renderMap();
+}
+
+function changeQuestion(d) {
+  let n = currentQuestion + d;
+  if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+  document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+  const next = document.getElementById('btnNext');
+  
+  if (currentQuestion === questions.length - 1) {
+    next.textContent = "Finalizar Treino";
+    next.onclick = finish;
+  } else {
+    next.textContent = "Avançar";
+    next.onclick = () => changeQuestion(1);
+  }
+}
+
+function finish() {
+  let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+  let percent = Math.round((correct / questions.length) * 100);
+  if (window.confetti) confetti.reset();
+
+  document.getElementById('finalPercent').textContent = percent + "%";
+  document.getElementById('finalScoreText').textContent = "Você acertou " + correct + " de " + questions.length + " questões.";
+  document.getElementById('finalStars').textContent = percent === 100 ? "⭐⭐⭐" : percent >= 60 ? "⭐⭐" : "⭐";
+
+  let summary = '<div style="text-align:left; margin-top:20px;">';
+  if (percent < 100) {
+    summary += '<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">' +
+      '<strong>⚠️ Aritmética exige 100% de precisão!</strong> O seu desempenho mostrou falhas que vão destruir o seu cálculo de Função Quadrática. Repita a lista até atingir 5 de 5.' +
+    '</div>';
+    document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer Treinamento</button>';
+  } else {
+    summary += '<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">' +
+      '<strong>☑ Base Consolidada!</strong> Excelente. Agora sim você tem estrutura matemática para enfrentar as frações pesadas da prova da UECE e do ENEM.' +
+    '</div>';
+    document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer (Zerar Histórico)</button>';
+  }
+
+  if (correct < questions.length) {
+    summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+    questions.forEach((q, i) => {
+      if (userAnswers[i] !== q.correct && userAnswers[i] !== null) {
+        summary += '<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">' +
+            '<strong style="color:var(--theme-dark);">Q' + (i+1) + ':</strong> ' + q.text + '<br>' +
+            '<span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ' + q.options[userAnswers[i]] + '</span>' +
+            '<span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ' + q.options[q.correct] + '</span>' +
+          '</div>';
+      }
+    });
+  }
+  summary += '</div>';
+  document.getElementById('review-container').innerHTML = summary;
+  
+  setMode('result');
+}
+
+function reset() {
+  localStorage.removeItem(storageKey);
+  userAnswers = new Array(questions.length).fill(null);
+  currentQuestion = 0;
+  window.scrollTo(0,0);
+  setMode('practice');
+}
+
+window.onload = () => {
+  if(userAnswers.every(ans => ans !== null) && questions.length > 0) {
+    finish();
+  } else if(userAnswers.some(ans => ans !== null)) {
+    setMode('practice');
+  } else {
+    setMode('explanation');
+  }
+};
+</script>
+</body>
+</html>
