@@ -36,7 +36,7 @@ body {
   background-size: 20px 20px;
 }
 
-/* Frações verticais */
+/* Frações verticais (CSS nativo) */
 .frac {
   display: inline-flex;
   flex-direction: column;
@@ -104,7 +104,6 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
 .highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
 .highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
 
-/* Tabela Responsiva */
 .theory-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 10px; }
 .theory-table th { background: var(--theme-dark); color: white; padding: 10px; border: 2px solid var(--border-color); font-weight: 700; text-align: left; }
 .theory-table td { padding: 10px; border: 2px solid var(--border-color); vertical-align: top; }
@@ -157,7 +156,7 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
   <header class="logo-header">
     <div class="css-logo"><span class="pulse-effect">●</span> PROMOVER</div>
     <h1>MATEMÁTICA - 1º ANO</h1>
-    <p class="subtitle">A Função Quadrática e o Vértice</p>
+    <p class="subtitle">O Vértice da Parábola (Máximo e Mínimo)</p>
   </header>
 
   <div class="toggle-container">
@@ -165,9 +164,7 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
     <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prática (19)</button>
   </div>
 
-  <!-- SEÇÃO TEÓRICA -->
   <div id="viewExplanation" class="view-section" style="display: flex;">
-    
     <div class="search-container">
       <span class="search-icon" aria-hidden="true">🔍</span>
       <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar" placeholder="Pesquisar conceito...">
@@ -175,50 +172,22 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
     <div id="no-results"><p>Termo não encontrado.</p></div>
 
     <div class="content-group">
-      <span class="section-badge">1. Anatomia da Função Quadrática</span>
+      <span class="section-badge">1. A Anatomia da Função</span>
       <div class="theory-box">
-        <h3>A Parábola e seus Elementos</h3>
-        <p>A função quadrática tem o formato algébrico <strong>f(x) = ax² + bx + c</strong>. O gráfico gerado por ela é uma curva perfeitamente simétrica chamada <strong>Parábola</strong>. Cada letra (coeficiente) tem um papel crucial na construção do gráfico:</p>
-        <ul style="margin-left: 20px; line-height: 1.6; margin-top: 10px;">
-            <li><strong>Coeficiente 'a':</strong> É o diretor. Define a concavidade (boca para cima ou para baixo). Nunca pode ser zero!</li>
-            <li><strong>Coeficiente 'c':</strong> É exatamente o ponto onde a curva corta o eixo vertical <strong>Y</strong>. Ex: se c=5, a parábola cruza o eixo Y no ponto (0, 5).</li>
-            <li><strong>Raízes (x' e x"):</strong> São os pontos onde a curva corta o eixo horizontal <strong>X</strong>. Descobrimos igualando f(x) a zero e usando Bhaskara. Representam quando a altura, lucro ou custo chegam a ZERO.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="content-group">
-      <span class="section-badge">2. Concavidade e Extremos</span>
-      <div class="theory-box">
-        <h3>Pontos de Máximo e Mínimo</h3>
-        <p>A parábola sempre possui um ponto de retorno chamado <strong>Vértice (V)</strong>. Ele dita o extremo absoluto da função.</p>
-        
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; margin: 10px 0;">
-          <div style="text-align: center;">
-            <svg viewBox="0 0 200 150" width="100%" height="120" style="max-width: 160px; margin: 0 auto; display: block;">
-              <path d="M 20 20 Q 100 230 180 20" fill="none" stroke="#EA580C" stroke-width="4"/>
-              <circle cx="100" cy="125" r="6" fill="#0F172A"/>
-              <text x="100" y="145" font-weight="bold" text-anchor="middle" fill="#0F172A">V (Ponto Mínimo)</text>
-            </svg>
-            <p style="margin-top:5px; font-size: 0.9rem;"><strong>a > 0 (Positivo)</strong><br>Concavidade p/ Cima<br><em>Ex: Custo Mínimo</em></p>
-          </div>
-          <div style="text-align: center;">
-            <svg viewBox="0 0 200 150" width="100%" height="120" style="max-width: 160px; margin: 0 auto; display: block;">
-              <path d="M 20 130 Q 100 -80 180 130" fill="none" stroke="#0284C7" stroke-width="4"/>
-              <circle cx="100" cy="25" r="6" fill="#0F172A"/>
-              <text x="100" y="15" font-weight="bold" text-anchor="middle" fill="#0F172A">V (Ponto Máximo)</text>
-            </svg>
-            <p style="margin-top:5px; font-size: 0.9rem;"><strong>a < 0 (Negativo)</strong><br>Concavidade p/ Baixo<br><em>Ex: Lucro/Altura Máxima</em></p>
-          </div>
+        <h3>A Parábola e seus Limites</h3>
+        <p>A função quadrática é definida por <strong>f(x) = ax<sup>2</sup> + bx + c</strong>. O gráfico gerado é uma parábola que possui um ponto de retorno chamado <strong>Vértice (V)</strong>.</p>
+        <div class="highlight-box">
+          <strong>a > 0 (Concavidade para Cima):</strong> A função admite um <strong>Ponto de Mínimo</strong>. É como o fundo de um vale.<br><br>
+          <strong>a < 0 (Concavidade para Baixo):</strong> A função admite um <strong>Ponto de Máximo</strong>. É como o pico de uma montanha.
         </div>
       </div>
     </div>
 
     <div class="content-group">
-      <span class="section-badge">3. As Fórmulas do Vértice</span>
+      <span class="section-badge">2. As Fórmulas do Vértice</span>
       <div class="theory-box">
         <h3>Coordenadas V(X<sub>v</sub>, Y<sub>v</sub>)</h3>
-        <p>Pare de perder tempo deduzindo; decore as ferramentas de ataque para achar as coordenadas do Vértice:</p>
+        <p>Não há segredo. Para encontrar o extremo absoluto, aplicamos as fórmulas base:</p>
         <div class="visual-area">
           X<sub>v</sub> = <span class="frac"><span>-b</span><span>2a</span></span>
           &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -229,10 +198,10 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
     </div>
 
     <div class="content-group">
-      <span class="section-badge">4. A Dica de Ouro (X<sub>v</sub> vs Y<sub>v</sub>)</span>
+      <span class="section-badge">3. A Dica de Ouro</span>
       <div class="theory-box">
-        <h3>Qual coordenada eu calculo na prova?</h3>
-        <p>O maior erro que um aluno comete é achar o instante quando a questão pede a altura. Use a tabela definitiva para não ser enganado:</p>
+        <h3>Quando usar X<sub>v</sub> ou Y<sub>v</sub>?</h3>
+        <p>A maior causa de erros não é algébrica, é de interpretação. Analise estritamente a variável requisitada:</p>
         <table class="theory-table">
           <thead>
             <tr>
@@ -243,14 +212,14 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
           </thead>
           <tbody>
             <tr>
-              <td><strong>X<sub>v</sub> (Eixo Horizontal)</strong></td>
-              <td><strong>O Fator Gerador.</strong> O tempo, a quantidade, ou a condição necessária para que o extremo ocorra.</td>
-              <td>"Qual a <strong>quantidade</strong>...", "Em qual <strong>instante</strong>...", "Número de peças para..."</td>
+              <td><strong>X<sub>v</sub></strong></td>
+              <td><strong>O Fator Gerador.</strong> O instante temporal ou a quantidade exigida para que o máximo/mínimo ocorra.</td>
+              <td>"Qual a quantidade...", "Em qual instante...", "Número de peças para obter..."</td>
             </tr>
             <tr>
-              <td><strong>Y<sub>v</sub> (Eixo Vertical)</strong></td>
-              <td><strong>O Resultado Final.</strong> O valor extremo máximo ou mínimo propriamente dito alcançado pela função.</td>
-              <td>"Qual o <strong>lucro</strong> máximo?", "Qual a <strong>altura</strong> máxima?", "Qual o <strong>custo</strong> mínimo?"</td>
+              <td><strong>Y<sub>v</sub></strong></td>
+              <td><strong>O Resultado Final.</strong> O valor extremo alcançado propriamente dito.</td>
+              <td>"Qual o lucro máximo?", "Qual a altura máxima?", "Qual o custo mínimo?"</td>
             </tr>
           </tbody>
         </table>
@@ -258,89 +227,57 @@ h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transfo
     </div>
 
     <div class="content-group">
-      <span class="section-badge">5. Exemplo Prático Ilustrado</span>
+      <span class="section-badge">4. Exemplo Ilustrado</span>
       <div class="theory-box">
-        <h3>Lançamento do Foguete (Xv x Yv)</h3>
-        <p>Um foguete de brinquedo é lançado. Sua altura <strong>h</strong> (em metros) no instante <strong>t</strong> (em segundos) é modelada pela função quadrática: <strong style="color:var(--theme-dark); font-size:1.1rem;">h(t) = -5t² + 20t</strong>.</p>
+        <h3>O Lançamento da Bola</h3>
+        <p>Considere o lançamento de um objeto com altura modelada por <strong>h(t) = 20t - 5t<sup>2</sup></strong> (a=-5, b=20, c=0).</p>
+        <div style="width: 100%; max-width: 400px; margin: 10px auto; background: white; border: 2px solid var(--border-color); border-radius: 8px; padding: 10px;">
+          <svg viewBox="0 0 300 200" width="100%" height="100%">
+            <line x1="50" y1="20" x2="50" y2="170" stroke="black" stroke-width="2"/>
+            <polygon points="45,25 55,25 50,15" fill="black"/>
+            <text x="35" y="25" font-weight="bold" font-family="Poppins">h(m)</text>
+            <line x1="30" y1="150" x2="280" y2="150" stroke="black" stroke-width="2"/>
+            <polygon points="275,145 275,155 285,150" fill="black"/>
+            <text x="280" y="170" font-weight="bold" font-family="Poppins">t(s)</text>
+            <path d="M 50 150 Q 150 -50 250 150" fill="none" stroke="var(--theme-dark)" stroke-width="3"/>
+            <line x1="150" y1="150" x2="150" y2="50" stroke="var(--theme-contrast)" stroke-dasharray="5,5" stroke-width="2"/>
+            <line x1="50" y1="50" x2="150" y2="50" stroke="var(--wrong-border)" stroke-dasharray="5,5" stroke-width="2"/>
+            <circle cx="150" cy="50" r="5" fill="var(--theme-contrast)"/>
+            <text x="45" y="54" fill="var(--wrong-border)" font-weight="bold" text-anchor="end" font-family="Poppins">Y<tspan dy="2" font-size="0.75em">v</tspan><tspan dy="-2"> = 20m</tspan></text>
+            <text x="150" y="170" fill="var(--theme-contrast)" font-weight="bold" text-anchor="middle" font-family="Poppins">X<tspan dy="2" font-size="0.75em">v</tspan><tspan dy="-2"> = 2s</tspan></text>
+            <text x="50" y="170" font-weight="bold" text-anchor="middle" font-family="Poppins">0s</text>
+            <text x="250" y="170" font-weight="bold" text-anchor="middle" font-family="Poppins">4s</text>
+          </svg>
+        </div>
+        <p><strong>Situação 1:</strong> "Qual o tempo para atingir a altura máxima?"<br>
+        Resposta: Exige-se o fator gerador temporal (<strong>X<sub>v</sub></strong>).<br>Aplicando a fórmula: <span class="frac"><span>-b</span><span>2a</span></span> = <span class="frac"><span>-20</span><span>-10</span></span> = <strong>2 segundos</strong>.</p>
         
-        <svg viewBox="0 0 300 200" width="100%" height="220" style="max-width: 320px; margin: 10px auto; display: block; background: #fff; border-radius:8px; border: 1px solid #ccc; padding:10px;">
-          <!-- Grade de Fundo (opcional) -->
-          <line x1="40" y1="110" x2="280" y2="110" stroke="#f0f0f0" stroke-width="1"/>
-          
-          <!-- Eixos -->
-          <line x1="30" y1="160" x2="280" y2="160" stroke="#0F172A" stroke-width="2"/> <!-- Eixo t -->
-          <line x1="40" y1="20" x2="40" y2="180" stroke="#0F172A" stroke-width="2"/> <!-- Eixo h -->
-          
-          <!-- Setas e labels -->
-          <polygon points="280,157 286,160 280,163" fill="#0F172A"/>
-          <polygon points="37,20 40,14 43,20" fill="#0F172A"/>
-          <text x="260" y="150" font-weight="bold" font-size="12">t (s)</text>
-          <text x="45" y="25" font-weight="bold" font-size="12">h (m)</text>
-
-          <!-- Parábola -->
-          <path d="M 40 160 Q 140 -40 240 160" fill="none" stroke="#EA580C" stroke-width="3"/>
-
-          <!-- Vértice -->
-          <circle cx="140" cy="60" r="6" fill="#0284C7"/>
-          <text x="155" y="55" font-weight="bold" font-size="14" fill="#0284C7">V (Xv, Yv)</text>
-
-          <!-- Projeções Pontilhadas -->
-          <line x1="140" y1="60" x2="140" y2="160" stroke="#0F172A" stroke-dasharray="5,5" stroke-width="2"/>
-          <line x1="40" y1="60" x2="140" y2="60" stroke="#0F172A" stroke-dasharray="5,5" stroke-width="2"/>
-
-          <!-- Valores X e Y -->
-          <text x="122" y="180" font-weight="bold" font-size="13" fill="#059669">Xv = 2s</text>
-          <text x="5" y="65" font-weight="bold" font-size="13" fill="#BE123C">Yv=20m</text>
-          
-          <!-- Raízes -->
-          <circle cx="40" cy="160" r="4" fill="#000"/>
-          <text x="35" y="180" font-weight="bold" font-size="11">0</text>
-          <circle cx="240" cy="160" r="4" fill="#000"/>
-          <text x="235" y="180" font-weight="bold" font-size="11">4</text>
-        </svg>
-
-        <div class="highlight-box" style="background:#D1FAE5; border-left-color:#059669; color:#064E3B;">
-          <strong>Pergunta A: Em qual INSTANTE o foguete atinge a altura máxima?</strong><br>
-          <span style="font-size:0.85rem;"><em>(A questão quer o tempo que gerou a altura, ou seja, o eixo horizontal X).</em></span><br>
-          Aplicamos a fórmula do <strong>X<sub>v</sub></strong>:<br>
-          X<sub>v</sub> = <span class="frac"><span>-b</span><span>2a</span></span> = <span class="frac"><span>-20</span><span>2(-5)</span></span> = <span class="frac"><span>-20</span><span>-10</span></span> = <strong>2 segundos</strong>.
-        </div>
-
-        <div class="highlight-box" style="margin-top: 5px; background:#FFE4E6; border-left-color:#BE123C; color:#881337;">
-          <strong>Pergunta B: Qual é a ALTURA máxima atingida?</strong><br>
-          <span style="font-size:0.85rem;"><em>(A questão quer o resultado extremo final do lançamento, ou seja, o eixo vertical Y).</em></span><br>
-          Aplicamos a fórmula do <strong>Y<sub>v</sub></strong> (onde Δ = b² - 4ac = 400 - 0 = 400):<br>
-          Y<sub>v</sub> = <span class="frac"><span>-Δ</span><span>4a</span></span> = <span class="frac"><span>-400</span><span>4(-5)</span></span> = <span class="frac"><span>-400</span><span>-20</span></span> = <strong>20 metros</strong>.
-        </div>
+        <p><strong>Situação 2:</strong> "Qual é a altura máxima?"<br>
+        Resposta: Exige-se o resultado absoluto final (<strong>Y<sub>v</sub></strong>).<br>Aplicando a fórmula: <span class="frac"><span>-Δ</span><span>4a</span></span> = <span class="frac"><span>-400</span><span>-20</span></span> = <strong>20 metros</strong>.</p>
       </div>
     </div>
-
     <button class="btn-action" onclick="setMode('practice')">
       Iniciar Diagnóstico (19 Q) →
     </button>
   </div>
 
-  <!-- SEÇÃO PRÁTICA -->
   <div id="viewPractice" class="view-section">
     <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
       <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
       <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">
-        19 questões retiradas diretamente dos seus materiais. Acerte <strong>80% (16/19)</strong> para provar seu domínio. Todas as questões possuem 5 itens rigorosos.
+        19 questões retiradas diretamente dos seus materiais. Acerte <strong>80% (16/19)</strong> para provar seu domínio. Leia rigorosamente as correções de cada falha.
       </p>
     </div>
-
     <div class="question-map" id="qMap"></div>
     <div id="quizContainer" style="margin-bottom: 100px;"></div>
   </div>
 
-  <!-- RESULTADO -->
   <div id="viewResult" class="view-section">
     <div class="result-card">
       <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
       <div class="stars-container" id="finalStars">★</div>
       <div class="percentage-big" id="finalPercent">0%</div>
       <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 19</p>
-      
       <div id="review-container"></div>
     </div>
     <div id="action-buttons"></div>
@@ -361,7 +298,6 @@ const noResultsMsg = document.getElementById('no-results');
 searchInput.addEventListener('input', function(e) {
   const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   let totalVisible = 0;
-  
   contentGroups.forEach(group => {
     const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     if (textContent.includes(term)) {
@@ -371,11 +307,9 @@ searchInput.addEventListener('input', function(e) {
       group.style.display = 'none';
     }
   });
-  
   noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
 });
 
-// Banco de Questões (19 questões com 5 opções e feedback rigoroso)
 const questions = [
   {
     id: 1, level: "Médio",
@@ -383,13 +317,13 @@ const questions = [
     options: ["1 tonelada", "4 toneladas", "9 toneladas", "16 toneladas", "25 toneladas"],
     correct: 1,
     explanation: {
-      correct: "Correto. O problema pede a 'quantidade de fertilizante' para obter o máximo. Isso exige o cálculo do fator gerador Xv = -b / 2a = -16 / (-4) = 4.",
+      correct: "Resolução analítica:<br><br><strong>Passo 1:</strong> A questão exige a 'quantidade' para gerar o máximo. Logo, calcula-se o fator gerador (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Identificar coeficientes da função P(x) = -2x² + 16x + 25.<br>a = -2<br>b = 16<br><br><strong>Passo 3:</strong> Aplicar a fórmula:<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-16</span><span>2(-2)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-16</span><span>-4</span></span> = <strong>4 toneladas</strong>.",
       options: [
-        "Chute cego sem base matemática.",
+        "Base matemática ausente.",
         "Alternativa Correta.",
-        "Confusão algébrica. Você provavelmente tentou calcular o delta sem necessidade.",
-        "Erro grave. Isso seria o valor do coeficiente 'b', não o Xv.",
-        "Erro interpretativo. Você pegou o coeficiente 'c', que representa a produção sem nenhum fertilizante."
+        "Confusão algébrica. Tentativa desnecessária de calcular o Yv.",
+        "Erro posicional. 16 representa o coeficiente linear 'b'.",
+        "Erro interpretativo. 25 representa a produção sem fertilizante (eixo Y)."
       ]
     }
   },
@@ -399,61 +333,61 @@ const questions = [
     options: ["1 A", "2 A", "3 A", "4 A", "5 A"],
     correct: 0,
     explanation: {
-      correct: "Perfeito. O Xv indica a corrente (fator gerador) para a potência máxima. Xv = -10 / (2 * -5) = -10 / -10 = 1 A.",
+      correct: "Análise exata.<br><br><strong>Passo 1:</strong> A intensidade da corrente é o fator gerador da potência (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Função P = -5i² + 10i<br>a = -5<br>b = 10<br><br><strong>Passo 3:</strong> Cálculo do Vértice:<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-10</span><span>2(-5)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-10</span><span>-10</span></span> = <strong>1 A</strong>.",
       options: [
         "Alternativa Correta.",
-        "Erro de cálculo de divisão básica. A fórmula é -b/2a, não -b/a.",
-        "Confusão total de grandezas. Não há fundamento para esse valor na equação.",
-        "Você errou as simplificações dos coeficientes algébricos.",
-        "Erro gravíssimo. Este é o Yv calculado com base em falhas, ou um chute na raiz da equação."
+        "Falha na divisão algébrica. O correto é <span class='frac'><span>-b</span><span>2a</span></span>, não <span class='frac'><span>-b</span><span>a</span></span>.",
+        "Sem base dedutiva válida.",
+        "Simplificação primária incorreta dos coeficientes.",
+        "Confundiu com as raízes da equação ou operou de forma errônea o coeficiente."
       ]
     }
   },
   {
     id: 3, level: "Médio",
-    text: "(Enem) O lucro obtido pela venda de pacotes de bonés é dado por L(x) = -x² + 12x - 20, onde x é a quantidade de bonés por pacote. Para obter o lucro máximo, os pacotes devem conter uma quantidade de bonés igual a:",
+    text: "(Enem) O lucro obtido pela venda de pacotes de bonés é dado por L(x) = -x² + 12x - 20, onde x é a quantidade de bonés por pacote. Para obter o lucro máximo, os pacotes devem conter uma quantidade igual a:",
     options: ["4", "5", "6", "8", "10"],
     correct: 2,
     explanation: {
-      correct: "Exato. Pede-se a 'quantidade de bonés' que gera o lucro máximo, ou seja, o Xv. Xv = -12 / (2 * -1) = 6.",
+      correct: "Cálculo preciso.<br><br><strong>Passo 1:</strong> A 'quantidade de bonés' que maximiza o lucro é obtida pelo eixo X (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Função L(x) = -x² + 12x - 20<br>a = -1<br>b = 12<br><br><strong>Passo 3:</strong> Resolução algébrica:<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-12</span><span>2(-1)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-12</span><span>-2</span></span> = <strong>6 bonés</strong>.",
       options: [
-        "Erro conceitual. Isso não corresponde a nenhum extremo da função.",
-        "Tentativa equivocada de média entre raízes mal calculadas.",
+        "Valor sem correspondência com os pontos de extremo da função.",
+        "Erro de procedimento. Não tente realizar média imprecisa entre variáveis.",
         "Alternativa Correta.",
-        "Falta de domínio algébrico. Possível erro de sinal no cálculo do Xv.",
-        "Erro fatal. Este é o número da raiz da função onde o lucro é ZERO, não máximo."
+        "Falta de controle de sinais durante o cálculo.",
+        "Inaceitável. O valor 10 é uma das raízes (onde o lucro zera), não o extremo."
       ]
     }
   },
   {
     id: 4, level: "Difícil",
-    text: "Observe um gráfico genérico f(x) = ax² + bx + c, de concavidade voltada para cima (a > 0), interceptando o eixo y num valor negativo e com o vértice localizado no 4º quadrante (x > 0 e y < 0).<br><svg viewBox='0 0 200 200' width='100%' height='150' style='max-width: 200px; display: block; margin: 15px auto;'><line x1='10' y1='100' x2='190' y2='100' stroke='#0F172A' stroke-width='2'/><line x1='50' y1='10' x2='50' y2='190' stroke='#0F172A' stroke-width='2'/><text x='180' y='90' font-size='12' font-weight='bold'>x</text><text x='60' y='20' font-size='12' font-weight='bold'>y</text><path d='M 10 20 Q 140 320 190 20' fill='none' stroke='#0284C7' stroke-width='3'/><circle cx='118' cy='165' r='5' fill='#BE123C'/><text x='135' y='175' font-weight='bold' font-size='14' fill='#BE123C'>V</text></svg>Assinale a única afirmativa FALSA:",
+    text: "Observe um gráfico genérico f(x) = ax² + bx + c, de concavidade voltada para cima (a > 0), interceptando o eixo y num valor negativo e com o vértice localizado no 4º quadrante (x > 0 e y < 0). Assinale a única afirmativa FALSA:",
     options: ["a . c é negativo.", "O Delta (Δ) é positivo.", "O coeficiente b é positivo.", "O coeficiente c é negativo.", "A parábola possui valor mínimo."],
     correct: 2,
     explanation: {
-      correct: "Afirmação falsa identificada com sucesso. Como a > 0 e o vértice tem Xv > 0, pela fórmula Xv = -b/2a, o coeficiente 'b' OBRIGATORIAMENTE tem que ser negativo. Dizer que b é positivo é falso.",
+      correct: "Afirmação falsa identificada logicamente.<br><br><strong>1.</strong> Sabe-se que a concavidade é para cima (<strong>a > 0</strong>).<br><strong>2.</strong> O vértice encontra-se no 4º quadrante, logo a coordenada X do vértice é positiva (<strong>X<sub>v</sub> > 0</strong>).<br><br><strong>3.</strong> Pela fórmula base:<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span><br><br><strong>Conclusão:</strong> Para que a divisão inteira seja positiva (X<sub>v</sub> > 0), dado que o 'a' é positivo, o coeficiente <strong>b OBRIGATORIAMENTE tem que ser negativo</strong> para compensar o sinal da fórmula. Dizer que b é positivo contradiz a regra de sinais.",
       options: [
-        "Verdadeiro. Se a > 0 e c < 0 (corta y no negativo), a*c é negativo.",
-        "Verdadeiro. Se o vértice está abaixo do eixo X e a concavidade é para cima, ela cruza o eixo x duas vezes, logo Δ > 0.",
-        "Alternativa Correta (Esta é a afirmativa falsa!).",
-        "Verdadeiro. O gráfico intercepta o eixo Y num valor negativo.",
-        "Verdadeiro. Sendo a > 0, o vértice representa um ponto de mínimo."
+        "Verdadeiro. Se a > 0 e c < 0 (intersecta no negativo), a multiplicação a*c é negativa.",
+        "Verdadeiro. A curva transpassa o eixo X criando duas raízes, configurando Δ > 0.",
+        "Alternativa Correta (Esta é a afirmativa falsa).",
+        "Verdadeiro. Constatado pela interceptação do eixo Y na porção negativa.",
+        "Verdadeiro. A função admite ponto de mínimo absoluto (concavidade superior)."
       ]
     }
   },
   {
     id: 5, level: "Difícil",
-    text: "(Unibahia) Um criador de cães dispõe de 30m de tela para cercar um canil retangular, sendo um lado a parede (x) e dois lados perpendiculares (y).<br><svg viewBox='0 0 250 150' width='100%' height='120' style='max-width: 250px; display: block; margin: 15px auto;'><line x1='20' y1='120' x2='230' y2='120' stroke='#0F172A' stroke-width='6'/><text x='125' y='140' text-anchor='middle' font-weight='bold'>PAREDE</text><path d='M 60 117 L 60 40 L 190 40 L 190 117' fill='none' stroke='#0284C7' stroke-width='4'/><text x='125' y='30' text-anchor='middle' font-weight='bold' fill='#0284C7'>x</text><text x='45' y='80' text-anchor='middle' font-weight='bold' fill='#0284C7'>y</text><text x='205' y='80' text-anchor='middle' font-weight='bold' fill='#0284C7'>y</text></svg>Qual o valor de x + y para obter a maior área?",
+    text: "(Unibahia) Um criador dispõe de 30m de tela para cercar um canil retangular. Um lado é a parede de alvenaria (x) e dois lados perpendiculares usam tela (y). Qual o valor de x + y para obter a maior área?",
     options: ["20", "22", "22,5", "23", "24,5"],
     correct: 2,
     explanation: {
-      correct: "Raciocínio excelente. Equação do perímetro: x + 2y = 30 → x = 30 - 2y. Área = y(30 - 2y) = -2y² + 30y. Yv (max para y, que é o nosso Xv da fórmula) = -30/-4 = 7,5. Se y=7,5, x=15. Logo x+y = 22,5.",
+      correct: "Raciocínio sistêmico exato.<br><br><strong>Passo 1:</strong> Equação do perímetro da tela:<br>x + 2y = 30 → x = 30 - 2y<br><br><strong>Passo 2:</strong> Função da Área:<br>A(y) = x · y<br>A(y) = (30 - 2y)y = -2y² + 30y<br><br><strong>Passo 3:</strong> Maximizar o comprimento de y (X<sub>v</sub>):<br>Y<sub>v</sub>(tela) = <span class='frac'><span>-30</span><span>2(-2)</span></span> = <span class='frac'><span>-30</span><span>-4</span></span> = 7,5m<br><br><strong>Passo 4:</strong> Descobrir a contraparte (x):<br>x = 30 - 2(7,5) = 15m<br><br><strong>Conclusão:</strong> Soma exigida (x + y) = 15 + 7,5 = <strong>22,5</strong>.",
       options: [
-        "Erro de montagem da equação da área.",
-        "Possível arredondamento indevido durante o cálculo algébrico.",
+        "Construção inicial da área falha.",
+        "Perda de precisão decimal no andamento algébrico.",
         "Alternativa Correta.",
-        "Falha na manipulação do fator x = 30 - 2y.",
-        "Cálculo equivocado, confundiu a maximização de um lado quadrado em vez de retangular com 3 lados livres."
+        "Manipulação incorreta da variável isolada (x = 30 - 2y).",
+        "Erro metodológico. O cálculo reflete a otimização de um retângulo isolado (4 lados), e não contíguo a uma parede."
       ]
     }
   },
@@ -463,45 +397,45 @@ const questions = [
     options: ["700", "720", "750", "800", "875"],
     correct: 4,
     explanation: {
-      correct: "Correto. Foi solicitado o 'valor mínimo', ou seja, o resultado extremo da função: Yv. Yv = -Δ / 4a = -(100 - 3600) / 4 = 3500 / 4 = 875.",
+      correct: "Solução direta e coerente.<br><br><strong>Passo 1:</strong> É exigido o 'valor mínimo' financeiro. O dado é um valor absoluto final, ou seja, Y<sub>v</sub>.<br><br><strong>Passo 2:</strong> Função C(x) = x² + 10x + 900<br>a = 1, b = 10, c = 900<br><br><strong>Passo 3:</strong> Encontrar o Discriminante (Δ):<br>Δ = 10² - 4(1)(900) = 100 - 3600 = -3500<br><br><strong>Passo 4:</strong> Aplicar o Vértice:<br>Y<sub>v</sub> = <span class='frac'><span>-Δ</span><span>4a</span></span><br><br>Y<sub>v</sub> = <span class='frac'><span>-(-3500)</span><span>4(1)</span></span> = <span class='frac'><span>3500</span><span>4</span></span> = <strong>R$ 875</strong>.",
       options: [
-        "Chute desconexo sem cálculo algébrico.",
-        "Erro na subtração do Delta (Δ = b² - 4ac).",
-        "Erro primário de divisão no momento de aplicar o 4a.",
-        "Você subtraiu os coeficientes em vez de usar a fórmula do Yv.",
+        "Invenção algorítmica sem respaldo lógico.",
+        "Erro estrutural durante a subtração do Delta (b² - 4ac).",
+        "Divisão primária executada incorretamente (fator 4a ignorado).",
+        "Subtração isolada dos coeficientes. Viola a fórmula matemática.",
         "Alternativa Correta."
       ]
     }
   },
   {
     id: 7, level: "Médio",
-    text: "Epidemia: p(t) = -t² + 10t + 24 avalia infectados a cada mês. Para intensificar propaganda, escolheram o período que engloba o mês com maior infecção. Propostas: I (1 a 2), II (3 a 4), III (5 a 6), IV (7 a 9), V (10 a 12). A escolhida foi:",
+    text: "Epidemia: p(t) = -t² + 10t + 24 avalia infectados a cada mês (t). Propostas para propaganda: I (1 a 2), II (3 a 4), III (5 a 6), IV (7 a 9), V (10 a 12). Se vão intensificar no mês com maior infecção, escolheu-se:",
     options: ["Proposta I", "Proposta II", "Proposta III", "Proposta IV", "Proposta V"],
     correct: 2,
     explanation: {
-      correct: "Exato. O mês de maior infecção é o fator gerador temporal (Xv). Xv = -10 / -2 = 5. O mês 5 está dentro do intervalo da Proposta III (5 a 6).",
+      correct: "Interpretação textual correta.<br><br><strong>Passo 1:</strong> Identificar o mês (fator de tempo) responsável pelo pico de contágio (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Função p(t) = -t² + 10t + 24<br>a = -1, b = 10<br><br><strong>Passo 3:</strong> O ponto de máximo temporal:<br>X<sub>v</sub> = <span class='frac'><span>-10</span><span>2(-1)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-10</span><span>-2</span></span> = <strong>Mês 5</strong>.<br><br><strong>Conclusão:</strong> O Mês 5 está unicamente abrigado na Proposta III (meses 5 a 6).",
       options: [
-        "Erro. Este intervalo não contém o mês de pico (Xv = 5).",
-        "Você calculou mal o Xv ou não identificou o mês 5.",
+        "Erro isolado. Este intervalo desconsidera a taxa máxima de elevação.",
+        "Falta de revisão no divisor da fórmula de Xv.",
         "Alternativa Correta.",
-        "Você confundiu o eixo X com a variação do Yv.",
-        "Erro crasso. A curva de infecção está caindo muito neste período."
+        "Inversão total da premissa de eixos.",
+        "Decisão falha. A taxa de infectados opera em declínio constante nestes instantes temporais."
       ]
     }
   },
   {
     id: 8, level: "Difícil",
-    text: "Vôlei: O saque iniciou a 1,5m do piso. Trajetória da bola: y = -<span class='frac'><span>x²</span><span>6</span></span> - <span class='frac'><span>7x</span><span>3</span></span> + 12 (com eixo x a 1,5m do piso).<br><svg viewBox='0 0 300 150' width='100%' height='130' style='max-width: 300px; display: block; margin: 15px auto;'><line x1='10' y1='120' x2='290' y2='120' stroke='#0F172A' stroke-width='4'/><line x1='150' y1='120' x2='150' y2='60' stroke='#0F172A' stroke-width='3'/><rect x='148' y='60' width='4' height='60' fill='#0F172A'/><path d='M 30 90 Q 150 -50 270 110' fill='none' stroke='#0284C7' stroke-width='2' stroke-dasharray='5,5'/><circle cx='30' cy='90' r='4' fill='#EA580C'/><text x='25' y='80' font-size='12' font-weight='bold'>1,5m</text></svg>Se o saque é invalidado ao atingir o teto, e os ginásios têm tetos de I: 17m, II: 18m, III: 19m, IV: 21m e V: 40m. Foi invalidado:",
+    text: "Vôlei: O saque iniciou a 1,5m do piso. Trajetória: y = -<span class='frac'><span>x²</span><span>6</span></span> - <span class='frac'><span>7x</span><span>3</span></span> + 12 (com eixo x a 1,5m do piso). Se o saque é invalidado ao atingir o teto (I: 17m, II: 18m, III: 19m, IV: 21m e V: 40m). Foi invalidado:",
     options: ["Apenas no I", "Apenas no I e II", "Apenas no I, II e III", "Apenas no I, II, III e IV", "Em todos os ginásios"],
     correct: 3,
     explanation: {
-      correct: "Perfeito. Xv = -(-7/3) / 2(-1/6) = -7. O Yv da parábola é aprox 20,16m. Somando os 1,5m do eixo, a altura real é 21,66m. Bateu nos tetos I (17), II (18), III (19) e IV (21).",
+      correct: "Resolução detalhada (Dois Métodos Analíticos):<br><br><strong>Método 1: Substituição do X<sub>v</sub> (Recomendado)</strong><br>1º) Ache o fator gerador (X<sub>v</sub>):<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span> = <span class='frac'><span>-(-7/3)</span><span>2(-1/6)</span></span> = <span class='frac'><span>7/3</span><span>-1/3</span></span> = <strong>-7</strong><br><br>2º) Substitua x = -7 na função para achar a altura (Y<sub>v</sub>):<br>Y<sub>v</sub> = -<span class='frac'><span>(-7)²</span><span>6</span></span> - <span class='frac'><span>7(-7)</span><span>3</span></span> + 12<br>Y<sub>v</sub> = -<span class='frac'><span>49</span><span>6</span></span> + <span class='frac'><span>49</span><span>3</span></span> + 12<br><em>(MMC = 6)</em>: Y<sub>v</sub> = <span class='frac'><span>-49 + 98 + 72</span><span>6</span></span> = <span class='frac'><span>121</span><span>6</span></span> ≈ <strong>20,16m</strong><br><br><strong>Método 2: Fórmula Direta (-Δ/4a)</strong><br>Δ = (<span class='frac'><span>-7</span><span>3</span></span>)² - 4(<span class='frac'><span>-1</span><span>6</span></span>)(12) = <span class='frac'><span>49</span><span>9</span></span> + 8 = <span class='frac'><span>121</span><span>9</span></span><br>Y<sub>v</sub> = <span class='frac'><span>-<span class='frac'><span>121</span><span>9</span></span></span><span>4(<span class='frac'><span>-1</span><span>6</span></span>)</span></span> = <span class='frac'><span>121</span><span>9</span></span> × <span class='frac'><span>6</span><span>4</span></span> = <span class='frac'><span>726</span><span>36</span></span> = <span class='frac'><span>121</span><span>6</span></span> ≈ <strong>20,16m</strong><br><br><strong>A Rasteira Final (O eixo do piso):</strong><br>O eixo está a 1,5m do piso. Altura real = 20,16m + 1,5m = <strong>21,66m</strong>.<br>Invalida os tetos I(17), II(18), III(19) e IV(21).",
       options: [
-        "Faltou analisar a altura total da parábola.",
-        "Você ignorou a soma com os 1,5m iniciais da altura do eixo.",
-        "Erro de cálculo no Yv. A altura máxima superou os 21 metros.",
+        "Desconsiderou a projeção total (Yv). O cálculo final exige as frações completas.",
+        "Omissão da constante referencial cartesiana (A rasteira de esquecer de somar os 1,5m do saque inicial).",
+        "Arredondamento desleixado. O limite da bola perpassa a barreira de 21 metros.",
         "Alternativa Correta.",
-        "Absurdo. O teto de 40m jamais seria tocado."
+        "Hipótese insustentável. O projétil colapsa muito antes da marcação requerida de 40 metros."
       ]
     }
   },
@@ -511,13 +445,13 @@ const questions = [
     options: ["V(1, 1)", "V(-1, 1)", "V(1, -1)", "V(-1, -1)", "V(0, 2)"],
     correct: 2,
     explanation: {
-      correct: "Cálculo algébrico básico validado. Xv = 6 / 6 = 1. Substituindo na equação: Y = 3(1)² - 6(1) + 2 = 3 - 6 + 2 = -1. Logo, V(1, -1).",
+      correct: "Procedimento algébrico regular concluído com precisão.<br><br><strong>Passo 1:</strong> Obtenção da coordenada X:<br>X<sub>v</sub> = <span class='frac'><span>-(-6)</span><span>2(3)</span></span> = <span class='frac'><span>6</span><span>6</span></span> = 1<br><br><strong>Passo 2:</strong> Substituição em malha fechada (Y<sub>v</sub>):<br>y = 3(1)² - 6(1) + 2<br>y = 3 - 6 + 2 = -1<br><br><strong>Conclusão:</strong> O vértice coordenado reside em <strong>V(1, -1)</strong>.",
       options: [
-        "Erro de sinal ao calcular o Yv.",
-        "Erro de sinal ao calcular o Xv.",
+        "Inconsistência vetorial no resultado final (Yv). O cálculo aritmético -6 + 5 não gera 1.",
+        "Confusão da inversão de sinais subjacente ao coeficiente b.",
         "Alternativa Correta.",
-        "Errou os sinais do Xv e Yv simultaneamente.",
-        "Isso é a interseção com o eixo y, não o vértice!"
+        "Descontrole sistemático de múltiplos sinais da equação original.",
+        "Falta de conhecimento geométrico: A coordenada apresentada é a interseção no eixo Y (valor da raiz primária C)."
       ]
     }
   },
@@ -527,61 +461,61 @@ const questions = [
     options: ["V(20, 400)", "V(-20, 1200)", "V(20, 1200)", "V(40, 800)", "V(0, 800)"],
     correct: 2,
     explanation: {
-      correct: "Direto e reto. Xv = -40 / -2 = 20. Substituindo: Yv = -(20)² + 40(20) + 800 = -400 + 800 + 800 = 1200.",
+      correct: "Desenvolvimento preciso e clínico.<br><br><strong>Passo 1:</strong> Obtenção isolada do X<sub>v</sub>.<br>X<sub>v</sub> = <span class='frac'><span>-40</span><span>2(-1)</span></span> = <span class='frac'><span>-40</span><span>-2</span></span> = 20<br><br><strong>Passo 2:</strong> Avaliação em sistema (Y<sub>v</sub>):<br>y = -(20)² + 40(20) + 800<br>y = -400 + 800 + 800<br>y = 1200<br><br><strong>Conclusão:</strong> Vetor posicional centrado em <strong>V(20, 1200)</strong>.",
       options: [
-        "Erro na substituição do Xv no cálculo do Yv. Não ignorou o quadrado negativo.",
-        "Erro de sinal no cálculo primário do Xv.",
+        "Omissão da negatividade precedente no quadrado (-(20)² foi interpretado como potência positiva incorreta).",
+        "Falha do rigor estrutural primário (Divisão entre números negativos).",
         "Alternativa Correta.",
-        "Confundiu as raízes com o valor do vértice.",
-        "Nivelou o Xv a zero incorretamente."
+        "Omissão da regra geral do fator multiplicador '2a'.",
+        "Determinação imprópria de ponto referencial c (Origem Y)."
       ]
     }
   },
   {
     id: 11, level: "Médio",
-    text: "Uma bola é lançada: h(t) = 20t - 5t². Determine, nesta ordem: o tempo decorrido até a altura máxima, a altura máxima e o tempo até cair no solo.",
+    text: "Uma bola é lançada: h(t) = 20t - 5t². Determine, nesta ordem: o tempo até a altura máxima, a altura máxima e o tempo até cair no solo.",
     options: ["(2s, 20m, 4s)", "(4s, 15m, 2s)", "(2s, 10m, 4s)", "(4s, 20m, 5s)", "(3s, 15m, 4s)"],
     correct: 0,
     explanation: {
-      correct: "Perfeito. Xv (tempo máx) = -20/-10 = 2s. Yv (alt máx) = 20(2) - 5(4) = 20m. Raiz (cair no solo) 20t - 5t² = 0, raízes são 0 e 4. Solo aos 4s.",
+      correct: "Análise correta.<br><br><strong>Passo 1:</strong> Tempo para altura máxima (Fator X<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-20</span><span>2(-5)</span></span> = <span class='frac'><span>-20</span><span>-10</span></span> = <strong>2s</strong><br><br><strong>Passo 2:</strong> Altura máxima absoluta (Y<sub>v</sub>).<br>h(2) = 20(2) - 5(4) = 40 - 20 = <strong>20m</strong><br><br><strong>Passo 3:</strong> Tempo da parábola inteira até zerar a elevação (Raízes em h=0).<br>20t - 5t² = 0<br>5t(4 - t) = 0<br>Raízes confirmadas: t=0s e t=<strong>4s</strong>.",
       options: [
         "Alternativa Correta.",
-        "Misturou tempo de voo com altura.",
-        "Calculou a altura de forma incorreta.",
-        "Errou as raízes e o tempo de vértice.",
-        "Equívoco fatal nas divisões."
+        "Mistura categórica de eixo de tempo (X) com grandeza posicional (Y).",
+        "Cálculo isolado incorreto da projeção de altura no passo intermediário.",
+        "Erro de resolução das raízes fatoriais na função temporal.",
+        "Descompasso matemático com as operações de base algébrica."
       ]
     }
   },
   {
     id: 12, level: "Médio",
-    text: "Indústria de lotes: Receita V(x) = 3x² - 12x. Custo C(x) = 5x² - 40x - 40. O número de lotes mensais para obter lucro máximo é:",
+    text: "Lotes Mensais: Receita V(x) = 3x² - 12x. Custo C(x) = 5x² - 40x - 40. O número de lotes para obter o lucro máximo é:",
     options: ["5", "6", "7", "8", "9"],
     correct: 2,
     explanation: {
-      correct: "Ótimo. Lucro = Receita - Custo. L(x) = (3x² - 12x) - (5x² - 40x - 40) = -2x² + 28x + 40. Quantidade = Xv = -28 / -4 = 7 lotes.",
+      correct: "Fundamentação lógica robusta.<br><br><strong>Passo 1:</strong> Lucro deriva de Receita reduzindo Custo.<br>L(x) = (3x² - 12x) - (5x² - 40x - 40)<br>L(x) = 3x² - 12x - 5x² + 40x + 40<br>L(x) = -2x² + 28x + 40<br><br><strong>Passo 2:</strong> A quantidade é o fator determinante para maximização (X<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-28</span><span>2(-2)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-28</span><span>-4</span></span> = <strong>7 lotes mensais</strong>.",
       options: [
-        "Erro na hora de subtrair as funções algébricas.",
-        "Falhou no jogo de sinais (- com -40x).",
+        "Equívoco fatal nas operações de base algébrica no equacionamento geral.",
+        "Omissão da regra geral de troca de sinais distributiva da subtração no balanço financeiro.",
         "Alternativa Correta.",
-        "Você cometeu um erro de aritmética na divisão -b/2a.",
-        "Falta de rigor na construção da função L(x)."
+        "Erro na divisão de <span class='frac'><span>-b</span><span>2a</span></span>.",
+        "Construto sistêmico inaceitável. O aluno gerou a equação L(x) sem coerência matemática."
       ]
     }
   },
   {
     id: 13, level: "Médio",
-    text: "Uma artesã tem lucro de vasos modelado por f(x) = -x² + 50x. A quantidade máxima de vasos para gerar lucro e o valor deste lucro máximo são, respectivamente:",
+    text: "Artesã: o lucro de vasos é f(x) = -x² + 50x. A quantidade máxima de vasos para gerar lucro e o valor desse lucro máximo são, respectivamente:",
     options: ["24 e R$480,00", "25 e R$625,00", "35 e R$735,00", "20 e R$500,00", "30 e R$600,00"],
     correct: 1,
     explanation: {
-      correct: "Rigoroso. Quantidade (Xv) = -50/-2 = 25. Lucro máximo (Yv) = -(25)² + 50(25) = -625 + 1250 = 625.",
+      correct: "Análise processual aprovada.<br><br><strong>Passo 1:</strong> Obter a quantidade que gera o pico de operação (X<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-50</span><span>2(-1)</span></span> = <span class='frac'><span>-50</span><span>-2</span></span> = <strong>25 unidades</strong><br><br><strong>Passo 2:</strong> Mensurar o resultado exato monetário via vértice Y (Y<sub>v</sub>).<br>Y<sub>v</sub> = f(25) = -(25)² + 50(25)<br>Y<sub>v</sub> = -625 + 1250 = <strong>R$ 625,00</strong>.",
       options: [
-        "Chute próximo, mas falhou na divisão por 2.",
+        "Aproximação inexata fundamentada em uma quebra de regra de base primária.",
         "Alternativa Correta.",
-        "Os valores não batem com a álgebra. Erro grosseiro.",
-        "Você estagnou antes de chegar ao vértice.",
-        "Você errou a coordenada X do vértice."
+        "Os dados são dissonantes de qualquer cálculo algébrico do Delta.",
+        "Paralisação dedutiva intermediária. O raciocínio encerrou precocemente.",
+        "Falha de identificação do ápice do vértice Xv."
       ]
     }
   },
@@ -591,13 +525,13 @@ const questions = [
     options: ["(48m; 3s e 4s; 49m)", "(40m; 2s e 5s; 50m)", "(48m; 2s e 4s; 49m)", "(50m; 3s e 4s; 48m)", "(45m; 3s e 5s; 49m)"],
     correct: 0,
     explanation: {
-      correct: "Sólido. h(3) = 28(3)-4(9) = 48. Quando h=48: 4t² - 28t + 48 = 0 (divide por 4) t² - 7t + 12 = 0, logo t=3 e t=4. Alt máx Yv: Xv=3,5s, Yv=49m.",
+      correct: "Abordagem metodológica exemplar.<br><br><strong>Passo 1:</strong> Medir a altura imediata fixando t=3.<br>h(3) = 28(3) - 4(3²) = 84 - 36 = <strong>48m</strong><br><br><strong>Passo 2:</strong> Achar instante em que a altura espelha 48m.<br>-4t² + 28t = 48<br>-4t² + 28t - 48 = 0 (Dividindo por -4 para simplificar)<br>t² - 7t + 12 = 0<br>Raízes validadas por fatoração ou Bhaskara: <strong>t=3s</strong> e <strong>t=4s</strong><br><br><strong>Passo 3:</strong> Altura limite (Y<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-28</span><span>-8</span></span> = 3,5s<br>h(3,5) = 28(3,5) - 4(3,5)² = 98 - 49 = <strong>49m</strong>.",
       options: [
         "Alternativa Correta.",
-        "Errou Bhaskara ao resolver a equação de 2º grau.",
-        "Falha na obtenção das raízes.",
-        "Você inverteu a altura máxima com a altura aos 3s.",
-        "Matemática deficiente nas operações de potência."
+        "Aplicação inconsistente de Bhaskara ou método fatorial.",
+        "Isolamento deficiente da matriz do polinômio de 2º Grau.",
+        "Falha de percepção semântica: O valor da parábola em Yv foi investido pela medição t=3.",
+        "Déficit na hierarquia operacional das potências numéricas."
       ]
     }
   },
@@ -607,29 +541,29 @@ const questions = [
     options: ["40 unidades e R$1400", "30 unidades e R$1500", "40 unidades e R$1600", "50 unidades e R$1400", "20 unidades e R$1800"],
     correct: 0,
     explanation: {
-      correct: "Correto. Quantidade = Xv = 80/2 = 40. Custo (Yv) = (40)² - 80(40) + 3000 = 1600 - 3200 + 3000 = 1400.",
+      correct: "Diretriz algébrica aplicada adequadamente.<br><br><strong>Passo 1:</strong> Produção mínima estipulada via fator central gerador (X<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-(-80)</span><span>2(1)</span></span> = <span class='frac'><span>80</span><span>2</span></span> = <strong>40 unidades</strong><br><br><strong>Passo 2:</strong> Valor final estipulado por substituição direta (Y<sub>v</sub>).<br>C(40) = (40)² - 80(40) + 3000<br>C(40) = 1600 - 3200 + 3000 = <strong>R$ 1400</strong>.",
       options: [
         "Alternativa Correta.",
-        "Você errou a fórmula básica do Xv.",
-        "Você falhou na adição final do Yv.",
-        "Errou o cálculo do fator gerador.",
-        "Chute totalmente descalibrado."
+        "Isolamento algébrico fundamental mal procedido no Xv.",
+        "Incapacidade operacional das equações cumulativas nos instantes finais.",
+        "Erro de cálculo na formulação da fração.",
+        "Solução hipotética infundada na parábola original."
       ]
     }
   },
   {
     id: 16, level: "Médio",
-    text: "Cientista chuta lata: h(t) = 6 + 4t - t². Avalie: I. É uma parábola com concavidade para cima. II. A altura máxima é 10m. III. Possui duas raízes reais. É correto afirmar que:",
+    text: "Cientista chuta lata: h(t) = 6 + 4t - t². Avalie: I. É uma parábola com concavidade para cima. II. A altura máxima é 10m. III. Possui duas raízes reais.",
     options: ["Apenas I é verdadeira", "Apenas II é verdadeira", "Apenas II e III são verdadeiras", "Apenas I e III são verdadeiras", "Todas são verdadeiras"],
     correct: 2,
     explanation: {
-      correct: "Cirúrgico. I é Falso (a = -1, concavidade para baixo). II é Verdadeiro (Xv = 2, h(2) = 10). III é Verdadeiro (Δ = 16 - 4(-1)(6) = 40 > 0, duas raízes).",
+      correct: "Avaliação técnica impecável.<br><br><strong>Análise Crítica:</strong><br><br><strong>I. Falsa.</strong> A função pode ser reescrita como h(t) = -t² + 4t + 6. Sendo o coeficiente 'a' correspondente a -1, a concavidade é estritamente voltada para baixo.<br><br><strong>II. Verdadeira.</strong><br>X<sub>v</sub> = <span class='frac'><span>-4</span><span>-2</span></span> = 2s.<br>Altura pico Y<sub>v</sub>: h(2) = -(2)² + 4(2) + 6 = -4 + 8 + 6 = 10m.<br><br><strong>III. Verdadeira.</strong><br>O Delta rege as raízes: Δ = 16 - 4(-1)(6) = 16 + 24 = 40. Dado que Δ > 0, o sistema intercepta o solo duas vezes em bases reais.",
       options: [
-        "Sério? 'a' é negativo, impossível a concavidade ser para cima.",
-        "Esqueceu de validar as raízes (Delta > 0).",
+        "Falsa lógica elementar. Sinal negativo de 'a' exige curvatura inferior.",
+        "Descuido de processamento geométrico (Falha no reconhecimento da lei das duas raízes perante Δ positivo).",
         "Alternativa Correta.",
-        "Erro duplo: errou a concavidade e a altura máxima.",
-        "Você aceitou uma premissa logicamente falha (I)."
+        "Erros somados de verificação em duas frentes diametralmente opostas.",
+        "Acusação sistêmica cega. Falha grave de rigor na leitura do item preliminar."
       ]
     }
   },
@@ -639,13 +573,13 @@ const questions = [
     options: ["A concavidade é voltada para cima.", "Seu vértice é V(-2, 1).", "Intersecta as abscissas em P(-3,0) e Q(3,0).", "Seu vértice é o ponto V(2, 1).", "Não possui raízes reais."],
     correct: 3,
     explanation: {
-      correct: "Precisão absoluta. Xv = -4/-2 = 2. Yv = -(2)² + 4(2) - 3 = 1. V(2,1). As outras afirmações são falsas: concavidade é para baixo e raízes são 1 e 3.",
+      correct: "Afirmação validada sem margem de erros.<br><br><strong>Passo 1:</strong> Posicionar coordenada X (X<sub>v</sub>).<br>X<sub>v</sub> = <span class='frac'><span>-4</span><span>2(-1)</span></span> = <span class='frac'><span>-4</span><span>-2</span></span> = 2<br><br><strong>Passo 2:</strong> Posicionar coordenada Y (Y<sub>v</sub>).<br>Y<sub>v</sub> = -(2)² + 4(2) - 3 = -4 + 8 - 3 = 1<br><br><strong>Conclusão:</strong> O vértice encontra repouso no quadrante correspondente <strong>V(2, 1)</strong>.",
       options: [
-        "Falso. O coeficiente 'a' é negativo (-1).",
-        "Erro grave de sinal na equação Xv = -b/2a.",
-        "Bhaskara aplicada de forma desastrosa. Raízes são 1 e 3.",
+        "Falsa identificação base. A negatividade da parábola (-1) garante curvatura para baixo.",
+        "Troca indesejada do espectro de sinais durante a alocação no denominador -2a.",
+        "Discrepância na operação de fórmula padrão (Bhaskara). As raízes são estritamente 1 e 3 positivos.",
         "Alternativa Correta.",
-        "Falso. O delta é 16 - 12 = 4 (maior que zero)."
+        "Condição impossível perante os coeficientes. O Δ perfaz um referencial válido igual a 4."
       ]
     }
   },
@@ -655,29 +589,29 @@ const questions = [
     options: ["-625", "125", "1245", "625", "315"],
     correct: 1,
     explanation: {
-      correct: "Direto e objetivo. Quantidade é o fator Xv. A equação reorganizada é n² - 250n + 15000. Xv = -(-250)/2 = 125.",
+      correct: "Verificação analítica apropriada.<br><br><strong>Passo 1:</strong> Identificar que a meta exigida é o volume de produção para gerar a alteração extrema (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Formatar a organização referencial padrão da parábola para controle de erros.<br>C(n) = n² - 250n + 15000<br><br><strong>Passo 3:</strong> Processamento matemático:<br>X<sub>v</sub> = <span class='frac'><span>-b</span><span>2a</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-(-250)</span><span>2(1)</span></span> = <span class='frac'><span>250</span><span>2</span></span> = <strong>125 unidades operacionais</strong>.",
       options: [
-        "Erro crasso de sinal. A quantidade não pode ser negativa.",
+        "Negatividade inconsistente com realidades aplicáveis em grandezas quantitativas fabris.",
         "Alternativa Correta.",
-        "Não aplicou nenhuma regra de vértice válida.",
-        "Isso parece uma falha bizarra de divisão ou cálculo mental.",
-        "Chute estatístico inútil."
+        "Desconsideração ampla de qualquer ferramenta avaliativa em extremos de 2º Grau.",
+        "Decréscimo arbitrário e isolado do processamento cerebral exigido pelo fator divisório.",
+        "Preenchimento vago de estatísticas hipotéticas para dedução irracional."
       ]
     }
   },
   {
     id: 19, level: "Médio",
-    text: "Barras de chocolate têm seu lucro expresso por L(x) = -x² + 14x - 45, onde x é o preço. Preços de mercado: Barra I (R$2), Barra II (R$3,50), Barra III (R$4), Barra IV (R$7), Barra V (R$8). A empresa deve investir na produção da:",
+    text: "Barras de chocolate: L(x) = -x² + 14x - 45, onde x é o preço. Preços do mercado: I (R$2), II (R$3,50), III (R$4), IV (R$7), V (R$8). Investir em qual barra?",
     options: ["Barra I", "Barra II", "Barra III", "Barra IV", "Barra V"],
     correct: 3,
     explanation: {
-      correct: "Perfeito. O preço ótimo que gera o maior lucro é o Xv. Xv = -14 / -2 = 7. O preço de R$ 7,00 corresponde à Barra IV.",
+      correct: "Seleção mercadológica exata fundamentada em base sólida.<br><br><strong>Passo 1:</strong> O valor monetário que maximiza a lucratividade em parábolas não advém do lucro bruto absoluto final, e sim da variável preço base geradora (X<sub>v</sub>).<br><br><strong>Passo 2:</strong> Regulação matemática do vértice central.<br>X<sub>v</sub> = <span class='frac'><span>-14</span><span>2(-1)</span></span><br><br>X<sub>v</sub> = <span class='frac'><span>-14</span><span>-2</span></span> = <strong>7</strong><br><br><strong>Conclusão:</strong> O investimento de maior solidez exige um referencial de preço estipulado em R$ 7,00 (Exclusivo ao conjunto da <strong>Barra IV</strong>).",
       options: [
-        "Erro. R$ 2 gera prejuízo.",
-        "Erro. Você pegou apenas um quarto da parábola.",
-        "Não analisou o ponto de máximo da curva.",
+        "Opção precária. Aplicação comercial deste índice em x=2 gera lucratividade negativa (Prejuízo crasso de 21 unidades).",
+        "Seleção inadequada derivada do desprezo pelo segmento ascendente da parábola avaliada.",
+        "Avaliação preliminar encerrou percurso distante do pico de desempenho exigido.",
         "Alternativa Correta.",
-        "Você ultrapassou o preço ótimo e a demanda já está caindo."
+        "Saturação indevida da curva. O acréscimo infundado impulsiona o referencial para índices onde o declínio e encolhimento de mercado são inevitáveis."
       ]
     }
   }
@@ -686,10 +620,7 @@ const questions = [
 const storageKey = 'promover_quiz_1ano_matematica';
 let savedAnswers = localStorage.getItem(storageKey);
 let userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(questions.length).fill(null);
-
-// MELHORIA: Encontra a primeira questão não respondida para continuar de onde o usuário parou
-let firstUnanswered = userAnswers.findIndex(ans => ans === null);
-let currentQuestion = firstUnanswered !== -1 ? firstUnanswered : 0;
+let currentQuestion = 0;
 
 function setMode(mode) {
   const views = ['viewExplanation', 'viewPractice', 'viewResult'];
@@ -705,6 +636,11 @@ function setMode(mode) {
     document.getElementById('quizFooter').style.display = 'flex';
     document.getElementById('btnExp').classList.remove('active');
     document.getElementById('btnPrac').classList.add('active');
+    
+    let firstUnanswered = userAnswers.indexOf(null);
+    if(firstUnanswered !== -1) {
+      currentQuestion = firstUnanswered;
+    }
     renderQuestion();
     renderMap();
   } else if (mode === 'result') {
@@ -718,7 +654,7 @@ function renderQuestion() {
   if (questions.length === 0) return;
   const q = questions[currentQuestion];
   const container = document.getElementById('quizContainer');
-  const letters = ['A', 'B', 'C', 'D', 'E']; // 5 alternativas
+  const letters = ['A', 'B', 'C', 'D', 'E']; 
   const ans = userAnswers[currentQuestion];
   let badgeClass = '';
 
@@ -726,7 +662,7 @@ function renderQuestion() {
   else if (q.level === 'Médio') badgeClass = 'dif-medio';
   else badgeClass = 'dif-dificil';
 
-  let htmlOpts = '';
+  let htmlOptions = '';
   q.options.forEach((opt, i) => {
     let cls = '';
     if (ans !== null) {
@@ -734,52 +670,43 @@ function renderQuestion() {
       else if (i === ans) cls = 'wrong';
       else cls = 'disabled';
     }
-    let disableAttr = (ans !== null) ? 'disabled' : '';
-    htmlOpts += '<button class="option-btn ' + cls + '" onclick="handleAnswer(' + i + ')" ' + disableAttr + '><div class="opt-circle">' + letters[i] + '</div><div>' + opt + '</div></button>';
+    let disableAttr = ans !== null ? 'disabled' : '';
+    htmlOptions += '<button class="option-btn ' + cls + '" onclick="handleAnswer(' + i + ')" ' + disableAttr + '>';
+    htmlOptions += '<div class="opt-circle">' + letters[i] + '</div>';
+    htmlOptions += '<div>' + opt + '</div>';
+    htmlOptions += '</button>';
   });
 
   let htmlFeedback = '';
-  if (ans !== null) {
-    let feedTitleColor = (ans === q.correct) ? 'var(--correct-border)' : 'var(--wrong-border)';
-    let feedTitleText = (ans === q.correct) ? '☑ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada:';
+  if(ans !== null) {
+    let titleColor = ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)';
+    let titleText = ans === q.correct ? '☑ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada:';
     
-    let wrongFeedback = '';
+    htmlFeedback += '<div class="feedback-box" id="feedback-anchor">';
+    htmlFeedback += '<div class="feedback-title" style="color:' + titleColor + '">' + titleText + '</div>';
+    htmlFeedback += '<div class="feedback-item correct-opt"><strong>Análise Conclusiva (Alternativa Correta):</strong> ' + q.options[q.correct] + '</div>';
+    htmlFeedback += '<div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">' + q.explanation.correct + '</div>';
+    htmlFeedback += '<div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">';
+    htmlFeedback += '<small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>';
+    
     q.explanation.options.forEach((exp, i) => {
-       if (i !== q.correct) {
-          wrongFeedback += '<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>(' + letters[i] + ')</strong> ' + exp + '</div>';
-       }
+      if(i !== q.correct) {
+        htmlFeedback += '<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>(' + letters[i] + ')</strong> ' + exp + '</div>';
+      }
     });
-
-    htmlFeedback = `
-      <div class="feedback-box">
-        <div class="feedback-title" style="color:${feedTitleColor}">
-          ${feedTitleText}
-        </div>
-        <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
-        <div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
-          ${q.explanation.correct}
-        </div>
-        <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
-          <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
-          ${wrongFeedback}
-        </div>
-      </div>
-    `;
+    htmlFeedback += '</div></div>';
   }
 
-  container.innerHTML = `
-    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
-      <span class="difficulty-badge ${badgeClass}">${q.level}</span>
-      <div style="margin-bottom: 20px;">
-        <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
-        <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
-      </div>
-      <div class="options-list">
-        ${htmlOpts}
-      </div>
-      ${htmlFeedback}
-    </div>
-  `;
+  container.innerHTML = 
+    '<div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">' +
+      '<span class="difficulty-badge ' + badgeClass + '">' + q.level + '</span>' +
+      '<div style="margin-bottom: 20px;">' +
+        '<span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ' + (currentQuestion + 1) + ' DE ' + questions.length + '</span>' +
+        '<h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">' + q.text + '</h2>' +
+      '</div>' +
+      '<div class="options-list">' + htmlOptions + '</div>' + htmlFeedback +
+    '</div>';
+
   updateNav();
 }
 
@@ -803,39 +730,30 @@ function handleAnswer(idx) {
     quizContainer.classList.add('shake-effect');
   }
 
-  setTimeout(() => {
-    const quizContainer = document.getElementById('quizContainer');
-    if (quizContainer.classList.contains('shake-effect')) {
-       quizContainer.classList.remove('shake-effect');
-    }
-  }, 500);
-
   renderQuestion();
   renderMap();
 
-  // MELHORIA: Rolar a tela suavemente para exibir o feedback recém-renderizado (foco no mobile)
   setTimeout(() => {
-    const feedbackBox = document.querySelector('.feedback-box');
-    if (feedbackBox) {
-      feedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, 50);
+    const fbAnchor = document.getElementById('feedback-anchor');
+    if(fbAnchor) fbAnchor.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }, 100);
 }
 
 function renderMap() {
   if (questions.length === 0) return;
   const map = document.getElementById('qMap');
   
-  let mapHtml = '';
+  let htmlMap = '';
   questions.forEach((q, i) => {
     let cls = 'map-dot';
     if (i === currentQuestion) cls += ' active';
     if (userAnswers[i] !== null) {
       cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
     }
-    mapHtml += '<div class="' + cls + '" onclick="goTo(' + i + ')">' + (i + 1) + '</div>';
+    htmlMap += '<div class="' + cls + '" onclick="goTo(' + i + ')">' + (i + 1) + '</div>';
   });
-  map.innerHTML = mapHtml;
+  
+  map.innerHTML = htmlMap;
   
   setTimeout(() => {
     const activeDot = map.querySelector('.map-dot.active');
@@ -862,7 +780,7 @@ function updateNav() {
   const next = document.getElementById('btnNext');
   
   if (currentQuestion === questions.length - 1) {
-    next.textContent = "Finalizar Diagnóstico";
+    next.textContent = "Finalizar";
     next.onclick = finish;
   } else {
     next.textContent = "Avançar";
@@ -881,10 +799,14 @@ function finish() {
 
   let summary = '<div style="text-align:left; margin-top:20px;">';
   if (percent < 80) {
-    summary += '<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);"><strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a nota de corte (80%). Revise a teoria com rigor. Você não pode perder questões desse nível para avaliações escolares e vestibulares.</div>';
+    summary += '<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">' +
+      '<strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a nota de corte (80%). Revise a teoria com rigor. Você não pode perder questões desse nível nas avaliações e vestibulares.' +
+    '</div>';
     document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>';
   } else {
-    summary += '<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);"><strong>☑ Excelente Desempenho!</strong> Você demonstrou uma base sólida e clínica. Você domina quando calcular Xv e Yv sem cair em rasteiras.</div>';
+    summary += '<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">' +
+      '<strong>☑ Excelente Desempenho!</strong> Você demonstrou uma base sólida e clínica. Você domina quando calcular Xv e Yv sem cair em rasteiras.' +
+    '</div>';
     document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>';
   }
 
@@ -892,7 +814,11 @@ function finish() {
     summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
     questions.forEach((q, i) => {
       if (userAnswers[i] !== q.correct && userAnswers[i] !== null) {
-        summary += '<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);"><strong style="color:var(--theme-dark);">Q' + (i+1) + ':</strong> ' + q.text + '<br><span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ' + q.options[userAnswers[i]] + '</span><span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ' + q.options[q.correct] + '</span></div>';
+        summary += '<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">' +
+            '<strong style="color:var(--theme-dark);">Q' + (i+1) + ':</strong> ' + q.text + '<br>' +
+            '<span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ' + q.options[userAnswers[i]] + '</span>' +
+            '<span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ' + q.options[q.correct] + '</span>' +
+          '</div>';
       }
     });
   }
@@ -906,20 +832,19 @@ function reset() {
   localStorage.removeItem(storageKey);
   userAnswers = new Array(questions.length).fill(null);
   currentQuestion = 0;
-  
-  window.scrollTo(0, 0); 
+  window.scrollTo(0,0);
   setMode('practice');
 }
 
-// Iniciar
-// Se houver progresso mas a prova já estiver finalizada (nenhuma resposta null), mostramos os resultados
-let isFinished = userAnswers.every(ans => ans !== null);
-if (isFinished) {
-  setMode('result');
-  finish(); // Calcula o resultado imediatamente ao carregar
-} else {
-  setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
-}
+window.onload = () => {
+  if(userAnswers.every(ans => ans !== null) && questions.length > 0) {
+    finish();
+  } else if(userAnswers.some(ans => ans !== null)) {
+    setMode('practice');
+  } else {
+    setMode('explanation');
+  }
+};
 </script>
 </body>
 </html>
