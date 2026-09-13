@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- IMPORTANTE: Crie um título ÚNICO, pois ele é a chave do banco de dados local -->
+<title>Bioenergetica e Ciclos da Vida - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+    /* Cores adaptadas ao tema de Bioenergética (Roxo Mitocôndria e Laranja ATP) */
+    --bg-color: #F5F3FF; 
+    --text-color: #0F172A;
+    --border-color: #2E1065;
+    --white: #FFFFFF;
+    --theme-light: #DDD6FE;
+    --theme-medium: #8B5CF6;
+    --theme-dark: #5B21B6;
+    --theme-contrast: #EA580C; 
+    --theme-accent: #7C3AED;
+    --theme-text-active: #FFFFFF;
+
+    /* NÃO ALTERAR AS CORES ABAIXO */
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px; background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px); background-size: 20px 20px; }
+
+@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); } }
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from {opacity: 0; } to { opacity: 1;}}
+@keyframes slideUp { from {transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse { 0% { transform: scale(1); } 15% { transform: scale(1.15); color: var(--theme-contrast); } 30% { transform: scale(1); } 45% { transform: scale(1.15); color: var(--theme-contrast); } 100% { transform: scale(1); } }
+
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo {font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center; }
+
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container {background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+
+.search-container {position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon {position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box {display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.theory-box p { margin-bottom: 10px; color: #1E293B; }
+.theory-box ul { padding-left: 20px; margin-bottom: 10px; }
+.theory-box li { margin-bottom: 6px; }
+
+.illustration-container { display: flex; justify-content: center; align-items: center; padding: 20px; background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; margin: 15px 0; overflow: hidden; width: 100%;}
+.illustration-container svg {max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; font-weight: 600; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+
+.difficulty-badge {display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+.question-map {display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot {min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct {background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled {pointer-events: none; opacity: 0.7; }
+
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt {border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0;}
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+.result-card {background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container {font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big {font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">⚡</span> PROMOVER</div>
+        <h1>CIÊNCIAS / QUÍMICA DA VIDA</h1>
+        <p class="subtitle">Bioenergética e Ciclos Biogeoquímicos</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📚 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🎯 Prática (<span id="qtd-btn">0</span>)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchinput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar (ex: ATP, Mitocôndria, Ciclo)...">
+        </div>
+        <div id="no-results"><p>Termo não encontrado.</p></div>
+
+        <div class="content-group">
+            <span class="section-badge">1. Os Ciclos Biogeoquímicos</span>
+            <div class="theory-box">
+                <h3>O Carbono e o Oxigênio</h3>
+                <p>Os seres vivos são formados fundamentalmente por cadeias de Carbono. Esse elemento não é infinito na Terra, ele recicla constantemente passando por formas <strong>bióticas</strong> (seres vivos) e <strong>abióticas</strong> (água, rochas, ar).</p>
+                <ul>
+                    <li><strong>Carbono Fóssil:</strong> Petróleo, carvão e gás natural não são inesgotáveis. São florestas e plânctons soterrados por milhões de anos. Ao queimá-los, injetamos rápido demais um CO₂ que a natureza levou eras para trancar.</li>
+                    <li><strong>Carbono na Água:</strong> O CO₂ dissolve nos oceanos formando íons de bicarbonato (HCO₃⁻) e carbonato de cálcio (CaCO₃), matéria-prima indispensável para conchas e corais marinhos.</li>
+                    <li><strong>O "Pulmão" Marinho:</strong> A Amazônia consome o que produz. A real fábrica do gás oxigênio livre que abastece a biosfera é o <strong>fitoplâncton</strong>, algas microscópicas que habitam a superfície dos oceanos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">2. A Balança Metabólica</span>
+            <div class="theory-box">
+                <h3>Fotossíntese vs Respiração Aeróbica</h3>
+                <p>O funcionamento da biosfera é um ciclo onde o "lixo" de um é a matéria-prima do outro. Esse é o pilar da Lei de Conservação das Massas (Lavoisier) aplicada à biologia.</p>
+                
+                <div class="illustration-container">
+                    <!-- SVG do Ciclo Perfeito -->
+                    <svg viewBox="0 0 500 200" style="width:100%; max-width:450px;">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#5B21B6" />
+                            </marker>
+                            <marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#EA580C" />
+                            </marker>
+                        </defs>
+                        <!-- Cloroplasto Esquerda -->
+                        <rect x="20" y="50" width="120" height="100" rx="15" fill="#DCFCE7" stroke="#16A34A" stroke-width="3"/>
+                        <text x="80" y="105" font-family="Poppins" font-size="14" font-weight="bold" fill="#166534" text-anchor="middle">CLOROPLASTO</text>
+                        <text x="80" y="125" font-family="Poppins" font-size="10" fill="#166534" text-anchor="middle">(Fotossíntese)</text>
+                        <circle cx="80" cy="50" r="25" fill="#FEF08A"/>
+                        <text x="80" y="55" font-family="Poppins" font-size="12" font-weight="bold" fill="#B45309" text-anchor="middle">LUZ</text>
+
+                        <!-- Mitocondria Direita -->
+                        <rect x="360" y="50" width="120" height="100" rx="40" fill="#F3E8FF" stroke="#7E22CE" stroke-width="3"/>
+                        <text x="420" y="105" font-family="Poppins" font-size="14" font-weight="bold" fill="#5B21B6" text-anchor="middle">MITOCÔNDRIA</text>
+                        <text x="420" y="125" font-family="Poppins" font-size="10" fill="#5B21B6" text-anchor="middle">(Respiração)</text>
+                        <circle cx="420" cy="150" r="25" fill="#FFEDD5" stroke="#EA580C" stroke-width="2"/>
+                        <text x="420" y="155" font-family="Poppins" font-size="12" font-weight="bold" fill="#C2410C" text-anchor="middle">ATP</text>
+
+                        <!-- Setas Cima (Produtos Foto / Reagentes Resp) -->
+                        <path d="M 150 70 Q 250 20 350 70" fill="none" stroke="#EA580C" stroke-width="3" marker-end="url(#arrowhead-orange)"/>
+                        <text x="250" y="40" font-family="Poppins" font-size="12" font-weight="bold" fill="#C2410C" text-anchor="middle">Glicose + Oxigênio (O₂)</text>
+
+                        <!-- Setas Baixo (Produtos Resp / Reagentes Foto) -->
+                        <path d="M 350 130 Q 250 180 150 130" fill="none" stroke="#5B21B6" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <text x="250" y="170" font-family="Poppins" font-size="12" font-weight="bold" fill="#5B21B6" text-anchor="middle">CO₂ + Água (H₂O)</text>
+                    </svg>
+                </div>
+
+                <div class="highlight-box warning">
+                    <strong>⚠️ Plantas também respiram!</strong> 
+                    Uma planta não vive apenas de fazer fotossíntese. Ela fabrica o açúcar de dia (cloroplasto) e queima esse açúcar com oxigênio dia e noite (mitocôndria) para se manter viva. Se uma planta ficar sem O₂ na raiz, ela morre afogada.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">3. A Moeda de Energia</span>
+            <div class="theory-box">
+                <h3>O Funcionamento do ATP</h3>
+                <p>A Glicose é energia "bruta" (como uma nota de 100). A célula precisa de trocados para trabalhar. A moeda celular é o <strong>ATP (Adenosina Trifosfato)</strong>.</p>
+                <p>O segredo da energia do ATP está nas pontas: ele possui 3 grupos Fosfato grudados. Quando a célula precisa de energia, uma enzima <strong>quebra a terceira ligação fosfato</strong> (a mais instável). A energia dessa quebra é liberada e o ATP vira ADP (Difosfato), voltando à usina para ser recarregado.</p>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">4. O Chão de Fábrica</span>
+            <div class="theory-box">
+                <h3>As 3 Etapas da Respiração Aeróbica</h3>
+                <p>Para extrair energia pura do açúcar, a célula realiza três processos industriais precisos que rendem incríveis <strong>30 moléculas de ATP</strong> por cada glicose quebrada.</p>
+                
+                <div class="illustration-container">
+                    <!-- SVG Etapas Mitocondriais -->
+                    <svg viewBox="0 0 500 280" style="width:100%; max-width:480px;">
+                        <!-- Fundo Célula -->
+                        <rect width="500" height="280" fill="#F8FAFC" rx="10"/>
+                        
+                        <!-- Caixa 1: GLICÓLISE -->
+                        <rect x="20" y="80" width="110" height="60" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+                        <text x="75" y="105" font-family="Poppins" font-size="12" font-weight="bold" fill="#1E3A8A" text-anchor="middle">1. GLICÓLISE</text>
+                        <text x="75" y="120" font-family="Poppins" font-size="10" fill="#1E3A8A" text-anchor="middle">(Citoplasma)</text>
+                        <text x="75" y="160" font-family="Poppins" font-size="14" font-weight="bold" fill="#EA580C" text-anchor="middle">⚡ 2 ATP</text>
+                        <text x="75" y="60" font-family="Poppins" font-size="10" font-weight="bold" fill="#64748B" text-anchor="middle">Sem Oxigênio!</text>
+                        
+                        <!-- Seta para Mitocondria -->
+                        <path d="M 130 110 L 170 110" stroke="#475569" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- MITOCÔNDRIA GIGANTE -->
+                        <path d="M 180 110 C 180 20, 480 20, 480 110 C 480 200, 180 200, 180 110 Z" fill="#F3E8FF" stroke="#7E22CE" stroke-width="4"/>
+                        <path d="M 210 110 Q 210 60, 230 60 Q 240 110, 250 110 Q 260 150, 280 150 Q 290 110, 310 110 Q 330 50, 350 50 Q 360 110, 380 110 Q 400 160, 420 160 Q 430 110, 450 110" fill="none" stroke="#9333EA" stroke-width="4"/>
+                        
+                        <!-- Caixa 2: KREBS -->
+                        <rect x="210" y="85" width="100" height="50" rx="8" fill="#FEF08A" stroke="#CA8A04" stroke-width="2"/>
+                        <text x="260" y="105" font-family="Poppins" font-size="12" font-weight="bold" fill="#854D0E" text-anchor="middle">2. KREBS</text>
+                        <text x="260" y="120" font-family="Poppins" font-size="10" fill="#854D0E" text-anchor="middle">(Matriz)</text>
+                        <text x="260" y="160" font-family="Poppins" font-size="14" font-weight="bold" fill="#EA580C" text-anchor="middle">⚡ 2 ATP</text>
+                        
+                        <!-- Saida CO2 -->
+                        <circle cx="260" cy="35" r="14" fill="#E2E8F0" stroke="#64748B"/>
+                        <text x="260" y="39" font-family="Poppins" font-size="10" font-weight="bold" fill="#334155" text-anchor="middle">CO₂</text>
+                        <path d="M 260 85 L 260 55" stroke="#64748B" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Caixa 3: FOSFORILAÇÃO -->
+                        <rect x="330" y="85" width="130" height="50" rx="8" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+                        <text x="395" y="105" font-family="Poppins" font-size="11" font-weight="bold" fill="#991B1B" text-anchor="middle">3. FOSFORILAÇÃO</text>
+                        <text x="395" y="120" font-family="Poppins" font-size="10" fill="#991B1B" text-anchor="middle">(Cristas)</text>
+                        <text x="395" y="170" font-family="Poppins" font-size="16" font-weight="bold" fill="#EA580C" text-anchor="middle">⚡ 26 ATP</text>
+                        
+                        <!-- Entrada O2 e Saida H2O -->
+                        <circle cx="395" cy="30" r="14" fill="#BAE6FD" stroke="#0369A1"/>
+                        <text x="395" y="34" font-family="Poppins" font-size="10" font-weight="bold" fill="#0C4A6E" text-anchor="middle">O₂</text>
+                        <path d="M 395 48 L 395 80" stroke="#0369A1" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        
+                        <circle cx="460" cy="180" r="14" fill="#BFDBFE" stroke="#1D4ED8"/>
+                        <text x="460" y="184" font-family="Poppins" font-size="10" font-weight="bold" fill="#1E3A8A" text-anchor="middle">H₂O</text>
+                        <path d="M 420 135 L 450 165" stroke="#1D4ED8" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    </svg>
+                </div>
+
+                <ul>
+                    <li><strong>1. Glicólise:</strong> Quebra da molécula de glicose. Ocorre no <em>citoplasma</em>, <strong>SEM uso de oxigênio</strong>. Apenas 2 ATP.</li>
+                    <li><strong>2. Ciclo de Krebs:</strong> Ocorre na <em>matriz</em> (fluido interno). Continua desmontando as peças. É aqui que descartamos o Gás Carbônico. Gera 2 ATP.</li>
+                    <li><strong>3. Fosforilação Oxidativa:</strong> Ocorre nas <em>cristas</em> (dobras da membrana). É a máquina de alto rendimento. Requer Gás Oxigênio (O₂) para pegar os elétrons no final da esteira e formar Água. Gera colossais 26 ATPs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">5. O Plano "B" Emergencial</span>
+            <div class="theory-box">
+                <h3>Respiração Anaeróbica (Fermentação)</h3>
+                <p>E quando falta oxigênio? A mitocôndria trava e desliga a etapa 3 (Fosforilação). Para não morrer, a célula volta a realizar apenas a fase da Glicólise no citoplasma. É um processo de quebra incompleta, que rende apenas 2 ATPs.</p>
+                <ul>
+                    <li><strong>Lática:</strong> Feita pelos nossos músculos em atividade explosiva, gerando ácido lático (que causa dor/fadiga). Também feita por lactobacilos (iogurte).</li>
+                    <li><strong>Etílica:</strong> Feita por leveduras (fungos). Produz álcool etílico e libera bolhas de Gás Carbônico. É o que faz o pão crescer e fabrica vinhos/cervejas.</li>
+                    <li><strong>Acética:</strong> Produz ácido acético (vinagre) ao oxidar o vinho no ar.</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Pegadinha Clássica:</strong> O processo de fermentação é totalmente citoplasmático. As mitocôndrias NÃO participam desse processo de emergência.
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="setMode('practice')">Iniciar Diagnóstico →</button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p id="regras-prova" style="color: #0F172A; font-size: 0.95rem; font-weight:600;">Carregando regras da prova...</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">★</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText"></p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+const searchinput = document.getElementById('searchinput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchinput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) { group.style.display = 'flex'; totalVisible++; } else { group.style.display = 'none'; }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+const questions = [
+    {
+        id: 1, level: "Fácil",
+        text: "Uma falsa crença comum é chamar a Floresta Amazônica de 'pulmão do mundo'. Do ponto de vista dos ciclos biogeoquímicos, a maior parte do gás oxigênio livre que abastece os oceanos e a atmosfera terrestre é produzida por:",
+        options: [
+            "Árvores de grande porte localizadas nas florestas tropicais terrestres.",
+            "Bactérias anaeróbicas que realizam fermentação no fundo do mar.",
+            "Fitoplâncton (algas microscópicas clorofiladas) que realizam fotossíntese nos oceanos.",
+            "Decomposição de matéria orgânica no solo rico da Mata Atlântica."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "O fitoplâncton marinho, pela sua abundância cobrindo 70% do planeta, é responsável por cerca de 99% do oxigênio liberado para os demais organismos.",
+            options: [
+                "A Amazônia consome a maior parte do oxigênio que ela mesma produz através da própria respiração.",
+                "Processos anaeróbicos NÃO produzem oxigênio, eles ocorrem na ausência dele.",
+                "Correta. A grande usina de oxigênio do mundo está nas águas.",
+                "Decomposição é um processo que CONSOME oxigênio e gera gás carbônico."
+            ]
+        }
+    },
+    {
+        id: 2, level: "Média",
+        text: "Nas reações da Fotossíntese, a planta libera Gás Oxigênio (O₂) para a atmosfera. Uma dúvida clássica de química biológica é: De onde vem os átomos de oxigênio que compõem esse gás respirável?",
+        options: [
+            "Vêm da quebra da molécula de Gás Carbônico (CO₂).",
+            "Vêm da degradação da glicose consumida na mitocôndria.",
+            "Vêm exclusivamente da quebra da molécula de Água (H₂O), na etapa da fotólise.",
+            "São criados espontaneamente a partir da energia solar absorvida pela clorofila."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "Essa derruba muitos alunos! A planta absorve H₂O e a luz quebra a água (fotólise). O hidrogênio é guardado, e o oxigênio da água sobra e é descartado na atmosfera.",
+            options: [
+                "O oxigênio do CO₂ não vai pro ar; ele fará parte da estrutura da molécula de Glicose.",
+                "Degradação de glicose é respiração (que consome, e não produz O₂).",
+                "Correta. O oxigênio que você respira agora veio de uma molécula de água líquida.",
+                "Luz é energia, não possui átomos materiais. Conservação de massas!"
+            ]
+        }
+    },
+    {
+        id: 3, level: "Fácil",
+        text: "A molécula de ATP (Adenosina Trifosfato) é considerada a 'moeda de troca' energética das células. Onde e como essa molécula libera a grande carga de energia para o uso da célula?",
+        options: [
+            "Quando a adenosina se transforma em glicose na matriz.",
+            "Na quebra enzimática da terceira e última ligação do grupo fosfato, transformando-se em ADP.",
+            "Quando o gás carbônico se une ao oxigênio no citoplasma para inflar a célula.",
+            "Durante a fusão de três moléculas de água no núcleo."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "A energia do ATP está estocada na repulsão química entre os 3 grupos fosfato. A quebra da última ligação funciona como soltar uma mola comprimida.",
+            options: [
+                "A adenosina e a glicose são estruturas completamente distintas.",
+                "Correta. É o rompimento do terceiro fosfato que libera o 'dinheiro' celular.",
+                "Isso não faz sentido biológico e não gera energia utilizável.",
+                "A água não se funde no núcleo para gerar energia."
+            ]
+        }
+    },
+    {
+        id: 4, level: "Fácil",
+        text: "O processo de fabricação do pão utiliza fermento biológico (leveduras). Após amassar a massa, o padeiro a deixa descansar, e a massa cresce ficando cheia de poros (bolhas internas). Isso ocorre devido à:",
+        options: [
+            "Liberação de gás oxigênio pelas leveduras em atividade aeróbica.",
+            "Produção de ácido lático que infla o amido do pão.",
+            "Liberação de gás carbônico (CO₂) resultante da fermentação etílica das leveduras.",
+            "Morte térmica das bactérias que formam gases sulfúricos."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "As leveduras fazem fermentação etílica (anaeróbica), convertendo o açúcar da farinha em álcool e CO₂. O gás carbônico tenta escapar, formando as bolhas fofas do pão.",
+            options: [
+                "Fungos da massa do pão fechada operam sem oxigênio, liberando CO₂, não O₂.",
+                "Ácido lático não é um gás; se fosse assim, o pão teria gosto e textura de iogurte.",
+                "Correta. O pão fofo é puramente gás carbônico retido.",
+                "A massa cresce antes de ir ao forno (quando o fungo está vivo)."
+            ]
+        }
+    },
+    {
+        id: 5, level: "Média",
+        text: "Ao ler as equações químicas de biologia, muitos alunos se perdem. Considerando a Lei da Conservação da Massa, qual das alternativas abaixo representa corretamente a equação simplificada da Respiração Aeróbica?",
+        options: [
+            "Glicose + 6 CO₂ ➔ 6 O₂ + Energia (ATP).",
+            "6 CO₂ + 12 H₂O + Luz ➔ Glicose + 6 O₂ + 6 H₂O.",
+            "Glicose + 6 H₂O ➔ 6 CO₂ + 6 ATP + Luz.",
+            "Glicose + 6 O₂ ➔ 6 CO₂ + 6 H₂O + Energia (ATP)."
+        ],
+        correct: 3,
+        explanation: {
+            correct: "Na respiração, a célula PEGA a glicose e o oxigênio (reagentes) e os queima, gerando como resíduos o Gás Carbônico (que expiramos) e a Água, com saldo de 30 ATPs.",
+            options: [
+                "A respiração CONSOME Oxigênio e LIBERA CO₂. Esta está absurdamente invertida.",
+                "Esta é a equação clássica da Fotossíntese, não da respiração.",
+                "Esqueceu do Oxigênio (O₂) nos reagentes. Respiração aeróbica exige O₂.",
+                "Correta. O balanço exato dos reagentes e produtos energéticos."
+            ]
+        }
+    },
+    {
+        id: 6, level: "Média",
+        text: "Uma pessoa correu uma maratona e, no meio da prova, os músculos das pernas começaram a queimar intensamente, causando forte fadiga. Qual fenômeno celular explica essa falha biomecânica?",
+        options: [
+            "O acúmulo de Gás Carbônico nas veias causou paralisia celular.",
+            "A falta de Oxigênio forçou as células a realizarem fermentação lática para gerar ATP emergencial, acumulando ácido lático.",
+            "As células musculares realizaram fermentação etílica, intoxicando a perna com álcool.",
+            "A mitocôndria parou e a célula muscular explodiu pelo excesso de glicólise."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Quando o sangue não dá conta de entregar Oxigênio suficiente, o tecido muscular apela para o plano B: a fermentação lática, que gera um resíduo ácido doloroso.",
+            options: [
+                "O problema agudo na queimação muscular não é o CO2 na veia, mas a acidez local no tecido.",
+                "Correta. O ácido lático agride as fibras gerando a queimação da fadiga.",
+                "Seres humanos não produzem álcool no músculo (você não fica bêbado ao malhar).",
+                "As células musculares não explodem por excesso de glicólise."
+            ]
+        }
+    },
+    {
+        id: 7, level: "Difícil",
+        text: "A Respiração Aeróbica é dividida em 3 etapas mecânicas (Glicólise, Ciclo de Krebs e Fosforilação). Assinale a alternativa que relaciona corretamente o nome da etapa, onde ela ocorre e seu saldo de energia (ATP):",
+        options: [
+            "Glicólise ocorre na crista mitocondrial e gera 26 ATPs.",
+            "O Ciclo de Krebs ocorre no citoplasma da célula e gera 2 ATPs.",
+            "A Glicólise ocorre no citoplasma, não exige oxigênio e gera 2 ATPs.",
+            "A Fosforilação Oxidativa ocorre na matriz mitocondrial e não gera energia."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "A Glicólise é a fase 'rebelde': é a única que ocorre do lado de FORA da mitocôndria, não se importa com a ausência de oxigênio e produz energia baixa (2 ATP).",
+            options: [
+                "Glicólise ocorre no citoplasma (rende 2). A Fosforilação é que rende 26.",
+                "Krebs ocorre na matriz mitocondrial (dentro do 'caldo' da usina).",
+                "Correta. É o processo primordial compartilhado até por bactérias sem organelas.",
+                "Fosforilação ocorre nas cristas, exige oxigênio e é a campeã de energia (26 ATPs)."
+            ]
+        }
+    },
+    {
+        id: 8, level: "Média",
+        text: "O gás oxigênio (O₂) é fundamental para nós. No entanto, se olharmos o mapa da respiração celular, ele só atua no último segundo, na terceira fase (Fosforilação Oxidativa). Qual é o seu verdadeiro papel lá?",
+        options: [
+            "Ele quebra a glicose ao meio, funcionando como uma tesoura enzimática.",
+            "Ele é o 'lixeiro' final: capta os hidrogênios e elétrons da esteira energética para formar Água, evitando que o processo pare.",
+            "Ele se une com o carbono liberado no Ciclo de Krebs para formar açúcar.",
+            "Ele resfria a mitocôndria, impedindo o acúmulo de ácido sulfúrico."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Na fosforilação, há uma cascata de elétrons e hidrogênios soltos. Se o Oxigênio não estiver lá no final para 'pegar' esse material, a linha de montagem congestiona e trava.",
+            options: [
+                "Quem quebra a glicose é o complexo enzimático no citoplasma, sem ajuda do oxigênio.",
+                "Correta. A lata de lixo metabólica perfeita: une-se ao hidrogênio formando a inofensiva água.",
+                "Respiração quebra o açúcar. Quem forma o açúcar com carbono é a fotossíntese.",
+                "Mitocôndrias não produzem ácido sulfúrico."
+            ]
+        }
+    },
+    {
+        id: 9, level: "Fácil",
+        text: "É comum ouvirmos a regra: 'Os animais respiram e as plantas fazem fotossíntese'. Do ponto de vista acadêmico e fisiológico, essa frase está correta?",
+        options: [
+            "Sim. Plantas não possuem mitocôndrias, apenas cloroplastos.",
+            "Não. Plantas fazem fotossíntese (para fabricar a glicose) e também respiram (para extrair a energia dessa glicose), consumindo gás oxigênio como os animais.",
+            "Sim, mas apenas em algumas espécies de pequeno porte.",
+            "Não. Na verdade, as plantas fazem respiração celular de dia e fotossíntese exclusivamente à noite."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Plantas não são isentas das regras energéticas. Elas fabricam a própria 'comida', mas precisam da mitocôndria e do oxigênio para queimar essa comida e gerar ATP.",
+            options: [
+                "Plantas possuem grandes quantidades de mitocôndrias.",
+                "Correta. Elas são a fábrica (cloroplasto) e o consumidor (mitocôndria) ao mesmo tempo.",
+                "O metabolismo aeróbico atinge todas as linhagens de plantas.",
+                "Fotossíntese depende diretamente da luz (logo, não ocorre na fase escura noturna da forma produtiva clássica)."
+            ]
+        }
+    },
+    {
+        id: 10, level: "Média",
+        text: "A presença excessiva de Gás Carbônico (CO₂) nas águas marinhas e pluviais não apenas gera o efeito estufa, mas também impacta os organismos locais. O Carbono abiótico dissolvido no mar afeta diretamente qual componente marinho estrutural?",
+        options: [
+            "Os depósitos subterrâneos de carvão mineral.",
+            "As concentrações de íons de bicarbonato e carbonato, afetando o desenvolvimento e as conchas de moluscos e corais calcificadores.",
+            "A respiração lática dos peixes cartilaginosos.",
+            "Apenas a pigmentação das algas escuras, gerando a maré vermelha."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "O oceano é o grande ralo do Carbono terrestre. O CO₂ dissolvido se torna carbonato, usado na biomineralização (conchas e ossos). Mas o EXCESSO acidifica a água, dissolvendo essas conchas.",
+            options: [
+                "O carvão mineral é fóssil subterrâneo, não interage em curto prazo com a superfície.",
+                "Correta. A acidificação dos oceanos é o terror biológico dos corais.",
+                "Peixes respiram aerobicamente pelas brânquias (Oxigênio dissolvido).",
+                "Maré vermelha é um boom de dinoflagelados tóxicos, ligado a excesso de nutrientes/temperatura."
+            ]
+        }
+    },
+    {
+        id: 11, level: "Difícil",
+        text: "Compare o maquinário de uma Célula Animal (seu braço) e uma Célula Vegetal (uma folha de mangueira). Em relação às organelas metabólicas fundamentais, o que é correto afirmar?",
+        options: [
+            "Sua célula possui mitocôndrias; a da folha possui mitocôndrias e cloroplastos.",
+            "Ambas possuem cloroplastos, mas a sua célula é incapaz de usá-los por falta de luz.",
+            "A folha possui cloroplastos e nenhum traço de mitocôndria, pois ela obtém ATP pela luz.",
+            "Sua célula não tem mitocôndria, a energia vem do estômago."
+        ],
+        correct: 0,
+        explanation: {
+            correct: "A célula vegetal é 'híbrida'. Ela contém o pacote completo: mitocôndria (herdada ancestralmente) para gerar ATP de forma constante, e o cloroplasto para montar as reservas de açúcar de dia.",
+            options: [
+                "Correta. Plantas têm o motor duplo. Animais só têm a mitocôndria.",
+                "Células animais são estritamente desprovidas de plastos (cloroplastos).",
+                "Falso, já vimos que plantas também respiram (precisam de ATP à noite, por exemplo).",
+                "Absurdo biológico. Todo o corpo humano opera via mitocôndria celular."
+            ]
+        }
+    },
+    {
+        id: 12, level: "Média",
+        text: "Plantas carnívoras capturam e digerem pequenos insetos (como moscas e formigas). Considerando que plantas são organismos autotróficos fotossintetizantes, por qual motivo metabólico elas desenvolveram essa armadilha?",
+        options: [
+            "Elas usam os insetos como fonte de Glicose e ATP, já que habitam áreas sem luz solar.",
+            "Como vivem em solos ricos, precisam da vitamina C da mosca.",
+            "Elas produzem seu açúcar pela luz solar, mas complementam a falta de minerais estruturais (Nitrogênio e Fósforo) retirando-os do inseto, devido ao solo muito pobre onde vivem.",
+            "O processo é uma forma de seleção sexual (atrair parceiros animais)."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "Glicose gera energia celular. Mas para crescer células físicas (construir DNA e proteínas), você precisa de Tijolos (Nitrogênio). Como elas vivem em pântanos lavados, o inseto vira adubo direto na folha.",
+            options: [
+                "Mentira, plantas carnívoras exigem incidência direta e forte de luz solar para viver.",
+                "Não, os solos delas são ácidos e extremamente pobres.",
+                "Correta. Elas fazem fotossíntese para energia e comem inseto para suprimento mineral.",
+                "Plantas atraem polinizadores com flores/néctar, a armadilha gástrica é apenas nutricional."
+            ]
+        }
+    },
+    {
+        id: 13, level: "Média",
+        text: "A respeito dos combustíveis fósseis (Petróleo, Carvão Mineral e Gás Natural), por que sua queima intensa e industrial desequilibra drasticamente o Ciclo do Carbono atual?",
+        options: [
+            "Porque a queima consome toda a camada de ozônio (O3) imediatamente.",
+            "Porque são formados por matéria orgânica que a Terra produz infinitamente, inundando o ar.",
+            "Porque injetamos na atmosfera, em apenas dois séculos, estoques maciços de Carbono que a natureza havia lentamente sequestrado e soterrado há milhões de anos.",
+            "Porque o carbono liberado pela fábrica é radioativo e destrói os cloroplastos no solo."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "A fotossíntese e a respiração na superfície formam um balanço quase perfeito a curto prazo. O carbono fóssil estava 'trancado no cofre' da crosta terrestre, alheio a esse ciclo. Ao queimá-lo, sobrecarregamos o sistema.",
+            options: [
+                "CFCs e halogênios destroem a camada de ozônio, não apenas a combustão de carbono.",
+                "Eles não são infinitos; são recursos geológicos finitos.",
+                "Correta. A queima 'acelera no tempo' o descarte de gás na biosfera.",
+                "Fumaça industrial é tóxica e emite CO2, mas não é radioativa."
+            ]
+        }
+    },
+    {
+        id: 14, level: "Fácil",
+        text: "Em um jogo de futebol sem fôlego, ou durante uma corrida explosiva, ocorre a Respiração Anaeróbica no músculo. Considerando a produção de energia, assinale a matemática exata (rendimento da Glicose) nesse cenário extremo:",
+        options: [
+            "30 ATP por molécula de glicose.",
+            "26 ATP por molécula de glicose.",
+            "2 ATP por molécula de glicose.",
+            "14 ATP por molécula de glicose."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "A fermentação lática e etílica são rotas parciais de escape. Como elas só utilizam a etapa da Glicólise (quebrando no meio) e não chegam à mitocôndria, o rendimento é ridículo.",
+            options: [
+                "30 ATP é o saldo da respiração aeróbica completa, com farta presença de oxigênio.",
+                "26 ATP é apenas a fase da fosforilação oxidativa.",
+                "Correta. O custo da emergência: você sobrevive ao pico atlético com parcos 2 ATP.",
+                "Número arbitrário sem significado bioquímico."
+            ]
+        }
+    },
+    {
+        id: 15, level: "Média",
+        text: "Observe a representação esquemática do Ciclo do Carbono. O Carbono passa dos seres autotróficos (plantas) para os animais primários (herbívoros) através de qual mecanismo?",
+        options: [
+            "Pela transpiração cutânea.",
+            "Através da Fotólise da Água.",
+            "Através das cadeias alimentares, pelo consumo direto da matéria orgânica vegetal (glicose).",
+            "Pela ação das bactérias decompositoras presentes nas nuvens."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "A planta 'sequestra' o CO₂ invisível do ar e o transforma na carne física da folha. O herbívoro, ao comer a folha, absorve o carbono para o próprio corpo.",
+            options: [
+                "Transpiração libera vapor d'água (H₂O), não moléculas contendo Carbono.",
+                "Fotólise da água lida com H₂O liberando O₂, não transferindo Carbono.",
+                "Correta. A ecologia trófica (alimentar) é a principal rodovia do Carbono biótico.",
+                "Decompositores atuam no solo quebrando matéria morta, não em nuvens."
+            ]
+        }
+    },
+    {
+        id: 16, level: "Difícil",
+        text: "As organelas Mitocôndria e Cloroplasto possuem uma anomalia fascinante quando comparadas ao complexo de Golgi ou Retículo Endoplasmático. Elas sustentam a Teoria da Endossimbiose (foram bactérias no passado) porque:",
+        options: [
+            "Não possuem nenhuma membrana protetora.",
+            "Podem se mover livres no sangue humano e infectar outras células.",
+            "Sintetizam DNA humano diretamente da glicose.",
+            "Possuem membranas duplas, ribossomos próprios e molécula de DNA circular e independente do núcleo."
+        ],
+        correct: 3,
+        explanation: {
+            correct: "A célula eucarionte primordial literalmente 'engoliu' uma bactéria respiradora e uma alga no passado. Por isso, as mitocôndrias e cloroplastos se reproduzem sozinhos e têm seu próprio 'RG genético' celular.",
+            options: [
+                "Pelo contrário, elas têm DUAS membranas.",
+                "Organelas não abandonam a célula hospedeira para parasitar o sangue.",
+                "DNA humano (núcleo) não é sintetizado de glicose, a glicose gera energia.",
+                "Correta. São vestígios biológicos de bactérias que vivem num acordo de simbiose."
+            ]
+        }
+    },
+    {
+        id: 17, level: "Fácil",
+        text: "Com base nas etapas industriais da mitocôndria, onde ocorre EXATAMENTE o processo da Fosforilação Oxidativa?",
+        options: [
+            "Espalhado pelo citoplasma externo.",
+            "Nas Cristas Mitocondriais (as dobras densas da membrana interna da organela).",
+            "Na Matriz (fluido líquido interno, livre de membranas).",
+            "No Ribossomo localizado dentro do núcleo celular."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Processos mecânicos densos precisam de parede estrutural. As 26 moléculas de ATP são formadas numa esteira rolante (cadeia de elétrons) incrustada nas dobras sólidas (cristas).",
+            options: [
+                "No citoplasma ocorre apenas a primeira quebra leve (glicólise).",
+                "Correta. Anatomia celular aliada à fisiologia.",
+                "Na Matriz ocorre o Ciclo de Krebs.",
+                "Ribossomo produz proteína, não ATP (energia)."
+            ]
+        }
+    },
+    {
+        id: 18, level: "Média",
+        text: "Quando lemos um texto de Fisiologia que diz 'As células dos tecidos usaram Gás Oxigênio e Glicose para produzir ATP, liberando CO₂ e H₂O como resíduo', esse processo global está resumindo qual fenômeno completo?",
+        options: [
+            "O Ciclo de Fixação da Fotossíntese Noturna.",
+            "A digestão extracelular no estômago.",
+            "A Fermentação Lática animal.",
+            "A Respiração Celular Aeróbica sistêmica."
+        ],
+        correct: 3,
+        explanation: {
+            correct: "Glicose + Oxigênio ➔ CO₂ + H₂O + ATP. Essa é a equação rainha e definitiva da Respiração Aeróbica das formas de vida superiores na Terra.",
+            options: [
+                "Fotossíntese opera o inverso: pega CO₂ + H₂O para gerar a Glicose.",
+                "Estômago faz hidrólise ácida das macromoléculas. O fenômeno da energia é íntimo e celular.",
+                "Fermentação NÃO usa o gás oxigênio e nem libera água.",
+                "Correta. A equação básica e essencial da vida aeróbica animal e vegetal."
+            ]
+        }
+    }
+];
+
+const storageKey = 'promover_quiz_' + document.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
+let currentQuestion = 0;
+let userAnswers = [];
+
+function initQuiz() {
+    const totalQ = questions.length;
+    if (totalQ === 0) {
+        document.getElementById('regras-prova').innerHTML = "Nenhuma questão foi gerada pelo sistema.";
+        return;
+    }
+    const savedAnswers = localStorage.getItem(storageKey);
+    userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(totalQ).fill(null);
+    document.getElementById('qtd-btn').textContent = totalQ;
+    const notaCorte = Math.ceil(totalQ * 0.8);
+    document.getElementById('regras-prova').innerHTML = `${totalQ} questões rigorosas baseadas nos diagramas curriculares. Acerte <strong>80% (${notaCorte}/${totalQ})</strong> para aprovação. O seu progresso é salvo automaticamente neste navegador.`;
+}
+initQuiz();
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion(); 
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+        window.scrollTo(0,0);
+    }
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    
+    let badgeClass = q.level === 'Fácil' ? 'dif-facil' : q.level === 'Média' ? 'dif-medio' : 'dif-dificil';
+
+    container.innerHTML = `
+        <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+            <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+            <div style="margin-bottom: 20px;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+            </div>
+            <div class="options-list">
+                ${q.options.map((opt, i) => {
+                    let cls = '';
+                    if (ans !== null) { 
+                        if (i === q.correct) cls = 'correct'; 
+                        else if (i === ans) cls = 'wrong'; 
+                        else cls = 'disabled'; 
+                    }
+                    return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}><div class="opt-circle">${letters[i]}</div><div>${opt}</div></button>`;
+                }).join('')}
+            </div>
+            
+            ${ans !== null ? `
+            <div class="feedback-box">
+                <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                    ${ans === q.correct ? '☑ Raciocínio Biológico Aprovado!' : '⚠️ Ops! Falha Metabólica Detectada:'}
+                </div>
+                <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+                <div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">${q.explanation.correct}</div>
+                <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                    <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                    ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+                </div>
+            </div>` : ''}
+        </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    
+    userAnswers[currentQuestion] = idx;
+    localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+    
+    if (idx === questions[currentQuestion].correct) {
+        const duration = 1500; 
+        const end = Date.now() + duration;
+        (function frame() {
+            confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#8B5CF6', '#5B21B6', '#C4B5FD', '#EA580C'] });
+            confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#8B5CF6', '#5B21B6', '#C4B5FD', '#EA580C'] });
+            if (Date.now() < end) { requestAnimationFrame(frame); }
+        }());
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth; 
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    
+    renderQuestion(); 
+    renderMap();
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) { 
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong'; 
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i + 1}</div>`;
+    }).join('');
+    
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) { 
+            activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); 
+        }
+    }, 50);
+}
+
+function goTo(i) { 
+    if (window.confetti) confetti.reset(); 
+    currentQuestion = i; 
+    renderQuestion();
+    renderMap(); 
+}
+
+function changeQuestion(d) { 
+    let n = currentQuestion + d; 
+    if (n >= 0 && n < questions.length) goTo(n); 
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    
+    if (currentQuestion === questions.length - 1) { 
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish; 
+    } else { 
+        next.textContent = "Avançar"; 
+        next.onclick = () => changeQuestion(1); 
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    
+    if (window.confetti) confetti.reset();
+    
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "🌟🌟🌟🌟🌟" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);"><strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a nota de corte (80%). Os erros revelam que o equilíbrio químico entre os Cloroplastos e as Mitocôndrias ainda está confuso na sua mente. A leitura rigorosa da Teoria é exigida.</div>`;
+        document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>';
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);"><strong>🏆 Excelente Desempenho!</strong> Você demonstrou visão sistêmica biológica. As pegadinhas envolvendo a Fotólise da Água, os processos de Fermentação e as etapas celulares foram facilmente mapeadas por você. Parabéns pela base sólida.</div>`;
+        document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>';
+    }
+    
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct && userAnswers[i] !== null) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ${q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    localStorage.removeItem(storageKey); 
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+// Inicializa direto na prática se já houver respostas salvas (continuidade do usuário); senão, abre a teoria magna.
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
