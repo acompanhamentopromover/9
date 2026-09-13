@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolucao, Selecao Natural e Neodarwinismo - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+    --bg-color: #F0FDF4; 
+    --text-color: #0F172A;
+    --border-color: #064E3B;
+    --white: #FFFFFF;
+    --theme-light: #DCFCE7;
+    --theme-medium: #4ADE80;
+    --theme-dark: #15803D;
+    --theme-contrast: #EA580C; 
+    --theme-accent: #059669;
+    --theme-text-active: #FFFFFF;
+
+    /* NÃO ALTERAR AS CORES ABAIXO */
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px; background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px); background-size: 20px 20px; }
+
+@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); } }
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from {opacity: 0; } to { opacity: 1;}}
+@keyframes slideUp { from {transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse { 0% { transform: scale(1); } 15% { transform: scale(1.15); color: var(--theme-contrast); } 30% { transform: scale(1); } 45% { transform: scale(1.15); color: var(--theme-contrast); } 100% { transform: scale(1); } }
+
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo {font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center; }
+
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container {background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container {position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon {position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box {display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.theory-box p { margin-bottom: 10px; color: #1E293B; }
+.theory-box ul { padding-left: 20px; margin-bottom: 10px; }
+.theory-box li { margin-bottom: 6px; }
+
+.illustration-container { display: flex; justify-content: center; align-items: center; padding: 20px; background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; margin: 15px 0; overflow: hidden; width: 100%; flex-wrap: wrap; gap: 15px;}
+.illustration-container svg {max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; font-weight: 600; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+
+.difficulty-badge {display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+.question-map {display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot {min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct {background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled {pointer-events: none; opacity: 0.7; }
+
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt {border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0;}
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+.result-card {background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container {font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big {font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+
+/* Classes utilitárias para os SVGs */
+.svg-graph { width: 100%; max-width: 180px; }
+.svg-title { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: bold; fill: var(--text-color); text-anchor: middle; }
+.svg-axis { stroke: var(--border-color); stroke-width: 2; }
+.svg-line-original { fill: none; stroke: #94A3B8; stroke-width: 2; stroke-dasharray: 4,4; }
+.svg-line-new { fill: none; stroke: var(--theme-contrast); stroke-width: 3; }
+.svg-arrow { fill: var(--theme-contrast); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🧠</span> PROMOVER</div>
+        <h1>CIÊNCIAS / 9º ANO</h1>
+        <p class="subtitle">Evolução, Seleção Natural e Neodarwinismo</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📚 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🎯 Prática (<span id="qtd-btn">0</span>)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchinput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito (ex: Lamarck, Mutação)...">
+        </div>
+        <div id="no-results"><p>Termo não encontrado.</p></div>
+
+        <!-- Grupo 1: A Quebra do Fixismo -->
+        <div class="content-group">
+            <span class="section-badge">1. A Árvore da Vida</span>
+            <div class="theory-box">
+                <h3>Darwin, Wallace e o Ancestral Comum</h3>
+                <p>Em 1831, Charles Darwin embarcou no <i>H.M.S. Beagle</i>. Nas <strong>Ilhas Galápagos</strong>, ele notou que tentilhões e tartarugas variavam de acordo com a ilha, sugerindo que as espécies não eram imutáveis (fixismo), mas sim que sofriam adaptações ao ambiente.</p>
+                <p>Anos depois, outro naturalista, <strong>Alfred Russel Wallace</strong>, chegou de forma independente às mesmas conclusões. Juntos, eles apresentaram a ideia à comunidade científica, provando que Wallace não foi um mero "ajudante", mas um co-descobridor essencial.</p>
+                <div class="highlight-box">
+                    <strong>A Grande Sacada:</strong> Todas as espécies descendem de um ser vivo do passado. A evolução é como uma árvore cujos galhos representam linhagens que compartilham um <strong>ancestral comum</strong>.
+                </div>
+            </div>
+        </div>
+
+        <!-- Grupo 2: Lamarck vs Darwin -->
+        <div class="content-group">
+            <span class="section-badge">2. O Embate Histórico</span>
+            <div class="theory-box">
+                <h3>O Caso das Girafas</h3>
+                <p>Como a girafa adquiriu seu pescoço longo? A biologia evolutiva viu duas respostas principais:</p>
+                <ul>
+                    <li><strong>Lamarck (Uso e Desuso):</strong> Acreditava que o ambiente criava uma <i>necessidade</i>. Para alcançar árvores, a girafa esticava o pescoço em vida. Esse pescoço musculoso seria passado aos filhos (herança dos caracteres adquiridos).</li>
+                    <li><strong>Darwin (Variação e Seleção):</strong> Acreditava que o ambiente atua como um <i>filtro</i>. Já nasciam girafas com pescoços de tamanhos variados. As de pescoço mais longo conseguiam comer e sobreviver, transmitindo essa genética vantajosa.</li>
+                </ul>
+                <div class="highlight-box warning">
+                    <strong>⚠️ A Rasteira do "PARA":</strong> Organismos NÃO sofrem mutação "PARA" sobreviver. O ambiente NÃO gera intenção. A natureza apenas age sobre características que JÁ EXISTEM. A evolução não é mágica, é estatística!
+                </div>
+            </div>
+        </div>
+
+        <!-- Grupo 3: Neodarwinismo -->
+        <div class="content-group">
+            <span class="section-badge">3. A Peça que Faltava</span>
+            <div class="theory-box">
+                <h3>Neodarwinismo (Teoria Sintética)</h3>
+                <p>O calcanhar de Aquiles de Darwin era não saber explicar <i>como</i> as variações surgiam ou como eram passadas adiante. A resposta só veio no século XX com a <strong>Genética</strong>.</p>
+                <p>O Neodarwinismo une a Seleção Natural de Darwin com a descoberta do <strong>DNA e das Mutações</strong>. Mutações são alterações acidentais no código genético. Elas ocorrem <strong>ao acaso</strong>, criando a variabilidade sobre a qual a seleção natural (que não é ao acaso) irá atuar.</p>
+            </div>
+        </div>
+
+        <!-- Grupo 4: Tipos de Seleção -->
+        <div class="content-group">
+            <span class="section-badge">4. Os 3 Filtros da Natureza</span>
+            <div class="theory-box">
+                <h3>Tipos de Seleção Natural</h3>
+                <p>A seleção natural molda as populações alterando a distribuição das características (fenótipos). Observe os gráficos abaixo, onde a linha pontilhada cinza é a população original e a linha laranja forte é a nova população após a pressão ambiental:</p>
+                
+                <div class="illustration-container">
+                    <!-- SVG 1: Estabilizadora -->
+                    <svg class="svg-graph" viewBox="0 0 200 150">
+                        <text x="100" y="15" class="svg-title">Estabilizadora</text>
+                        <line x1="20" y1="130" x2="180" y2="130" class="svg-axis"/>
+                        <line x1="20" y1="130" x2="20" y2="30" class="svg-axis"/>
+                        <!-- Curva Original -->
+                        <path class="svg-line-original" d="M 30 130 Q 100 -20 170 130" />
+                        <!-- Curva Nova (Mais estreita e alta) -->
+                        <path class="svg-line-new" d="M 60 130 Q 100 -50 140 130" />
+                        <!-- Setas pressionando as bordas -->
+                        <path class="svg-arrow" d="M 40 60 L 55 60 L 47 70 Z" transform="rotate(45, 47, 65)"/>
+                        <path class="svg-arrow" d="M 160 60 L 145 60 L 153 70 Z" transform="rotate(-45, 153, 65)"/>
+                    </svg>
+
+                    <!-- SVG 2: Direcional -->
+                    <svg class="svg-graph" viewBox="0 0 200 150">
+                        <text x="100" y="15" class="svg-title">Direcional</text>
+                        <line x1="20" y1="130" x2="180" y2="130" class="svg-axis"/>
+                        <line x1="20" y1="130" x2="20" y2="30" class="svg-axis"/>
+                        <!-- Curva Original -->
+                        <path class="svg-line-original" d="M 30 130 Q 80 -10 130 130" />
+                        <!-- Curva Nova (Deslocada para direita) -->
+                        <path class="svg-line-new" d="M 70 130 Q 120 -10 170 130" />
+                        <!-- Seta indicando direção -->
+                        <path class="svg-arrow" d="M 90 40 L 110 40 L 100 30 Z" transform="rotate(90, 100, 35)"/>
+                    </svg>
+
+                    <!-- SVG 3: Disruptiva -->
+                    <svg class="svg-graph" viewBox="0 0 200 150">
+                        <text x="100" y="15" class="svg-title">Disruptiva</text>
+                        <line x1="20" y1="130" x2="180" y2="130" class="svg-axis"/>
+                        <line x1="20" y1="130" x2="20" y2="30" class="svg-axis"/>
+                        <!-- Curva Original -->
+                        <path class="svg-line-original" d="M 30 130 Q 100 -20 170 130" />
+                        <!-- Curva Nova (Dois picos) -->
+                        <path class="svg-line-new" d="M 30 130 Q 65 -10 100 130 Q 135 -10 170 130" />
+                        <!-- Seta pressionando o meio -->
+                        <path class="svg-arrow" d="M 92 40 L 108 40 L 100 55 Z" />
+                    </svg>
+                </div>
+
+                <ul>
+                    <li><strong>Estabilizadora:</strong> Punição dos extremos. Ex: Bebês de peso muito alto ou muito baixo têm menor chance de sobreviver, favorecendo o peso médio.</li>
+                    <li><strong>Direcional:</strong> Favorece UM extremo, deslocando o gráfico. Ex: O Melanismo Industrial, onde o aumento da poluição escureceu árvores e favoreceu a mariposa <i>Biston betularia</i> escura, penalizando a clara.</li>
+                    <li><strong>Disruptiva:</strong> Punição da média, favorecendo os DOIS extremos. Isso cria desequilíbrio e pavimenta o caminho para a criação de duas novas espécies separadas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Grupo 5: Natural vs Artificial e Especiação -->
+        <div class="content-group">
+            <span class="section-badge">5. A Mão Humana e as Raças</span>
+            <div class="theory-box">
+                <h3>Seleção Natural vs. Artificial</h3>
+                <p>Na Seleção Natural, o meio ambiente é o filtro. Na <strong>Seleção Artificial</strong>, o humano escolhe as características. A enorme variedade de cães ou a transformação da planta <i>Brassica oleracea</i> em brócolis, repolho e couve-flor são frutos do cruzamento forçado pelo homem.</p>
+                <div class="highlight-box warning">
+                    <strong>⚠️ Mito Destruído:</strong> O homem não pode criar "a característica que quiser". Nós somos limitados à diversidade genética que JÁ EXISTE dentro da espécie animal ou vegetal.
+                </div>
+                <h3 style="margin-top: 15px;">Especiação (Novas Espécies)</h3>
+                <p>Quando uma população é separada por uma barreira (Isolamento Geográfico), como um novo rio ou montanha, as mutações e a pressão seletiva atuam de forma diferente em cada lado. Com o tempo, eles ficam tão diferentes que, se se encontrarem novamente, não conseguirão mais ter filhotes (Isolamento Reprodutivo), formando espécies distintas.</p>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="setMode('practice')">Iniciar Diagnóstico →</button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p id="regras-prova" style="color: #0F172A; font-size: 0.95rem; font-weight:600;">Carregando regras da prova...</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">★</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText"></p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+const searchinput = document.getElementById('searchinput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchinput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) { 
+            group.style.display = 'flex'; 
+            totalVisible++; 
+        } else {
+            group.style.display = 'none'; 
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+const questions = [
+    {
+        id: 1, level: "Fácil",
+        text: "Segundo os cadernos de anotações de Charles Darwin, como a origem de todas as espécies vivas pode ser resumida em relação à sua ancestralidade?",
+        options: [
+            "Cada espécie foi gerada de forma independente e fixa em seu ambiente.",
+            "As espécies surgem continuamente da matéria inanimada pela geração espontânea.",
+            "Todos os seres vivos descendem, através de sucessivas modificações, de um ancestral comum.",
+            "O ser humano é a única espécie que não compartilha parentesco evolutivo com os animais."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "Esta é a base estrutural da evolução darwinista: a descendência com modificação a partir de um ancestral compartilhado (árvore da vida).",
+            options: [
+                "Isso é o Fixismo (criacionismo clássico), ideia que Darwin justamente refutou.",
+                "Geração espontânea é um mito refutado por Pasteur, não tem relação com Darwin.",
+                "Correta. É o pilar da biologia evolutiva.",
+                "O ser humano é parte integral da árvore evolutiva dos primatas."
+            ]
+        }
+    },
+    {
+        id: 2, level: "Fácil",
+        text: "Um fóssil como o do Archaeopteryx apresenta dentes (característica de dinossauro) e penas (característica de ave). Para a ciência evolutiva, esse registro fóssil demonstra que:",
+        options: [
+            "Espécies são imutáveis e sempre existiram exatamente dessa forma.",
+            "Existe uma transição evolutiva que comprova o parentesco genético entre dinossauros e aves.",
+            "As aves sofreram mutações intencionais para conseguirem voar sobre os dinossauros predadores.",
+            "A seleção artificial foi responsável pela criação das primeiras aves no período Cretáceo."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Fósseis de transição provam que grupos atuais evoluíram de ancestrais comuns no passado através do acúmulo de adaptações.",
+            options: [
+                "Se fossem imutáveis, não existiriam formas híbridas/transicionais extintas.",
+                "Correta. É a prova material da evolução morfológica.",
+                "Cuidado! Mutações são ALEATÓRIAS, nunca 'intencionais'. Animais não mudam porque 'querem'.",
+                "O homem não existia no Cretáceo. Não houve ação humana."
+            ]
+        }
+    },
+    {
+        id: 3, level: "Fácil",
+        text: "Além de Charles Darwin, qual outro pesquisador britânico chegou, de forma independente, às mesmas conclusões brilhantes sobre o mecanismo evolutivo?",
+        options: ["Jean-Baptiste Lamarck", "Gregor Mendel", "Alfred Russel Wallace", "Thomas Malthus"],
+        correct: 2,
+        explanation: {
+            correct: "Wallace enviou um manuscrito a Darwin detalhando o princípio da seleção natural, o que levou a uma apresentação conjunta das ideias.",
+            options: [
+                "Lamarck era francês e criador da teoria (incorreta) do uso e desuso.",
+                "Mendel é o pai da genética, contemporâneo de Darwin, mas não trabalhou com seleção natural.",
+                "Correta. O esquecido co-descobridor da evolução.",
+                "Malthus escreveu sobre demografia, o que inspirou ambos, mas não era biólogo."
+            ]
+        }
+    },
+    {
+        id: 4, level: "Médio",
+        text: "No material de estudo, ao explicar o pescoço comprido das girafas, uma teoria afirmava que 'de tanto esticar o pescoço para pegar folhas no alto, ele cresceu, e esse traço foi herdado'. Essa explicação pertence a quem e qual é sua falha genética?",
+        options: [
+            "É de Darwin. A falha é não reconhecer que as mutações ocorrem por necessidade.",
+            "É de Lamarck. A falha é que características físicas alteradas pelo esforço muscular não alteram o DNA passado aos descendentes.",
+            "É do Neodarwinismo. A falha é ignorar a interferência da seleção artificial.",
+            "É de Lamarck. A falha é que a seleção estabilizadora sempre mata as girafas altas."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "A herança dos caracteres adquiridos (lei do uso e desuso de Lamarck) falha porque hipertrofiar um músculo não altera os genes do óvulo ou espermatozoide.",
+            options: [
+                "Darwin rejeitava a ideia de que o esforço individual criava a mudança. Mutações NÃO ocorrem por necessidade.",
+                "Correta. O esforço em vida não se transforma em herança genética.",
+                "Neodarwinismo une Darwin com genética, refutando justamente o esforço em vida.",
+                "Falso, a seleção na savana foi Direcional (favoreceu as girafas mais altas), não estabilizadora."
+            ]
+        }
+    },
+    {
+        id: 5, level: "Médio",
+        text: "Um aluno respondeu que a imensa variedade de raças de cães existe porque 'eles não resistem em ambientes diferentes' (falta de diversidade ambiental). Esse raciocínio ignora totalmente o conceito evolutivo central da origem das raças, que é:",
+        options: [
+            "A Seleção Natural, onde o frio europeu encolheu os cães para virarem raças pequenas.",
+            "O Isolamento Geográfico, que isolou os cães em ilhas sem predadores.",
+            "A Lei do Uso e Desuso, onde cães caçadores desenvolveram focinhos longos sozinhos.",
+            "A Seleção Artificial, onde humanos realizaram o cruzamento direcionado de características ao longo das gerações."
+        ],
+        correct: 3,
+        explanation: {
+            correct: "As raças de cães, pombos domésticos ou os cultivares de couve e brócolis são o resultado massivo de milhares de anos de Seleção Artificial pelo homem.",
+            options: [
+                "O clima não cria a raça Shih Tzu. O homem cruzou raças até chegar a esse fenótipo.",
+                "Raças não são espécies diferentes geradas por especiação em ilhas.",
+                "Raciocínio lamarckista equivocado.",
+                "Correta. A variedade não vem do ambiente, vem do desejo estético/funcional do criador humano."
+            ]
+        }
+    },
+    {
+        id: 6, level: "Médio",
+        text: "Ainda sobre a Seleção Artificial, uma resposta em uma prova dizia: 'Na seleção artificial, o humano pode ter as características que quiser no animal'. Qual é o erro biológico fatal dessa frase?",
+        options: [
+            "Não há erro, a manipulação humana é ilimitada na natureza.",
+            "O humano só pode cruzar e selecionar características que JÁ EXISTAM na variabilidade genética daquela espécie.",
+            "A seleção artificial demora milhões de anos, impossibilitando ver os resultados.",
+            "Animais domésticos não possuem DNA, logo não sofrem seleção."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "A engenhosidade humana na seleção artificial é limitada pela biologia: só podemos selecionar traços que a mutação aleatória já forneceu ao pool genético do animal.",
+            options: [
+                "Totalmente falso. Não podemos cruzar porcos para nascerem com asas de águia.",
+                "Correta. O homem apenas filtra, ele não inventa DNA do nada.",
+                "Ela é muito rápida, perceptível em poucas dezenas de gerações.",
+                "Absurdo biológico sem fundamento."
+            ]
+        }
+    },
+    {
+        id: 7, level: "Médio",
+        text: "O Melanismo Industrial na Inglaterra fez com que mariposas Biston betularia claras fossem devoradas por pássaros nas árvores sujas de fuligem, enquanto as escuras se camuflavam e sobreviviam. Esse é o caso clássico de:",
+        options: [
+            "Seleção Disruptiva, pois eliminou as mariposas marrons.",
+            "Adaptação pelo Uso, pois elas se sujaram na fumaça e passaram a cor aos filhos.",
+            "Seleção Direcional, pois a pressão ambiental favoreceu apenas um dos extremos (o escuro).",
+            "Mimetismo, pois elas tentavam imitar os galhos para enganar a fumaça."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "O gráfico populacional se deslocou inteiramente para um lado. O ambiente mudou, tornando um extremo fenotípico a característica adaptativa vitoriosa.",
+            options: [
+                "Na disruptiva os dois extremos sobrevivem e a média morre. Aqui, apenas o escuro sobreviveu.",
+                "Isso é lamarckismo puro. Sujeira externa não entra no DNA.",
+                "Correta. O ambiente 'empurrou' a população para a cor escura.",
+                "Camuflagem é passiva. Elas não 'tentavam' imitar nada, elas apenas sobreviviam por não serem vistas."
+            ]
+        }
+    },
+    {
+        id: 8, level: "Médio",
+        text: "No gráfico de Seleção Estabilizadora, que descreve, por exemplo, o peso ideal de recém-nascidos humanos, qual parte da curva de distribuição é privilegiada?",
+        options: [
+            "O pico central, favorecendo os indivíduos com a característica média.",
+            "O extremo direito, favorecendo sempre os maiores indivíduos.",
+            "O extremo esquerdo, favorecendo os indivíduos mais fracos.",
+            "Ambos os extremos (direito e esquerdo), criando um gráfico de dois picos."
+        ],
+        correct: 0,
+        explanation: {
+            correct: "A seleção estabilizadora atua contra os dois extremos (muito leve ou muito pesado), mantendo a característica média como a mais estável e abundante.",
+            options: [
+                "Correta. A curva fica mais estreita e alta no centro.",
+                "Isso descreve a Seleção Direcional.",
+                "Também seria Direcional. A natureza não liga para 'fraqueza', apenas sobrevivência.",
+                "Isso descreve a Seleção Disruptiva."
+            ]
+        }
+    },
+    {
+        id: 9, level: "Difícil",
+        text: "O Neodarwinismo inseriu qual conhecimento científico que faltava para fechar a teoria original de Charles Darwin?",
+        options: [
+            "A descoberta dos fósseis e o movimento das placas tectônicas.",
+            "O conceito de 'sobrevivência do mais forte', criado por filósofos.",
+            "A genética clássica, explicando que as Mutações e a Recombinação Genética são a fonte da variabilidade.",
+            "A percepção de que Deus age como o motor da seleção artificial nas fazendas."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "Darwin via que as espécies tinham diferenças, mas não sabia DE ONDE elas viam. A Genética (DNA) explicou que erros aleatórios (mutações) criam essa diversidade.",
+            options: [
+                "Fósseis já eram amplamente conhecidos e usados por Darwin em seu livro.",
+                "Apto NÃO é ser forte. A biologia repudia o termo 'mais forte'.",
+                "Correta. Genética + Seleção Natural = Neodarwinismo.",
+                "Explicação alheia ao método científico do livro base."
+            ]
+        }
+    },
+    {
+        id: 10, level: "Difícil",
+        text: "Um erro muito comum de alunos e do senso comum é afirmar: 'Os insetos sofreram mutação PARA poderem sobreviver ao novo inseticida agrícola'. Por que o uso da palavra 'PARA' é um erro fatal na biologia moderna?",
+        options: [
+            "Porque inseticidas não matam insetos fortes.",
+            "Porque as mutações ocorrem sempre ao acaso. A natureza não possui intenção, ela atua apenas como filtro seletor no que já existe.",
+            "Porque os insetos aprenderam a fugir do inseticida passando o comportamento aos filhos.",
+            "Porque o correto seria usar o termo 'criaram anticorpos contra' o veneno."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "Atribuir um objetivo (teleologia) à evolução é o maior erro em biologia. A mutação que gera resistência é um acidente genético. O inseticida só mata os não-resistentes.",
+            options: [
+                "Ser forte ou fraco muscularmente não importa contra toxinas químicas.",
+                "Correta. A mutação é uma falha de cópia cega, não uma resposta planejada.",
+                "Comportamento aprendido não altera DNA. Isso é lamarckismo disfarçado.",
+                "Insetos não criam anticorpos vacinais contra toxinas químicas brutas, eles têm resistência metabólica herdada."
+            ]
+        }
+    },
+    {
+        id: 11, level: "Difícil",
+        text: "Considere uma população de plantas com alturas variadas onde o único inseto polinizador da planta de tamanho médio desapareça do ambiente. Se plantas baixas e altas sobreviverem, mas a média sumir, qual fenômeno o gráfico mostrará a longo prazo?",
+        options: [
+            "Extinção total imediata, pois a média comanda a espécie.",
+            "Seleção Direcional, empurrando as plantas apenas para o lado mais baixo.",
+            "Seleção Estabilizadora, forçando as médias a voltarem a crescer.",
+            "Seleção Disruptiva (gráfico de 2 picos), que pode gerar o isolamento das altas e baixas, levando à especiação."
+        ],
+        correct: 3,
+        explanation: {
+            correct: "A Seleção Disruptiva penaliza severamente os fenótipos intermediários, 'rachando' a população no meio, o que é o estopim perfeito para a origem de novas espécies.",
+            options: [
+                "Se as altas e baixas possuem polinizadores, a espécie sobrevive de forma polarizada.",
+                "Isso só ocorreria se apenas as plantas baixinhas tivessem sucesso.",
+                "Estabilizadora é exatamente o OPOSTO, ela salva a média.",
+                "Correta. É o modelo clássico de disrupção fenotípica."
+            ]
+        }
+    },
+    {
+        id: 12, level: "Difícil",
+        text: "Qual é o evento essencial que PRECISA ocorrer entre duas populações de coelhos divididas por um rio largo (isolamento geográfico) para que a Ciência afirme com certeza que elas se tornaram duas espécies diferentes (Especiação)?",
+        options: [
+            "Elas mudarem a cor do pelo para tons completamente diferentes.",
+            "O isolamento reprodutivo: elas não conseguirem mais cruzar e gerar descendentes férteis caso se encontrem.",
+            "Elas esquecerem as memórias genéticas do passado.",
+            "O rio secar permitindo que eles voltem a lutar pelo território."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "O conceito biológico de espécie baseia-se no fluxo gênico. Se as populações se reencontram e a reprodução falha ou gera híbridos estéreis, a especiação foi concluída.",
+            options: [
+                "Cachorros têm cores diferentes e são da mesma espécie.",
+                "Correta. A barreira genética é a confirmação final da especiação.",
+                "DNA não tem memória consciente a ser esquecida.",
+                "Briga territorial não define parentesco evolutivo."
+            ]
+        }
+    },
+    {
+        id: 13, level: "Fácil",
+        text: "A cauda longa, brilhante e pesada do pavão macho dificulta sua fuga de raposas, o que diminui sua sobrevivência. Ainda assim, ela não foi eliminada da espécie. Por qual mecanismo de seleção isso acontece?",
+        options: [
+            "Seleção Estabilizadora.",
+            "Seleção Sexual (Vantagem de cópula impulsionada pelas fêmeas).",
+            "Lei do Uso e Desuso.",
+            "Mimetismo Artificial."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "A seleção sexual foca na vantagem de acasalamento. Se um traço atrai fortemente a fêmea e garante cópula, ele sobrevive na genética, mesmo sendo um risco físico.",
+            options: [
+                "A estabilizadora limitaria o tamanho das penas, não criaria um leque gigante.",
+                "Correta. Reproduzir pesa mais que sobreviver em silêncio.",
+                "Penas não crescem pelo esforço de usá-las.",
+                "Não é mimetismo, ele não imita outro animal perigoso."
+            ]
+        }
+    },
+    {
+        id: 14, level: "Médio",
+        text: "A biologia moderna considera o uso do termo 'sobrevive o mais forte' um vício conceitual extremamente incorreto e prejudicial para o aprendizado de Darwin. O correto a se dizer é:",
+        options: [
+            "Sobrevive aquele com maior poder de combate físico.",
+            "Sobrevive a espécie que sofre menos mutações.",
+            "Sobrevive o organismo mais apto/adaptado ao ambiente em que vive no momento.",
+            "Sobrevive o organismo que desenvolver maior velocidade de fuga."
+        ],
+        correct: 2,
+        explanation: {
+            correct: "Aptidão biológica (Fitness) não é força física no supino. É possuir camuflagem, metabolismo eficiente, ou resistência química que garantam deixar mais herdeiros no habitat atual.",
+            options: [
+                "Força consome energia. Num deserto sem água, o mais 'forte' morre rápido.",
+                "Variabilidade (mutação) é o que SALVA as espécies da extinção.",
+                "Correta. Adaptação é contextual, não uma regra universal de força.",
+                "Às vezes, a adaptação é ficar imóvel e letárgico, não veloz."
+            ]
+        }
+    },
+    {
+        id: 15, level: "Difícil",
+        text: "Esponjas do mar são animais com características primitivas, existentes desde o início da vida marinha. Usando o pensamento darwinista, por que elas não evoluíram para formas 'superiores', como os vertebrados, ao longo de milhões de anos?",
+        options: [
+            "Porque a evolução fracassou e esqueceu das esponjas.",
+            "Porque suas adaptações anatômicas já são suficientes e incrivelmente bem-sucedidas para garantir sobrevivência e reprodução no mar.",
+            "Porque elas vivem escondidas e a seleção natural não as encontrou.",
+            "Porque a mutação não ocorre embaixo da água oceânica profunda."
+        ],
+        correct: 1,
+        explanation: {
+            correct: "A evolução não é uma escada rumo à perfeição humana ou aos vertebrados. Se um organismo é altamente adaptado e a pressão ambiental não o extingue, ele mantém sua estrutura vitoriosa.",
+            options: [
+                "Evolução não tem 'objetivo final', logo, não pode fracassar onde há vida persistente.",
+                "Correta. Sobrevivência milenar é o ápice do sucesso evolutivo.",
+                "A seleção age sobre tudo o que vive, até bactérias invisíveis.",
+                "O DNA de vida marinha sofre erros e mutações constantemente."
+            ]
+        }
+    }
+];
+
+const storageKey = 'promover_quiz_' + document.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
+let currentQuestion = 0;
+let userAnswers = [];
+
+function initQuiz() {
+    const totalQ = questions.length;
+    if (totalQ === 0) {
+        document.getElementById('regras-prova').innerHTML = "Nenhuma questão foi gerada pelo sistema.";
+        return;
+    }
+    const savedAnswers = localStorage.getItem(storageKey);
+    userAnswers = savedAnswers ? JSON.parse(savedAnswers) : new Array(totalQ).fill(null);
+    document.getElementById('qtd-btn').textContent = totalQ;
+    const notaCorte = Math.ceil(totalQ * 0.8);
+    document.getElementById('regras-prova').innerHTML = `${totalQ} questões geradas, mapeadas para corrigir falhas clássicas de interpretação. Acerte <strong>80% (${notaCorte}/${totalQ})</strong> para aprovação. O seu progresso é salvo automaticamente neste navegador.`;
+}
+initQuiz();
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion(); 
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+        window.scrollTo(0,0);
+    }
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    
+    let badgeClass = q.level === 'Fácil' ? 'dif-facil' : q.level === 'Médio' ? 'dif-medio' : 'dif-dificil';
+
+    container.innerHTML = `
+        <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+            <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+            <div style="margin-bottom: 20px;">
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+            </div>
+            <div class="options-list">
+                ${q.options.map((opt, i) => {
+                    let cls = '';
+                    if (ans !== null) { 
+                        if (i === q.correct) cls = 'correct'; 
+                        else if (i === ans) cls = 'wrong'; 
+                        else cls = 'disabled'; 
+                    }
+                    return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}><div class="opt-circle">${letters[i]}</div><div>${opt}</div></button>`;
+                }).join('')}
+            </div>
+            
+            ${ans !== null ? `
+            <div class="feedback-box">
+                <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                    ${ans === q.correct ? '☑ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada:'}
+                </div>
+                <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+                <div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">${q.explanation.correct}</div>
+                <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                    <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                    ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+                </div>
+            </div>` : ''}
+        </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    
+    userAnswers[currentQuestion] = idx;
+    localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+    
+    if (idx === questions[currentQuestion].correct) {
+        const duration = 1500; 
+        const end = Date.now() + duration;
+        (function frame() {
+            confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+            confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+            if (Date.now() < end) { requestAnimationFrame(frame); }
+        }());
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth; 
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    
+    renderQuestion(); 
+    renderMap();
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) { 
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong'; 
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i + 1}</div>`;
+    }).join('');
+    
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) { 
+            activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); 
+        }
+    }, 50);
+}
+
+function goTo(i) { 
+    if (window.confetti) confetti.reset(); 
+    currentQuestion = i; 
+    renderQuestion();
+    renderMap(); 
+}
+
+function changeQuestion(d) { 
+    let n = currentQuestion + d; 
+    if (n >= 0 && n < questions.length) goTo(n); 
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    
+    if (currentQuestion === questions.length - 1) { 
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish; 
+    } else { 
+        next.textContent = "Avançar"; 
+        next.onclick = () => changeQuestion(1); 
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    
+    if (window.confetti) confetti.reset();
+    
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "🌟🌟🌟🌟🌟" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);"><strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a nota de corte (80%). Os erros mapeados mostram falhas nos pilares da Teoria da Evolução. Revise a teoria, os gráficos de seleção e elimine a palavra "para" antes de tentar novamente.</div>`;
+        document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>';
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);"><strong>🏆 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre a biologia evolutiva. O senso comum de achar que a evolução tem intenção ou que se baseia em "esforço muscular" foi vencido.</div>`;
+        document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>';
+    }
+    
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct && userAnswers[i] !== null) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ${q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    localStorage.removeItem(storageKey); 
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+// Inicializa direto na prática se já houver respostas salvas; senão, abre a teoria.
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+
+</script>
+</body>
+</html>
