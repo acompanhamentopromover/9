@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- IMPORTANTE: Título ÚNICO para o banco de dados local -->
+<title>Historia Seculo XX Brasil Cap 7 e 8 - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+/* Paleta customizada para História (Tons de pergaminho, marrom e vinho) */
+--bg-color: #FDFBF7;
+--text-color: #292524;
+--border-color: #44403C;
+--white: #FFFFFF;
+--theme-light: #F5E5CE;
+--theme-medium: #D97706;
+--theme-dark: #78350F;
+--theme-contrast: #9F1239;
+--theme-accent: #B45309;
+--theme-text-active: #FFFFFF;
+
+/* NÃO ALTERAR AS CORES ABAIXO */
+--correct-bg: #D1FAE5;
+--correct-border: #059669;
+--wrong-bg: #FFE4E6;
+--wrong-border: #BE123C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px; background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px); background-size: 20px 20px; }
+@keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); } }
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from {opacity: 0; } to { opacity: 1;}}
+@keyframes slideUp { from {transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse { 0% { transform: scale(1); } 15% { transform: scale(1.15); color: var(--theme-contrast); } 30% { transform: scale(1); } 45% { transform: scale(1.15); color: var(--theme-contrast); } 100% { transform: scale(1); } }
+
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo {font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center; }
+
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container {background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+
+.search-container {position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon {position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box {display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 {font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.theory-box p { margin-bottom: 10px; color: #292524; }
+.theory-box ul { padding-left: 20px; margin-bottom: 10px; }
+.theory-box li { margin-bottom: 6px; }
+
+.illustration-container { display: flex; justify-content: center; align-items: center; padding: 20px; background: #FFFBF0; border: 2px dashed var(--theme-dark); border-radius: 8px; margin: 15px 0; overflow: hidden; width: 100%;}
+.illustration-container svg {max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.highlight-box { background-color: #FEE2E2; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #7F1D1D; font-weight: 600; }
+
+.difficulty-badge {display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+.question-map {display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot {min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct {background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong {background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled {pointer-events: none; opacity: 0.7; }
+
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt {border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0;}
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+.result-card {background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container {font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big {font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; background-color: #E2E8F0; color: #94A3B8; border-color: #CBD5E1; box-shadow: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<header class="logo-header">
+<div class="css-logo"><span class="pulse-effect">⏳</span> PROMOVER</div>
+<h1>História do Brasil</h1>
+<p class="subtitle">Revisão Definitiva: Capítulos 7 e 8</p>
+</header>
+
+<div class="toggle-container">
+<button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">Guia de Estudos</button>
+<button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">Prova de Fogo (<span id="qtd-btn">0</span>)</button>
+</div>
+
+<div id="viewExplanation" class="view-section" style="display: flex;">
+<div class="search-container">
+<span class="search-icon" aria-hidden="true">🔍</span>
+<input type="text" id="searchinput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar governos, revoltas ou leis...">
+</div>
+<div id="no-results"><p>Termo não encontrado.</p></div>
+
+<!-- CAPÍTULO 7 -->
+<div class="content-group">
+    <span class="section-badge">Capítulo 7: A Quarta República</span>
+    
+    <div class="theory-box">
+        <h3>1. O Novo Cenário e a Urbanização</h3>
+        <p>O fim da ditadura do Estado Novo (1945) abriu caminho para a redemocratização do Brasil. No entanto, a maior mudança estava na demografia: o país deixou de ser majoritariamente agrário.</p>
+        <p>O <strong>êxodo rural</strong> acelerado fez com que a população fugisse do campo (pela mecanização e pobreza) em direção às cidades. Essa urbanização foi caótica e extremamente desigual, concentrando-se na região <strong>Sudeste</strong> (São Paulo e Rio de Janeiro), que atraía mão de obra para suas indústrias emergentes.</p>
+    </div>
+
+    <div class="theory-box">
+        <h3>2. O Governo Dutra (1946-1951)</h3>
+        <p>Eurico Gaspar Dutra foi o primeiro presidente da Quarta República. Seu governo teve duas marcas principais:</p>
+        <ul>
+            <li><strong>Internamente:</strong> Promulgou a <strong>Constituição de 1946</strong>, retomando o caráter liberal e democrático (voto livre, independência dos poderes e liberdades individuais).</li>
+            <li><strong>Externamente:</strong> Em meio à Guerra Fria, Dutra alinhou o Brasil radicalmente aos Estados Unidos. Rompeu relações diplomáticas com a URSS e colocou o Partido Comunista Brasileiro (PCB) na ilegalidade.</li>
+        </ul>
+    </div>
+
+    <div class="theory-box">
+        <h3>3. O Retorno Trágico de Vargas (1951-1954)</h3>
+        <p>Getúlio Vargas voltou, agora eleito pelo voto direto. Seu governo foi pautado pelo <strong>Nacionalismo Econômico</strong>, defendendo que recursos estratégicos deveriam pertencer ao Estado brasileiro.</p>
+        <p>A maior vitória popular desse modelo foi a campanha "O Petróleo é Nosso", que culminou na criação da <strong>Petrobras</strong> (1953).</p>
+        <div class="highlight-box">
+            <strong>A Crise:</strong> Vargas sofreu forte oposição de setores conservadores e militares, encabeçados pelo jornalista <strong>Carlos Lacerda (UDN)</strong>. Acusado de corrupção e sofrendo pressões para renunciar após um atentado a Lacerda, Vargas cometeu <strong>suicídio em agosto de 1954</strong>, gerando comoção nacional e adiando o golpe militar.
+        </div>
+    </div>
+</div>
+
+<div class="illustration-container">
+    <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="220" fill="#FFFBF0" rx="10"/>
+        <text x="300" y="30" font-family="Poppins" font-size="14" font-weight="900" text-anchor="middle" fill="#78350F">LINHA DO TEMPO: A INSTABILIDADE DA 4ª REPÚBLICA</text>
+        
+        <!-- Timeline Line -->
+        <line x1="50" y1="120" x2="550" y2="120" stroke="#44403C" stroke-width="4" stroke-dasharray="8,4"/>
+        
+        <!-- Vargas -->
+        <circle cx="100" cy="120" r="25" fill="#D97706" stroke="#44403C" stroke-width="3"/>
+        <text x="100" y="165" font-family="Poppins" font-size="12" font-weight="bold" text-anchor="middle" fill="#292524">Vargas</text>
+        <text x="100" y="180" font-family="Poppins" font-size="10" text-anchor="middle" fill="#9F1239">Suicídio (1954)</text>
+
+        <!-- JK -->
+        <circle cx="230" cy="120" r="25" fill="#F5E5CE" stroke="#44403C" stroke-width="3"/>
+        <text x="230" y="165" font-family="Poppins" font-size="12" font-weight="bold" text-anchor="middle" fill="#292524">JK</text>
+        <text x="230" y="180" font-family="Poppins" font-size="10" text-anchor="middle" fill="#44403C">Plano de Metas</text>
+        
+        <!-- Jânio -->
+        <circle cx="360" cy="120" r="25" fill="#B45309" stroke="#44403C" stroke-width="3"/>
+        <text x="360" y="165" font-family="Poppins" font-size="12" font-weight="bold" text-anchor="middle" fill="#292524">Jânio Quadros</text>
+        <text x="360" y="180" font-family="Poppins" font-size="10" text-anchor="middle" fill="#9F1239">Renúncia (1961)</text>
+        
+        <!-- Jango & Golpe -->
+        <circle cx="490" cy="120" r="25" fill="#9F1239" stroke="#44403C" stroke-width="3"/>
+        <text x="490" y="165" font-family="Poppins" font-size="12" font-weight="bold" text-anchor="middle" fill="#292524">João Goulart</text>
+        <text x="490" y="180" font-family="Poppins" font-size="10" font-weight="bold" text-anchor="middle" fill="#9F1239">GOLPE DE 1964</text>
+        
+        <!-- Arcos de Tensão -->
+        <path d="M 100,90 Q 165,40 230,90" fill="none" stroke="#9F1239" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow)"/>
+        <text x="165" y="55" font-family="Poppins" font-size="9" text-anchor="middle" fill="#9F1239">Golpe Preventivo (Lott)</text>
+
+        <path d="M 360,90 Q 425,40 490,90" fill="none" stroke="#9F1239" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow)"/>
+        <text x="425" y="55" font-family="Poppins" font-size="9" text-anchor="middle" fill="#9F1239">Parlamentarismo (61-63)</text>
+    </svg>
+</div>
+
+<div class="content-group">
+    <div class="theory-box">
+        <h3>4. A Era JK e a Industrialização (1956-1961)</h3>
+        <p>A posse de Juscelino Kubitschek só foi possível devido ao <strong>Golpe Preventivo do Marechal Lott</strong> (que barrou um golpe militar conservador). JK assumiu com o famoso Plano de Metas, visando crescer "50 anos em 5".</p>
+        <p><strong>Abertura Econômica:</strong> JK apostou em um tripé: estado cuidava da infraestrutura (energia, estradas), a iniciativa privada de bens não-duráveis, e o <strong>capital estrangeiro</strong> dominava a indústria de bens duráveis (montadoras de automóveis).</p>
+        <p>O símbolo da interiorização foi a construção de <strong>Brasília</strong>. No entanto, o custo foi altíssimo: aumento drástico da inflação e explosão da dívida externa.</p>
+    </div>
+
+    <div class="theory-box">
+        <h3>5. A Crise Populista: Jânio e Jango</h3>
+        <p><strong>Jânio Quadros:</strong> Eleito com o símbolo de uma "vassoura" para varrer a corrupção. Assumiu uma Política Externa Independente, chegando a condecorar Che Guevara em plena Guerra Fria. Perdeu a base de apoio e renunciou em apenas 7 meses.</p>
+        <p><strong>João Goulart (Jango):</strong> Para que os militares aceitassem a posse do vice (acusado de comunista), adotou-se provisoriamente o <strong>Parlamentarismo (1961-1963)</strong>, esvaziando seus poderes presidenciais.</p>
+        <p>Ao recuperar o presidencialismo, Jango propôs as <strong>Reformas de Base</strong>. A principal delas, a <strong>Reforma Agrária</strong>, causou pânico nas elites, latifundiários e nos EUA, servindo de estopim para o Golpe.</p>
+    </div>
+</div>
+
+<div class="content-group" style="margin-top: 10px;">
+    <span class="section-badge" style="background-color: var(--theme-contrast);">Capítulo 8: A Ditadura Civil-Militar</span>
+    
+    <div class="theory-box">
+        <h3>1. O Golpe e a Institucionalização do Autoritarismo</h3>
+        <p>O Golpe de 1964 depôs Jango com apoio civil e militar, justificado pela <strong>Doutrina de Segurança Nacional</strong> (o medo do avanço comunista na América Latina).</p>
+        <p>Para governar por cima das leis, os militares usaram os <strong>Atos Institucionais (AIs)</strong>. O <strong>AI-1</strong> foi imediato, permitindo cassar mandatos políticos.</p>
+        <p>Para dar uma "fachada de legalidade" ao regime, impuseram a <strong>Constituição de 1967</strong>, que centralizou autoritariamente os poderes no Executivo Federal, esvaziando o Congresso e os estados.</p>
+    </div>
+
+    <div class="theory-box">
+        <h3>2. O Endurecimento (AI-5) e a Resistência</h3>
+        <p>Em 1968, as tensões chegaram ao auge. Manifestações pacíficas, como a <strong>Passeata dos Cem Mil</strong> (movimento estudantil), tomaram as ruas do Rio de Janeiro contra a violência estatal.</p>
+        <p>A resposta do governo Costa e Silva foi o brutal <strong>AI-5 (1968)</strong>. Ele fechou o Congresso, instituiu a censura prévia total (imprensa, artes) e <strong>suspendeu o direito de habeas corpus</strong> para crimes políticos, abrindo as portas para prisões arbitrárias.</p>
+        <p>Sem canais políticos, a resistência se dividiu: parte optou pela <strong>luta armada</strong>, enquanto a sociedade civil resistia por meio da <strong>cultura e da arte</strong> (MPB, Cinema Novo, teatro) driblando a censura.</p>
+    </div>
+</div>
+
+<div class="illustration-container">
+    <svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="180" fill="#FFFBF0" rx="10"/>
+        
+        <!-- Base de Sustentação -->
+        <rect x="50" y="40" width="120" height="100" fill="#E2E8F0" stroke="#44403C" stroke-width="2" rx="5"/>
+        <text x="110" y="70" font-family="Poppins" font-size="12" font-weight="bold" text-anchor="middle" fill="#7F1D1D">O MITO DO</text>
+        <text x="110" y="90" font-family="Poppins" font-size="14" font-weight="900" text-anchor="middle" fill="#78350F">MILAGRE</text>
+        <text x="110" y="110" font-family="Poppins" font-size="14" font-weight="900" text-anchor="middle" fill="#78350F">ECONÔMICO</text>
+        
+        <!-- Consequências Seta -->
+        <path d="M 170,90 L 230,90" fill="none" stroke="#44403C" stroke-width="3" marker-end="url(#arrow)"/>
+        
+        <!-- Impactos Negativos -->
+        <rect x="250" y="20" width="220" height="40" fill="#FEE2E2" stroke="#9F1239" stroke-width="2" rx="5"/>
+        <text x="360" y="45" font-family="Poppins" font-size="11" font-weight="bold" text-anchor="middle" fill="#9F1239">Explosão da Dívida e Inflação</text>
+
+        <rect x="250" y="70" width="220" height="40" fill="#FEE2E2" stroke="#9F1239" stroke-width="2" rx="5"/>
+        <text x="360" y="95" font-family="Poppins" font-size="11" font-weight="bold" text-anchor="middle" fill="#9F1239">Arrocho Salarial (Desigualdade)</text>
+
+        <rect x="250" y="120" width="220" height="40" fill="#FEE2E2" stroke="#9F1239" stroke-width="2" rx="5"/>
+        <text x="360" y="145" font-family="Poppins" font-size="11" font-weight="bold" text-anchor="middle" fill="#9F1239">Massacre de Povos Indígenas</text>
+    </svg>
+</div>
+
+<div class="content-group">
+    <div class="theory-box">
+        <h3>3. Os "Anos de Chumbo" e o Milagre Econômico</h3>
+        <p>O governo de Emílio G. Médici é conhecido como "Anos de Chumbo". O terrorismo de Estado foi institucionalizado: órgãos como o <strong>DOI-CODI</strong> tornaram a tortura, interrogatórios violentos e desaparecimentos uma política oficial do governo.</p>
+        <p>Isso ocorreu concomitantemente ao <strong>Milagre Econômico</strong> (crescimento acima de 10% financiado por empréstimos externos). Obras faraônicas, como a Transamazônica, geraram um custo humano trágico: a <strong>invasão e esbulho violento de terras indígenas</strong> no Norte e Centro-Oeste.</p>
+    </div>
+
+    <div class="theory-box">
+        <h3>4. Abertura e Redemocratização</h3>
+        <p>O governo do General Ernesto Geisel iniciou a abertura "lenta, gradual e segura". O principal fator foi a crise: a <strong>Crise do Petróleo (1973)</strong> implodiu o endividado "Milagre Econômico", esvaziando o apoio da classe média ao regime.</p>
+        <p>Nas décadas de 1970 e 1980, a sociedade acordou:</p>
+        <ul>
+            <li>O <strong>Novo Sindicalismo (Greves do ABC)</strong> desafiou a lei de greve exigindo melhores salários e democracia.</li>
+            <li>A campanha das <strong>Diretas Já (1983-1984)</strong> levou milhões às ruas exigindo o voto para presidente. A emenda foi derrotada.</li>
+            <li>A ditadura chegou ao fim em 1985 de forma pactuada, com a eleição indireta (por um Colégio Eleitoral) de um civil, <strong>Tancredo Neves</strong>.</li>
+        </ul>
+    </div>
+</div>
+
+<button class="btn-action" onclick="setMode('practice')">Testar Meus Conhecimentos →</button>
+</div>
+
+<div id="viewPractice" class="view-section">
+<div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+<h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+<p id="regras-prova" style="color: #44403C; font-size: 0.95rem; font-weight:600;">Carregando regras da prova...</p>
+</div>
+<div class="question-map" id="qMap"></div>
+<div id="quizContainer" style="margin-bottom: 100px;"></div>
+</div>
+
+<div id="viewResult" class="view-section">
+<div class="result-card">
+<h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+<div class="stars-container" id="finalStars">★</div>
+<div class="percentage-big" id="finalPercent">0%</div>
+<p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText"></p>
+<div id="review-container"></div>
+</div>
+<div id="action-buttons"></div>
+</div>
+</div>
+<footer class="quiz-footer" id="quizFooter">
+<button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+<button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+const searchinput = document.getElementById('searchinput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+searchinput.addEventListener('input', function(e) {
+const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+let totalVisible = 0;
+contentGroups.forEach(group => {
+const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+if (textContent.includes(term)) { group.style.display = 'flex'; totalVisible++; } else { group.style.display = 'none'; }
+});
+const extraElements = document.querySelectorAll('.illustration-container, #viewExplanation .btn-action');
+extraElements.forEach(el => {
+el.style.display = (term === '') ? (el.tagName.toLowerCase() === 'button' ? 'block' : 'flex') : 'none';
+});
+noResultsMsg.style.display = (totalVisible === 0 && term !== '') ? 'block' : 'none';
+});
+
+const questions = [
+  // --- CAPÍTULO 7: A QUARTA REPÚBLICA ---
+  {
+    id: 1, 
+    level: "Fácil",
+    text: "O fim do Estado Novo (1945) abriu caminho para a Quarta República e para uma profunda transformação na demografia brasileira. Qual fenômeno marcou a mudança do Brasil rural para o urbano nesse período?",
+    options: [
+      "O êxodo urbano, com a população fugindo da violência das grandes capitais para o interior.",
+      "A distribuição homogênea das indústrias, que gerou crescimento igualitário em todas as regiões.",
+      "O êxodo rural acelerado, concentrando o crescimento populacional principalmente nas cidades da região Sudeste.",
+      "A proibição do trabalho agrícola, forçando camponeses a migrarem para o Norte do país."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "O processo de industrialização atraiu trabalhadores do campo para os centros urbanos, principalmente para o eixo São Paulo - Rio de Janeiro.", 
+      options: [
+        "Falso. O fluxo foi inverso: do campo para a cidade (êxodo rural).", 
+        "Falso. O crescimento urbano foi profundamente desigual, concentrado no Sudeste.", 
+        "Exato. A busca por empregos na indústria causou um inchaço urbano rápido no Sudeste.", 
+        "Falso. A agricultura continuou forte, mas mecanizou-se, expulsando mão de obra."
+      ]
+    }
+  },
+  {
+    id: 2, 
+    level: "Médio",
+    text: "O governo de Eurico Gaspar Dutra (1946-1951) foi responsável pela primeira constituição da Quarta República. Considerando o cenário externo, como Dutra posicionou o Brasil e qual foi a marca da Constituição de 1946?",
+    options: [
+      "Alinhou-se à URSS na Guerra Fria e manteve a censura estatal ditatorial.",
+      "Alinhou-se aos EUA (bloco capitalista) e promulgou uma Constituição de caráter liberal-democrático.",
+      "Declarou neutralidade absoluta na Guerra Fria e fechou o Congresso Nacional.",
+      "Rompeu com os EUA para criar a Petrobras e adotou o parlamentarismo."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "Dutra rompeu com o Estado Novo (adotando uma constituição democrática) e, no contexto da Guerra Fria, rompeu relações com a União Soviética.", 
+      options: [
+        "Falso. Ele rompeu relações com a URSS e a constituição era liberal, não censuradora.", 
+        "Exato. Restauração democrática interna com forte alinhamento anticomunista externo.", 
+        "Falso. Não houve neutralidade, Dutra tomou o lado norte-americano.", 
+        "Falso. A Petrobras seria criada depois, por Getúlio Vargas."
+      ]
+    }
+  },
+  {
+    id: 3, 
+    level: "Médio",
+    text: "Durante seu retorno democrático (1951-1954), Getúlio Vargas adotou uma política de forte nacionalismo econômico. Qual foi a maior realização estatal desse período, fruto de intensa campanha popular?",
+    options: [
+      "A fundação da Companhia Siderúrgica Nacional (CSN).",
+      "A construção da capital Brasília no centro-oeste.",
+      "A criação da Petrobras sob o lema 'O petróleo é nosso'.",
+      "A privatização da Vale do Rio Doce para atrair capital estrangeiro."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "A Petrobras (1953) foi o símbolo máximo da tentativa de Vargas de manter os recursos estratégicos nas mãos do Estado brasileiro.", 
+      options: [
+        "Falso. A CSN foi criada durante a Era Vargas anterior (Estado Novo).", 
+        "Falso. Brasília foi o projeto central do sucessor, Juscelino Kubitschek.", 
+        "Exato. A campanha nacionalista venceu o lobby das empresas petrolíferas estrangeiras.", 
+        "Falso. A Vale do Rio Doce era estatal na época; Vargas era contrário a grandes privatizações."
+      ]
+    }
+  },
+  {
+    id: 4, 
+    level: "Difícil",
+    text: "A transição do governo Vargas para Juscelino Kubitschek foi marcada por extrema instabilidade, quase culminando em um golpe para impedir a posse de JK. Qual evento foi crucial para garantir a posse do presidente eleito?",
+    options: [
+      "A promulgação do parlamentarismo, que tranquilizou a oposição da UDN.",
+      "O apoio logístico e militar direto dos Estados Unidos a favor de JK.",
+      "A renúncia de Carlos Lacerda ao cargo de governador da Guanabara.",
+      "O 'Golpe Preventivo' liderado pelo Ministro da Guerra, Marechal Henrique Teixeira Lott."
+    ],
+    correct: 3,
+    explanation: {
+      correct: "Quando a UDN e setores militares tentaram impedir a posse de JK alegando que ele não teve maioria absoluta, Marechal Lott depôs o presidente interino para garantir a lei.", 
+      options: [
+        "Falso. O parlamentarismo só foi usado anos depois, para garantir a posse de João Goulart.", 
+        "Falso. Os EUA não intervieram militarmente a favor de JK neste episódio.", 
+        "Falso. Carlos Lacerda continuou sendo a principal voz de oposição a JK.", 
+        "Exato. Lott mobilizou tropas para garantir que a Constituição fosse respeitada e JK assumisse."
+      ]
+    }
+  },
+  {
+    id: 5, 
+    level: "Fácil",
+    text: "O modelo de desenvolvimento do Plano de Metas de Juscelino Kubitschek (1956-1961) visava crescer '50 anos em 5'. Para atingir a industrialização acelerada, qual foi a estratégia adotada em relação ao capital externo?",
+    options: [
+      "Expulsão total de fábricas internacionais para fortalecer apenas a indústria nacional.",
+      "Abertura econômica para atrair empresas multinacionais, especialmente as montadoras de automóveis.",
+      "Congelamento das importações, isolando o Brasil do comércio mundial.",
+      "Estatização forçada de todas as empresas de comunicação estrangeiras."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "JK adotou o modelo de 'tripé econômico': o Estado cuidava da infraestrutura, a iniciativa privada nacional de bens não duráveis, e o capital estrangeiro da indústria pesada/automóveis.", 
+      options: [
+        "Falso. Ocorreu o oposto: o capital estrangeiro foi muito bem-vindo.", 
+        "Exato. A instalação de fábricas como Ford, Volkswagen e GM é a marca desse período.", 
+        "Falso. A economia se abriu, causando dependência tecnológica e financeira.", 
+        "Falso. JK não adotou políticas de estatização radical."
+      ]
+    }
+  },
+  {
+    id: 6, 
+    level: "Médio",
+    text: "Apesar da infraestrutura criada, o 'desenvolvimentismo' de JK gerou uma grave herança maldita para os governos seguintes. Qual foi a principal contradição (custo econômico) da construção de Brasília e do Plano de Metas?",
+    options: [
+      "O aceleramento desenfreado da inflação e o aumento drástico da dívida externa.",
+      "A extinção do salário mínimo e o fim dos sindicatos urbanos.",
+      "O abandono total das exportações de café, quebrando a economia paulista.",
+      "A quitação antecipada da dívida brasileira, que esvaziou os cofres da educação."
+    ],
+    correct: 0,
+    explanation: {
+      correct: "Para financiar obras faraônicas, o governo JK emitiu moeda sem lastro e contraiu inúmeros empréstimos no exterior, destruindo o poder de compra dos mais pobres.", 
+      options: [
+        "Exato. O crescimento veio atrelado ao custo altíssimo da inflação e dependência externa.", 
+        "Falso. O salário mínimo não foi extinto (apesar de perder poder de compra).", 
+        "Falso. O café continuou sendo um importante produto de exportação.", 
+        "Falso. A dívida explodiu, não foi quitada."
+      ]
+    }
+  },
+  {
+    id: 7, 
+    level: "Médio",
+    text: "Jânio Quadros chegou à presidência em 1961 utilizando o símbolo de uma vassoura. Seu mandato foi marcado por medidas pitorescas internamente. Porém, qual atitude na Política Externa causou sua perda de apoio da base conservadora?",
+    options: [
+      "A assinatura de um tratado entregando a Amazônia para os Estados Unidos.",
+      "O apoio público à invasão militar da Argentina contra as Ilhas Malvinas.",
+      "A Política Externa Independente (PEI), com atos como a condecoração de Che Guevara.",
+      "O rompimento total das relações comerciais com Portugal e a Europa."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "Em plena Guerra Fria, eleito por conservadores, Jânio condecorar um líder da Revolução Cubana soou como uma aproximação inaceitável com o bloco comunista.", 
+      options: [
+        "Falso. Nenhuma parte do território foi entregue.", 
+        "Falso. A Guerra das Malvinas só ocorreria em 1982.", 
+        "Exato. A PEI buscava não se alinhar automaticamente nem aos EUA, nem à URSS.", 
+        "Falso. As relações com a Europa não foram rompidas."
+      ]
+    }
+  },
+  {
+    id: 8, 
+    level: "Difícil",
+    text: "Após a surpreendente renúncia de Jânio Quadros, as Forças Armadas tentaram impedir a posse do vice, João Goulart. Para evitar uma guerra civil, o Congresso Nacional aprovou qual alteração constitucional urgente?",
+    options: [
+      "A decretação de Estado de Sítio permanente, entregando o poder a um conselho militar.",
+      "A realização de novas eleições presidenciais em 30 dias.",
+      "A implementação do sistema parlamentarista de governo.",
+      "A exclusão de João Goulart do cargo, empossando Carlos Lacerda diretamente."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "A Emenda Parlamentarista permitiu que Jango assumisse, mas transferiu a chefia do governo para um Primeiro-Ministro (como Tancredo Neves), enfraquecendo seus poderes.", 
+      options: [
+        "Falso. O poder continuou civil, mas reestruturado pelo Congresso.", 
+        "Falso. O arranjo buscou manter a linha sucessória para evitar a ruptura da Constituição.", 
+        "Exato. O parlamentarismo (1961-1963) acalmou os militares temporariamente.", 
+        "Falso. Lacerda não era o vice e não havia base legal para empossá-lo."
+      ]
+    }
+  },
+  {
+    id: 9, 
+    level: "Médio",
+    text: "No centro do projeto de governo de João Goulart estavam as 'Reformas de Base'. Qual dessas reformas foi o estopim para que a elite conservadora passasse a articular o Golpe de 1964?",
+    options: [
+      "A Reforma Tributária, que isentava as empresas estrangeiras de pagar impostos.",
+      "A Reforma Agrária, que previa a desapropriação e redistribuição de grandes latifúndios improdutivos.",
+      "A Reforma Eleitoral, que proibia a existência de partidos de direita.",
+      "A Reforma Constitucional, que transformava o Brasil em uma monarquia parlamentar."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "Mexer na estrutura secular da posse de terras no Brasil feriu diretamente os interesses dos grandes proprietários, que acusaram a medida de ser 'comunista'.", 
+      options: [
+        "Falso. Jango propunha limitar o envio de lucros de empresas estrangeiras para o exterior.", 
+        "Exato. A redistribuição de terras rurais foi o ponto mais radical e temido das Reformas de Base.", 
+        "Falso. Jango não baniu partidos políticos (isso quem fez foi a Ditadura, com o AI-2).", 
+        "Falso. Jango defendia a república presidencialista popular."
+      ]
+    }
+  },
+  // --- CAPÍTULO 8: O BRASIL SOB A DITADURA CIVIL-MILITAR ---
+  {
+    id: 10, 
+    level: "Fácil",
+    text: "Logo nos primeiros dias após o Golpe de 1964, o novo regime precisou criar ferramentas para governar de forma autoritária por cima da Constituição vigente. Qual foi o primeiro mecanismo legal utilizado?",
+    options: [
+      "A assinatura imediata do Ato Institucional Número 5 (AI-5).",
+      "A decretação do Primeiro Ato Institucional (AI-1).",
+      "A convocação de uma Assembleia Constituinte com participação popular.",
+      "A aprovação da Lei de Anistia pelo Congresso."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "O AI-1 (abril de 1964) foi a primeira ferramenta da ditadura. Ele dava poderes para cassar mandatos de políticos, suspender direitos por 10 anos e expulsar militares opositores.", 
+      options: [
+        "Falso. O AI-5 só seria decretado quatro anos depois, em 1968.", 
+        "Exato. O AI-1 institucionalizou a perseguição política aos inimigos do golpe.", 
+        "Falso. O regime jamais convocou assembleias com participação popular real.", 
+        "Falso. A Lei da Anistia ocorreu apenas no final do regime, em 1979."
+      ]
+    }
+  },
+  {
+    id: 11, 
+    level: "Difícil",
+    text: "Além dos Atos Institucionais, a ditadura promulgou a Constituição de 1967. Qual foi a alteração estrutural fundamental imposta por esta Constituição?",
+    options: [
+      "A devolução da autonomia aos governos estaduais e prefeituras.",
+      "A legalização irrestrita de todos os partidos políticos, incluindo o Partido Comunista.",
+      "A centralização autoritária de poderes no Executivo Federal, esvaziando o Congresso Nacional.",
+      "A adoção de eleições diretas universais para o cargo de Presidente da República."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "A Constituição de 1967 serviu para dar uma 'fachada de legalidade' à ditadura, concentrando o poder de decisão em Brasília nas mãos dos militares.", 
+      options: [
+        "Falso. Ocorreu exatamente o oposto: os estados perderam autonomia.", 
+        "Falso. O bipartidarismo (ARENA e MDB) já havia sido imposto antes.", 
+        "Exato. O Presidente passou a legislar por decretos, subordinando as outras instituições.", 
+        "Falso. As eleições presidenciais tornaram-se indiretas."
+      ]
+    }
+  },
+  {
+    id: 12, 
+    level: "Médio",
+    text: "O ano de 1968 foi o ápice das tensões. A Passeata dos Cem Mil, liderada pelo movimento estudantil, foi respondida pelo governo Costa e Silva com o duríssimo AI-5. Qual foi a principal consequência jurídica do AI-5?",
+    options: [
+      "A suspensão do direito de habeas corpus para crimes políticos e o fechamento do Congresso.",
+      "A liberação total da censura prévia para jornais e emissoras de rádio.",
+      "O perdão (anistia) aos líderes dos movimentos estudantis e operários.",
+      "O fim das aposentadorias forçadas de professores universitários opositores."
+    ],
+    correct: 0,
+    explanation: {
+      correct: "Sem o habeas corpus, o Estado ganhou o poder de prender cidadãos arbitrariamente, por tempo indeterminado e sem acusação formal, o que facilitou a tortura.", 
+      options: [
+        "Exato. O AI-5 legalizou o estado de exceção absoluto e anulou garantias individuais.", 
+        "Falso. O AI-5 impôs uma censura prévia brutal sobre a imprensa e as artes.", 
+        "Falso. A perseguição aos estudantes tornou-se implacável após o ato.", 
+        "Falso. Inúmeros professores, diplomatas e intelectuais foram cassados após 1968."
+      ]
+    }
+  },
+  {
+    id: 13, 
+    level: "Difícil",
+    text: "Durante o governo de Emílio G. Médici (1969-1974), conhecido como 'Anos de Chumbo', o Estado precisou silenciar a oposição política (armada e civil). Para isso, qual política de Estado, embora negada publicamente, foi institucionalizada através de órgãos como o DOI-CODI?",
+    options: [
+      "A reeducação política obrigatória através de cursos universitários gratuitos.",
+      "A deportação imediata de opositores apenas para países capitalistas aliados.",
+      "O uso sistemático da tortura, interrogatórios violentos e desaparecimento forçado.",
+      "A criação de zonas de exílio no interior da Floresta Amazônica."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "O DOI-CODI foi a engrenagem principal da repressão clandestina do Estado brasileiro. A tortura não era um excesso individual, mas um método treinado e financiado pelo governo.", 
+      options: [
+        "Falso. Não houve 'cursos de reeducação', houve repressão letal.", 
+        "Falso. Opositores eram presos, mortos ou exilados, sem padrão de escolha de destino amigável.", 
+        "Exato. A violência física e psicológica e os 'desaparecimentos' foram a marca dos Anos de Chumbo.", 
+        "Falso. A Amazônia foi alvo de obras estatais, não de zonas de exílio."
+      ]
+    }
+  },
+  {
+    id: 14, 
+    level: "Fácil",
+    text: "Com o endurecimento do regime via AI-5 e a censura na imprensa, como a sociedade civil (que não optou pela luta armada) passou a manifestar sua resistência de forma mais expressiva?",
+    options: [
+      "Fundando novos partidos comunistas nas grandes cidades industriais.",
+      "Pela via da resistência cultural, utilizando a música, o cinema e as artes cênicas.",
+      "Organizando grandes manifestações diárias na porta dos quartéis generais.",
+      "Boicotando a seleção brasileira durante a Copa do Mundo de 1970."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "A Cultura tornou-se a voz da oposição. Músicos (como Chico Buarque e Gilberto Gil) e dramaturgos usavam metáforas engenhosas para driblar a censura e criticar a ditadura.", 
+      options: [
+        "Falso. Partidos de esquerda estavam banidos e operavam na clandestinidade.", 
+        "Exato. A Música Popular Brasileira (MPB), o Teatro Oficina e o Cinema Novo foram pólos de resistência.", 
+        "Falso. Manifestações de rua foram proibidas e violentamente reprimidas após 1968.", 
+        "Falso. A Copa de 70 foi amplamente utilizada como propaganda ufanista pelo próprio regime militar."
+      ]
+    }
+  },
+  {
+    id: 15, 
+    level: "Médio",
+    text: "O 'Milagre Econômico' financiou obras faraônicas, como a rodovia Transamazônica, expandindo as fronteiras de desenvolvimento do país. No entanto, qual foi o impacto direto dessa política expansionista nas regiões Norte e Centro-Oeste?",
+    options: [
+      "A demarcação imediata de todas as terras tradicionais antes do início das obras.",
+      "A enorme distribuição de lucros entre a população local, zerando a desigualdade.",
+      "A invasão de territórios, desmatamento e violência sistemática contra os povos indígenas.",
+      "O deslocamento pacífico de comunidades ribeirinhas para modernos complexos urbanos."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "Para os militares, a Amazônia era um vazio demográfico a ser conquistado. Rodovias cortaram terras indígenas, trazendo doenças, massacres e esbulho territorial.", 
+      options: [
+        "Falso. A política indigenista do período visava a assimilação forçada, não a proteção territorial.", 
+        "Falso. A riqueza ficou concentrada nas empreiteiras e elites.", 
+        "Exato. O Relatório Figueiredo e outras investigações pós-ditadura expuseram os crimes contra os povos nativos.", 
+        "Falso. Os deslocamentos foram violentos e as comunidades ficaram marginalizadas."
+      ]
+    }
+  },
+  {
+    id: 16, 
+    level: "Médio",
+    text: "O governo do General Ernesto Geisel (1974-1979) marcou o início de uma abertura política 'lenta, gradual e segura'. Essa mudança de postura ocorreu devido ao enfraquecimento do regime, cujo principal fator causador foi:",
+    options: [
+      "A invasão do Brasil por tropas das Nações Unidas.",
+      "A esmagadora vitória militar da guerrilha rural do Araguaia contra o Exército.",
+      "O esgotamento do Milagre Econômico, impulsionado pela Crise Internacional do Petróleo (1973).",
+      "A recusa dos Estados Unidos em continuar vendendo tecnologia para o Brasil."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "O crescimento de mais de 10% ao ano era insustentável. Quando o preço do petróleo explodiu no mercado internacional, a economia brasileira endividada entrou em colapso.", 
+      options: [
+        "Falso. Nenhuma força estrangeira invadiu o Brasil.", 
+        "Falso. A Guerrilha do Araguaia foi aniquilada brutalmente pelas Forças Armadas.", 
+        "Exato. Com inflação alta, dívida externa e arrocho salarial, a ditadura perdeu o apoio da classe média.", 
+        "Falso. As relações com os EUA esfriaram pelos direitos humanos, mas não causaram o fim do Milagre."
+      ]
+    }
+  },
+  {
+    id: 17, 
+    level: "Difícil",
+    text: "No final da década de 1970, o enfraquecimento da ditadura abriu espaço para grandes mobilizações populares da classe trabalhadora. Qual movimento, ocorrido em São Paulo, representou um forte desafio ao regime e marcou o chamado 'Novo Sindicalismo'?",
+    options: [
+      "A Marcha da Família com Deus pela Liberdade na Avenida Paulista.",
+      "As greves dos metalúrgicos no ABC Paulista, lideradas por figuras como Luiz Inácio Lula da Silva.",
+      "A rebelião armada de marinheiros no Porto de Santos exigindo anistia ampla.",
+      "O boicote total dos comerciantes de São Paulo contra o pagamento de impostos."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "Desafiando a rígida Lei de Greve, milhares de metalúrgicos cruzaram os braços. Eles não exigiam apenas melhorias salariais, mas liberdade política, criando um sindicalismo independente.", 
+      options: [
+        "Falso. A Marcha da Família (1964) foi um movimento de direita que apoiou o golpe.", 
+        "Exato. As greves do ABC (1978-1980) enfraqueceram a base econômica e repressiva da ditadura.", 
+        "Falso. A Revolta dos Marinheiros foi no Rio de Janeiro, antes do golpe de 64.", 
+        "Falso. Não houve boicote comercial generalizado nesse período."
+      ]
+    }
+  },
+  {
+    id: 18, 
+    level: "Fácil",
+    text: "O movimento das 'Diretas Já' (1983-1984) reuniu milhões de brasileiros nas ruas com uma reivindicação muito clara para selar o fim da ditadura militar. O que os manifestantes exigiam?",
+    options: [
+      "A punição imediata e fuzilamento de todos os presidentes militares.",
+      "A revogação exclusiva da censura sobre o cinema nacional.",
+      "O direito de eleger o Presidente da República pelo voto direto do povo.",
+      "A renúncia imediata do presidente João Figueiredo e a posse de Tancredo Neves."
+    ],
+    correct: 2,
+    explanation: {
+      correct: "O movimento apoiava a Emenda Dante de Oliveira, que tentava restabelecer o voto direto para a eleição presidencial que ocorreria em 1985.", 
+      options: [
+        "Falso. A Lei da Anistia de 1979 impedia a punição dos militares.", 
+        "Falso. A pauta não era específica para cultura, era centralmente eleitoral.", 
+        "Exato. 'Eu Quero Votar para Presidente' era o maior clamor das ruas no período.", 
+        "Falso. Eles queriam que o próximo presidente (fosse quem fosse) fosse escolhido pelo povo, e não forçar a posse imediata de Tancredo."
+      ]
+    }
+  },
+  {
+    id: 19, 
+    level: "Médio",
+    text: "Apesar do imenso apoio popular às ruas durante a Campanha das Diretas Já, a Emenda Dante de Oliveira não foi aprovada no Congresso. Como, então, se deu a eleição de Tancredo Neves, o primeiro presidente civil após a ditadura?",
+    options: [
+      "Por voto direto, pois a Justiça Eleitoral derrubou a decisão do Congresso.",
+      "De forma indireta, sendo eleito por um Colégio Eleitoral composto por parlamentares em Brasília.",
+      "Por indicação direta do Alto Comando das Forças Armadas.",
+      "Através de um plebiscito convocado às pressas no último dia do governo Figueiredo."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "A derrota das Diretas Já forçou a oposição civil a disputar o pleito nas regras do regime. Tancredo (oposição moderada) derrotou Paulo Maluf (candidato do regime) no colégio eleitoral.", 
+      options: [
+        "Falso. A primeira eleição direta para presidente ocorreria apenas em 1989.", 
+        "Exato. A transição não foi por voto popular, mas através de um acordo no topo da política.", 
+        "Falso. O regime apoiou o candidato derrotado, Paulo Maluf.", 
+        "Falso. Não houve plebiscito eleitoral em 1985."
+      ]
+    }
+  },
+  {
+    id: 20, 
+    level: "Fácil",
+    text: "A promulgação da Lei da Anistia (1979), no governo de João Figueiredo, marcou o início do processo final de abertura política. Como essa lei foi caracterizada na época e qual foi o seu impacto imediato?",
+    options: [
+      "Foi estrita, permitindo apenas o retorno de estudantes, mantendo políticos exilados.",
+      "Foi 'ampla, geral e irrestrita', perdoando opositores, mas também blindando agentes do Estado acusados de tortura.",
+      "Puniu severamente todos os militares envolvidos no DOI-CODI, prendendo-os imediatamente.",
+      "Revogou automaticamente a Constituição de 1967, instaurando eleições diretas no dia seguinte."
+    ],
+    correct: 1,
+    explanation: {
+      correct: "A lei permitiu o retorno de exilados (como Brizola, Miguel Arraes, etc.), mas o termo 'irrestrita' garantiu que militares torturadores não fossem julgados.", 
+      options: [
+        "Falso. Políticos de oposição foram o grande foco dos retornos do exílio.", 
+        "Exato. Anistiou os dois lados: os opositores políticos e os repressores do regime.", 
+        "Falso. Nenhum agente do Estado foi punido pela ditadura graças a essa mesma lei.", 
+        "Falso. A Constituição permaneceu e as eleições diretas só voltaram em 1989."
+      ]
+    }
+  }
+];
+
+const storageKey = 'promover_quiz_' + document.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '_');
+let currentQuestion = 0;
+let userAnswers = [];
+
+function initQuiz() {
+const totalQ = questions.length;
+if (totalQ === 0) {
+document.getElementById('regras-prova').innerHTML = "Nenhuma questão foi gerada pelo sistema.";
+return;
+}
+const savedAnswers = localStorage.getItem(storageKey);
+if (savedAnswers) {
+  try {
+    const parsed = JSON.parse(savedAnswers);
+    if (Array.isArray(parsed) && parsed.length === totalQ) {
+      userAnswers = parsed;
+    } else {
+      userAnswers = new Array(totalQ).fill(null);
+    }
+  } catch(e) {
+    userAnswers = new Array(totalQ).fill(null);
+  }
+} else {
+  userAnswers = new Array(totalQ).fill(null);
+}
+document.getElementById('qtd-btn').textContent = totalQ;
+const notaCorte = Math.ceil(totalQ * 0.8);
+document.getElementById('regras-prova').innerHTML = `<strong>${totalQ} questões geradas.</strong><br>Acerte <strong>80% (${notaCorte}/${totalQ})</strong> para confirmar aprovação.<br>Seu progresso é salvo automaticamente neste navegador.`;
+}
+initQuiz();
+
+function setMode(mode) {
+const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+views.forEach(v => document.getElementById(v).style.display = 'none');
+document.getElementById('quizFooter').style.display = 'none';
+if(mode === 'explanation') {
+document.getElementById('viewExplanation').style.display = 'flex';
+document.getElementById('btnExp').classList.add('active');
+document.getElementById('btnPrac').classList.remove('active');
+} else if (mode === 'practice') {
+document.getElementById('viewPractice').style.display = 'block';
+document.getElementById('quizFooter').style.display = 'flex';
+document.getElementById('btnExp').classList.remove('active');
+document.getElementById('btnPrac').classList.add('active');
+renderQuestion(); renderMap();
+} else if (mode === 'result') {
+document.getElementById('viewResult').style.display = 'block';
+document.getElementById('quizFooter').style.display = 'none';
+window.scrollTo(0,0);
+}
+}
+
+function renderQuestion() {
+if(questions.length === 0) return;
+const q = questions[currentQuestion];
+const container = document.getElementById('quizContainer');
+const letters = ['A', 'B', 'C', 'D'];
+const ans = userAnswers[currentQuestion];
+let badgeClass = q.level === 'Fácil'? 'dif-facil': q.level === 'Médio'? 'dif-medio': 'dif-dificil';
+container.innerHTML = `
+<div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+<span class="difficulty-badge ${badgeClass}">${q.level}</span>
+<div style="margin-bottom: 20px;">
+<span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+<h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+</div>
+<div class="options-list">
+${q.options.map((opt, i) => {
+let cls = '';
+if (ans !== null) { if (i === q.correct) cls = 'correct'; else if (i === ans) cls = 'wrong'; else cls = 'disabled'; }
+return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null? 'disabled': ''}>
+<div class="opt-circle">${letters[i]}</div><div>${opt}</div></button>`
+}).join('')}
+</div>
+${ans !== null ? `
+<div class="feedback-box">
+<div class="feedback-title" style="color:${ans === q.correct? 'var(--correct-border)': 'var(--wrong-border)'}">
+${ans === q.correct ? '☑ Raciocínio Aprovado!' : '⚠️ Ops! Falha Detectada:'}
+</div>
+<div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+<div style="margin-top: 10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">${q.explanation.correct}</div>
+<div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+<small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+</div></div>` : ''}
+</div>`;
+updateNav();
+}
+
+function handleAnswer (idx) {
+if (userAnswers[currentQuestion] !== null) return;
+userAnswers[currentQuestion] = idx;
+localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+if (idx === questions[currentQuestion].correct) {
+const duration = 1500; const end = Date.now() + duration;
+(function frame() {
+confetti({ particleCount: 5, angle: 60, spread: 55, origin: {x: 0, y: 0.6}, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+confetti({ particleCount: 5, angle: 120, spread: 55, origin: {x: 1, y: 0.6}, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+if (Date.now() < end) { requestAnimationFrame(frame); }
+}());
+} else {
+const quizContainer = document.getElementById('quizContainer');
+quizContainer.classList.remove('shake-effect');
+void quizContainer.offsetWidth;
+quizContainer.classList.add('shake-effect');
+setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+}
+renderQuestion(); renderMap();
+}
+
+function renderMap() {
+if(questions.length === 0) return;
+const map = document.getElementById('qMap');
+map.innerHTML = questions.map((q, i) => {
+let cls = 'map-dot';
+if (i === currentQuestion) cls += ' active';
+if (userAnswers[i] !== null) { cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong'; }
+return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+}).join('');
+setTimeout(() => {
+const activeDot = map.querySelector('.map-dot.active');
+if (activeDot) { activeDot.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+}, 50);
+}
+
+function goTo(i) { if (window.confetti) confetti.reset(); currentQuestion = i; renderQuestion(); renderMap(); }
+function changeQuestion(d) { let n = currentQuestion + d; if (n >= 0 && n < questions.length) goTo(n); }
+
+function updateNav() {
+document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+const next = document.getElementById('btnNext');
+if (currentQuestion === questions.length - 1) { next.textContent = "Finalizar Diagnóstico"; next.onclick = finish; }
+else { next.textContent = "Avançar"; next.onclick = () => changeQuestion(1); }
+}
+
+function finish() {
+let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+let percent = Math.round((correct/questions.length) * 100);
+if (window.confetti) confetti.reset();
+document.getElementById('finalPercent').textContent = percent + "%";
+document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐" : percent >= 60 ? "⭐⭐" : "⭐";
+let summary = '<div style="text-align:left; margin-top:20px;">';
+if (percent < 80) {
+summary += '<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);"><strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a nota de corte (80%). Revise a teoria e o mapa de falhas abaixo antes de refazer o teste.</div>';
+document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Limpar Histórico e Refazer Prova</button>';
+} else {
+summary += '<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);"><strong>🏆 Excelente Desempenho!</strong> Você demonstrou uma base sólida e está preparado.</div>';
+document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">Refazer Prova (Zerar Histórico)</button>';
+}
+if (correct < questions.length) {
+summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+questions.forEach((q, i) => {
+if(userAnswers[i] !== q.correct && userAnswers[i] !== null) {
+summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+<strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+<span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">Seu Erro: ${q.options[userAnswers[i]]}</span>
+<span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+</div>`;
+}
+});
+}
+summary += '</div>';
+document.getElementById('review-container').innerHTML = summary;
+setMode('result');
+}
+
+function reset() {
+localStorage.removeItem(storageKey); 
+userAnswers = new Array(questions.length).fill(null);
+currentQuestion = 0;
+setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
