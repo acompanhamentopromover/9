@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática 9º Ano - Função do 2º Grau e Polígonos Inscritos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            /* Tema Matemática 9º Ano - Azul Royal Tecnológico e Âmbar Geométrico */
+            --bg-color: #F0F9FF;
+            --text-color: #0F172A;
+            --border-color: #0F172A;
+            --white: #FFFFFF;
+            --theme-light: #DBEAFE;
+            --theme-medium: #60A5FA;
+            --theme-dark: #1D4ED8;
+            --theme-contrast: #F59E0B;
+            --theme-accent: #7C3AED;
+            --theme-text-active: #FFFFFF;
+
+            /* Cores de Feedback Fixas */
+            --correct-bg: #D1FAE5;
+            --correct-border: #059669;
+            --wrong-bg: #FFE4E6;
+            --wrong-border: #BE123C;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            display: flex; flex-direction: column; align-items: center; 
+            min-height: 100vh; padding: 20px; padding-bottom: 110px;
+            background-image: linear-gradient(var(--theme-light) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+        }
+        .shake-effect { animation: shake 0.4s ease-in-out; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .pulse-effect { animation: pulse 1.2s infinite; display: inline-block; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); color: var(--theme-contrast); }
+        }
+
+        .logo-header { width: 100%; max-width: 680px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 15px 0 10px 0; }
+        .css-logo { font-size: 1.5rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -0.5px; border: 3px solid var(--border-color); padding: 8px 22px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 12px; }
+        h1 { font-size: 1.75rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 2px 2px 0px rgba(0,0,0,0.08); text-align: center; }
+        .subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 700; text-align: center; margin-top: 4px; }
+
+        .container { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 20px; }
+
+        .toggle-container { background-color: var(--white); border: 3px solid var(--border-color); border-radius: 50px; padding: 5px; display: flex; gap: 4px; margin-bottom: 5px; box-shadow: 4px 4px 0px var(--border-color); }
+        .toggle-btn { flex: 1; border: none; background: none; padding: 11px 6px; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.88rem; color: var(--theme-dark); cursor: pointer; transition: all 0.25s ease; }
+        .toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+
+        .view-section { display: none; animation: fadeIn 0.35s ease; flex-direction: column; gap: 20px; }
+
+        .search-container { position: relative; width: 100%; }
+        .search-input { width: 100%; padding: 14px 20px 14px 48px; border: 3px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+        .search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; }
+        #no-results { text-align: center; color: var(--theme-dark); font-weight: 700; display: none; padding: 15px; background: white; border: 2px dashed var(--border-color); border-radius: 12px; }
+
+        .content-group { display: flex; flex-direction: column; gap: 14px; }
+        .section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 800; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px var(--theme-contrast); text-transform: uppercase; align-self: flex-start; }
+        
+        .theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 3px solid var(--border-color); box-shadow: 5px 5px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 14px; }
+        .theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+        .theory-box h3 { font-size: 1.18rem; font-weight: 900; color: var(--theme-dark); border-bottom: 2px solid var(--theme-light); padding-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+
+        .visual-area { background: #F8FAFC; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; text-align: center; }
+        .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; width: 100%; }
+        .formula-card { background: #EFF6FF; border: 2px solid var(--theme-dark); border-radius: 10px; padding: 12px 10px; text-align: center; box-shadow: 2px 2px 0px var(--border-color); display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+        .formula-card .f-title { font-size: 0.78rem; font-weight: 800; color: #1E40AF; margin-bottom: 4px; }
+        .formula-card .f-math { font-size: 1.05rem; font-weight: 900; color: var(--text-color); background: white; padding: 6px 12px; border-radius: 6px; border: 1px solid #BFDBFE; display: inline-block; margin: 6px 0; white-space: nowrap; max-width: 100%; }
+        .formula-card .f-desc { font-size: 0.78rem; color: #334155; font-weight: 600; line-height: 1.45; }
+
+        .highlight-box { background-color: #E0F2FE; border-left: 5px solid var(--theme-dark); padding: 14px; border-radius: 8px; font-size: 0.9rem; color: #0C4A6E; }
+        .highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+
+        .stats-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; padding-top: 12px; border-top: 2px dashed var(--theme-light); justify-content: space-between; align-items: center; font-size: 0.82rem; font-weight: 800; }
+        .stat-pill { padding: 5px 12px; border-radius: 20px; border: 2px solid var(--border-color); background: var(--bg-color); display: inline-flex; align-items: center; gap: 6px; }
+        .stat-pill.ok { background: var(--correct-bg); color: var(--correct-border); border-color: var(--correct-border); }
+        .stat-pill.err { background: var(--wrong-bg); color: var(--wrong-border); border-color: var(--wrong-border); }
+
+        /* ESTILOS DOS FLASHCARDS 3D */
+        .flashcard-filters { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .filter-chip { padding: 8px 16px; border-radius: 30px; border: 2px solid var(--border-color); background: white; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.82rem; cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); transition: all 0.2s; }
+        .filter-chip.active { background: var(--theme-contrast); color: var(--border-color); transform: translate(-1px, -1px); box-shadow: 3px 3px 0px var(--border-color); }
+
+        .flashcards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; width: 100%; }
+        .flashcard { perspective: 1000px; height: 290px; cursor: pointer; user-select: none; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 3px solid var(--border-color); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 4px 4px 0px var(--border-color); }
+        .fc-front { background: var(--white); }
+        .fc-back { background: #1E293B; color: #F8FAFC; transform: rotateY(180deg); border-color: var(--theme-contrast); }
+        .fc-tag { align-self: flex-start; font-size: 0.72rem; font-weight: 900; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; border: 2px solid var(--border-color); background: var(--theme-light); color: var(--theme-dark); }
+        .fc-back .fc-tag { background: var(--theme-contrast); color: #0F172A; }
+        .fc-question { font-size: 1.02rem; font-weight: 800; color: var(--text-color); line-height: 1.4; margin: auto 0; }
+        .fc-answer { font-size: 0.88rem; font-weight: 500; color: #F1F5F9; line-height: 1.5; margin: auto 0; }
+        .fc-formula-highlight { background: rgba(245, 158, 11, 0.2); border: 1px solid #F59E0B; color: #FDE047; padding: 6px 10px; border-radius: 8px; font-weight: 800; text-align: center; margin: 6px 0; font-size: 0.95rem; }
+        .fc-hint { font-size: 0.75rem; font-weight: 700; color: #64748B; text-align: center; border-top: 1px dashed #CBD5E1; padding-top: 8px; }
+        .fc-back .fc-hint { color: #94A3B8; border-top-color: #334155; }
+
+        .difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+        .dif-facil { background: #D1FAE5; color: #065F46; }
+        .dif-medio { background: #FEF08A; color: #713F12; }
+        .dif-dificil { background: #FECACA; color: #7F1D1D; }
+
+        .question-figure { margin: 12px 0 18px 0; padding: 14px; background: #F8FAFC; border: 2px dashed var(--theme-dark); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .question-figure svg { max-width: 100%; height: auto; overflow: visible; }
+        .figure-caption { font-size: 0.76rem; font-weight: 700; color: #475569; text-align: center; }
+
+        .question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 15px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+        .question-map::-webkit-scrollbar { height: 6px; }
+        .question-map::-webkit-scrollbar-thumb { background: var(--theme-medium); border-radius: 4px; }
+        .map-dot { min-width: 36px; height: 36px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+        .map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+        .map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+        .map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+
+        .option-btn { display: flex; align-items: center; width: 100%; padding: 15px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 11px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+        .option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+        .opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+        
+        .option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+        .option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+        .option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.95; box-shadow: none; }
+        .option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        .feedback-box { display: block; margin-top: 18px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 18px; animation: slideUp 0.3s ease-out; }
+        .feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display: flex; align-items:center; gap:8px; color: var(--theme-dark); }
+        .feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+        .feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+        .feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+
+        .result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 28px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 25px; text-align: center; }
+        .stars-container { font-size: 3.2rem; margin: 10px 0; letter-spacing: 5px; }
+        .percentage-big { font-size: 4.2rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+        
+        .btn-action { width: 100%; padding: 17px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.05rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 10px; font-family: 'Poppins', sans-serif; }
+        .btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+        
+        .quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 12px 20px; display: none; justify-content: center; gap: 20px; align-items: center; z-index: 100; }
+        .nav-btn { padding: 11px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase; min-width: 130px; }
+        .nav-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .btn-next { background-color: var(--theme-dark); color: white; }
+        .btn-prev { background-color: white; color: var(--text-color); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">📐</span> ESCOLA PROMOVER</div>
+        <h1>MATEMÁTICA - 9º ANO</h1>
+        <p class="subtitle">Função do 2º Grau • Quadrado e Triângulo Equilátero Inscritos</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnFlash" onclick="setMode('flashcards')">⚡ Flashcards (12)</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🎯 Prática (30)</button>
+    </div>
+
+    <!-- ==================== ABA 1: TEORIA ILUSTRADA ==================== -->
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar (ex: Vértice, Bhaskara, Apótema, Raio, Soma e Produto)...">
+        </div>
+        <div id="no-results"><p>Nenhum tópico encontrado com esse termo. Tente outra palavra!</p></div>
+
+        <!-- BLOCO TEÓRICO 1: FUNÇÃO DO 2º GRAU -->
+        <div class="content-group">
+            <span class="section-badge">📈 1. Função Polinomial do 2º Grau (Quadrática)</span>
+            
+            <div class="theory-box">
+                <h3>🔍 Definição, Coeficientes e Anatomia da Parábola</h3>
+                <p>Toda função escrita na forma <strong>f(x) = ax² + bx + c</strong> (ou <em>y = ax² + bx + c</em>), com <strong>a ≠ 0</strong>, é chamada de Função do 2º Grau. Seu gráfico no plano cartesiano é sempre uma curva simétrica chamada <strong>Parábola</strong>.</p>
+                
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="f-title">COEFICIENTE "a" (termo x²)</div>
+                        <div class="f-math">Concavidade</div>
+                        <div class="f-desc"><strong>a &gt; 0:</strong> Boca p/ CIMA (😊 Mínimo)<br><strong>a &lt; 0:</strong> Boca p/ BAIXO (☹️ Máximo)</div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="f-title">COEFICIENTE "b" (termo x)</div>
+                        <div class="f-math">Inclinação no Eixo Y</div>
+                        <div class="f-desc"><strong>b &gt; 0:</strong> Corta Y subindo ↗<br><strong>b &lt; 0:</strong> Corta Y descendo ↘<br><strong>b = 0:</strong> Vértice sobre o eixo Y</div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="f-title">COEFICIENTE "c" (Indep.)</div>
+                        <div class="f-math">Ponto (0, c)</div>
+                        <div class="f-desc">É onde a parábola <strong>corta o eixo vertical Y</strong> (basta fazer x = 0).</div>
+                    </div>
+                </div>
+
+                <!-- STREAMING_CHUNK:Corrigindo matematicamente as coordenadas SVG das parábolas a>0 e a<0 -->
+                <div class="visual-area" style="flex-direction: column;">
+                    <div style="font-size: 0.85rem; font-weight: 900; color: var(--theme-dark); text-transform: uppercase;">
+                        Ilustração Geométrica: Concavidade, Raízes, Intercepto (0, c) e Vértice
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 15px; width: 100%;">
+                        <!-- SVG Parábola a > 0 -->
+                        <div style="background: white; border: 2px solid #CBD5E1; border-radius: 10px; padding: 10px;">
+                            <div style="font-size: 0.82rem; font-weight: 800; color: #059669; margin-bottom: 4px;">Caso 1: a &gt; 0 (Admite Ponto de MÍNIMO)</div>
+                            <svg viewBox="0 0 260 190" width="100%" height="175" aria-label="Gráfico Parábola com concavidade para cima">
+                                <!-- Eixos -->
+                                <line x1="15" y1="115" x2="245" y2="115" stroke="#475569" stroke-width="2"/>
+                                <polygon points="245,111 253,115 245,119" fill="#475569"/>
+                                <line x1="65" y1="15" x2="65" y2="180" stroke="#475569" stroke-width="2"/>
+                                <polygon points="61,15 65,7 69,15" fill="#475569"/>
+                                <text x="242" y="130" font-size="11" font-weight="bold" fill="#334155">x</text>
+                                <text x="50" y="18" font-size="11" font-weight="bold" fill="#334155">y</text>
+                                <!-- Eixo de simetria x = 145 -->
+                                <line x1="145" y1="18" x2="145" y2="175" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                <!-- Equação SVG exata: y(x) = 160 - 0.018*(x - 145)^2 -->
+                                <!-- Em x=55 e x=235: y=14.2 | Controle Q em (145, 305.8) | Em x=65: y=44.8 | Em y=115: x1=95 e x2=195 -->
+                                <path d="M 55 14.2 Q 145 305.8 235 14.2" fill="none" stroke="#1D4ED8" stroke-width="3.5"/>
+                                <!-- Projeções do Vértice (145, 160) -->
+                                <line x1="65" y1="160" x2="145" y2="160" stroke="#059669" stroke-width="1.3" stroke-dasharray="3,3"/>
+                                <text x="45" y="164" font-size="10" font-weight="bold" fill="#059669">yᵥ</text>
+                                <text x="133" y="110" font-size="10" font-weight="bold" fill="#059669">xᵥ</text>
+                                <!-- Intercepto c exato em (65, 44.8) -->
+                                <circle cx="65" cy="44.8" r="4.5" fill="#7C3AED" stroke="white" stroke-width="1.5"/>
+                                <text x="28" y="48" font-size="10" font-weight="bold" fill="#7C3AED">(0, c)</text>
+                                <!-- Raízes exatas x1=95 e x2=195 em y=115 -->
+                                <circle cx="95" cy="115" r="4.5" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+                                <text x="82" y="131" font-size="10" font-weight="bold" fill="#DC2626">x₁</text>
+                                <circle cx="195" cy="115" r="4.5" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+                                <text x="192" y="131" font-size="10" font-weight="bold" fill="#DC2626">x₂</text>
+                                <!-- Ponto Vértice Mínimo -->
+                                <circle cx="145" cy="160" r="5.5" fill="#059669" stroke="white" stroke-width="1.5"/>
+                                <text x="154" y="166" font-size="10" font-weight="bold" fill="#059669">V(xᵥ, yᵥ) Mín</text>
+                            </svg>
+                        </div>
+
+                        <!-- SVG Parábola a < 0 (100% RECALCULADO E ALINHADO) -->
+                        <div style="background: white; border: 2px solid #CBD5E1; border-radius: 10px; padding: 10px;">
+                            <div style="font-size: 0.82rem; font-weight: 800; color: #BE123C; margin-bottom: 4px;">Caso 2: a &lt; 0 (Admite Ponto de MÁXIMO)</div>
+                            <svg viewBox="0 0 260 190" width="100%" height="175" aria-label="Gráfico Parábola com concavidade para baixo">
+                                <!-- Eixos -->
+                                <line x1="15" y1="125" x2="245" y2="125" stroke="#475569" stroke-width="2"/>
+                                <polygon points="245,121 253,125 245,129" fill="#475569"/>
+                                <line x1="65" y1="15" x2="65" y2="180" stroke="#475569" stroke-width="2"/>
+                                <polygon points="61,15 65,7 69,15" fill="#475569"/>
+                                <text x="242" y="140" font-size="11" font-weight="bold" fill="#334155">x</text>
+                                <text x="50" y="18" font-size="11" font-weight="bold" fill="#334155">y</text>
+                                <!-- Eixo de simetria x = 145 -->
+                                <line x1="145" y1="18" x2="145" y2="175" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                <!-- Equação SVG exata: y(x) = 35 + 0.02*(x - 145)^2 -->
+                                <!-- Vértice em (145, 35) | Raízes em y=125: 0.02*(x-145)^2 = 90 => |x-145| = 67.08 => x1=77.9 e x2=212.1 -->
+                                <!-- Intercepto Y em x=65: y = 35 + 0.02*(80)^2 = 35 + 128 = 163 -->
+                                <!-- Extremos em x=59 e x=231: y = 35 + 0.02*(86)^2 = 182.92 | Controle Q: cy = 2*35 - 182.92 = -112.92 -->
+                                <path d="M 59 182.9 Q 145 -112.9 231 182.9" fill="none" stroke="#E11D48" stroke-width="3.5"/>
+                                <!-- Projeções do Vértice (145, 35) -->
+                                <line x1="65" y1="35" x2="145" y2="35" stroke="#D97706" stroke-width="1.3" stroke-dasharray="3,3"/>
+                                <text x="45" y="39" font-size="10" font-weight="bold" fill="#B45309">yᵥ</text>
+                                <text x="133" y="140" font-size="10" font-weight="bold" fill="#B45309">xᵥ</text>
+                                <!-- Intercepto c exato sobre a curva em (65, 163) -->
+                                <circle cx="65" cy="163" r="4.5" fill="#7C3AED" stroke="white" stroke-width="1.5"/>
+                                <text x="28" y="167" font-size="10" font-weight="bold" fill="#7C3AED">(0, c)</text>
+                                <!-- Raízes exatas cravadas na interseção da curva com o eixo X: x1=77.9 e x2=212.1 em y=125 -->
+                                <circle cx="77.9" cy="125" r="4.5" fill="#1D4ED8" stroke="white" stroke-width="1.5"/>
+                                <text x="72" y="142" font-size="10" font-weight="bold" fill="#1D4ED8">x₁</text>
+                                <circle cx="212.1" cy="125" r="4.5" fill="#1D4ED8" stroke="white" stroke-width="1.5"/>
+                                <text x="208" y="142" font-size="10" font-weight="bold" fill="#1D4ED8">x₂</text>
+                                <!-- Ponto Vértice Máximo -->
+                                <circle cx="145" cy="35" r="5.5" fill="#F59E0B" stroke="#0F172A" stroke-width="1.5"/>
+                                <text x="153" y="31" font-size="10" font-weight="bold" fill="#B45309">V(xᵥ, yᵥ) Máx</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theory-box">
+                <h3>🧮 Raízes (Zeros), Estudo do Delta (Δ) e Vértice</h3>
+                <p>As <strong>raízes ou zeros da função</strong> são os valores de <em>x</em> que tornam <strong>f(x) = 0</strong> (pontos onde a parábola corta o eixo horizontal X).</p>
+
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="f-title">1. Discriminante (Delta)</div>
+                        <div class="f-math">Δ = b² - 4·a·c</div>
+                        <div class="f-desc">
+                            • <strong>Δ &gt; 0:</strong> 2 raízes reais distintas<br>
+                            • <strong>Δ = 0:</strong> 1 raiz real dupla (tangencia X)<br>
+                            • <strong>Δ &lt; 0:</strong> Nenhuma raiz real
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="f-title">2. Fórmula de Bhaskara</div>
+                        <div class="f-math">x = (-b ± √Δ) / (2a)</div>
+                        <div class="f-desc">Encontra as raízes para qualquer equação completa ou incompleta.</div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="f-title">3. Soma e Produto (Girard)</div>
+                        <div class="f-math">S = -b/a  |  P = c/a</div>
+                        <div class="f-desc">Mais rápido quando <strong>a = 1</strong>!<br>E a média das raízes é o X do vértice: <strong>xᵥ = (x₁ + x₂) / 2</strong></div>
+                    </div>
+                    <div class="formula-card" style="background: #FEF3C7; border-color: #D97706;">
+                        <div class="f-title" style="color: #92400E;">4. Coordenadas do Vértice</div>
+                        <div class="f-math" style="border-color: #F59E0B;">xᵥ = -b / (2a) &nbsp;|&nbsp; yᵥ = -Δ / (4a)</div>
+                        <div class="f-desc" style="color: #78350F;">
+                            <strong>xᵥ:</strong> Tempo/Quantidade que gera o extremo.<br>
+                            <strong>yᵥ:</strong> Valor Máximo ou Mínimo atingido!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Ilustração dos 3 casos do Delta -->
+                <div class="visual-area" style="padding: 12px; gap: 10px;">
+                    <div style="width: 100%; font-size: 0.8rem; font-weight: 900; color: var(--theme-dark); text-transform: uppercase;">
+                        Resumo Visual: Como o Sinal do Δ Afeta o Gráfico no Eixo X (para a &gt; 0)
+                    </div>
+                    <svg viewBox="0 0 420 95" width="100%" height="90" aria-label="Comparação visual de Delta maior, igual e menor que zero">
+                        <!-- Caso Delta > 0: vértice em (67.5, 71.5), cruza y=60 exatamente em x=42.5 e x=92.5 -->
+                        <line x1="10" y1="60" x2="125" y2="60" stroke="#334155" stroke-width="2"/>
+                        <path d="M 25 18 Q 67.5 125 110 18" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+                        <circle cx="42.5" cy="60" r="4" fill="#DC2626"/>
+                        <circle cx="92.5" cy="60" r="4" fill="#DC2626"/>
+                        <text x="67" y="85" font-size="10" font-weight="bold" text-anchor="middle" fill="#1E40AF">Δ &gt; 0 (Corta 2x)</text>
+
+                        <!-- Caso Delta = 0 -->
+                        <line x1="150" y1="60" x2="265" y2="60" stroke="#334155" stroke-width="2"/>
+                        <path d="M 165 15 Q 207.5 105 250 15" fill="none" stroke="#059669" stroke-width="3"/>
+                        <circle cx="207.5" cy="60" r="4.5" fill="#059669"/>
+                        <text x="207" y="85" font-size="10" font-weight="bold" text-anchor="middle" fill="#065F46">Δ = 0 (Tangencia 1x)</text>
+
+                        <!-- Caso Delta < 0 -->
+                        <line x1="290" y1="60" x2="405" y2="60" stroke="#334155" stroke-width="2"/>
+                        <path d="M 305 10 Q 347.5 80 390 10" fill="none" stroke="#E11D48" stroke-width="3"/>
+                        <text x="347" y="85" font-size="10" font-weight="bold" text-anchor="middle" fill="#9F1239">Δ &lt; 0 (Não toca X)</text>
+                    </svg>
+                </div>
+
+                <div class="highlight-box warning">
+                    <strong>⚠️ Regra de Ouro para Problemas de Máximo e Mínimo:</strong><br>
+                    • Se a pergunta pedir <em>"Em que instante?", "Quantas unidades devem ser vendidas?", "Qual o preço do ingresso?"</em> (grandeza do eixo X) ➔ Calcule <strong>xᵥ = -b / (2a)</strong>.<br>
+                    • Se a pergunta pedir <em>"Qual a altura máxima?", "Qual o lucro máximo?", "Qual o custo mínimo?"</em> (grandeza do eixo Y) ➔ Calcule <strong>yᵥ = -Δ / (4a)</strong> (ou descubra o <em>xᵥ</em> primeiro e substitua na função: <strong>yᵥ = f(xᵥ)</strong>!).
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">⭕ 2. Quadrado e Triângulo Equilátero Inscritos</span>
+            
+            <div class="theory-box">
+                <h3>📐 O que significa um Polígono Regular Inscrito?</h3>
+                <p>Um polígono é <strong>regular</strong> quando possui todos os lados congruentes (iguais) e todos os ângulos internos iguais. Ele está <strong>inscrito em uma circunferência de raio R</strong> quando todos os seus vértices pertencem exatamente à linha da circunferência.</p>
+                <p>• <strong>Raio (R):</strong> Distância do centro <em>O</em> até qualquer <strong>vértice</strong> do polígono.<br>
+                   • <strong>Apótema (a):</strong> Distância perpendicular do centro <em>O</em> até o <strong>ponto médio de um lado</strong> (forma sempre um ângulo de 90° com o lado!).</p>
+
+                <!-- Diagramas SVG Lado a Lado: Quadrado Inscrito e Triângulo Inscrito -->
+                <div class="visual-area" style="flex-direction: column;">
+                    <div style="font-size: 0.85rem; font-weight: 900; color: var(--theme-dark); text-transform: uppercase;">
+                        Esquema Geométrico: Raio (R), Lado (L) e Apótema (a)
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; width: 100%;">
+                        
+                        <!-- SVG 1: QUADRADO INSCRITO -->
+                        <div style="background: white; border: 2px solid #CBD5E1; border-radius: 10px; padding: 12px;">
+                            <div style="font-size: 0.88rem; font-weight: 900; color: #1D4ED8; margin-bottom: 6px;">🟦 Quadrado Inscrito (n = 4)</div>
+                            <svg viewBox="0 0 230 205" width="100%" height="185" aria-label="Quadrado inscrito na circunferência">
+                                <!-- Circunferência centro (115, 100) e raio r=75 -->
+                                <circle cx="115" cy="100" r="75" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2.5"/>
+                                <!-- Quadrado inscrito: r*cos(45°)=53 -> x de 62 a 168, y de 47 a 153 -->
+                                <rect x="62" y="47" width="106" height="106" fill="rgba(59, 130, 246, 0.14)" stroke="#1E40AF" stroke-width="3"/>
+                                <!-- Triângulo retângulo interno destacado: (115,100) -> (115,153) -> (168,153) -->
+                                <polygon points="115,100 115,153 168,153" fill="rgba(245, 158, 11, 0.28)"/>
+                                <!-- Diagonal pontilhada secundária -->
+                                <line x1="62" y1="47" x2="115" y2="100" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                <!-- Raio R até vértice (168, 153) -->
+                                <line x1="115" y1="100" x2="168" y2="153" stroke="#DC2626" stroke-width="3"/>
+                                <!-- Apótema a4 até ponto médio (115, 153) -->
+                                <line x1="115" y1="100" x2="115" y2="153" stroke="#059669" stroke-width="3"/>
+                                <!-- Símbolo de ângulo reto 90° em (115, 153) -->
+                                <rect x="115" y="144" width="9" height="9" fill="none" stroke="#059669" stroke-width="1.5"/>
+                                <!-- Centro O -->
+                                <circle cx="115" cy="100" r="4" fill="#0F172A"/>
+                                <text x="102" y="96" font-size="11" font-weight="bold" fill="#0F172A">O</text>
+                                <!-- Rótulos -->
+                                <text x="146" y="123" font-size="12" font-weight="900" fill="#DC2626">R</text>
+                                <text x="97" y="132" font-size="12" font-weight="900" fill="#059669">a₄</text>
+                                <text x="132" y="167" font-size="11" font-weight="bold" fill="#B45309">L₄ / 2</text>
+                                <text x="115" y="40" font-size="12" font-weight="900" text-anchor="middle" fill="#1E40AF">Lado = L₄</text>
+                                <text x="115" y="194" font-size="10" font-weight="bold" text-anchor="middle" fill="#475569">Diagonal d = 2R = L₄√2</text>
+                            </svg>
+                        </div>
+
+                        <!-- SVG 2: TRIÂNGULO EQUILÁTERO INSCRITO -->
+                        <div style="background: white; border: 2px solid #CBD5E1; border-radius: 10px; padding: 12px;">
+                            <div style="font-size: 0.88rem; font-weight: 900; color: #7C3AED; margin-bottom: 6px;">🔺 Triângulo Equilátero Inscrito (n = 3)</div>
+                            <svg viewBox="0 0 230 205" width="100%" height="185" aria-label="Triângulo equilátero inscrito na circunferência">
+                                <!-- Circunferência centro (115, 100) e raio r=75 -->
+                                <circle cx="115" cy="100" r="75" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2.5"/>
+                                <!-- Triângulo Equilátero: Topo(115,25), Base Esq(50,137.5), Base Dir(180,137.5) -->
+                                <polygon points="115,25 50,137.5 180,137.5" fill="rgba(124, 58, 237, 0.14)" stroke="#5B21B6" stroke-width="3"/>
+                                <!-- Triângulo retângulo interno destacado (30°-60°-90°) -->
+                                <polygon points="115,100 115,137.5 180,137.5" fill="rgba(245, 158, 11, 0.28)"/>
+                                <!-- Raio superior pontilhado (R = 2/3 da altura) -->
+                                <line x1="115" y1="25" x2="115" y2="100" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="4,4"/>
+                                <!-- Raio R até vértice direito (180, 137.5) -->
+                                <line x1="115" y1="100" x2="180" y2="137.5" stroke="#DC2626" stroke-width="3"/>
+                                <!-- Apótema a3 até base (115, 137.5) -->
+                                <line x1="115" y1="100" x2="115" y2="137.5" stroke="#059669" stroke-width="3"/>
+                                <!-- Símbolo de ângulo reto 90° -->
+                                <rect x="115" y="129.5" width="8" height="8" fill="none" stroke="#059669" stroke-width="1.5"/>
+                                <!-- Centro O -->
+                                <circle cx="115" cy="100" r="4" fill="#0F172A"/>
+                                <text x="101" y="98" font-size="11" font-weight="bold" fill="#0F172A">O</text>
+                                <!-- Rótulos -->
+                                <text x="150" y="114" font-size="12" font-weight="900" fill="#DC2626">R</text>
+                                <text x="97" y="125" font-size="12" font-weight="900" fill="#059669">a₃</text>
+                                <text x="136" y="152" font-size="11" font-weight="bold" fill="#B45309">L₃ / 2</text>
+                                <text x="62" y="75" font-size="12" font-weight="900" fill="#5B21B6">L₃</text>
+                                <text x="115" y="194" font-size="10" font-weight="bold" text-anchor="middle" fill="#475569">Altura h = R + a₃ = 3·a₃</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela Comparativa Completa de Fórmulas -->
+                <h3>📊 Tabela Oficial de Fórmulas (Em Função do Raio R)</h3>
+                <div class="formula-grid">
+                    <div class="formula-card" style="background: #EFF6FF; border-color: #1D4ED8;">
+                        <div class="f-title" style="color: #1E40AF;">🟦 Lado e Apótema do Quadrado</div>
+                        <div class="f-math">L₄ = R√2 &nbsp;|&nbsp; a₄ = (R√2)/2</div>
+                        <div class="f-desc">
+                            • Sabendo o lado: <strong>a₄ = L₄ / 2</strong><br>
+                            • Diagonal = Diâmetro: <strong>d = 2R</strong><br>
+                            • Área do Quadrado: <strong>A = L₄² = 2R²</strong>
+                        </div>
+                    </div>
+                    <div class="formula-card" style="background: #F5F3FF; border-color: #7C3AED;">
+                        <div class="f-title" style="color: #5B21B6;">🔺 Lado e Apótema do Triângulo</div>
+                        <div class="f-math">L₃ = R√3 &nbsp;|&nbsp; a₃ = R / 2</div>
+                        <div class="f-desc">
+                            • Altura do Triângulo: <strong>h = (L₃√3)/2 = 3R/2</strong><br>
+                            • O centro divide a altura em: <strong>R = (2/3)h</strong> e <strong>a₃ = (1/3)h</strong><br>
+                            • Área do Triângulo: <strong>A = (L₃²√3) / 4</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Macete Infalível para Memorizar em 5 Segundos:</strong><br>
+                    • No <strong>Quadrado (4 lados)</strong> aparece a raiz <strong>√2</strong>: Lado = <strong>R√2</strong> e Apótema é a metade = <strong>R√2 / 2</strong>.<br>
+                    • No <strong>Triângulo (3 lados)</strong> aparece a raiz <strong>√3</strong> no lado: Lado = <strong>R√3</strong> e o Apótema é simplesmente metade do raio = <strong>R / 2</strong>!<br>
+                    • <strong>Questões de "Ponte" (Duas figuras na mesma circunferência):</strong> Se um quadrado e um triângulo estão inscritos no mesmo círculo, o <strong>Raio (R) é o mesmo para os dois</strong>! Use a primeira figura para achar <em>R</em> e substitua nas fórmulas da segunda.
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button class="btn-action" style="flex: 1; background-color: var(--theme-accent);" onclick="setMode('flashcards')">
+                ⚡ Treinar com Flashcards (12)
+            </button>
+            <button class="btn-action" style="flex: 1;" onclick="setMode('practice')">
+                🎯 Iniciar Simulado (30 Q) →
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== ABA 2: FLASHCARDS INTERATIVOS ==================== -->
+    <div id="viewFlashcards" class="view-section">
+        <div style="background-color: var(--white); padding: 18px; border-radius: 16px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; font-size: 1.3rem; margin-bottom: 4px;">⚡ Guia Rápido: Quando Usar Cada Fórmula?</h2>
+            <p style="color: #334155; font-size: 0.9rem; font-weight:600;">
+                Toque em qualquer cartão para virá-lo em 3D e descobrir <strong>qual fórmula escolher</strong> e o <strong>passo a passo</strong> de cada modelo de questão!
+            </p>
+            <div class="flashcard-filters" style="margin-top: 14px;">
+                <button class="filter-chip active" id="chip-all" onclick="filterFlashcards('all')">Todos (12)</button>
+                <button class="filter-chip" id="chip-funcao" onclick="filterFlashcards('funcao')">📈 Função do 2º Grau (6)</button>
+                <button class="filter-chip" id="chip-poligonos" onclick="filterFlashcards('poligonos')">⭕ Quadrado e Triângulo (6)</button>
+            </div>
+            <div class="stats-bar" style="justify-content: center; gap: 15px;">
+                <span class="stat-pill" id="fcProgressText">🔄 Cartões revisados nesta sessão: 0 de 12</span>
+                <button onclick="resetFlashcardsFlip()" style="background:none; border:none; color:var(--theme-dark); font-weight:800; font-size:0.8rem; cursor:pointer; text-decoration:underline;">Desvirar todos</button>
+            </div>
+        </div>
+
+        <div class="flashcards-grid" id="flashcardsContainer"></div>
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Ir para o Simulado de 30 Questões →
+        </button>
+    </div>
+
+    <!-- ==================== ABA 3: PRÁTICA (30 QUESTÕES) ==================== -->
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 15px; background-color: var(--white); padding: 16px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 4px;">Simulado Escolar - 9º Ano (30 Questões)</h2>
+            <p style="color: #0F172A; font-size: 0.92rem; font-weight:600;">
+                10 Fáceis • 10 Médias • 10 Difíceis (com figuras geométricas e gráficos integrados). Meta de aprovação: <strong>80% (24/30 acertos)</strong>!
+            </p>
+            <div class="stats-bar" id="liveQuizStats"></div>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 90px;"></div>
+    </div>
+
+    <!-- ==================== ABA DE RESULTADO FINAL ==================== -->
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório de Desempenho</h2>
+            <div class="stars-container" id="finalStars">⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">← Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima →</button>
+</footer>
+
+<script>
+    // --- PESQUISA NA TEORIA ---
+    const searchInput = document.getElementById('searchInput');
+    const contentGroups = document.querySelectorAll('.content-group');
+    const noResultsMsg = document.getElementById('no-results');
+
+    searchInput.addEventListener('input', function(e) {
+        const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        let totalVisible = 0;
+        contentGroups.forEach(group => {
+            const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (textContent.includes(term)) {
+                group.style.display = 'flex';
+                totalVisible++;
+            } else {
+                group.style.display = 'none';
+            }
+        });
+        noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+    });
+
+    // --- DADOS DOS 12 FLASHCARDS (QUANDO USAR CADA FÓRMULA) ---
+    const flashcardsData = [
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 1',
+            question: 'A questão pede: "Qual o TEMPO, QUANTIDADE ou PREÇO que gera o lucro máximo (ou custo mínimo)?"',
+            formula: 'Use o X do Vértice: xᵥ = -b / (2a)',
+            answer: 'Sempre que a pergunta pedir a variável independente (que fica no eixo X) responsável por atingir o ponto máximo ou mínimo, calcule apenas o xᵥ. Dica: se você já souber as raízes x₁ e x₂, tire a média: xᵥ = (x₁ + x₂) / 2.'
+        },
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 2',
+            question: 'A questão pede: "Qual é a ALTURA MÁXIMA, o LUCRO MÁXIMO ou a TEMPERATURA MÍNIMA atingida?"',
+            formula: 'Use o Y do Vértice: yᵥ = -Δ / (4a) ou f(xᵥ)',
+            answer: 'Quando a pergunta quer saber o VALOR máximo ou mínimo em si (eixo Y), você precisa do yᵥ. Atalho prático: se o xᵥ for um número pequeno (como 2 ou 3), basta substituir o xᵥ na função original!'
+        },
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 3',
+            question: 'A questão pede: "Em que instante o projétil ATINGE O SOLO?" ou "Onde a parábola corta o eixo X?"',
+            formula: 'Iguale a zero: f(x) = 0 (Bhaskara ou Girard)',
+            answer: 'No solo (eixo X), a altura y vale ZERO! Resolva ax² + bx + c = 0. Se a = 1, tente primeiro Soma (S = -b) e Produto (P = c) para achar as raízes de cabeça.'
+        },
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 4',
+            question: 'A questão pede: "Para qual valor de k a função possui UMA ÚNICA raiz real (ou tangencia o eixo X)?"',
+            formula: 'Impõe-se a condição: Δ = 0 ➔ b² - 4ac = 0',
+            answer: 'Não precisa calcular Bhaskara! Se o gráfico toca o eixo X em apenas 1 ponto (raiz dupla), faça Δ = 0. Se pedir "duas raízes distintas", faça Δ > 0; se pedir "não corta o eixo X", faça Δ < 0.'
+        },
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 5',
+            question: 'A questão dá um GRÁFICO e pede os sinais de "a", "b", "c" ou o ponto onde corta o eixo Y.',
+            formula: 'Olhe a Boca (a), Subida em Y (b) e Corte em Y (c)',
+            answer: '1) Boca p/ cima ➔ a > 0; p/ baixo ➔ a < 0.\n2) Onde corta o eixo vertical Y é exatamente o valor de "c" (altura inicial quando x = 0).\n3) Se corta o eixo Y subindo ➔ b > 0; descendo ➔ b < 0.'
+        },
+        {
+            category: 'funcao',
+            tag: '📈 Função 2º Grau • Situação 6',
+            question: 'Como montar a função da ÁREA MÁXIMA de um retângulo quando a questão dá o perímetro (cerca/muro)?',
+            formula: 'Expresse um lado em função de x e faça A(x) = base · altura',
+            answer: 'Exemplo: 40 m de tela para 3 lados (x, x e 40 - 2x). Multiplique: A(x) = x·(40 - 2x) = -2x² + 40x. Depois use xᵥ = -b/(2a) para achar a medida ideal e yᵥ para a área máxima!'
+        },
+        {
+            category: 'poligonos',
+            tag: '🟦 Quadrado Inscrito • Situação 7',
+            question: 'A questão dá o RAIO (R) do círculo e pede o LADO (L₄) ou o APÓTEMA (a₄) do Quadrado Inscrito.',
+            formula: 'L₄ = R√2   e   a₄ = (R√2) / 2',
+            answer: 'Basta substituir o raio R! Lembre-se que no quadrado o apótema é exatamente a metade do lado (a₄ = L₄ / 2) e o diâmetro do círculo é igual à diagonal do quadrado (d = 2R).'
+        },
+        {
+            category: 'poligonos',
+            tag: '🟦 Quadrado Inscrito • Situação 8',
+            question: 'E se a questão der o LADO do quadrado (sem √2, ex: L₄ = 10 cm) e pedir o RAIO (R) da circunferência?',
+            formula: 'R = L₄ / √2  ➔  Racionalizando: R = (L₄√2) / 2',
+            answer: 'Para passar do Lado para o Raio no quadrado, basta multiplicar o lado por √2 e dividir por 2! Exemplo: se L₄ = 10 cm, então R = (10√2)/2 = 5√2 cm.'
+        },
+        {
+            category: 'poligonos',
+            tag: '🔺 Triângulo Inscrito • Situação 9',
+            question: 'A questão dá o RAIO (R) do círculo e pede o LADO (L₃) ou o APÓTEMA (a₃) do Triângulo Equilátero Inscrito.',
+            formula: 'L₃ = R√3   e   a₃ = R / 2',
+            answer: 'No triângulo equilátero inscrito, o apótema é o mais fácil de todos: é a metade exata do raio (a₃ = R/2), sem nenhuma raiz! Já o lado é o raio multiplicado por √3.'
+        },
+        {
+            category: 'poligonos',
+            tag: '🔺 Triângulo Inscrito • Situação 10',
+            question: 'A questão relaciona a ALTURA (h) do Triângulo Equilátero com o Raio (R) e o Apótema (a₃).',
+            formula: 'h = R + a₃ = 3·a₃   |   R = (2/3)·h   |   a₃ = (1/3)·h',
+            answer: 'O centro do círculo (baricentro) divide a altura h em duas partes: 2/3 ficam para cima (que é o Raio R) e 1/3 fica para baixo (que é o Apótema a₃). Logo, h = 3·a₃!'
+        },
+        {
+            category: 'poligonos',
+            tag: '🔗 Questão Ponte • Situação 11',
+            question: 'Um Quadrado e um Triângulo Equilátero estão inscritos na MESMA circunferência. Como resolver?',
+            formula: 'Use o Raio (R) como PONTE entre as duas figuras!',
+            answer: 'Passo 1: Use o dado da primeira figura para descobrir o raio R da circunferência.\nPasso 2: Como o círculo é o mesmo, pegue esse mesmo R e jogue na fórmula da segunda figura!'
+        },
+        {
+            category: 'poligonos',
+            tag: '🎨 Área Sombreada • Situação 12',
+            question: 'A questão pede a ÁREA da região entre a circunferência e o polígono inscrito (área pintada/restante).',
+            formula: 'A_sombreada = A_círculo - A_polígono',
+            answer: 'Calcule primeiro a área do círculo (A = π·R²). Depois subtraia a área do polígono:\n• Área do Quadrado: A₄ = L₄² (ou 2R²)\n• Área do Triângulo Equilátero: A₃ = (L₃²·√3) / 4'
+        }
+    ];
+
+    let seenFlashcards = new Set();
+
+    function toggleFlashcard(cardEl, index) {
+        cardEl.classList.toggle('flipped');
+        seenFlashcards.add(index);
+        const progEl = document.getElementById('fcProgressText');
+        if (progEl) {
+            progEl.textContent = `✅ Cartões revisados nesta sessão: ${seenFlashcards.size} de ${flashcardsData.length}`;
+        }
+    }
+
+    function resetFlashcardsFlip() {
+        document.querySelectorAll('.flashcard.flipped').forEach(el => el.classList.remove('flipped'));
+    }
+
+    function renderFlashcards(filter = 'all') {
+        const container = document.getElementById('flashcardsContainer');
+        const filtered = flashcardsData
+            .map((fc, idx) => ({ ...fc, originalIndex: idx }))
+            .filter(fc => filter === 'all' || fc.category === filter);
+        
+        container.innerHTML = filtered.map((fc) => `
+            <div class="flashcard" onclick="toggleFlashcard(this, ${fc.originalIndex})">
+                <div class="flashcard-inner">
+                    <div class="fc-face fc-front">
+                        <span class="fc-tag">${fc.tag}</span>
+                        <div class="fc-question">${fc.question}</div>
+                        <div class="fc-hint">🔄 Toque no cartão para ver qual fórmula usar</div>
+                    </div>
+                    <div class="fc-face fc-back">
+                        <span class="fc-tag">✅ Como Resolver</span>
+                        <div class="fc-formula-highlight">${fc.formula}</div>
+                        <div class="fc-answer" style="white-space: pre-line;">${fc.answer}</div>
+                        <div class="fc-hint">🔄 Toque para voltar à pergunta</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function filterFlashcards(category) {
+        document.querySelectorAll('.filter-chip').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('chip-' + category).classList.add('active');
+        renderFlashcards(category);
+    }
+
+    // --- 30 QUESTÕES RIGOROSAS (10 Fáceis, 10 Médias, 10 Difíceis) ---
+    const questions = [
+        // ==================== 10 FÁCEIS ====================
+        {
+            id: 1, level: "Fácil",
+            text: "Considere a função quadrática f(x) = -3x² + 12x - 7. Analisando os seus coeficientes (a = -3, b = 12 e c = -7), é correto afirmar que o gráfico dessa função é uma parábola que:",
+            options: [
+                "Tem concavidade voltada para cima e corta o eixo y no ponto (0, 12).",
+                "Tem concavidade voltada para baixo e corta o eixo y no ponto (0, -7).",
+                "Tem concavidade voltada para baixo e corta o eixo y no ponto (0, -3).",
+                "Tem concavidade voltada para cima e corta o eixo y no ponto (0, -7)."
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Como o coeficiente a = -3 é negativo (a < 0), a concavidade é voltada para baixo. O termo independente c = -7 indica exatamente onde a parábola corta o eixo vertical y: no ponto (0, -7).",
+                options: [
+                    "Erro: a = -3 é negativo (boca para baixo) e 12 é o coeficiente b, não o c.",
+                    "Certa",
+                    "Erro: -3 é o coeficiente 'a' (que define a concavidade), enquanto o corte no eixo y é dado por c = -7.",
+                    "Erro: para ter concavidade para cima, o coeficiente 'a' deveria ser positivo."
+                ]
+            }
+        },
+        {
+            id: 2, level: "Fácil",
+            text: "Dada a função do 2º grau f(x) = 2x² - 5x + 4, qual é o valor numérico de f(3), ou seja, a imagem de x = 3 por essa função?",
+            options: [
+                "7",
+                "1",
+                "13",
+                "-2"
+            ],
+            correct: 0,
+            explanation: {
+                correct: "Substituindo x = 3 na lei da função: f(3) = 2·(3)² - 5·(3) + 4 = 2·9 - 15 + 4 = 18 - 15 + 4 = 7.",
+                options: [
+                    "Certa",
+                    "Erro: calculou 3² como 3·2 = 6 em vez de 9 (2·6 - 15 + 4 = 1).",
+                    "Erro: esqueceu de multiplicar o 2 por 9 ou somou indevidamente o termo -15.",
+                    "Erro de sinal nas operações aritméticas."
+                ]
+            }
+        },
+        {
+            id: 3, level: "Fácil",
+            text: "Quais são os zeros (ou raízes reais) da função quadrática f(x) = x² - 7x + 10?",
+            options: [
+                "-2 e -5",
+                "1 e 10",
+                "2 e 5",
+                "-2 e 5"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Usando Soma e Produto (com a = 1): precisamos de dois números cuja soma seja S = -b/a = 7 e cujo produto seja P = c/a = 10. Esses números são 2 e 5 (pois 2 + 5 = 7 e 2 · 5 = 10).",
+                options: [
+                    "Erro: esqueceu de trocar o sinal de b na fórmula da Soma (S = -b/a = +7, e não -7).",
+                    "Erro: 1 · 10 = 10, mas a soma 1 + 10 = 11 (diferente de 7).",
+                    "Certa",
+                    "Erro: o produto (-2) · 5 daria -10, mas c = +10."
+                ]
+            }
+        },
+        {
+            id: 4, level: "Fácil",
+            text: "Ao calcular o discriminante (Δ = b² - 4ac) da função f(x) = x² - 6x + 9, qual valor encontramos e o que ele indica sobre o gráfico da parábola?",
+            options: [
+                "Δ = 36; a parábola corta o eixo x em dois pontos distintos.",
+                "Δ = 0; a parábola possui uma única raiz real (tangencia o eixo x).",
+                "Δ = -12; a parábola não corta o eixo x.",
+                "Δ = 72; a parábola tem concavidade para baixo."
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Temos a = 1, b = -6 e c = 9. Calculando: Δ = (-6)² - 4·(1)·(9) = 36 - 36 = 0. Quando Δ = 0, a função tem duas raízes reais iguais (uma única raiz x = 3) e o vértice toca o eixo x.",
+                options: [
+                    "Erro: calculou apenas b² = 36 e esqueceu de subtrair 4ac = 36.",
+                    "Certa",
+                    "Erro: considerou (-6)² como -36, mas todo número real ao quadrado fica positivo (+36).",
+                    "Erro: somou 36 + 36 = 72 em vez de subtrair."
+                ]
+            }
+        },
+        {
+            id: 5, level: "Fácil",
+            text: "O eixo de simetria da parábola representada pela função f(x) = 2x² - 16x + 25 passa exatamente pela abscissa do seu vértice (xᵥ). Qual é o valor de xᵥ?",
+            options: [
+                "8",
+                "-4",
+                "4",
+                "16"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Aplicando a fórmula do X do vértice: xᵥ = -b / (2a) = -(-16) / (2 · 2) = 16 / 4 = 4.",
+                options: [
+                    "Erro: dividiu apenas por 'a' (16 / 2 = 8) em vez de dividir por 2a (4).",
+                    "Erro de sinal: esqueceu que -(-16) fica +16.",
+                    "Certa",
+                    "Erro: pegou o módulo de b sem dividir por 2a."
+                ]
+            }
+        },
+        {
+            id: 6, level: "Fácil",
+            text: "Observe a figura abaixo, que mostra um quadrado inscrito em uma circunferência cujo raio mede R = 6 cm. Qual é a medida do lado (L₄) desse quadrado?",
+            svg: `<svg viewBox="0 0 200 155" width="185" height="145" aria-label="Quadrado inscrito em circunferência de raio 6 cm">
+                    <circle cx="100" cy="78" r="62" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2.5"/>
+                    <rect x="56" y="34" width="88" height="88" fill="rgba(59,130,246,0.15)" stroke="#1E40AF" stroke-width="2.8"/>
+                    <line x1="100" y1="78" x2="144" y2="122" stroke="#DC2626" stroke-width="2.8"/>
+                    <circle cx="100" cy="78" r="3.5" fill="#0F172A"/>
+                    <text x="88" y="75" font-size="10" font-weight="bold" fill="#0F172A">O</text>
+                    <text x="125" y="96" font-size="11" font-weight="900" fill="#DC2626">R = 6 cm</text>
+                    <text x="100" y="27" font-size="11" font-weight="900" text-anchor="middle" fill="#1E40AF">L₄ = ?</text>
+                  </svg>`,
+            options: [
+                "3√2 cm",
+                "6√3 cm",
+                "6√2 cm",
+                "12 cm"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Pela fórmula direta do lado do quadrado inscrito em função do raio (L₄ = R√2), substituindo R = 6 cm obtemos imediatamente L₄ = 6√2 cm.",
+                options: [
+                    "Erro: 3√2 cm seria a medida do apótema (a₄ = R√2 / 2), e não do lado.",
+                    "Erro: usou √3 (que pertence ao triângulo equilátero) em vez de √2.",
+                    "Certa",
+                    "Erro: 12 cm é a medida do diâmetro (diagonal do quadrado), e não do lado."
+                ]
+            }
+        },
+        {
+            id: 7, level: "Fácil",
+            text: "Sabendo que o lado de um quadrado inscrito em uma circunferência mede L₄ = 10 cm, qual é a medida do seu apótema (a₄)?",
+            options: [
+                "5 cm",
+                "5√2 cm",
+                "10√2 cm",
+                "2,5 cm"
+            ],
+            correct: 0,
+            explanation: {
+                correct: "Em qualquer quadrado, o apótema vai do centro até a metade do lado, portanto vale exatamente a metade do lado: a₄ = L₄ / 2 = 10 / 2 = 5 cm.",
+                options: [
+                    "Certa",
+                    "Erro: 5√2 cm é a medida do raio da circunferência, pois confundiu a₄ = R√2/2 com L₄.",
+                    "Erro: multiplicou por √2 sem necessidade.",
+                    "Erro: dividiu o lado por 4 em vez de dividir por 2."
+                ]
+            }
+        },
+        {
+            id: 8, level: "Fácil",
+            text: "Um triângulo equilátero está inscrito em uma circunferência de raio R = 8 cm, conforme ilustrado abaixo. Qual é a medida do lado (L₃) desse triângulo?",
+            svg: `<svg viewBox="0 0 200 155" width="185" height="145" aria-label="Triângulo equilátero inscrito de raio 8 cm">
+                    <circle cx="100" cy="80" r="62" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2.5"/>
+                    <polygon points="100,18 46.3,111 153.7,111" fill="rgba(124,58,237,0.15)" stroke="#5B21B6" stroke-width="2.8"/>
+                    <line x1="100" y1="80" x2="153.7" y2="111" stroke="#DC2626" stroke-width="2.8"/>
+                    <circle cx="100" cy="80" r="3.5" fill="#0F172A"/>
+                    <text x="88" y="77" font-size="10" font-weight="bold" fill="#0F172A">O</text>
+                    <text x="128" y="92" font-size="11" font-weight="900" fill="#DC2626">R = 8 cm</text>
+                    <text x="53" y="62" font-size="11" font-weight="900" fill="#5B21B6">L₃ = ?</text>
+                  </svg>`,
+            options: [
+                "8√2 cm",
+                "4 cm",
+                "8√3 cm",
+                "4√3 cm"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Para o triângulo equilátero inscrito (3 lados), a fórmula do lado é L₃ = R√3. Como R = 8 cm, temos L₃ = 8√3 cm.",
+                options: [
+                    "Erro: R√2 é a fórmula do lado do quadrado inscrito.",
+                    "Erro: 4 cm é a medida do apótema (a₃ = R/2).",
+                    "Certa",
+                    "Erro: dividiu o raio por 2 antes de multiplicar por √3."
+                ]
+            }
+        },
+        {
+            id: 9, level: "Fácil",
+            text: "Uma circunferência possui raio R = 14 cm. Quanto mede o apótema (a₃) do triângulo equilátero inscrito nessa circunferência?",
+            options: [
+                "7√3 cm",
+                "7 cm",
+                "7√2 cm",
+                "14√3 cm"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "O apótema do triângulo equilátero inscrito é simplesmente a metade do raio da circunferência: a₃ = R / 2 = 14 / 2 = 7 cm.",
+                options: [
+                    "Erro: colocou √3 no apótema, mas no triângulo equilátero a₃ = R/2 não tem raiz.",
+                    "Certa",
+                    "Erro: usou a fórmula do apótema do quadrado (R√2/2).",
+                    "Erro: calculou o lado L₃ = 14√3 cm em vez do apótema."
+                ]
+            }
+        },
+        {
+            id: 10, level: "Fácil",
+            text: "Um quadrado está inscrito em uma circunferência de raio R = 9 cm. Qual é o comprimento da diagonal (d) desse quadrado?",
+            options: [
+                "9√2 cm",
+                "18 cm",
+                "4,5 cm",
+                "18√2 cm"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "A diagonal de um quadrado inscrito passa pelo centro e une dois vértices opostos, correspondendo exatamente ao diâmetro da circunferência: d = 2R = 2 · 9 = 18 cm.",
+                options: [
+                    "Erro: 9√2 cm é a medida do lado do quadrado (L₄ = R√2), e não da sua diagonal.",
+                    "Certa",
+                    "Erro: dividiu o raio por 2 em vez de multiplicar por 2.",
+                    "Erro: multiplicou o diâmetro por √2."
+                ]
+            }
+        },
+
+        // ==================== 10 MÉDIAS ====================
+        {
+            id: 11, level: "Médio",
+            text: "Uma bola é chutada a partir do solo e descreve uma trajetória parabólica dada pela função h(t) = -5t² + 20t, onde h é a altura em metros e t é o tempo em segundos, conforme a figura. Qual é a ALTURA MÁXIMA atingida pela bola?",
+            svg: `<svg viewBox="0 0 250 135" width="230" height="125" aria-label="Trajetória parabólica do chute da bola">
+                    <line x1="15" y1="110" x2="235" y2="110" stroke="#15803D" stroke-width="3"/>
+                    <path d="M 30 110 Q 125 -30 220 110" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-dasharray="5,3"/>
+                    <line x1="125" y1="40" x2="125" y2="110" stroke="#D97706" stroke-width="2" stroke-dasharray="3,3"/>
+                    <circle cx="30" cy="110" r="5" fill="#0F172A"/>
+                    <circle cx="125" cy="40" r="6" fill="#F59E0B" stroke="#0F172A" stroke-width="1.5"/>
+                    <circle cx="220" cy="110" r="5" fill="#DC2626"/>
+                    <text x="30" y="126" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">t = 0 s</text>
+                    <text x="125" y="126" font-size="10" font-weight="bold" text-anchor="middle" fill="#B45309">tᵥ = ?</text>
+                    <text x="125" y="28" font-size="11" font-weight="900" text-anchor="middle" fill="#B45309">h_máx = ?</text>
+                    <text x="150" y="78" font-size="10" font-weight="bold" fill="#1D4ED8">h(t) = -5t² + 20t</text>
+                  </svg>`,
+            options: [
+                "2 metros",
+                "15 metros",
+                "20 metros",
+                "40 metros"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "O tempo de subida até o topo é tᵥ = -b/(2a) = -20 / (2 · (-5)) = -20 / -10 = 2 segundos. Substituindo t = 2 na função: h(2) = -5·(2)² + 20·(2) = -20 + 40 = 20 metros!",
+                options: [
+                    "Casca de banana: 2 segundos é o TEMPO (xᵥ) que a bola leva para subir, e não a altura máxima (yᵥ)!",
+                    "Erro de cálculo ao substituir t = 2.",
+                    "Certa",
+                    "Erro: calculou apenas 20·2 = 40 e esqueceu de subtrair -5·(2)² = -20."
+                ]
+            }
+        },
+        {
+            id: 12, level: "Médio",
+            text: "O custo diário C (em reais) para produzir x peças em uma oficina é modelado pela função C(x) = x² - 40x + 500. Quantas peças (x) devem ser produzidas por dia para que esse custo seja o MÍNIMO possível?",
+            options: [
+                "10 peças",
+                "20 peças",
+                "40 peças",
+                "100 peças"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Como a pergunta pede a QUANTIDADE DE PEÇAS (x) que gera o custo mínimo, calculamos o X do vértice: xᵥ = -b / (2a) = -(-40) / (2 · 1) = 40 / 2 = 20 peças.",
+                options: [
+                    "Erro: dividiu 40 por 4 em vez de dividir por 2a = 2.",
+                    "Certa",
+                    "Erro: esqueceu de dividir -b por 2a.",
+                    "Casca de banana: R$ 100,00 é o valor do custo mínimo em reais (yᵥ = 20² - 40·20 + 500 = 100), e não a quantidade de peças!"
+                ]
+            }
+        },
+        {
+            id: 13, level: "Médio",
+            text: "Para qual valor real do coeficiente m a função quadrática f(x) = x² - 8x + m admite uma ÚNICA raiz real (ou seja, seu gráfico tangencia o eixo x)?",
+            options: [
+                "m = 4",
+                "m = 8",
+                "m = 16",
+                "m = 64"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Para ter uma única raiz real (raiz dupla), devemos impor Δ = 0: b² - 4ac = 0 ➔ (-8)² - 4·(1)·m = 0 ➔ 64 - 4m = 0 ➔ 4m = 64 ➔ m = 16.",
+                options: [
+                    "Erro: 4 seria a raiz da equação (xᵥ = 4), mas o termo independente m vale 4² = 16.",
+                    "Erro: igualou m ao módulo de b.",
+                    "Certa",
+                    "Erro: calculou (-8)² = 64 e esqueceu de dividir por 4."
+                ]
+            }
+        },
+        {
+            id: 14, level: "Médio",
+            text: "Sabendo que x₁ e x₂ são as duas raízes reais da equação 2x² - 10x + 6 = 0, qual é o valor da soma (x₁ + x₂) somado ao produto (x₁ · x₂) dessas raízes?",
+            options: [
+                "8",
+                "16",
+                "-2",
+                "4"
+            ],
+            correct: 0,
+            explanation: {
+                correct: "Pelas relações de Girard (a = 2, b = -10, c = 6): Soma S = -b/a = -(-10)/2 = 5; Produto P = c/a = 6/2 = 3. Portanto, S + P = 5 + 3 = 8.",
+                options: [
+                    "Certa",
+                    "Casca de banana: esqueceu de dividir por a = 2, fazendo 10 + 6 = 16!",
+                    "Erro de sinal: considerou S = -5 + 3 = -2.",
+                    "Erro ao dividir os coeficientes."
+                ]
+            }
+        },
+        {
+            id: 15, level: "Médio",
+            text: "Uma parábola corta o eixo x nos pontos de abscissas x₁ = -2 e x₂ = 6, e corta o eixo y no ponto (0, -12), como mostra o gráfico abaixo. Qual é a lei de formação f(x) dessa função?",
+            svg: `<svg viewBox="0 0 230 165" width="215" height="150" aria-label="Gráfico de parábola com raízes -2 e 6 e intercepto -12">
+                    <line x1="15" y1="65" x2="215" y2="65" stroke="#334155" stroke-width="2"/>
+                    <line x1="80" y1="10" x2="80" y2="155" stroke="#334155" stroke-width="2"/>
+                    <!-- Equação SVG exata: y(x) = 138 - 0.01838*(x - 115)^2 -->
+                    <!-- Raízes em y=65: x1=52 e x2=178 | Vértice: (115, 138) | Intercepto em x=80: y=115.5 -->
+                    <path d="M 35 20.4 Q 115 255.6 195 20.4" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+                    <circle cx="52" cy="65" r="4.5" fill="#DC2626" stroke="white" stroke-width="1.2"/>
+                    <text x="38" y="57" font-size="10" font-weight="bold" fill="#DC2626">-2</text>
+                    <circle cx="178" cy="65" r="4.5" fill="#DC2626" stroke="white" stroke-width="1.2"/>
+                    <text x="180" y="57" font-size="10" font-weight="bold" fill="#DC2626">6</text>
+                    <circle cx="80" cy="115.5" r="4.5" fill="#7C3AED" stroke="white" stroke-width="1.2"/>
+                    <text x="32" y="119" font-size="10" font-weight="bold" fill="#7C3AED">(0, -12)</text>
+                    <circle cx="115" cy="138" r="4.5" fill="#059669" stroke="white" stroke-width="1.2"/>
+                    <text x="122" y="146" font-size="10" font-weight="bold" fill="#059669">V</text>
+                  </svg>`,
+            options: [
+                "f(x) = x² + 4x - 12",
+                "f(x) = x² - 4x - 12",
+                "f(x) = -x² + 4x - 12",
+                "f(x) = x² - 6x - 12"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "A soma das raízes é S = -2 + 6 = 4 e o produto é P = (-2)·6 = -12. Como o corte no eixo y é c = -12 e P = c/a = -12, temos a = 1. Logo, f(x) = x² - Sx + P = x² - 4x - 12.",
+                options: [
+                    "Erro: esqueceu o sinal negativo da fórmula x² - Sx + P (como S = 4, o termo b deve ser -4).",
+                    "Certa",
+                    "Erro: se a = -1, a concavidade seria para baixo e o produto das raízes seria +12.",
+                    "Erro: somou incorretamente as raízes -2 e 6."
+                ]
+            }
+        },
+        {
+            id: 16, level: "Médio",
+            text: "Um quadrado inscrito em uma circunferência possui lado medindo L₄ = 8 cm. Qual é a medida do RAIO (R) dessa circunferência?",
+            options: [
+                "4 cm",
+                "8√2 cm",
+                "4√2 cm",
+                "2√2 cm"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Como L₄ = R√2, temos 8 = R√2 ➔ R = 8 / √2. Racionalizando o denominador (multiplicando em cima e em baixo por √2): R = (8√2) / 2 = 4√2 cm.",
+                options: [
+                    "Erro: 4 cm é a medida do apótema do quadrado (a₄ = L₄/2), e não do raio R.",
+                    "Erro: multiplicou 8 por √2 em vez de dividir por √2.",
+                    "Certa",
+                    "Erro na simplificação da fração 8/2."
+                ]
+            }
+        },
+        {
+            id: 17, level: "Médio",
+            text: "O apótema de um quadrado inscrito em uma circunferência mede a₄ = 3√2 cm. Qual é a ÁREA desse quadrado?",
+            options: [
+                "18 cm²",
+                "36 cm²",
+                "72 cm²",
+                "12√2 cm²"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "No quadrado, o lado é o dobro do apótema: L₄ = 2 · a₄ = 2 · (3√2) = 6√2 cm. Calculando a área do quadrado: A = L₄² = (6√2)² = 36 · 2 = 72 cm².",
+                options: [
+                    "Erro: elevou o próprio apótema ao quadrado ((3√2)² = 9·2 = 18) em vez do lado.",
+                    "Erro: elevou apenas o 6 ao quadrado (36) e esqueceu de multiplicar por (√2)² = 2.",
+                    "Certa",
+                    "Erro: 6√2 · 2 = 12√2 não é nem a área nem o perímetro (que seria 24√2)."
+                ]
+            }
+        },
+        {
+            id: 18, level: "Médio",
+            text: "O apótema de um triângulo equilátero inscrito em uma circunferência mede a₃ = 5 cm. Qual é o PERÍMETRO (soma dos 3 lados) desse triângulo?",
+            options: [
+                "10√3 cm",
+                "15√3 cm",
+                "30√3 cm",
+                "30 cm"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Se o apótema vale a₃ = R/2 = 5 cm, então o raio da circunferência vale R = 10 cm. Logo, cada lado do triângulo mede L₃ = R√3 = 10√3 cm. O perímetro dos 3 lados é 3 · 10√3 = 30√3 cm!",
+                options: [
+                    "Casca de banana: 10√3 cm é a medida de apenas UM lado (L₃), mas a questão pediu o perímetro (3 lados)!",
+                    "Erro: usou L₃ = 5√3 (esquecendo de dobrar o apótema para achar o raio R = 10).",
+                    "Certa",
+                    "Erro: esqueceu o fator √3 na fórmula do lado do triângulo."
+                ]
+            }
+        },
+        {
+            id: 19, level: "Médio",
+            text: "A altura total de um triângulo equilátero inscrito em uma circunferência mede h = 12 cm, conforme destacado no esquema abaixo. Quanto medem o raio da circunferência (R) e o apótema do triângulo (a₃), respectivamente?",
+            svg: `<svg viewBox="0 0 200 160" width="185" height="150" aria-label="Altura do triângulo equilátero dividida em Raio e Apótema">
+                    <circle cx="100" cy="85" r="62" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2.2"/>
+                    <polygon points="100,23 46.3,116 153.7,116" fill="rgba(124,58,237,0.14)" stroke="#5B21B6" stroke-width="2.8"/>
+                    <!-- Parte superior da altura = R (2/3 de h) -->
+                    <line x1="100" y1="23" x2="100" y2="85" stroke="#DC2626" stroke-width="3.2"/>
+                    <!-- Parte inferior da altura = a3 (1/3 de h) -->
+                    <line x1="100" y1="85" x2="100" y2="116" stroke="#059669" stroke-width="3.2"/>
+                    <rect x="100" y="108" width="8" height="8" fill="none" stroke="#059669" stroke-width="1.5"/>
+                    <circle cx="100" cy="85" r="4" fill="#0F172A"/>
+                    <text x="86" y="88" font-size="10" font-weight="bold" fill="#0F172A">O</text>
+                    <text x="107" y="58" font-size="11" font-weight="900" fill="#DC2626">R (2/3 h)</text>
+                    <text x="107" y="105" font-size="11" font-weight="900" fill="#059669">a₃ (1/3 h)</text>
+                    <text x="100" y="142" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">Altura total h = R + a₃ = 12 cm</text>
+                  </svg>`,
+            options: [
+                "R = 6 cm e a₃ = 6 cm",
+                "R = 8 cm e a₃ = 4 cm",
+                "R = 9 cm e a₃ = 3 cm",
+                "R = 8√3 cm e a₃ = 4√3 cm"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "No triângulo equilátero, a altura h é a soma do raio com o apótema (h = R + a₃). Como a₃ = R/2, o centro divide a altura na proporção de 2/3 para o raio e 1/3 para o apótema: a₃ = 12 / 3 = 4 cm e R = 2 · 4 = 8 cm.",
+                options: [
+                    "Erro: o centro não divide a altura do triângulo ao meio, mas sim em 2/3 e 1/3.",
+                    "Certa",
+                    "Erro: dividiu a altura por 4 em vez de dividir por 3.",
+                    "Erro: a altura já foi dada em centímetros inteiros (12 cm), portanto R e a₃ são racionais."
+                ]
+            }
+        },
+        {
+            id: 20, level: "Médio",
+            text: "Um quadrado e um triângulo equilátero estão inscritos em uma MESMA circunferência, como mostra a figura. Se o lado do quadrado mede L₄ = 6√2 cm, qual é a medida do lado do triângulo equilátero (L₃)?",
+            svg: `<svg viewBox="0 0 200 160" width="185" height="150" aria-label="Quadrado e Triângulo Equilátero inscritos na mesma circunferência">
+                    <circle cx="100" cy="80" r="62" fill="#F8FAFC" stroke="#0F172A" stroke-width="2.5"/>
+                    <!-- Quadrado inscrito -->
+                    <rect x="56" y="36" width="88" height="88" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="4,3"/>
+                    <!-- Triângulo inscrito -->
+                    <polygon points="100,18 46.3,111 153.7,111" fill="rgba(124,58,237,0.12)" stroke="#7C3AED" stroke-width="2.8"/>
+                    <circle cx="100" cy="80" r="3.5" fill="#DC2626"/>
+                    <line x1="100" y1="80" x2="153.7" y2="111" stroke="#DC2626" stroke-width="2.2"/>
+                    <text x="122" y="92" font-size="10" font-weight="900" fill="#DC2626">R</text>
+                    <text x="100" y="31" font-size="10" font-weight="900" text-anchor="middle" fill="#1D4ED8">L₄ = 6√2</text>
+                    <text x="53" y="68" font-size="11" font-weight="900" fill="#7C3AED">L₃ = ?</text>
+                  </svg>`,
+            options: [
+                "6 cm",
+                "6√3 cm",
+                "3√3 cm",
+                "12√3 cm"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Usando o Raio R como ponte: no quadrado, L₄ = R√2 ➔ 6√2 = R√2 ➔ R = 6 cm. Como a circunferência é a mesma, o lado do triângulo equilátero vale L₃ = R√3 = 6√3 cm!",
+                options: [
+                    "Erro: 6 cm é a medida do raio R da circunferência, e não do lado do triângulo.",
+                    "Certa",
+                    "Erro: 3 cm seria o apótema do triângulo (a₃ = R/2).",
+                    "Erro: dobrou o raio antes de aplicar a fórmula L₃ = R√3."
+                ]
+            }
+        },
+
+        // ==================== 10 DIFÍCEIS ====================
+        {
+            id: 21, level: "Difícil",
+            text: "Um fazendeiro dispõe de 40 metros lineares de tela para cercar três lados de um galinheiro retangular, aproveitando um longo muro de pedra já construído como quarto lado (veja a planta abaixo). Qual é a ÁREA MÁXIMA, em m², que esse galinheiro pode ter?",
+            svg: `<svg viewBox="0 0 240 125" width="225" height="118" aria-label="Galinheiro retangular encostado em um muro">
+                    <!-- Muro superior -->
+                    <rect x="20" y="12" width="200" height="14" fill="#94A3B8" stroke="#334155" stroke-width="2"/>
+                    <text x="120" y="23" font-size="9" font-weight="900" text-anchor="middle" fill="#0F172A">MURO DE PEDRA (NÃO USA TELA)</text>
+                    <!-- Retângulo de tela -->
+                    <polyline points="50,26 50,92 190,92 190,26" fill="rgba(16,185,129,0.18)" stroke="#059669" stroke-width="3"/>
+                    <text x="38" y="64" font-size="12" font-weight="900" fill="#065F46">x</text>
+                    <text x="198" y="64" font-size="12" font-weight="900" fill="#065F46">x</text>
+                    <text x="120" y="108" font-size="11" font-weight="900" text-anchor="middle" fill="#065F46">40 - 2x</text>
+                    <text x="120" y="64" font-size="11" font-weight="900" text-anchor="middle" fill="#047857">Área Máxima = ?</text>
+                  </svg>`,
+            options: [
+                "100 m²",
+                "200 m²",
+                "400 m²",
+                "160 m²"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Chamando as duas laterais de x, o lado oposto ao muro mede (40 - 2x). A função área é A(x) = x·(40 - 2x) = -2x² + 40x. O valor de x que maximiza a área é xᵥ = -40 / (2·(-2)) = 10 m. Logo, a base mede 40 - 20 = 20 m, e a área máxima é A = 10 · 20 = 200 m²!",
+                options: [
+                    "Casca de banana: dividiu 40 por 4 lados (10x10 = 100 m²), esquecendo que o muro dispensa tela em um dos lados!",
+                    "Certa",
+                    "Erro: fez 20 · 20 = 400 m², o que gastaria 60 m de tela.",
+                    "Erro: escolheu x = 8 m sem usar o vértice da parábola."
+                ]
+            }
+        },
+        {
+            id: 22, level: "Difícil",
+            text: "No gráfico abaixo, a parábola de equação y = -x² + 6x - 5 corta o eixo x nos pontos A e B e possui seu ponto mais alto no vértice V. Qual é a ÁREA do triângulo ABV formado por esses três pontos?",
+            svg: `<svg viewBox="0 0 230 155" width="215" height="145" aria-label="Triângulo ABV inscrito sob a parábola">
+                    <line x1="15" y1="120" x2="215" y2="120" stroke="#334155" stroke-width="2"/>
+                    <line x1="40" y1="15" x2="40" y2="145" stroke="#334155" stroke-width="2"/>
+                    <!-- Triângulo sombreado ABV -->
+                    <polygon points="65,120 185,120 125,35" fill="rgba(245,158,11,0.28)" stroke="#D97706" stroke-width="2"/>
+                    <!-- Altura do triângulo -->
+                    <line x1="125" y1="35" x2="125" y2="120" stroke="#B45309" stroke-width="1.8" stroke-dasharray="4,3"/>
+                    <!-- Parábola exata passando por A(65,120), V(125,35) e B(185,120) -->
+                    <path d="M 55 150.7 Q 125 -80.7 195 150.7" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+                    <circle cx="65" cy="120" r="4.5" fill="#DC2626"/>
+                    <text x="58" y="136" font-size="11" font-weight="900" fill="#DC2626">A(x₁)</text>
+                    <circle cx="185" cy="120" r="4.5" fill="#DC2626"/>
+                    <text x="178" y="136" font-size="11" font-weight="900" fill="#DC2626">B(x₂)</text>
+                    <circle cx="125" cy="35" r="5" fill="#059669"/>
+                    <text x="125" y="24" font-size="11" font-weight="900" text-anchor="middle" fill="#059669">V(xᵥ, yᵥ)</text>
+                  </svg>`,
+            options: [
+                "16 unidades de área",
+                "8 unidades de área",
+                "12 unidades de área",
+                "6 unidades de área"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "1) Raízes de -x² + 6x - 5 = 0: S = 6 e P = 5 ➔ x₁ = 1 e x₂ = 5. A base AB do triângulo mede 5 - 1 = 4.\n2) Vértice V: xᵥ = (1 + 5)/2 = 3 e yᵥ = -(3)² + 6(3) - 5 = -9 + 18 - 5 = 4 (altura h = 4).\n3) Área do triângulo = (base · altura) / 2 = (4 · 4) / 2 = 8!",
+                options: [
+                    "Casca de banana: calculou base · altura = 4 · 4 = 16 e esqueceu de dividir por 2 na fórmula da área do triângulo!",
+                    "Certa",
+                    "Erro: usou xᵥ = 3 como altura em vez de yᵥ = 4.",
+                    "Erro no cálculo da distância entre as raízes A(1,0) e B(5,0)."
+                ]
+            }
+        },
+        {
+            id: 23, level: "Difícil",
+            text: "A soma dos quadrados das duas raízes reais (x₁² + x₂²) da equação quadrática x² - 5x + 3 = 0 é igual a:",
+            options: [
+                "25",
+                "19",
+                "22",
+                "16"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Pelas relações de Girard, temos S = x₁ + x₂ = 5 e P = x₁ · x₂ = 3. Usando o produto notável (x₁ + x₂)² = x₁² + 2·x₁·x₂ + x₂², isolamos: x₁² + x₂² = S² - 2P = 5² - 2·(3) = 25 - 6 = 19!",
+                options: [
+                    "Casca de banana: achou que x₁² + x₂² fosse igual a (x₁ + x₂)² = 5² = 25, esquecendo de subtrair 2·x₁·x₂!",
+                    "Certa",
+                    "Erro: subtraiu apenas P = 3 (25 - 3 = 22) em vez de 2P = 6.",
+                    "Erro: subtraiu P² = 9 (25 - 9 = 16) em vez de 2P."
+                ]
+            }
+        },
+        {
+            id: 24, level: "Difícil",
+            text: "Os gráficos da parábola y = x² - 2x - 3 e da reta y = x + 1 cruzam-se em dois pontos distintos no plano cartesiano. Qual é a SOMA das abscissas (valores de x) desses dois pontos de interseção?",
+            options: [
+                "1",
+                "2",
+                "3",
+                "-4"
+            ],
+            correct: 2,
+            explanation: {
+                correct: "Para achar a interseção, igualamos as duas equações: x² - 2x - 3 = x + 1 ➔ x² - 3x - 4 = 0. Pela relação de Girard, a soma das abscissas x₁ + x₂ é S = -b/a = -(-3)/1 = 3 (as raízes são -1 e 4).",
+                options: [
+                    "Erro: somou -2 + 1 sem passar o x subtraindo para o primeiro membro.",
+                    "Erro: considerou apenas a soma das raízes da parábola original (-(-2)/1 = 2).",
+                    "Certa",
+                    "Erro: -4 é o produto das abscissas ((-1)·4 = -4), e não a soma."
+                ]
+            }
+        },
+        {
+            id: 25, level: "Difícil",
+            text: "Um cinema vende atualmente 200 ingressos por sessão ao preço de R$ 20,00 cada. Uma pesquisa revelou que, para cada R$ 1,00 de desconto no preço do ingresso, 20 novos espectadores compram entrada. Qual deve ser o PREÇO do ingresso para que a arrecadação da sessão seja MÁXIMA?",
+            options: [
+                "R$ 5,00",
+                "R$ 15,00",
+                "R$ 12,00",
+                "R$ 18,00"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Seja x o número de descontos de R$ 1,00. O novo preço é (20 - x) e o público é (200 + 20x). Arrecadação: R(x) = (20 - x)(200 + 20x) = -20x² + 200x + 4000. Número ótimo de descontos: xᵥ = -200 / (2·(-20)) = 5 descontos. Logo, o preço ideal do ingresso é 20 - 5 = R$ 15,00!",
+                options: [
+                    "Casca de banana: R$ 5,00 é o valor do DESCONTO xᵥ, mas a pergunta pediu o PREÇO final do ingresso (20 - 5 = R$ 15,00)!",
+                    "Certa",
+                    "Erro na montagem da equação quadrática da receita.",
+                    "Erro: aplicou apenas 2 descontos em vez de 5."
+                ]
+            }
+        },
+        {
+            id: 26, level: "Difícil",
+            text: "A área de um triângulo equilátero inscrito em uma circunferência é igual a 27√3 cm². Qual é a medida do RAIO (R) dessa circunferência?",
+            options: [
+                "3 cm",
+                "6 cm",
+                "6√3 cm",
+                "9 cm"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Pela fórmula da área do triângulo equilátero: A = (L₃²√3)/4 = 27√3 ➔ L₃²/4 = 27 ➔ L₃² = 108 ➔ L₃ = √108 = 6√3 cm. Como L₃ = R√3, temos 6√3 = R√3 ➔ R = 6 cm!",
+                options: [
+                    "Erro: 3 cm é a medida do apótema a₃ = R/2.",
+                    "Certa",
+                    "Casca de banana: 6√3 cm é a medida do LADO L₃ do triângulo, e não do raio R!",
+                    "Erro: 9 cm é a medida da altura h = 3R/2 do triângulo."
+                ]
+            }
+        },
+        {
+            id: 27, level: "Difícil",
+            text: "Na figura abaixo, um quadrado está inscrito em um círculo de raio R = 4 cm. Adotando π = 3, qual é a área da REGIÃO SOMBREADA (compreendida entre o círculo e o quadrado)?",
+            svg: `<svg viewBox="0 0 200 155" width="185" height="145" aria-label="Região sombreada entre círculo e quadrado inscrito">
+                    <!-- Círculo inteiro pintado em amarelo-âmbar (região sombreada) -->
+                    <circle cx="100" cy="78" r="62" fill="#FDE68A" stroke="#B45309" stroke-width="2.5"/>
+                    <!-- Quadrado vazado em branco -->
+                    <rect x="56" y="34" width="88" height="88" fill="#FFFFFF" stroke="#1E40AF" stroke-width="2.5"/>
+                    <line x1="100" y1="78" x2="144" y2="122" stroke="#DC2626" stroke-width="2.5"/>
+                    <circle cx="100" cy="78" r="3.5" fill="#0F172A"/>
+                    <text x="115" y="94" font-size="11" font-weight="900" fill="#DC2626">R = 4 cm</text>
+                    <text x="100" y="25" font-size="10" font-weight="900" text-anchor="middle" fill="#B45309">Área Sombreada = ?</text>
+                  </svg>`,
+            options: [
+                "16 cm²",
+                "32 cm²",
+                "48 cm²",
+                "24 cm²"
+            ],
+            correct: 0,
+            explanation: {
+                correct: "1) Área do círculo: A_c = π·R² = 3 · 4² = 3 · 16 = 48 cm².\n2) Lado do quadrado: L₄ = 4√2 cm ➔ Área do quadrado: A_q = (4√2)² = 16 · 2 = 32 cm².\n3) Área sombreada = A_c - A_q = 48 - 32 = 16 cm²!",
+                options: [
+                    "Certa",
+                    "Casca de banana: 32 cm² é a área apenas do quadrado branco, e não da borda sombreada!",
+                    "Erro: 48 cm² é a área total do círculo sem descontar o quadrado.",
+                    "Erro: calculou a área do quadrado como 4² = 16 e fez 48 - 16 = 32 ou metade de 48."
+                ]
+            }
+        },
+        {
+            id: 28, level: "Difícil",
+            text: "Um quadrado e um triângulo equilátero estão inscritos em uma mesma circunferência de raio R. Qual é a RAZÃO entre a área do quadrado (A₄) e a área do triângulo equilátero (A₃), isto é, A₄ / A₃?",
+            options: [
+                "(4√3) / 3",
+                "(8√3) / 9",
+                "(2√3) / 3",
+                "4 / 3"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "Em função de R: A₄ = (R√2)² = 2R². E a área do triângulo é A₃ = ((R√3)²·√3)/4 = (3R²√3)/4. Dividindo A₄ por A₃: (2R²) / ((3√3 R²)/4) = 8 / (3√3). Racionalizando por √3: (8√3) / 9!",
+                options: [
+                    "Erro: esqueceu o fator 2 em A₄ = 2R², fazendo apenas R² dividido por A₃.",
+                    "Certa",
+                    "Erro: é a razão entre os apótemas ou alturas, não entre as áreas.",
+                    "Erro: razão entre o número de lados (4/3), ignorando a geometria."
+                ]
+            }
+        },
+        {
+            id: 29, level: "Difícil",
+            text: "Um círculo está INSCRITO dentro de um triângulo equilátero cujo lado mede L = 12 cm, tangenciando os três lados do triângulo, conforme a figura. Qual é a área desse círculo interno?",
+            svg: `<svg viewBox="0 0 200 155" width="185" height="145" aria-label="Círculo inscrito dentro de um triângulo equilátero">
+                    <!-- Triângulo Equilátero Externo -->
+                    <polygon points="100,12 30,133 170,133" fill="#F5F3FF" stroke="#5B21B6" stroke-width="3"/>
+                    <!-- Círculo Inscrito (Raio r = apótema do triângulo = 40.3) -->
+                    <circle cx="100" cy="92.7" r="40.3" fill="rgba(59,130,246,0.22)" stroke="#1D4ED8" stroke-width="2.5"/>
+                    <!-- Raio r = a3 -->
+                    <line x1="100" y1="92.7" x2="100" y2="133" stroke="#059669" stroke-width="2.8"/>
+                    <rect x="100" y="125" width="8" height="8" fill="none" stroke="#059669" stroke-width="1.5"/>
+                    <circle cx="100" cy="92.7" r="3.5" fill="#0F172A"/>
+                    <text x="106" y="117" font-size="11" font-weight="900" fill="#059669">r = a₃</text>
+                    <text x="38" y="72" font-size="11" font-weight="900" fill="#5B21B6">L = 12 cm</text>
+                  </svg>`,
+            options: [
+                "12π cm²",
+                "48π cm²",
+                "36π cm²",
+                "16π cm²"
+            ],
+            correct: 0,
+            explanation: {
+                correct: "O raio r do círculo inscrito dentro do triângulo é exatamente o APÓTEMA (a₃) do triângulo! A altura do triângulo é h = (L√3)/2 = (12√3)/2 = 6√3 cm. Como a₃ = h/3, temos r = 6√3 / 3 = 2√3 cm. Logo, a área do círculo é A = π·r² = π·(2√3)² = 12π cm²!",
+                options: [
+                    "Certa",
+                    "Casca de banana: usou o raio da circunferência circunscrita (R = 4√3 cm ➔ A = 48π) em vez do apótema (r = 2√3 cm)!",
+                    "Erro: considerou r = 6 cm (metade do lado).",
+                    "Erro: esqueceu de multiplicar 4 por (√3)² = 3."
+                ]
+            }
+        },
+        {
+            id: 30, level: "Difícil",
+            text: "Desafio Integrado (Função do 2º Grau + Geometria): O raio R (em cm) de uma circunferência é igual à ordenada do vértice (yᵥ) da parábola f(x) = -x² + 4x + 2. Qual é a ÁREA do quadrado inscrito nessa circunferência?",
+            options: [
+                "36 cm²",
+                "72 cm²",
+                "18 cm²",
+                "8 cm²"
+            ],
+            correct: 1,
+            explanation: {
+                correct: "1) Achando o vértice da parábola: xᵥ = -4 / (2·(-1)) = 2. Substituindo x = 2: yᵥ = -(2)² + 4(2) + 2 = -4 + 8 + 2 = 6. Logo, o raio vale R = 6 cm!\n2) Lado do quadrado inscrito: L₄ = R√2 = 6√2 cm.\n3) Área do quadrado: A = (6√2)² = 36 · 2 = 72 cm²!",
+                options: [
+                    "Casca de banana: calculou R² = 6² = 36 cm², esquecendo que o lado do quadrado inscrito é R√2 (área = 2R² = 72 cm²)!",
+                    "Certa",
+                    "Erro: dividiu 36 por 2 em vez de multiplicar por 2.",
+                    "Erro: usou xᵥ = 2 como raio R (2·2² = 8 cm²) em vez de usar yᵥ = 6."
+                ]
+            }
+        }
+    ];
+
+    // --- SISTEMA DE SALVAMENTO SEGURO (LOCALSTORAGE) E LÓGICA ---
+    const storageKey = 'promover_quiz_9ano_mat_funcao2grau_poligonos_30q_v2';
+    let currentQuestion = 0;
+
+    function loadSavedAnswers() {
+        try {
+            const raw = localStorage.getItem(storageKey);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length === questions.length) {
+                    return parsed;
+                }
+            }
+        } catch (e) {
+            console.warn('Armazenamento local indisponível:', e);
+        }
+        return new Array(questions.length).fill(null);
+    }
+
+    function saveAnswersState() {
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(userAnswers));
+        } catch (e) {
+            console.warn('Falha ao salvar no localStorage:', e);
+        }
+    }
+
+    let userAnswers = loadSavedAnswers();
+
+    function setMode(mode) {
+        const views = ['viewExplanation', 'viewFlashcards', 'viewPractice', 'viewResult'];
+        views.forEach(v => document.getElementById(v).style.display = 'none');
+        
+        const btns = ['btnExp', 'btnFlash', 'btnPrac'];
+        btns.forEach(b => document.getElementById(b).classList.remove('active'));
+        
+        document.getElementById('quizFooter').style.display = 'none';
+
+        if (mode === 'explanation') {
+            document.getElementById('viewExplanation').style.display = 'flex';
+            document.getElementById('btnExp').classList.add('active');
+        } else if (mode === 'flashcards') {
+            document.getElementById('viewFlashcards').style.display = 'flex';
+            document.getElementById('btnFlash').classList.add('active');
+            renderFlashcards('all');
+        } else if (mode === 'practice') {
+            document.getElementById('viewPractice').style.display = 'block';
+            document.getElementById('quizFooter').style.display = 'flex';
+            document.getElementById('btnPrac').classList.add('active');
+            renderQuestion();
+            renderMap();
+        } else if (mode === 'result') {
+            document.getElementById('viewResult').style.display = 'block';
+        }
+        window.scrollTo(0, 0);
+    }
+
+    function renderQuestion() {
+        if (questions.length === 0) return;
+        const q = questions[currentQuestion];
+        const container = document.getElementById('quizContainer');
+        const letters = ['A', 'B', 'C', 'D'];
+        const ans = userAnswers[currentQuestion];
+
+        let badgeClass = 'dif-facil';
+        if (q.level === 'Médio') badgeClass = 'dif-medio';
+        else if (q.level === 'Difícil') badgeClass = 'dif-dificil';
+
+        container.innerHTML = `
+            <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 5px 5px 0px var(--border-color); padding: 18px; border-radius: 16px; background: white;">
+                <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+                <div style="margin-bottom: 16px;">
+                    <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+                    <h2 style="font-size: 1.08rem; margin-top: 6px; color: var(--text-color); font-weight: 800; white-space: pre-line; line-height: 1.5;">${q.text}</h2>
+                </div>
+                
+                ${q.svg ? `
+                <div class="question-figure">
+                    ${q.svg}
+                    <span class="figure-caption">Figura ilustrativa da Questão ${currentQuestion + 1}</span>
+                </div>
+                ` : ''}
+
+                <div class="options-list">
+                    ${q.options.map((opt, i) => {
+                        let cls = '';
+                        if (ans !== null) {
+                            if (i === q.correct) cls = 'correct';
+                            else if (i === ans) cls = 'wrong';
+                            else cls = 'disabled';
+                        }
+                        return `
+                        <button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                            <div class="opt-circle">${letters[i]}</div>
+                            <div>${opt}</div>
+                        </button>`;
+                    }).join('')}
+                </div>
+                
+                ${ans !== null ? `
+                <div class="feedback-box">
+                    <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                        ${ans === q.correct ? '✅ Raciocínio Exato e Aprovado!' : '⚠️ Atenção! Veja a Resolução Passo a Passo:'}
+                    </div>
+                    <div class="feedback-item correct-opt"><strong>Gabarito Oficial (${letters[q.correct]}):</strong> ${q.options[q.correct]}</div>
+                    <div style="margin-top: 10px; font-size:0.92rem; color:var(--text-color); margin-bottom:14px; font-weight:600; white-space: pre-line; line-height: 1.55;">
+                        ${q.explanation.correct}
+                    </div>
+                    
+                    <div style="margin-top:14px; border-top:1px dashed var(--theme-medium); padding-top:10px;">
+                        <small style="color:var(--theme-dark);"><strong>Análise das Cascas de Banana (Distratores):</strong></small>
+                        ${q.explanation.options.map((exp, i) => i !== q.correct ? `
+                            <div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>(${letters[i]})</strong> ${exp}</div>
+                        ` : '').join('')}
+                    </div>
+                </div>
+                ` : ''}
+            </div>
+        `;
+        updateLiveStats();
+        updateNav();
+    }
+
+    function updateLiveStats() {
+        const statsEl = document.getElementById('liveQuizStats');
+        if (!statsEl) return;
+        const answered = userAnswers.filter(a => a !== null).length;
+        const correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+        const wrong = answered - correct;
+        const remaining = questions.length - answered;
+
+        statsEl.innerHTML = `
+            <span class="stat-pill ok">✅ Acertos: ${correct}</span>
+            <span class="stat-pill err">❌ Erros: ${wrong}</span>
+            <span class="stat-pill">⏳ Restam: ${remaining}</span>
+        `;
+    }
+
+    function handleAnswer(idx) {
+        if (userAnswers[currentQuestion] !== null) return;
+        
+        userAnswers[currentQuestion] = idx;
+        saveAnswersState();
+        
+        if (idx === questions[currentQuestion].correct) {
+            if (window.confetti) {
+                const duration = 1200;
+                const end = Date.now() + duration;
+                (function frame() {
+                    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#3B82F6', '#F59E0B'] });
+                    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#3B82F6', '#F59E0B'] });
+                    if (Date.now() < end) { requestAnimationFrame(frame); }
+                }());
+            }
+        } else {
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.classList.remove('shake-effect');
+            void quizContainer.offsetWidth; 
+            quizContainer.classList.add('shake-effect');
+            setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+        }
+        
+        renderQuestion();
+        renderMap();
+    }
+
+    function renderMap() {
+        if (questions.length === 0) return;
+        const map = document.getElementById('qMap');
+        map.innerHTML = questions.map((q, i) => {
+            let cls = 'map-dot';
+            if (i === currentQuestion) cls += ' active';
+            if (userAnswers[i] !== null) {
+                cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+            }
+            return `<div class="${cls}" onclick="goTo(${i})">${i + 1}</div>`;
+        }).join('');
+
+        setTimeout(() => {
+            const activeDot = map.querySelector('.map-dot.active');
+            if (activeDot) {
+                activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }, 50);
+    }
+
+    function goTo(i) {
+        if (window.confetti) confetti.reset();
+        currentQuestion = i;
+        renderQuestion();
+        renderMap();
+    }
+
+    function changeQuestion(d) {
+        let n = currentQuestion + d;
+        if (n >= 0 && n < questions.length) goTo(n);
+    }
+
+    function updateNav() {
+        document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+        const next = document.getElementById('btnNext');
+        if (currentQuestion === questions.length - 1) {
+            next.textContent = "Finalizar Simulado";
+            next.onclick = finish;
+        } else {
+            next.textContent = "Próxima →";
+            next.onclick = () => changeQuestion(1);
+        }
+    }
+
+    function finish() {
+        let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+        let percent = Math.round((correct / questions.length) * 100);
+        
+        if (window.confetti) confetti.reset();
+        
+        document.getElementById('finalPercent').textContent = percent + "%";
+        document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+        document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐" : percent >= 60 ? "⭐⭐" : "⭐";
+
+        let summary = '<div style="text-align:left; margin-top:20px;">';
+        
+        if (percent < 80) {
+            summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:10px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+                <strong>⚠️ Meta de 80% Não Atingida!</strong> Você precisava de pelo menos 24 acertos. Revise os diagramas da Teoria e treine nos Flashcards antes de refazer o simulado!
+            </div>`;
+            document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>';
+        } else {
+            summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:10px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+                <strong>🏆 Desempenho de Excelência!</strong> Você domina perfeitamente Função do 2º Grau, Vértice da Parábola e Polígonos Inscritos na Circunferência!
+            </div>`;
+            document.getElementById('action-buttons').innerHTML = '<button class="btn-action" onclick="reset()">🔄 Refazer Simulado (Zerar Histórico)</button>';
+        }
+
+        if (correct < questions.length) {
+            summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Diagnóstico de Erros e Questões Pendentes:</h4>';
+            questions.forEach((q, i) => {
+                if (userAnswers[i] !== q.correct) {
+                    const userChoice = userAnswers[i] !== null ? q.options[userAnswers[i]] : 'Não respondida (em branco)';
+                    summary += `<div style="margin-bottom:10px; padding:14px; background:var(--white); border-radius:10px; border:2px dashed var(--theme-dark);">
+                        <strong style="color:var(--theme-dark);">Q${i+1} (${q.level}):</strong> ${q.text}<br>
+                        <span style="color:var(--wrong-border); font-size:0.88rem; font-weight:700; display:block; margin-top:6px;">❌ Sua Resposta: ${userChoice}</span>
+                        <span style="color:var(--correct-border); font-size:0.88rem; font-weight:700; display:block; margin-top:3px;">✅ Correta: ${q.options[q.correct]}</span>
+                    </div>`;
+                }
+            });
+        }
+        
+        summary += '</div>';
+        document.getElementById('review-container').innerHTML = summary;
+        setMode('result');
+    }
+
+    function reset() {
+        try {
+            localStorage.removeItem(storageKey);
+        } catch (e) {}
+        userAnswers = new Array(questions.length).fill(null);
+        currentQuestion = 0;
+        setMode('practice');
+    }
+
+    // Inicialização automática
+    renderFlashcards('all');
+    setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
