@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ZONA 1 INICIO: TITULO DA ABA -->
+<title>Oceania e Ártico 9º Ano - Promover</title>
+<!-- ZONA 1 FIM -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<!-- BLOCO TRAVADO: CSS DO MOTOR. COPIE IGUAL. -->
+<style id="css-motor">
+:root {
+    --border-color: #000000;
+    --white: #FFFFFF;
+    --theme-text-active: #FFFFFF;
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+    background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); color: var(--theme-contrast); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); color: var(--theme-contrast); }
+    100% { transform: scale(1); }
+}
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center;}
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container { position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 { font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.5rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot { min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled { pointer-events: none; opacity: 0.7; }
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display:flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+.result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big { font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.feedback-box { scroll-margin-top: 12px; scroll-margin-bottom: 90px; }
+.question-map { scroll-margin-top: 8px; }
+td, th { padding: 6px 8px; }
+#bancoQuestoes { display: none; }
+.visual-area.texto { font-size: 0.95rem; flex-direction: column; gap: 8px; }
+.tabela { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; font-weight: 600; margin-top: 10px; }
+.tabela th { background: var(--theme-light); }
+.tabela th, .tabela td { border: 1px solid var(--border-color); }
+.lista { padding-left: 20px; }
+.desenho { width: 100%; max-width: 420px; height: auto; display: block; margin: 10px auto; }
+.d-cor1 { fill: var(--theme-dark); }
+.d-cor2 { fill: var(--theme-contrast); }
+.d-cor3 { fill: var(--theme-medium); }
+.d-fundo { fill: var(--theme-light); stroke: var(--text-color); stroke-width: 2; }
+.d-linha { fill: none; stroke: var(--text-color); stroke-width: 2; }
+.d-texto { fill: var(--text-color); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; }
+</style>
+<!-- ZONA 2 INICIO: CORES E CSS EXTRA -->
+<style id="css-tema">
+:root {
+    --bg-color: #FFFBEB;
+    --text-color: #1C1917;
+    --theme-light: #FEF3C7;
+    --theme-medium: #FBBF24;
+    --theme-dark: #78350F;
+    --theme-contrast: #0F766E;
+    --theme-accent: #B45309;
+}
+</style>
+<!-- ZONA 2 FIM -->
+</head>
+<body>
+<div id="avisoMotor" style="display:block; max-width:600px; width:100%; margin:0 auto 16px; padding:14px; background:#FFE4E6; color:#881337; border:3px solid #BE123C; border-radius:12px; font-family:sans-serif; font-size:15px; font-weight:600; line-height:1.5;">⚠️ Este arquivo está incompleto ou com erro no código. Não envie aos alunos. Peça ao Gemini para gerar o arquivo completo de novo.</div>
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🚀</span> PROMOVER</div>
+        <!-- ZONA 3 INICIO: CABECALHO -->
+        <h1>Geografia – 9º&nbsp;Ano</h1>
+        <p class="subtitle">Oceania e Ártico: História, Povos e Geopolítica</p>
+        <!-- ZONA 3 FIM -->
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Prática (30)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito...">
+        </div>
+        <div id="no-results"><p>😕 Termo não encontrado.</p></div>
+
+        <!-- ZONA 4 INICIO: TEORIA -->
+        <div class="content-group">
+            <span class="section-badge">1. Oceania: Navegação e Colonização Britânica</span>
+            <div class="theory-box">
+                <h3>⛵ As Viagens de Cook e o Início da Ocupação</h3>
+                <p>A partir de <strong>1768</strong>, o navegador britânico <strong>James Cook</strong> liderou expedições pioneiras que exploraram minuciosamente o Pacífico Sul e as terras da Oceania. Inicialmente, a região parecia oferecer pouco valor imediato aos interesses imperialistas europeus.</p>
+                <ul class="lista">
+                    <li><strong>Colônia penal em Sydney:</strong> Diante da superlotação carcerária na Grã-Bretanha, a Coroa britânica estabeleceu em Sydney, na Austrália, uma colônia penal destinada ao degredo de presos ingleses, ignorando os povos que já habitavam o território.</li>
+                    <li><strong>Fluxos migratórios:</strong> Para consolidar a ocupação, o governo imperial incentivou levas de colonos britânicos e irlandeses.</li>
+                    <li><strong>A corrida do ouro:</strong> A descoberta de jazidas auríferas no século XIX atraiu imigrantes de diversas partes do mundo e dinamizou a economia colonial, que passou a produzir alimentos e matérias-primas agropecuárias para o mercado britânico.</li>
+                    <li><strong>Segunda Guerra Mundial:</strong> Durante e após o conflito mundial, a Oceania tornou-se terra de refúgio para milhares de imigrantes e refugiados europeus.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">2. Povos Originários: Aborígenes e Maoris</span>
+            <div class="theory-box">
+                <h3>🏹 O Impacto Devastador da Colonização</h3>
+                <p>Na Austrália e na Nova Zelândia, os povos nativos — os <strong>aborígenes</strong> australianos e os <strong>maoris</strong> neozelandeses — foram sistematicamente dizimados e expropriados de suas terras tradicionais pelos colonizadores.</p>
+                <div class="highlight-box warning">
+                    <strong>Causas da catástrofe demográfica:</strong><br>
+                    • Massacres violentos e guerras de fronteira;<br>
+                    • Doenças infectocontagiosas trazidas pelos europeus (contra as quais os nativos não tinham imunidade);<br>
+                    • Marginalização social e espoliação de seus territórios sagrados;<br>
+                    • <strong>Políticas de assimilação cultural:</strong> leis que impunham a língua, a religião e os costumes britânicos, culminando na separação forçada de crianças de suas famílias.
+                </div>
+                <svg class="desenho" viewBox="0 0 320 200" role="img" aria-label="Gráfico de barras mostrando a queda da população aborígene de 750 mil antes da colonização para 100 mil em 1900">
+                    <line class="d-linha" x1="40" y1="165" x2="280" y2="165"/>
+                    <rect class="d-cor1" x="70" y="35" width="60" height="130"/>
+                    <rect class="d-cor2" x="180" y="145" width="60" height="20"/>
+                    <text class="d-texto" x="100" y="25" text-anchor="middle">750 mil</text>
+                    <text class="d-texto" x="210" y="135" text-anchor="middle">100 mil</text>
+                    <text class="d-texto" x="100" y="185" text-anchor="middle">Antes de 1788</text>
+                    <text class="d-texto" x="210" y="185" text-anchor="middle">Ano 1900</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">3. Panorama Geográfico da Oceania</span>
+            <div class="theory-box">
+                <h3>🌏 O Menor Continente do Planeta</h3>
+                <p>A Oceania é o menor continente em área emersa, composto por 14 países independentes dispersos por milhares de ilhas no Oceano Pacífico. Regionalmente, organiza-se em quatro grandes conjuntos:</p>
+                <table class="tabela">
+                    <tr><th>Região</th><th>Características Principais</th></tr>
+                    <tr><td><strong>Austrália e Nova Zelândia</strong></td><td>As duas maiores economias desenvolvidas. Capitais: Camberra (Austrália) e Wellington (Nova Zelândia).</td></tr>
+                    <tr><td><strong>Melanésia</strong></td><td>"Ilhas dos negros" (Fiji, Papua-Nova Guiné, Ilhas Salomão, Vanuatu).</td></tr>
+                    <tr><td><strong>Micronésia</strong></td><td>"Pequenas ilhas" ao norte do Equador (Palau, Micronésia, Ilhas Marshall, Nauru, Kiribati).</td></tr>
+                    <tr><td><strong>Polinésia</strong></td><td>"Muitas ilhas" espalhadas em um grande triângulo (Tuvalu, Samoa, Tonga, além de territórios como Havaí e Taiti).</td></tr>
+                </table>
+                <p>Na Austrália, a maior parte do interior é dominada pelo <strong>Outback</strong>, uma vasta região semiárida e desértica. Por isso, a quase totalidade da população concentra-se nas férteis planícies litorâneas do sul e do sudeste. Atualmente, o país é um gigante na <strong>exportação de minérios</strong> (ferro, carvão) para o mercado consumidor asiático.</p>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">4. O Ártico e suas Riquezas Energéticas</span>
+            <div class="theory-box">
+                <h3>🧊 Geopolítica em Torno do Polo Norte</h3>
+                <p>O <strong>Ártico</strong> abrange o Oceano Glacial Ártico e terras litorâneas de cinco países costeiros principais: <strong>Rússia</strong>, <strong>Estados Unidos (Alasca)</strong>, <strong>Canadá</strong>, <strong>Noruega</strong> e <strong>Dinamarca (Groenlândia)</strong>.</p>
+                <div class="highlight-box">
+                    <strong>Tesouro sob o gelo:</strong> Estima-se que cerca de <strong>um quarto (25%)</strong> de todas as reservas não exploradas de petróleo e gás natural do planeta estejam sob o leito oceânico do Ártico. Destaque para o campo de <strong>Prudhoe Bay</strong>, no Alasca, um dos maiores polos petrolíferos dos EUA.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">5. Disputas Territoriais e Novas Rotas Polares</span>
+            <div class="theory-box">
+                <h3>🧭 Corrida Estratégica, Rotas e Militarização</h3>
+                <p>Desde a Guerra Fria, Estados Unidos e Rússia disputam a hegemonia no Ártico. Em <strong>2007</strong>, a Rússia realizou uma expedição submarina a mais de 4&nbsp;km de profundidade e fincou uma <strong>bandeira de titânio</strong> no leito marinho da Dorsal de Lomonosov para reforçar sua reivindicação territorial sobre áreas ricas em hidrocarbonetos.</p>
+                <ul class="lista">
+                    <li><strong>Derretimento do gelo marinho e navegação:</strong> Com o aquecimento global, o recuo do gelo durante o verão desobstrui a Passagem do Noroeste e a Rota Marítima do Norte, encurtando expressivamente as viagens entre o Atlântico e o Pacífico.</li>
+                    <li><strong>Cooperação técnica:</strong> O ambiente polar hostil impõe custos gigantescos, levando estatais e multinacionais (inclusive russas e norte-americanas) a formarem consórcios de exploração conjunta.</li>
+                    <li><strong>Militarização:</strong> A reativação de bases aéreas, radares e submarinos nucleares eleva o risco de tensões armadas na região polar.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- ZONA 4 FIM -->
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Diagnóstico (30 Q) ➜
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">30 questões rigorosas. Acerte <strong>80% (24/30)</strong> para provar seu domínio. Leia a correção de cada erro!</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+
+    <!-- ZONA 5 INICIO: 30 QUESTOES -->
+    <section id="bancoQuestoes" hidden>
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">As expedições britânicas comandadas por James Cook em 1768 tinham como objetivo geográfico explorar:</div>
+            <div class="alternativa certa">
+                <div class="opcao">o Pacífico Sul e a Oceania.</div>
+                <div class="porque">Cook realizou viagens fundamentais de mapeamento no Pacífico Sul e na Oceania.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">as rotas setentrionais da Passagem do Noroeste no congelado Oceano Glacial Ártico.</div>
+                <div class="porque">Cook não chefiou expedições de colonização polar no Oceano Glacial Ártico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">os afluentes da bacia hidrográfica do rio Congo nas regiões equatoriais da África.</div>
+                <div class="porque">O interior africano foi explorado no século XIX por outros navegadores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">os arquipélagos vulcânicos do Mar do Caribe para instalar feitorias de açúcar e rum.</div>
+                <div class="porque">O Caribe foi colonizado séculos antes por espanhóis, franceses e ingleses.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">No início da colonização australiana, a Coroa britânica estabeleceu em Sydney uma:</div>
+            <div class="alternativa">
+                <div class="opcao">grande zona franca industrial voltada para a manufatura têxtil e naval mecanizada.</div>
+                <div class="porque">A industrialização australiana consolidou-se apenas no século XX.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">feitoria comercial exclusivamente dedicada ao escambo de peles com nativos locais.</div>
+                <div class="porque">O comércio de peles não foi o objetivo da fundação colonial de Sydney.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">colônia penal militar.</div>
+                <div class="porque">Sydney foi fundada para abrigar presidiários degredados da Inglaterra.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">universidade marítima destinada à formação de comandantes navais imperiais ingleses.</div>
+                <div class="porque">Centros universitários navais da Grã-Bretanha ficavam na metrópole.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Para ocupar o extenso território australiano, o governo britânico incentivou o fluxo direto de colonos:</div>
+            <div class="alternativa">
+                <div class="opcao">franceses e alemães católicos que fugiam de perseguições religiosas na Europa Central.</div>
+                <div class="porque">A Coroa britânica priorizou súditos ingleses, escoceses e irlandeses.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">britânicos e irlandeses.</div>
+                <div class="porque">O governo estimulou a ida de populações das ilhas britânicas e Irlanda.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">chineses e japoneses contratados como trabalhadores especializados nas ferrovias.</div>
+                <div class="porque">Imigrantes asiáticos sofreram forte restrição com leis de exclusão colonial.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">portugueses e espanhóis interessados em lavouras monocultoras de especiarias finas.</div>
+                <div class="porque">A ocupação agrícola foi estruturada com colonos anglo-saxões.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">A descoberta de jazidas de ouro na Austrália durante o século XIX provocou como efeito imediato:</div>
+            <div class="alternativa">
+                <div class="opcao">a desocupação imediata das cidades litorâneas e o retorno em massa para a Inglaterra.</div>
+                <div class="porque">A corrida do ouro atraiu pessoas de fora em vez de esvaziar as cidades.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o colapso irreversível das rotas de comércio agropecuário no Império Britânico.</div>
+                <div class="porque">A agropecuária australiana cresceu para abastecer os mineradores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a promulgação imediata de leis de proteção integral aos territórios aborígenes.</div>
+                <div class="porque">As terras indígenas foram ainda mais invadidas durante a corrida aurífera.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">forte atração de imigrantes.</div>
+                <div class="porque">A descoberta do metal atraiu levas de trabalhadores de várias nações.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Durante o período colonial, a colônia australiana fornecia prioritariamente à Grã-Bretanha:</div>
+            <div class="alternativa certa">
+                <div class="opcao">alimentos e matérias-primas.</div>
+                <div class="porque">A colônia exportava lã, carnes e grãos para atender à indústria inglesa.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">maquinários a vapor pesados para as indústrias têxteis de Manchester e Liverpool.</div>
+                <div class="porque">Os bens manufaturados vinham da metrópole inglesa para a colônia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">combustíveis fósseis refinados como querosene de aviação e derivados de petróleo.</div>
+                <div class="porque">O refino de petróleo moderno não existia na fase colonial oitocentista.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">embarcações blindadas a motor para a esquadra de guerra do Almirantado Britânico.</div>
+                <div class="porque">A indústria de defesa blindada concentrava-se nos estaleiros da Grã-Bretanha.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">No decorrer da Segunda Guerra Mundial, o continente da Oceania desempenhou o papel de abrigar:</div>
+            <div class="alternativa">
+                <div class="opcao">fábricas desativadas de armamentos pesados transferidas da frente soviética de combate.</div>
+                <div class="porque">As indústrias bélicas soviéticas foram transferidas para os montes Urais.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">muitos refugiados da guerra.</div>
+                <div class="porque">Famílias desalojadas pelo conflito mundial migraram para a Oceania.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">prisioneiros de guerra alemães em campos de trabalho forçado nas ilhas polinésias.</div>
+                <div class="porque">Campos aliados não utilizavam a Polinésia para trabalhos forçados alemães.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">centros de testes nucleares subterrâneos geridos por alianças militares asiáticas.</div>
+                <div class="porque">Ensaios atômicos no Pacífico foram feitos por potências ocidentais depois.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O violento processo de colonização europeia na Austrália provocou sobre a população aborígene:</div>
+            <div class="alternativa">
+                <div class="opcao">a integração imediata aos cargos da alta administração colonial britânica em Sydney.</div>
+                <div class="porque">Os aborígenes sofreram marginalização e exclusão do poder político.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a concessão de títulos de propriedade de terras férteis ao longo do litoral sudeste.</div>
+                <div class="porque">Suas terras ancestrais foram expropriadas para fazendas de colonos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">drástica redução populacional.</div>
+                <div class="porque">Massacres, fome e doenças contagiosas dizimaram centenas de milhares.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a migração voluntária para as ilhas da Melanésia em busca de novas rotas comerciais.</div>
+                <div class="porque">Os povos nativos permaneceram confinados em áreas áridas australianas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">A população aborígene da Austrália, estimada em 750 mil antes da colonização, caiu em 1900 para cerca de:</div>
+            <div class="alternativa">
+                <div class="opcao">600 mil indivíduos residentes em vilas agrícolas protegidas no litoral meridional.</div>
+                <div class="porque">A mortandade foi muito mais severa do que uma pequena oscilação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">450 mil habitantes distribuídos por reservas administradas pelo parlamento inglês.</div>
+                <div class="porque">A população restante em 1900 foi de apenas uma fração desse montante.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">300 mil pessoas concentradas nas principais capitais dos estados australianos.</div>
+                <div class="porque">Em 1900 sobreviviam apenas cerca de 100 mil aborígenes na Austrália.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">100 mil sobreviventes.</div>
+                <div class="porque">Em torno de 1900 restavam aproximadamente 100 mil dos 750 mil nativos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Sob o leito marinho do Oceano Glacial Ártico encontra-se uma riqueza estratégica estimada em:</div>
+            <div class="alternativa certa">
+                <div class="opcao">um quarto do gás e petróleo.</div>
+                <div class="porque">Cerca de 25% dos hidrocarbonetos não explorados estão sob o Ártico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">metade das jazidas de terras raras utilizadas em baterias de veículos elétricos.</div>
+                <div class="porque">As maiores reservas de terras raras situam-se em solos da China e Brasil.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">todo o carvão mineral necessário para abastecer as siderúrgicas da Europa Ocidental.</div>
+                <div class="porque">O interesse econômico no Ártico concentra-se em petróleo e gás offshore.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">três quartos das reservas globais de urânio enriquecido para usinas nucleares.</div>
+                <div class="porque">O urânio é encontrado em depósitos continentais de Austrália e Cazaquistão.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">As capitais políticas da Austrália e da Nova Zelândia são, respectivamente:</div>
+            <div class="alternativa">
+                <div class="opcao">Melbourne e Auckland, os dois maiores centros metropolitanos e portuários da região.</div>
+                <div class="porque">São grandes metrópoles econômicas, mas não as sedes oficiais de governo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Sydney e Christchurch, cidades fundadas estrategicamente durante o ciclo do ouro.</div>
+                <div class="porque">Sydney e Christchurch não exercem a função de capitais nacionais federais.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Camberra e Wellington.</div>
+                <div class="porque">Camberra é a capital australiana e Wellington a da Nova Zelândia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Brisbane e Queenstown, importantes polos turísticos e sedes de governos locais.</div>
+                <div class="porque">São cidades importantes para o turismo, mas não as capitais federais.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">No período posterior à Segunda Guerra Mundial, a disputa geopolítica pelo Ártico foi liderada por:</div>
+            <div class="alternativa">
+                <div class="opcao">Reino Unido e França, buscando restabelecer rotas marítimas imperiais no Atlântico.</div>
+                <div class="porque">A liderança da Guerra Fria coube às superpotências soviética e norte-americana.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Estados Unidos e Rússia.</div>
+                <div class="porque">EUA e URSS/Rússia disputaram rotas polares e influência estratégica militar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">China e Japão, interessados no escoamento de manufaturados para portos do norte.</div>
+                <div class="porque">Nações asiáticas não participaram da partilha polar imediata no pós-guerra.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Alemanha e Canadá, visando à exploração conjunta de reservas minerais de bauxita.</div>
+                <div class="porque">A Alemanha derrotada não liderou a geopolítica estratégica no Ártico.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Prudhoe Bay destaca-se no cenário geopolítico e econômico do Ártico por ser uma importante área de:</div>
+            <div class="alternativa">
+                <div class="opcao">preservação ambiental integral onde é estritamente proibida a presença industrial.</div>
+                <div class="porque">Prudhoe Bay abriga um dos mais ativos parques petrolíferos dos EUA.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">bases militares submarinas permanentes sob controle da aliança militar da OTAN.</div>
+                <div class="porque">O local é polo de extração mineral de óleo e não base naval da OTAN.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">testes de satélites meteorológicos em cooperação internacional com a União Europeia.</div>
+                <div class="porque">A notoriedade do complexo advém dos imensos volumes de petróleo bruto.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">extração de petróleo no Alasca.</div>
+                <div class="porque">É o principal campo produtor de petróleo dos EUA em bacias árticas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Em 2007, a Rússia enviou submarinos para fincar uma bandeira de titânio no leito do Ártico com o objetivo de:</div>
+            <div class="alternativa certa">
+                <div class="opcao">reivindicar vastas reservas.</div>
+                <div class="porque">Moscou buscou afirmar direitos territoriais sobre o leito rico em óleo e gás.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">assinar um tratado de desmilitarização definitiva com os países membros da OTAN.</div>
+                <div class="porque">A expedição russa elevou as tensões territoriais em vez de desmilitarizar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">delimitar uma reserva ecológica protegida contra a pesca predatória de baleias.</div>
+                <div class="porque">A missão tinha caráter de soberania geopolítica e energética declarada.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">comemorar a primeira travessia comercial de cargueiros civis na Rota do Norte.</div>
+                <div class="porque">A bandeira foi fincada no fundo do oceano para reivindicar a plataforma.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">O interior do território australiano, conhecido geograficamente como *Outback*, caracteriza-se por:</div>
+            <div class="alternativa">
+                <div class="opcao">densas florestas equatoriais úmidas que concentram a maior parte da população do país.</div>
+                <div class="porque">O interior da Austrália é desértico, sem grandes matas equatoriais úmidas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">planaltos montanhosos com neves eternas propícios para a geração de hidroeletricidade.</div>
+                <div class="porque">A topografia interiorana é árida e plana, sem cordilheiras de neves eternas.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">clima árido e baixa densidade.</div>
+                <div class="porque">O Outback é desértico e semiárido, com vazios demográficos marcantes.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">planícies aluviais intensamente povoadas com cultivo contínuo de arroz irrigado.</div>
+                <div class="porque">A carência de água superficial no interior impede arrozais intensivos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Apesar das disputas de soberania territorial, as dificuldades operacionais extremas no Ártico estimulam:</div>
+            <div class="alternativa">
+                <div class="opcao">a renúncia formal e imediata dos países litorâneos a qualquer reserva de hidrocarbonetos.</div>
+                <div class="porque">Nenhuma nação ártica abriu mão de suas pretensões energéticas marinhas.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">parcerias entre estatais e privadas.</div>
+                <div class="porque">O alto custo e o gelo impõem consórcios conjuntos entre multinacionais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a transferência do controle administrativo exclusivo da calota polar para a ONU.</div>
+                <div class="porque">A gestão é disputada por países soberanos, sem entrega de controle à ONU.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o boicote comercial integral de todas as grandes companhias transnacionais do setor.</div>
+                <div class="porque">As gigantes petrolíferas investem bilhões na exploração de poços árticos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Durante a estação do verão no Hemisfério Norte, o derretimento do gelo marinho no Ártico provoca:</div>
+            <div class="alternativa">
+                <div class="opcao">a interrupção obrigatória de todo o tráfego marítimo devido à formação de icebergs.</div>
+                <div class="porque">O recuo do gelo marinho no verão libera corredores para trânsito de navios.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a elevação do custo dos fretes em virtude da impossibilidade de usar quebra-gelos.</div>
+                <div class="porque">As rotas mais curtas reduzem custos de combustíveis e dias de frete naval.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a drenagem completa de bacias sedimentares petrolíferas na plataforma continental.</div>
+                <div class="porque">O degelo afeta a cobertura de gelo marinho, sem drenar o leito rochoso.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">abertura de rotas de navegação.</div>
+                <div class="porque">O degelo encurta percursos comerciais entre oceanos durante o verão.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">A instalação de bases e radares militares por potências no Oceano Glacial Ártico resulta em:</div>
+            <div class="alternativa certa">
+                <div class="opcao">maior tensão e risco de conflitos.</div>
+                <div class="porque">A militarização constante por EUA e Rússia eleva o perigo de atritos armados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">garantia de desarmamento nuclear definitivo em todas as fronteiras setentrionais.</div>
+                <div class="porque">Bases e submarinos nucleares operam ativamente no espaço polar ártico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">eliminação imediata de litígios jurídicos sobre as plataformas continentais do norte.</div>
+                <div class="porque">A presença de forças armadas intensifica as disputas de limites no mar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">proibição do trânsito de embarcações científicas em águas territoriais e alto-mar.</div>
+                <div class="porque">Missões científicas continuam ocorrendo paralelamente à presença militar.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">As políticas coloniais de "assimilação cultural" impostas aos aborígenes australianos consistiam em:</div>
+            <div class="alternativa">
+                <div class="opcao">incentivar a preservação autônoma de seus dialetos nativos e pinturas em cavernas.</div>
+                <div class="porque">As autoridades coloniais proibiam a transmissão de costumes tradicionais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">garantir representação partidária igualitária nos tribunais jurídicos imperiais.</div>
+                <div class="porque">Nativos foram excluídos da cidadania e dos direitos civis na Austrália.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">impor o modo de vida britânico.</div>
+                <div class="porque">Obrigar a adoção da língua, religião e hábitos do colonizador inglês.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">promover o intercâmbio de líderes tribais para fundar escolas indígenas na Europa.</div>
+                <div class="porque">A política estatal visava ao apagamento cultural das tradições originárias.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">No cenário econômico global contemporâneo, a balança comercial da Austrália destaca-se pela:</div>
+            <div class="alternativa">
+                <div class="opcao">importação maciça de alimentos frescos procedentes dos países insulares da Polinésia.</div>
+                <div class="porque">A Austrália é uma grande exportadora de produtos agropecuários no mundo.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">exportação de minérios para a Ásia.</div>
+                <div class="porque">Minério de ferro e carvão australianos abastecem polos industriais asiáticos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">liderança mundial na venda de semicondutores e microprocessadores para a Europa.</div>
+                <div class="porque">A liderança de microprocessadores pertence a Taiwan, Coreia do Sul e EUA.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">produção e refino de combustíveis fósseis voltados exclusivamente para a África.</div>
+                <div class="porque">Os fluxos de mineração da Austrália são direcionados sobretudo à Ásia.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Os povos maoris, habitantes originários da Nova Zelândia, enfrentaram o domínio europeu através de:</div>
+            <div class="alternativa">
+                <div class="opcao">alianças imediatas que concederam aos chefes tribais o controle da marinha britânica.</div>
+                <div class="porque">Chefes maoris não assumiram o comando militar da esquadra britânica.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">assimilação passiva e total sem registrar nenhuma forma de resistência armada local.</div>
+                <div class="porque">Os maoris travaram intensas guerras contra a expropriação britânica.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">migração em canoas para a costa australiana para escapar da expansão imperialista.</div>
+                <div class="porque">Permaneceram em suas ilhas defendendo seus territórios e cultura nativa.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">resistência armada e perda de terras.</div>
+                <div class="porque">Lutaram nas Guerras Maoris, sofrendo massacres e desapropriações de terras.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">A Convenção das Nações Unidas sobre o Direito do Mar (CNUDM) é central para as disputas no Ártico porque:</div>
+            <div class="alternativa certa">
+                <div class="opcao">regula a plataforma continental.</div>
+                <div class="porque">Define limites para a extensão dos direitos soberanos sobre o leito marinho.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">declara o leito ártico patrimônio exclusivo e intocável dos povos inuítes locais.</div>
+                <div class="porque">A CNUDM permite a exploração por Estados costeiros se provada a extensão.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">impede a exploração de combustíveis fósseis por países que integram o Conselho Ártico.</div>
+                <div class="porque">A legislação marítima não proíbe a extração de hidrocarbonetos offshore.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">obriga a desativação de todas as refinarias de petróleo no estado norte-americano do Alasca.</div>
+                <div class="porque">Tratados marítimos internacionais não legislam sobre refinarias em terra.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Analisando o relevo e a ocupação da Austrália, a concentração demográfica no litoral sul e sudeste explica-se por:</div>
+            <div class="alternativa">
+                <div class="opcao">restrições legais da Coroa que proíbem qualquer atividade mineradora no interior do país.</div>
+                <div class="porque">A mineração no interior árido é uma das bases mais ricas do PIB australiano.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">presença de densos manguezais pantanosos que impedem a fixação urbana no litoral norte.</div>
+                <div class="porque">O fator determinante é o clima temperado do sul contra o deserto interior.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">clima ameno e deserto no interior.</div>
+                <div class="porque">As chuvas regulares do sudeste contrastam com a aridez inóspita do Outback.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">acordos internacionais que reservam o interior para assentamentos exclusivos aborígenes.</div>
+                <div class="porque">O interior tem terras desérticas e não reservas exclusivas de preservação.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">O envio de submarinos russos à Dorsal de Lomonosov em 2007 teve como fundamento geológico tentar provar que:</div>
+            <div class="alternativa">
+                <div class="opcao">a calota de gelo flutuante não sofreu retração durante os últimos períodos interglaciais.</div>
+                <div class="porque">A alegação russa apoiava-se em relevo submarino rochoso, não em gelo flutuante.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">a cordilheira é extensão do seu país.</div>
+                <div class="porque">Moscou argumentou que a dorsal é prolongamento de sua plataforma continental.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o manto freático subterrâneo conecta o polo norte magnético aos rios da Sibéria ocidental.</div>
+                <div class="porque">A reivindicação pautou-se na geologia marinha e nos limites da Convenção do Mar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a fossa submarina pertence aos domínios oceânicos internacionais administrados pela ONU.</div>
+                <div class="porque">A Rússia buscou nacionalizar o território marinho em proveito próprio.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">A redução do tempo de percurso marítimo propiciada pelo derretimento estival do gelo no Ártico conecta diretamente:</div>
+            <div class="alternativa">
+                <div class="opcao">o Oceano Índico meridional aos estreitos portuários da Terra do Fogo na América do Sul.</div>
+                <div class="porque">O Índico e a Terra do Fogo ficam no Hemisfério Sul, longe do Oceano Ártico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">as rotas fluviais da bacia amazônica aos portos de carvão do litoral da África Ocidental.</div>
+                <div class="porque">O comércio equatorial do Atlântico não depende das passagens do polo norte.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">os arquipélagos da Micronésia aos canais de comércio de grãos do Mar Mediterrâneo oriental.</div>
+                <div class="porque">O tráfego mediterrâneo com o Pacífico usa prioritariamente o Canal de Suez.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">os oceanos Atlântico e Pacífico.</div>
+                <div class="porque">As rotas árticas do norte ligam os portos da Europa e Ásia mais rápido.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Entre as causas da tragédia demográfica dos povos originários na Oceania colonial, o fator biológico decisivo foi:</div>
+            <div class="alternativa certa">
+                <div class="opcao">epidemias trazidas por europeus.</div>
+                <div class="porque">Gripe, varíola e sarampo mataram milhares sem imunidade natural.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">carência nutricional gerada pela introdução de lavouras de trigo e cevada nas ilhas.</div>
+                <div class="porque">A causa biológica primária foram os agentes patogênicos virais e bacterianos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">choque anafilático causado por picadas de insetos exóticos trazidos em navios de carga.</div>
+                <div class="porque">O colapso populacional decorreu de doenças infectocontagiosas humanas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">mutações genéticas decorrentes da exposição solar prolongada em áreas desertificadas.</div>
+                <div class="porque">Os aborígenes já viviam perfeitamente adaptados ao clima há milênios.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Ao comparar a ocupação geopolítica do Ártico com a da Antártida, constata-se uma diferença jurídica crucial:</div>
+            <div class="alternativa">
+                <div class="opcao">a Antártida possui extensas reservas de petróleo exploradas livremente por potências do G7.</div>
+                <div class="porque">O Tratado da Antártida congela reivindicações e proíbe a extração mineral.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o Ártico é protegido por um tratado que proíbe qualquer exploração econômica ou militar.</div>
+                <div class="porque">No Ártico não há tratado desmilitarizado; prevalecem disputas de soberania.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">o Ártico é disputado por países costeiros.</div>
+                <div class="porque">As terras e mares polares do norte são reivindicados por Estados vizinhos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a Antártida é habitada por nações indígenas com soberania reconhecida pelas Nações Unidas.</div>
+                <div class="porque">A Antártida não possui população autóctone originária nem cidades nativas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">A regionalização tradicional da Oceania em Melanésia, Micronésia e Polinésia apoia-se em critérios de:</div>
+            <div class="alternativa">
+                <div class="opcao">alinhamento militar com as superpotências durante os conflitos armados da Guerra Fria.</div>
+                <div class="porque">A divisão regional foi proposta no século XIX por viajantes e geógrafos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">etnia, cultura e geografia das ilhas.</div>
+                <div class="porque">Baseia-se em traços culturais, linguísticos e espaciais dos arquipélagos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">capacidade tecnológica de refino de petróleo e minério de ferro em parques industriais.</div>
+                <div class="porque">A maior parte das ilhas oceânicas possui economias turísticas ou agrícolas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">extensão das plataformas continentais reivindicadas junto à comissão jurídica da ONU.</div>
+                <div class="porque">A divisão é antropológica e geográfica, anterior às convenções da ONU.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Apesar de serem potências rivais no cenário internacional, empresas dos EUA e da Rússia no Ártico já atuaram em conjunto devido a:</div>
+            <div class="alternativa">
+                <div class="opcao">diretrizes da ONU que obrigam a fusão societária de todas as petroleiras polares estatais.</div>
+                <div class="porque">A ONU não tem autoridade jurídica para exigir fusão compulsória de empresas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">tratados multilaterais que exigem a doação de metade dos lucros para as tribos inuítes.</div>
+                <div class="porque">A cooperação visa a diluir riscos financeiros e custos de tecnologia extrema.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">ausência de tecnologia russa de sondagem geofísica em bacias sedimentares submarinas rasas.</div>
+                <div class="porque">A Rússia possui forte frota quebra-gelo, mas divide os imensos custos de poços.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">altos custos e severidade climática.</div>
+                <div class="porque">Os riscos operacionais e investimentos vultosos exigem consórcios conjuntos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">As chamadas "gerações roubadas" (*Stolen Generations*) na história australiana foram resultado direto de:</div>
+            <div class="alternativa certa">
+                <div class="opcao">assimilação que separava crianças.</div>
+                <div class="porque">Políticas estatais retiravam crianças nativas para criá-las em lares brancos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">deportação de rebeldes maoris para campos de trabalho forçado em ilhas da Micronésia.</div>
+                <div class="porque">O episódio ocorreu na Austrália envolvendo crianças aborígenes, não maoris.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">recrutamento militar obrigatório de jovens nativos para combater na Guerra do Pacífico.</div>
+                <div class="porque">A política era de assimilação cultural forçada e aculturação de famílias.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">quarentenas forçadas em áreas de mineração de ouro durante epidemias de febre amarela.</div>
+                <div class="porque">Tratava-se de engenharia social racista e não de medidas de saúde pública.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">A abertura de novas rotas marítimas polares no Ártico reduzirá o fluxo comercial e a dependência estratégica de passagens como:</div>
+            <div class="alternativa">
+                <div class="opcao">o Estreito de Gibraltar e o Estreito de Bering, que operam com capacidade saturada no mar.</div>
+                <div class="porque">O Estreito de Bering é justamente a porta de saída da rota marítima ártica.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o Canal da Mancha e o Rio Danúbio, rotas fluviais continentais de alta tonelagem de carga.</div>
+                <div class="porque">O Danúbio é hidrovia interior europeia e não rota de circulação oceânica global.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">o Canal de Suez e o Canal do Panamá.</div>
+                <div class="porque">A Rota do Norte encurta o trânsito Euro-Asiático sem passar por Suez ou Panamá.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o Estreito de Magalhães e a Passagem de Drake, localizados no extremo sul do planeta.</div>
+                <div class="porque">As passagens austrais do sul já são pouco usadas pela marinha mercante moderna.</div>
+            </div>
+        </div>
+    </section>
+    <!-- ZONA 5 FIM -->
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<!-- BLOCO TRAVADO: SELOS E MOTOR. COPIE IGUAL. -->
+<script id="selo">
+const SELO_MOTOR = "db5bcc72";
+const SELO_CSS = "1b813fa0";
+</script>
+<script id="motor">
+const searchInput = document.getElementById('searchInput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchInput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) {
+            group.style.display = 'flex';
+            totalVisible++;
+        } else {
+            group.style.display = 'none';
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+// --- LEITURA DAS QUESTOES (vem do HTML) ---
+function htmlDe(pai, seletor) {
+    const el = pai ? pai.querySelector(seletor) : null;
+    return el ? el.innerHTML.trim() : '';
+}
+
+const questions = Array.from(document.querySelectorAll('#bancoQuestoes .questao')).map((bloco, i) => {
+    const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+    const certa = Math.max(alternativas.findIndex(a => a.classList.contains('certa')), 0);
+    return {
+        id: i + 1,
+        level: bloco.dataset.nivel,
+        text: htmlDe(bloco, ':scope > .enunciado'),
+        options: alternativas.map(a => htmlDe(a, ':scope > .opcao')),
+        correct: certa,
+        explanation: {
+            correct: htmlDe(alternativas[certa], ':scope > .porque'),
+            options: alternativas.map((a, j) => j === certa ? 'Certa' : htmlDe(a, ':scope > .porque'))
+        }
+    };
+});
+
+// --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) E LÓGICA ---
+const storageKey = 'promover_quiz_' + document.title.replace(/\s+/g, '_');
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+try {
+    const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(savedAnswers) && savedAnswers.length === questions.length) userAnswers = savedAnswers;
+} catch (e) { /* Sem salvamento disponível: a página continua funcionando. */ }
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion();
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+    }
+    window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    let badgeClass = '';
+    if(q.level === 'Fácil') badgeClass = 'dif-facil';
+    else if(q.level === 'Médio') badgeClass = 'dif-medio';
+    else badgeClass = 'dif-dificil';
+
+    container.innerHTML = `
+    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+        <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+            <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+        </div>
+        <div class="options-list">
+            ${q.options.map((opt, i) => {
+                let cls = '';
+                if (ans !== null) {
+                    if (i === q.correct) cls = 'correct';
+                    else if (i === ans) cls = 'wrong';
+                    else cls = 'disabled';
+                }
+                return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                    <div class="opt-circle">${letters[i]}</div>
+                    <div>${opt}</div>
+                </button>
+                `;
+            }).join('')}
+        </div>
+        ${ans !== null ? `
+        <div class="feedback-box">
+            <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '❌ Ops! Falha Detectada:'}
+            </div>
+            <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+            <div style="margin-top:10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                ${q.explanation.correct}
+            </div>
+            <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+            </div>
+        </div>
+        ` : ''}
+    </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    userAnswers[currentQuestion] = idx;
+    try { localStorage.setItem(storageKey, JSON.stringify(userAnswers)); } catch (e) { /* Sem salvamento disponível. */ }
+    if (idx === questions[currentQuestion].correct) {
+        if (window.confetti) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth;
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    renderQuestion();
+    renderMap();
+    const feedback = document.querySelector('.feedback-box');
+    if (feedback) feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) {
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+    }).join('');
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) {
+            const mapBox = map.getBoundingClientRect();
+            const dotBox = activeDot.getBoundingClientRect();
+            map.scrollTo({ left: map.scrollLeft + dotBox.left - mapBox.left - (mapBox.width - dotBox.width) / 2, behavior: 'smooth' });
+        }
+    }, 50);
+}
+
+function goTo(i) {
+    if (window.confetti) confetti.reset();
+    currentQuestion = i;
+    renderQuestion();
+    renderMap();
+    document.getElementById('qMap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function changeQuestion(d) {
+    let n = currentQuestion + d;
+    if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    if (currentQuestion === questions.length - 1) {
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish;
+    } else {
+        next.textContent = "Avançar";
+        next.onclick = () => changeQuestion(1);
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    if (window.confetti) confetti.reset();
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+            <strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a meta de 80%. Revise a teoria com atenção antes de tentar novamente.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>`;
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+            <strong>🎉 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre os conceitos avaliados. Continue revisando para fazer a prova com segurança.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Refazer Prova (Zerar Histórico)</button>`;
+    }
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">${userAnswers[i] === null ? 'Questão não respondida' : 'Seu Erro: ' + q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    try { localStorage.removeItem(storageKey); } catch (e) { /* Sem salvamento disponível. */ }
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+
+// --- VERIFICADOR AUTOMATICO DA PAGINA ---
+function seloDe(texto) {
+    const limpo = texto.replace(/[^\x21-\x7E]/g, '');
+    let h = 2166136261;
+    for (let i = 0; i < limpo.length; i++) {
+        h ^= limpo.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0).toString(16);
+}
+
+function textoDe(html) {
+    const modelo = document.createElement('template');
+    modelo.innerHTML = html;
+    return modelo.content.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function verificarPagina() {
+    const erros = [];
+    const letras = ['A', 'B', 'C', 'D'];
+    const conteudo = [
+        document.title,
+        document.querySelector('.logo-header').innerHTML,
+        document.getElementById('viewExplanation').innerHTML,
+        document.getElementById('bancoQuestoes').innerHTML
+    ].join(' ');
+
+    const seloMotor = document.getElementById('motor');
+    const seloCss = document.getElementById('css-motor');
+    if (typeof SELO_MOTOR === 'undefined' || !seloMotor || seloDe(seloMotor.textContent) !== SELO_MOTOR) erros.push('O motor JavaScript foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (typeof SELO_CSS === 'undefined' || !seloCss || seloDe(seloCss.textContent) !== SELO_CSS) erros.push('O CSS do motor foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (conteudo.includes('[[') || conteudo.includes(']]')) erros.push('Ficou algum campo [[...]] sem preencher.');
+    if (conteudo.includes('**')) erros.push('Há Markdown (**) dentro do HTML. Use <strong>.');
+    if (document.querySelector('#viewExplanation script, #bancoQuestoes script, #viewExplanation iframe, #bancoQuestoes iframe')) erros.push('Há script ou iframe dentro das zonas de conteúdo.');
+    if (document.querySelector('#viewExplanation img, #bancoQuestoes img')) erros.push('Há imagem externa. Desenhe com SVG.');
+
+    document.querySelectorAll('#viewExplanation svg, #bancoQuestoes svg').forEach((svg, i) => {
+        if (!svg.getAttribute('viewBox') || !svg.getAttribute('aria-label')) erros.push('O desenho SVG ' + (i + 1) + ' precisa de viewBox e aria-label.');
+    });
+
+    const grupos = document.querySelectorAll('#viewExplanation .content-group');
+    if (grupos.length < 2) erros.push('A teoria precisa de pelo menos 2 temas.');
+    grupos.forEach((g, i) => {
+        if (!g.querySelector('.section-badge') || !g.querySelector('.theory-box')) erros.push('O tema ' + (i + 1) + ' da teoria está sem .section-badge ou .theory-box.');
+    });
+
+    const blocos = Array.from(document.querySelectorAll('#bancoQuestoes .questao'));
+    if (blocos.length !== 30) erros.push('São ' + blocos.length + ' questões, mas precisam ser exatamente 30.');
+
+    const enunciados = new Set();
+    const contagem = [0, 0, 0, 0];
+    let longas = 0;
+    let sequencia = 0;
+    let ultima = -1;
+
+    blocos.forEach((bloco, i) => {
+        const q = 'Questão ' + (i + 1) + ': ';
+        const esperado = i < 10 ? 'Fácil' : i < 20 ? 'Médio' : 'Difícil';
+        if (bloco.dataset.nivel !== esperado) erros.push(q + 'o nível deveria ser ' + esperado + '.');
+
+        const enunciadoEl = bloco.querySelector(':scope > .enunciado');
+        const enunciado = enunciadoEl ? textoDe(enunciadoEl.innerHTML) : '';
+        if (!enunciado) erros.push(q + 'falta o enunciado.');
+        if (enunciado && enunciados.has(enunciado)) erros.push(q + 'enunciado repetido.');
+        enunciados.add(enunciado);
+
+        const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+        if (alternativas.length !== 4) erros.push(q + 'precisa de exatamente 4 alternativas.');
+        const certas = alternativas.filter(a => a.classList.contains('certa'));
+        if (certas.length !== 1) erros.push(q + 'precisa de exatamente 1 alternativa certa.');
+
+        const textos = alternativas.map(a => {
+            const el = a.querySelector(':scope > .opcao');
+            return el ? textoDe(el.innerHTML) : '';
+        });
+        if (textos.some(t => !t)) erros.push(q + 'há alternativa sem texto.');
+        if (new Set(textos).size !== textos.length) erros.push(q + 'há alternativas repetidas.');
+
+        alternativas.forEach((a, j) => {
+            const el = a.querySelector(':scope > .porque');
+            const porque = el ? textoDe(el.innerHTML) : '';
+            const letra = letras[j] || '?';
+            if (!porque) erros.push(q + 'a alternativa ' + letra + ' está sem explicação.');
+            if (porque.length > 110) erros.push(q + 'a explicação da alternativa ' + letra + ' passou de 110 caracteres.');
+        });
+
+        const indice = alternativas.findIndex(a => a.classList.contains('certa'));
+        if (indice >= 0 && indice < 4) {
+            contagem[indice]++;
+            sequencia = indice === ultima ? sequencia + 1 : 1;
+            ultima = indice;
+            if (sequencia === 4) erros.push(q + 'são 4 respostas seguidas com a mesma letra.');
+            const tamanhos = textos.map(t => t.length);
+            const outros = tamanhos.filter((_, j) => j !== indice);
+            if (tamanhos[indice] > 20 && tamanhos[indice] - Math.max(...outros) >= 6) longas++;
+        }
+    });
+
+    contagem.forEach((total, i) => {
+        if (blocos.length === 30 && (total < 5 || total > 10)) erros.push('A letra ' + letras[i] + ' é a certa em ' + total + ' questões. Use de 6 a 9.');
+    });
+    if (longas > 3) erros.push('A alternativa certa é claramente a mais longa em ' + longas + ' questões. Equilibre os tamanhos.');
+
+    const aviso = document.getElementById('avisoMotor');
+    if (erros.length === 0) {
+        aviso.remove();
+        window.PAGINA_OK = true;
+        return;
+    }
+    const lista = erros.slice(0, 25).map(e => '<li>' + e.replace(/</g, '&lt;') + '</li>').join('');
+    aviso.innerHTML = '<strong>⚠️ A página precisa de correção. Não envie aos alunos.</strong><br>Copie esta lista, cole no Gemini e peça para corrigir só estes itens:<ol style="margin:8px 0 0 20px;">' + lista + '</ol>';
+}
+
+verificarPagina();
+</script>
+</body>
+</html>
