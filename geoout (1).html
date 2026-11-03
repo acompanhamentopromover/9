@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ásia e Oriente Médio 9º Ano - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+    --bg-color: #EFF6FF;
+    --text-color: #0F172A;
+    --border-color: #000000;
+    --white: #FFFFFF;
+    --theme-light: #DBEAFE;
+    --theme-medium: #60A5FA;
+    --theme-dark: #1E3A8A;
+    --theme-contrast: #B45309;
+    --theme-accent: #2563EB;
+    --theme-text-active: #FFFFFF;
+    /* NÃO ALTERAR AS CORES ABAIXO */
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+    background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); color: var(--theme-contrast); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); color: var(--theme-contrast); }
+    100% { transform: scale(1); }
+}
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center;}
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container { position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 { font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.5rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot { min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled { pointer-events: none; opacity: 0.7; }
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display:flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+.result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big { font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.feedback-box { scroll-margin-top: 12px; scroll-margin-bottom: 90px; }
+.question-map { scroll-margin-top: 8px; }
+td, th { padding: 6px 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🚀</span> PROMOVER</div>
+        <h1>Geografia – 9º&nbsp;Ano</h1>
+        <p class="subtitle">Ásia e Oriente Médio: Guerra Fria e Nova Ordem Mundial</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Prática (30)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito...">
+        </div>
+        <div id="no-results"><p>😕 Termo não encontrado.</p></div>
+
+        <!-- TEMA 1 -->
+        <div class="content-group">
+            <span class="section-badge">1. Guerra Fria na Ásia</span>
+            <div class="theory-box">
+                <h3>🌏 Guerra Fria e a Ásia</h3>
+                <p>Após a 2ª Guerra (1945), os <strong>EUA (capitalismo)</strong> e a <strong>URSS (socialismo)</strong> disputaram a liderança do mundo, em um <strong>mundo bipolar</strong>, sem se enfrentarem diretamente.</p>
+                <p>Na Ásia, as duas potências travaram <strong>guerras indiretas</strong>, apoiando lados opostos em países divididos.</p>
+            </div>
+            <div class="theory-box">
+                <h3>⚔️ Guerra da Coreia (1950–1953)</h3>
+                <p>Após a 2ª Guerra, a Coreia foi dividida no <strong>paralelo 38</strong>: o <strong>Norte (socialista)</strong> ficou sob influência da URSS, e o <strong>Sul (capitalista)</strong>, sob influência dos EUA.</p>
+                <p>Em <strong>1950</strong>, o Norte invadiu o Sul. China e URSS apoiaram o Norte, e a ONU, liderada pelos EUA, apoiou o Sul.</p>
+                <p>Em <strong>1953</strong>, houve um <strong>armistício</strong>, e não um tratado de paz. A divisão permanece até hoje.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🌿 Guerra do Vietnã (1955–1975)</h3>
+                <p>Após se libertar da França (1954), o Vietnã foi dividido em <strong>Norte socialista</strong> (Ho Chi Minh, apoiado por URSS e China) e <strong>Sul capitalista</strong> (apoiado pelos EUA).</p>
+                <p>Foi um conflito <strong>ideológico</strong>: capitalismo contra socialismo. Os EUA enviaram tropas, mas a guerrilha vietcongue e o Norte resistiram.</p>
+                <p>Os EUA se retiraram em <strong>1973</strong>. Em <strong>1975</strong>, o Norte venceu a guerra, e depois o país foi reunificado como socialista.</p>
+                <div class="highlight-box">
+                    <strong>Detalhe:</strong> a guerra terminou em 1975, e a reunificação oficial do país aconteceu em 1976.
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 2 -->
+        <div class="content-group">
+            <span class="section-badge">2. Pan-arabismo e Afeganistão</span>
+            <div class="theory-box">
+                <h3>🕌 Pan-arabismo</h3>
+                <p>Foi um movimento <strong>político e cultural</strong> que buscava <strong>unir os povos árabes</strong> (língua, cultura e história comuns) e reduzir a influência estrangeira.</p>
+                <p>Teve como líder o egípcio <strong>Nasser</strong>.</p>
+            </div>
+            <div class="theory-box">
+                <h3>⛰️ Afeganistão</h3>
+                <p>A <strong>URSS invadiu</strong> o país em <strong>1979</strong>. Guerrilheiros <strong>apoiados pelos EUA</strong> resistiram, e os soviéticos saíram em 1989.</p>
+                <p>Depois surgiu o <strong>Talibã</strong>. Os EUA invadiram o país em <strong>2001</strong>, após os atentados de 11 de setembro.</p>
+                <div class="highlight-box">
+                    <strong>Atualização:</strong> em 2021, com a retirada das tropas dos EUA, o Talibã voltou ao poder.
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 3 -->
+        <div class="content-group">
+            <span class="section-badge">3. Nova Ordem Mundial e China</span>
+            <div class="theory-box">
+                <h3>🌐 Nova Ordem Mundial</h3>
+                <p>Com o fim da URSS (<strong>1991</strong>), os EUA ficaram como <strong>única superpotência militar</strong>, e o mundo passou a ter <strong>vários polos econômicos</strong>: EUA, União Europeia, Japão e China.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🏭 A abertura da China</h3>
+                <p>Desde <strong>1978</strong>, a China fez uma <strong>abertura econômica</strong>:</p>
+                <ul style="padding-left: 20px;">
+                    <li>criou zonas econômicas especiais no litoral;</li>
+                    <li>atraiu capital estrangeiro;</li>
+                    <li>criou plataformas de exportação;</li>
+                    <li>usou mão de obra numerosa e barata.</li>
+                </ul>
+                <p>Assim, virou a “fábrica do mundo” e a <strong>2ª maior economia</strong>, mas manteve o <strong>partido único</strong>.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🤝 “Um país, dois sistemas”</h3>
+                <p><strong>Hong Kong (1997)</strong> e <strong>Macau (1999)</strong> voltaram à China, mas mantêm <strong>economia capitalista e autonomia</strong>, enquanto o restante do país é socialista.</p>
+                <div class="highlight-box">
+                    <strong>Atualização:</strong> desde 2020, uma lei de segurança nacional para Hong Kong gera debate. Críticos dizem que ela reduziu a autonomia, e os governos da China e de Hong Kong afirmam que ela mira apenas um pequeno número de pessoas.
+                </div>
+            </div>
+            <div class="theory-box">
+                <h3>✊ Praça da Paz Celestial (1989)</h3>
+                <p><strong>Estudantes e trabalhadores</strong> ocuparam a praça, em Pequim, pedindo mudanças políticas, democracia e liberdade.</p>
+                <p>O governo declarou <strong>lei marcial</strong> e reprimiu com o exército: foi o <strong>massacre</strong> dos manifestantes.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🏝️ Taiwan</h3>
+                <p>É uma ilha com <strong>governo próprio desde 1949</strong>, que a China considera parte de seu território. Os EUA apoiam a ilha, e isso gera <strong>tensão</strong>.</p>
+            </div>
+        </div>
+
+        <!-- TEMA 4 -->
+        <div class="content-group">
+            <span class="section-badge">4. Conflito árabe-israelense</span>
+            <div class="theory-box">
+                <h3>🗺️ A disputa pelo território</h3>
+                <p>Judeus (movimento <strong>sionista</strong>) e <strong>árabes palestinos</strong> reivindicam o mesmo território, a Palestina.</p>
+                <div class="visual-area" style="font-size: 0.9rem; flex-direction: column; gap: 8px;">
+                    <span>1947 ➜ a ONU propôs a partilha</span>
+                    <span>1948 ➜ foi criado Israel</span>
+                    <span>Depois ➜ guerras, ocupação de territórios e refugiados palestinos</span>
+                </div>
+            </div>
+            <div class="theory-box">
+                <h3>🕍 Jerusalém</h3>
+                <p>É uma cidade <strong>sagrada para judeus, cristãos e muçulmanos</strong>. Tanto israelenses quanto palestinos a querem como <strong>capital</strong>.</p>
+            </div>
+        </div>
+
+        <!-- TEMA 5 -->
+        <div class="content-group">
+            <span class="section-badge">5. Primavera Árabe e Síria</span>
+            <div class="theory-box">
+                <h3>📱 Primavera Árabe</h3>
+                <p>Entre <strong>2010 e 2011</strong>, protestos populares contra <strong>governos autoritários, corrupção e desemprego</strong>, organizados pelas <strong>redes sociais</strong>, espalharam-se pelo mundo árabe, em países como Tunísia, Egito, Líbia e Síria.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🏚️ Guerra na Síria</h3>
+                <p>Na Síria, os protestos contra <strong>Bashar al-Assad</strong> foram reprimidos e viraram <strong>guerra civil (2011)</strong>, com <strong>milhões de refugiados</strong> e a entrada de potências estrangeiras e do <strong>Estado Islâmico</strong>.</p>
+                <div class="highlight-box">
+                    <strong>Atualização:</strong> em dezembro de 2024, Assad deixou o poder, e a Síria passou a ter um governo de transição.
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 6 -->
+        <div class="content-group">
+            <span class="section-badge">6. Receita e dicas de ouro</span>
+            <div class="theory-box">
+                <h3>📝 Como responder questões de Geografia</h3>
+                <p><strong>1.</strong> Localize o <strong>lugar</strong> e o <strong>período</strong>.</p>
+                <p><strong>2.</strong> Diga <strong>o que aconteceu</strong>.</p>
+                <p><strong>3.</strong> Cite <strong>quem participou</strong>.</p>
+                <p><strong>4.</strong> Explique a <strong>causa</strong> e a <strong>consequência</strong>.</p>
+            </div>
+            <div class="theory-box">
+                <h3>⭐ Dicas de ouro</h3>
+                <p><strong>Coreia:</strong> paralelo 38, armistício 1953.</p>
+                <p><strong>Vietnã:</strong> Norte (URSS) x Sul (EUA), 1975.</p>
+                <p><strong>China:</strong> abertura 1978, Paz Celestial 1989.</p>
+                <p><strong>Primavera Árabe:</strong> 2010–2011.</p>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Diagnóstico (30 Q) ➜
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">30 questões rigorosas. Acerte <strong>80% (24/30)</strong> para provar seu domínio. Leia a correção de cada erro!</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchInput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) {
+            group.style.display = 'flex';
+            totalVisible++;
+        } else {
+            group.style.display = 'none';
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+const questions = [
+    // ---------- FÁCEIS ----------
+    {
+        id: 1, level: "Fácil",
+        text: "Quais países lideraram os dois lados da Guerra Fria?",
+        options: ["EUA e Japão", "EUA e URSS", "China e Japão", "França e Reino Unido"],
+        correct: 1,
+        explanation: {
+            correct: "Os EUA lideraram o lado capitalista, e a URSS, o lado socialista.",
+            options: ["O Japão não liderou um dos lados.", "Certa", "A disputa principal foi entre EUA e URSS.", "Esses países não lideraram os dois lados."]
+        }
+    },
+    {
+        id: 2, level: "Fácil",
+        text: "Como é chamado o mundo dividido em duas grandes potências durante a Guerra Fria?",
+        options: ["Mundo multipolar", "Mundo unipolar", "Mundo bipolar", "Mundo globalizado"],
+        correct: 2,
+        explanation: {
+            correct: "“Bipolar” indica dois polos de poder: EUA e URSS.",
+            options: ["Multipolar indica vários polos de poder.", "Unipolar indica um único polo de poder.", "Certa", "Esse termo trata da integração entre os países."]
+        }
+    },
+    {
+        id: 3, level: "Fácil",
+        text: "O que foram as guerras indiretas da Guerra Fria?",
+        options: ["Conflitos em que as potências apoiavam lados opostos", "Batalhas diretas entre soldados dos EUA e da URSS", "Disputas esportivas entre as duas potências", "Disputas que aconteceram sem nenhum conflito armado"],
+        correct: 0,
+        explanation: {
+            correct: "EUA e URSS não se enfrentaram diretamente, mas apoiaram lados opostos em países divididos.",
+            options: ["Certa", "EUA e URSS não se enfrentaram diretamente.", "Essas guerras envolveram combates, e não esportes.", "Na Coreia e no Vietnã, houve conflitos armados."]
+        }
+    },
+    {
+        id: 4, level: "Fácil",
+        text: "Em qual paralelo a Coreia foi dividida após a 2ª Guerra?",
+        options: ["Paralelo 17", "Paralelo 20", "Paralelo 33", "Paralelo 38"],
+        correct: 3,
+        explanation: {
+            correct: "A Coreia foi dividida no paralelo 38, com o Norte socialista e o Sul capitalista.",
+            options: ["O paralelo 17 dividiu o Vietnã, e não a Coreia.", "A Coreia não foi dividida nesse paralelo.", "A Coreia não foi dividida nesse paralelo.", "Certa"]
+        }
+    },
+    {
+        id: 5, level: "Fácil",
+        text: "Em que ano a URSS chegou ao fim?",
+        options: ["1979", "1989", "1991", "2001"],
+        correct: 2,
+        explanation: {
+            correct: "A URSS acabou em 1991, e os EUA ficaram como única superpotência militar.",
+            options: ["Em 1979, a URSS invadiu o Afeganistão.", "Em 1989, os soviéticos saíram do Afeganistão.", "Certa", "Em 2001, os EUA invadiram o Afeganistão."]
+        }
+    },
+    {
+        id: 6, level: "Fácil",
+        text: "Quem foi o líder egípcio ligado ao pan-arabismo?",
+        options: ["Nasser", "Bashar al-Assad", "Ho Chi Minh", "Mao Tsé-Tung"],
+        correct: 0,
+        explanation: {
+            correct: "Nasser, do Egito, foi um líder do movimento pan-arabista.",
+            options: ["Certa", "Bashar al-Assad governou a Síria.", "Ho Chi Minh liderou o Vietnã do Norte.", "Mao Tsé-Tung liderou a China."]
+        }
+    },
+    {
+        id: 7, level: "Fácil",
+        text: "O que a China fez a partir de 1978?",
+        options: ["Fechou sua economia para o mundo", "Encerrou o regime de partido único", "Devolveu Hong Kong aos britânicos", "Começou sua abertura econômica"],
+        correct: 3,
+        explanation: {
+            correct: "Desde 1978, a China abriu sua economia, mas manteve o partido único.",
+            options: ["Ela fez o contrário: abriu a economia.", "A China manteve o partido único.", "Hong Kong passou do Reino Unido para a China em 1997.", "Certa"]
+        }
+    },
+    {
+        id: 8, level: "Fácil",
+        text: "Qual cidade é sagrada para judeus, cristãos e muçulmanos?",
+        options: ["Meca", "Jerusalém", "Cairo", "Damasco"],
+        correct: 1,
+        explanation: {
+            correct: "Jerusalém é sagrada para as três religiões e é disputada como capital.",
+            options: ["Meca é sagrada para os muçulmanos.", "Certa", "Cairo é a capital do Egito.", "Damasco é a capital da Síria."]
+        }
+    },
+    {
+        id: 9, level: "Fácil",
+        text: "A Primavera Árabe ocorreu principalmente entre quais anos?",
+        options: ["1947 e 1948", "1950 e 1953", "1978 e 1989", "2010 e 2011"],
+        correct: 3,
+        explanation: {
+            correct: "Os protestos da Primavera Árabe se espalharam entre 2010 e 2011.",
+            options: ["Nesses anos, ocorreram a partilha da ONU e a criação de Israel.", "Nesses anos, ocorreu a Guerra da Coreia.", "Esses anos marcam a abertura chinesa e a Paz Celestial.", "Certa"]
+        }
+    },
+    {
+        id: 10, level: "Fácil",
+        text: "Quais motivos levaram aos protestos da Primavera Árabe?",
+        options: ["Governos autoritários, corrupção e desemprego", "A invasão soviética do Afeganistão em 1979", "A abertura econômica da China nos anos 1970", "A partilha da Palestina proposta pela ONU"],
+        correct: 0,
+        explanation: {
+            correct: "A população protestou contra governos autoritários, corrupção e desemprego.",
+            options: ["Certa", "Esse fato pertence ao período da Guerra Fria.", "Esse fato trata da economia chinesa.", "Esse fato trata do conflito árabe-israelense."]
+        }
+    },
+
+    // ---------- MÉDIAS ----------
+    {
+        id: 11, level: "Médio",
+        text: "Como terminaram os combates da Guerra da Coreia, em 1953?",
+        options: ["Com a reunificação da Coreia", "Com um armistício, sem tratado de paz", "Com a vitória total do Sul", "Com um tratado de paz definitivo"],
+        correct: 1,
+        explanation: {
+            correct: "O armistício encerrou os combates, mas a divisão permanece até hoje.",
+            options: ["A Coreia continua dividida.", "Certa", "Nenhum lado conquistou a península inteira.", "Houve armistício, e não tratado de paz."]
+        }
+    },
+    {
+        id: 12, level: "Médio",
+        text: "Na Guerra da Coreia, quem apoiou cada lado?",
+        options: ["Norte: ONU e EUA; Sul: China e URSS", "Norte: Japão e URSS; Sul: ONU e China", "Norte: China e URSS; Sul: ONU e EUA", "Norte: China e EUA; Sul: ONU e URSS"],
+        correct: 2,
+        explanation: {
+            correct: "China e URSS apoiaram o Norte socialista, e a ONU, liderada pelos EUA, apoiou o Sul.",
+            options: ["Os lados estão invertidos.", "O Japão não apoiou o Norte, e a China não apoiou o Sul.", "Certa", "Os EUA apoiaram o Sul, e a URSS apoiou o Norte."]
+        }
+    },
+    {
+        id: 13, level: "Médio",
+        text: "Qual disputa de ideias marcou a Guerra do Vietnã?",
+        options: ["Capitalismo contra socialismo", "Cristãos contra muçulmanos", "Monarquia contra república", "Judeus contra árabes"],
+        correct: 0,
+        explanation: {
+            correct: "Foi um conflito ideológico: o Norte era socialista, e o Sul, capitalista.",
+            options: ["Certa", "O conflito não foi religioso.", "A disputa central foi entre capitalismo e socialismo.", "Esse conflito faz parte da história da Palestina."]
+        }
+    },
+    {
+        id: 14, level: "Médio",
+        text: "O que aconteceu no Vietnã depois da retirada dos EUA, em 1973?",
+        options: ["O Sul venceu a guerra e ficou capitalista em 1975", "A França voltou a governar todo o país em 1975", "O país foi dividido em três partes em 1975", "O Norte venceu em 1975, e o país ficou socialista"],
+        correct: 3,
+        explanation: {
+            correct: "O Norte venceu a guerra em 1975, e depois o Vietnã foi reunificado como socialista.",
+            options: ["Quem venceu foi o Norte socialista.", "O Vietnã havia se libertado da França em 1954.", "O país foi reunificado, e não dividido em três.", "Certa"]
+        }
+    },
+    {
+        id: 15, level: "Médio",
+        text: "Qual era o objetivo do pan-arabismo?",
+        options: ["Aumentar a influência estrangeira no mundo árabe", "Unir os povos árabes e reduzir a influência externa", "Espalhar o socialismo soviético pela Ásia", "Criar um único governo para todo o continente asiático"],
+        correct: 1,
+        explanation: {
+            correct: "O movimento buscava unir os povos árabes, com língua, cultura e história comuns.",
+            options: ["O objetivo era reduzir a influência estrangeira.", "Certa", "O movimento era árabe, e não uma expansão soviética.", "O movimento tratava dos povos árabes, e não de toda a Ásia."]
+        }
+    },
+    {
+        id: 16, level: "Médio",
+        text: "O que aconteceu no Afeganistão em 1979?",
+        options: ["Os EUA invadiram o país", "O Talibã tomou o poder", "A URSS invadiu o país", "A China invadiu o país"],
+        correct: 2,
+        explanation: {
+            correct: "A URSS invadiu o país em 1979, e guerrilheiros apoiados pelos EUA resistiram.",
+            options: ["Os EUA invadiram o Afeganistão em 2001.", "O Talibã surgiu depois da saída dos soviéticos.", "Certa", "A China não invadiu o Afeganistão."]
+        }
+    },
+    {
+        id: 17, level: "Médio",
+        text: "Por que a China ficou conhecida como “fábrica do mundo”?",
+        options: ["Porque proibiu empresas estrangeiras no país", "Porque atraiu capital e exporta muitos produtos", "Porque deixou de usar trabalhadores nas fábricas", "Porque vendeu suas fábricas para a URSS"],
+        correct: 1,
+        explanation: {
+            correct: "Com capital estrangeiro e mão de obra numerosa e barata, o país passou a exportar muito.",
+            options: ["A China atraiu capital estrangeiro.", "Certa", "A mão de obra numerosa foi essencial para esse crescimento.", "A URSS acabou em 1991, e a China não vendeu suas fábricas a ela."]
+        }
+    },
+    {
+        id: 18, level: "Médio",
+        text: "O que prevê o modelo “um país, dois sistemas”?",
+        options: ["Hong Kong e Macau viram países independentes", "Hong Kong e Macau mantêm capitalismo e autonomia", "A China passa a ter dois partidos no poder", "Taiwan e Hong Kong dividem o mesmo governo"],
+        correct: 1,
+        explanation: {
+            correct: "Hong Kong e Macau fazem parte da China, mas mantêm economia capitalista e autonomia.",
+            options: ["Os dois territórios voltaram à China.", "Certa", "A China manteve o partido único.", "Taiwan tem governo próprio e não faz parte desse modelo."]
+        }
+    },
+    {
+        id: 19, level: "Médio",
+        text: "O que motivou os protestos na Praça da Paz Celestial, em 1989?",
+        options: ["A volta de Hong Kong à China", "A independência de Taiwan", "A invasão do Afeganistão", "Pedidos de democracia e liberdade"],
+        correct: 3,
+        explanation: {
+            correct: "Estudantes e trabalhadores pediam mudanças políticas, democracia e liberdade.",
+            options: ["Hong Kong voltou à China só em 1997.", "Os protestos tratavam de mudanças na China.", "Esse fato não motivou os protestos.", "Certa"]
+        }
+    },
+    {
+        id: 20, level: "Médio",
+        text: "Como o governo chinês reagiu aos protestos de 1989?",
+        options: ["Declarou lei marcial e reprimiu com o exército", "Aceitou todas as exigências dos manifestantes", "Convocou eleições com vários partidos no país", "Pediu a ajuda da ONU para mediar o conflito"],
+        correct: 0,
+        explanation: {
+            correct: "O governo declarou lei marcial e usou o exército, no massacre dos manifestantes.",
+            options: ["Certa", "O governo reprimiu os protestos.", "A China manteve o partido único.", "O governo usou o exército contra os manifestantes."]
+        }
+    },
+
+    // ---------- DIFÍCEIS ----------
+    {
+        id: 21, level: "Difícil",
+        text: "Qual alternativa apresenta corretamente os fatos sobre a Palestina?",
+        options: ["Israel foi criado em 1947, e a ONU propôs a partilha em 1948", "A ONU propôs a partilha em 1947, e Israel foi criado em 1948", "A ONU propôs a partilha em 1967, depois das guerras na região", "Israel foi criado em 1991, após o fim da Guerra Fria"],
+        correct: 1,
+        explanation: {
+            correct: "Primeiro veio a proposta de partilha da ONU (1947), e depois a criação de Israel (1948).",
+            options: ["As datas estão invertidas.", "Certa", "A proposta de partilha é de 1947.", "Israel foi criado em 1948."]
+        }
+    },
+    {
+        id: 22, level: "Difícil",
+        text: "Por que Jerusalém contribui para as disputas no Oriente Médio?",
+        options: ["É sagrada para três religiões e disputada como capital", "É a maior produtora de petróleo de todo o Oriente Médio", "Foi escolhida pela URSS como sede de seu governo", "É a capital reconhecida do Egito desde 1948"],
+        correct: 0,
+        explanation: {
+            correct: "Ela é sagrada para três religiões, e israelenses e palestinos a querem como capital.",
+            options: ["Certa", "A disputa envolve religião e política, e não petróleo.", "A capital da URSS era Moscou.", "A capital do Egito é o Cairo."]
+        }
+    },
+    {
+        id: 23, level: "Difícil",
+        text: "O que se seguiu à criação de Israel, em 1948?",
+        options: ["Reunificação pacífica e fim de todas as fronteiras", "Entrada de Israel e da Palestina na URSS", "Fim dos refugiados e acordo definitivo de paz", "Guerras, ocupação de territórios e refugiados"],
+        correct: 3,
+        explanation: {
+            correct: "Seguiram-se guerras, a ocupação de territórios e a questão dos refugiados palestinos.",
+            options: ["O período foi marcado por conflitos.", "Nenhum dos dois entrou na URSS.", "Os refugiados são um dos resultados do conflito.", "Certa"]
+        }
+    },
+    {
+        id: 24, level: "Difícil",
+        text: "Por que os EUA invadiram o Afeganistão em 2001?",
+        options: ["Para expulsar as tropas soviéticas do país", "Por causa dos atentados de 11 de setembro", "Para apoiar o governo da URSS", "Para acabar com a Primavera Árabe na região"],
+        correct: 1,
+        explanation: {
+            correct: "A invasão ocorreu após os atentados de 11 de setembro, nos EUA.",
+            options: ["Os soviéticos saíram em 1989.", "Certa", "A URSS acabou em 1991.", "A Primavera Árabe começou só em 2010."]
+        }
+    },
+    {
+        id: 25, level: "Difícil",
+        text: "Por que o apoio dos EUA aos guerrilheiros afegãos se relaciona com a Guerra Fria?",
+        options: ["Porque EUA e URSS eram aliados naquela época", "Porque a Guerra Fria já tinha terminado em 1979", "Porque apoiar a resistência desgastava a URSS", "Porque os guerrilheiros eram soldados dos EUA"],
+        correct: 2,
+        explanation: {
+            correct: "Era uma guerra indireta: os EUA apoiavam quem lutava contra a URSS, sem enfrentá-la diretamente.",
+            options: ["EUA e URSS eram rivais.", "A URSS só acabou em 1991.", "Certa", "Eles eram apoiados pelos EUA, mas não eram tropas dos EUA."]
+        }
+    },
+    {
+        id: 26, level: "Difícil",
+        text: "Como a Primavera Árabe se relaciona com a guerra civil na Síria?",
+        options: ["A guerra na Síria começou antes da Guerra da Coreia", "A Síria foi o único país árabe sem nenhum tipo de protesto", "Protestos contra Assad foram reprimidos e viraram guerra", "A Primavera Árabe foi organizada pelo próprio Assad"],
+        correct: 2,
+        explanation: {
+            correct: "Os protestos contra Bashar al-Assad foram reprimidos e viraram guerra civil em 2011.",
+            options: ["A guerra na Síria começou em 2011.", "Os protestos também chegaram à Síria.", "Certa", "Os protestos na Síria foram contra Assad."]
+        }
+    },
+    {
+        id: 27, level: "Difícil",
+        text: "Qual consequência está ligada à guerra civil na Síria?",
+        options: ["Reunificação da Síria com o Egito e a Palestina", "Fim de todos os conflitos armados do Oriente Médio", "Retorno da URSS ao poder em todo o Oriente Médio", "Milhões de refugiados e potências estrangeiras no país"],
+        correct: 3,
+        explanation: {
+            correct: "A guerra gerou milhões de refugiados e a entrada de potências estrangeiras e do Estado Islâmico.",
+            options: ["Isso não aconteceu.", "Os conflitos na região continuaram.", "A URSS acabou em 1991.", "Certa"]
+        }
+    },
+    {
+        id: 28, level: "Difícil",
+        text: "Por que Taiwan é motivo de tensão entre China e EUA?",
+        options: ["Porque a ilha foi oficialmente entregue aos EUA em 1949", "Porque Taiwan invadiu Hong Kong e Macau em 1997", "Porque a China a considera sua, e os EUA apoiam a ilha", "Porque Taiwan passou a integrar a Coreia do Norte"],
+        correct: 2,
+        explanation: {
+            correct: "Taiwan tem governo próprio, a China a considera parte de seu território, e os EUA apoiam a ilha.",
+            options: ["Taiwan tem governo próprio desde 1949.", "Taiwan não invadiu Hong Kong nem Macau.", "Certa", "Taiwan não faz parte da Coreia do Norte."]
+        }
+    },
+    {
+        id: 29, level: "Difícil",
+        text: "Como ficou a ordem mundial depois do fim da URSS?",
+        options: ["EUA como superpotência militar e vários polos econômicos", "EUA e URSS mantiveram a disputa entre dois grandes blocos", "China como única superpotência e único polo econômico", "Japão como única superpotência e fim do comércio"],
+        correct: 0,
+        explanation: {
+            correct: "Os EUA ficaram como única superpotência militar, e surgiram vários polos econômicos.",
+            options: ["Certa", "A URSS acabou em 1991.", "Os EUA ficaram como única superpotência militar.", "O Japão virou um polo econômico, mas não a única superpotência."]
+        }
+    },
+    {
+        id: 30, level: "Difícil",
+        text: "Qual afirmação compara corretamente a Coreia e o Vietnã?",
+        options: ["A Coreia foi reunificada, e o Vietnã segue dividido", "As duas seguem divididas até hoje", "As duas foram reunificadas como capitalistas", "A Coreia segue dividida, e o Vietnã foi reunificado"],
+        correct: 3,
+        explanation: {
+            correct: "A divisão da Coreia permanece, e o Vietnã foi reunificado como socialista.",
+            options: ["A comparação está invertida.", "O Vietnã foi reunificado.", "A Coreia segue dividida, e o Vietnã ficou socialista.", "Certa"]
+        }
+    }
+];
+
+// --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) E LÓGICA ---
+const storageKey = 'promover_quiz_' + document.title.replace(/\s+/g, '_');
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+try {
+    const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(savedAnswers) && savedAnswers.length === questions.length) userAnswers = savedAnswers;
+} catch (e) { /* Sem salvamento disponível: a página continua funcionando. */ }
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion();
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+    }
+    window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    let badgeClass = '';
+    if(q.level === 'Fácil') badgeClass = 'dif-facil';
+    else if(q.level === 'Médio') badgeClass = 'dif-medio';
+    else badgeClass = 'dif-dificil';
+
+    container.innerHTML = `
+    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+        <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+            <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+        </div>
+        <div class="options-list">
+            ${q.options.map((opt, i) => {
+                let cls = '';
+                if (ans !== null) {
+                    if (i === q.correct) cls = 'correct';
+                    else if (i === ans) cls = 'wrong';
+                    else cls = 'disabled';
+                }
+                return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                    <div class="opt-circle">${letters[i]}</div>
+                    <div>${opt}</div>
+                </button>
+                `;
+            }).join('')}
+        </div>
+        ${ans !== null ? `
+        <div class="feedback-box">
+            <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '❌ Ops! Falha Detectada:'}
+            </div>
+            <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+            <div style="margin-top:10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                ${q.explanation.correct}
+            </div>
+            <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+            </div>
+        </div>
+        ` : ''}
+    </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    userAnswers[currentQuestion] = idx;
+    try { localStorage.setItem(storageKey, JSON.stringify(userAnswers)); } catch (e) { /* Sem salvamento disponível. */ }
+    if (idx === questions[currentQuestion].correct) {
+        if (window.confetti) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth;
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    renderQuestion();
+    renderMap();
+    const feedback = document.querySelector('.feedback-box');
+    if (feedback) feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) {
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+    }).join('');
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) {
+            const mapBox = map.getBoundingClientRect();
+            const dotBox = activeDot.getBoundingClientRect();
+            map.scrollTo({ left: map.scrollLeft + dotBox.left - mapBox.left - (mapBox.width - dotBox.width) / 2, behavior: 'smooth' });
+        }
+    }, 50);
+}
+
+function goTo(i) {
+    if (window.confetti) confetti.reset();
+    currentQuestion = i;
+    renderQuestion();
+    renderMap();
+    document.getElementById('qMap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function changeQuestion(d) {
+    let n = currentQuestion + d;
+    if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    if (currentQuestion === questions.length - 1) {
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish;
+    } else {
+        next.textContent = "Avançar";
+        next.onclick = () => changeQuestion(1);
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    if (window.confetti) confetti.reset();
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+            <strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a meta de 80%. Revise a teoria com atenção antes de tentar novamente.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>`;
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+            <strong>🎉 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre os conceitos avaliados. Continue revisando para fazer a prova da escola com segurança.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Refazer Prova (Zerar Histórico)</button>`;
+    }
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">${userAnswers[i] === null ? 'Questão não respondida' : 'Seu Erro: ' + q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    try { localStorage.removeItem(storageKey); } catch (e) { /* Sem salvamento disponível. */ }
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
