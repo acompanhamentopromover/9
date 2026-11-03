@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ZONA 1 INICIO: TITULO DA ABA -->
+<title>Origem da Vida 9.º Ano - Promover</title>
+<!-- ZONA 1 FIM -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<!-- BLOCO TRAVADO: CSS DO MOTOR. COPIE IGUAL. -->
+<style id="css-motor">
+:root {
+    --border-color: #000000;
+    --white: #FFFFFF;
+    --theme-text-active: #FFFFFF;
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+    background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); color: var(--theme-contrast); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); color: var(--theme-contrast); }
+    100% { transform: scale(1); }
+}
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center;}
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container { position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 { font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.5rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot { min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled { pointer-events: none; opacity: 0.7; }
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display:flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+.result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big { font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.feedback-box { scroll-margin-top: 12px; scroll-margin-bottom: 90px; }
+.question-map { scroll-margin-top: 8px; }
+td, th { padding: 6px 8px; }
+#bancoQuestoes { display: none; }
+.visual-area.texto { font-size: 0.95rem; flex-direction: column; gap: 8px; }
+.tabela { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; font-weight: 600; margin-top: 10px; }
+.tabela th { background: var(--theme-light); }
+.tabela th, .tabela td { border: 1px solid var(--border-color); }
+.lista { padding-left: 20px; }
+.desenho { width: 100%; max-width: 420px; height: auto; display: block; margin: 10px auto; }
+.d-cor1 { fill: var(--theme-dark); }
+.d-cor2 { fill: var(--theme-contrast); }
+.d-cor3 { fill: var(--theme-medium); }
+.d-fundo { fill: var(--theme-light); stroke: var(--text-color); stroke-width: 2; }
+.d-linha { fill: none; stroke: var(--text-color); stroke-width: 2; }
+.d-texto { fill: var(--text-color); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; }
+</style>
+<!-- ZONA 2 INICIO: CORES E CSS EXTRA -->
+<style id="css-tema">
+:root {
+    --bg-color: #EEF2FF;
+    --text-color: #1E1B4B;
+    --theme-light: #E0E7FF;
+    --theme-medium: #818CF8;
+    --theme-dark: #3730A3;
+    --theme-contrast: #0E7490;
+    --theme-accent: #4F46E5;
+}
+</style>
+<!-- ZONA 2 FIM -->
+</head>
+<body>
+<div id="avisoMotor" style="display:block; max-width:600px; width:100%; margin:0 auto 16px; padding:14px; background:#FFE4E6; color:#881337; border:3px solid #BE123C; border-radius:12px; font-family:sans-serif; font-size:15px; font-weight:600; line-height:1.5;">⚠️ Este arquivo está incompleto ou com erro no código. Não envie aos alunos. Peça ao Gemini para gerar o arquivo completo de novo.</div>
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🚀</span> PROMOVER</div>
+        <!-- ZONA 3 INICIO: CABECALHO -->
+        <h1>Biologia – 9.º&nbsp;Ano</h1>
+        <p class="subtitle">Cap. 10: Origem da Vida, Evolução Pré-Biótica e Astrobiologia</p>
+        <!-- ZONA 3 FIM -->
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Prática (30)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito...">
+        </div>
+        <div id="no-results"><p>😕 Termo não encontrado.</p></div>
+
+        <!-- ZONA 4 INICIO: TEORIA -->
+        <div class="content-group">
+            <span class="section-badge">1. Estamos Sós? O Paradoxo de Fermi</span>
+            <div class="theory-box">
+                <h3>🌌 A Imensidão do Cosmos e a Vida</h3>
+                <p>O nosso Sol é apenas uma estrela comum entre centenas de bilhões na Via Láctea, que é somente uma galáxia entre trilhões no Universo observável. Como as leis da física e da química são universais, é cientificamente razoável supor que exista vida fora da Terra.</p>
+                <div class="highlight-box">
+                    <strong>Paradoxo de Fermi:</strong> Proposto pelo físico Enrico Fermi, evidencia o contraste entre as elevadas probabilidades estatísticas de existência de civilizações extraterrestres e a total ausência de evidências observacionais ou contatos confirmados.
+                </div>
+                <p>Para buscar vida "como a conhecemos", os cientistas procuram astros com três condições essenciais:</p>
+                <ul class="lista">
+                    <li><strong>Atmosfera densa:</strong> para reter calor e proteger a superfície contra radiações nocivas.</li>
+                    <li><strong>Tamanho e massa semelhantes aos da Terra:</strong> para garantir gravidade adequada à estabilidade molecular.</li>
+                    <li><strong>Distância orbital equilibrada da estrela (zona habitável):</strong> que viabilize a presença permanente de <strong>água líquida</strong>.</li>
+                </ul>
+                <div class="highlight-box warning">
+                    <strong>Cuidado:</strong> A água líquida é o solvente biológico universal indispensável: permite a dissolução de nutrientes e a realização das reações químicas vitais.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">2. Extremófilos: A Vida nas Condições Limite</span>
+            <div class="theory-box">
+                <h3>🌋 Organismos que Desafiam os Limites</h3>
+                <p>Os <strong>extremófilos</strong> são seres vivos capazes de sobreviver e se reproduzir em ambientes antes julgados inóspitos à vida, tais como calor vulcânico de 113&nbsp;°C, frio glacial, dessecação, pressões esmagadoras e radiação ionizante elevada.</p>
+                <ul class="lista">
+                    <li><strong>O exemplo dos Tardígrados:</strong> Invertebrados microscópicos que entram em criptobiose, suportando temperaturas de −200&nbsp;°C a 150&nbsp;°C e até o vácuo espacial.</li>
+                    <li><strong>Impacto na Astrobiologia:</strong> Esses organismos mostram que a vida não depende exclusivamente das condições amenas da superfície da Terra, ampliando a busca para luas geladas e o subsolo de outros planetas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">3. Geração Espontânea versus Panspermia</span>
+            <div class="theory-box">
+                <h3>⏳ Duas Hipóteses Históricas</h3>
+                <p>Historicamente, duas visões contrastantes tentaram explicar a origem primordial dos organismos vivos:</p>
+                <table class="tabela">
+                    <tr><th>Hipótese</th><th>Proposta Principal</th><th>Evidências e Questionamentos</th></tr>
+                    <tr><td><strong>Geração Espontânea (Abiogênese)</strong></td><td>A matéria bruta inanimada daria origem diretamente a seres vivos (Aristóteles).</td><td>Posta em dúvida por <strong>Francesco Redi</strong> (séc. XVII) com os experimentos dos frascos de carne protegidos por gaze.</td></tr>
+                    <tr><td><strong>Panspermia Cósmica</strong></td><td>A vida (ou seus precursores) chegou à Terra a partir do espaço, carreada por meteoritos.</td><td><strong>A favor:</strong> a vida surgiu logo após o bombardeio de meteoros (há 3,8 a 4 bilhões de anos). <strong>Contra:</strong> fragilidade das células à radiação e ao calor da atmosfera.</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">4. Evolução Química e Experimento de Miller-Urey</span>
+            <div class="theory-box">
+                <h3>🧪 A Síntese Pré-Biótica no Oceano Primitivo</h3>
+                <p>Segundo <strong>Oparin (1924)</strong> e <strong>Haldane (1929)</strong>, a atmosfera primitiva era redutora (sem oxigênio livre, rica em metano, amônia, hidrogênio e vapor de água). Sob descargas elétricas e radiação ultravioleta, formaram-se compostos orgânicos na "sopa pré-biótica" dos oceanos primitivos.</p>
+                <svg class="desenho" viewBox="0 0 320 90" role="img" aria-label="Etapas da evolução química: gases primitivos, aminoácidos e coacervados">
+                    <rect class="d-fundo" x="10" y="25" width="85" height="40" rx="8"/>
+                    <rect class="d-fundo" x="118" y="25" width="85" height="40" rx="8"/>
+                    <rect class="d-fundo" x="226" y="25" width="85" height="40" rx="8"/>
+                    <line class="d-linha" x1="95" y1="45" x2="118" y2="45"/>
+                    <line class="d-linha" x1="203" y1="45" x2="226" y2="45"/>
+                    <polygon class="d-cor1" points="118,45 108,39 108,51"/>
+                    <polygon class="d-cor1" points="226,45 216,39 216,51"/>
+                    <text class="d-texto" x="52" y="50" text-anchor="middle">Gases</text>
+                    <text class="d-texto" x="160" y="50" text-anchor="middle">Aminoácidos</text>
+                    <text class="d-texto" x="268" y="50" text-anchor="middle">Coacervados</text>
+                </svg>
+                <p>Na água quente acumularam-se os <strong>coacervados</strong>: agregados de proteínas isolados do meio por uma película aquosa, precursores diretos das primeiras células.</p>
+                <div class="highlight-box">
+                    <strong>Experimento de Miller e Urey (1952):</strong> Aparelho fechado com gases primitivos, água aquecida em balão (oceano), eletrodos (raios) e condensador (chuva). Como resultado, <strong>surgiram aminoácidos</strong> espontaneamente, apoiando a teoria de Oparin e Haldane. Limite: sintetizou aminoácidos simples, mas não proteínas complexas ou células vivas.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">5. Modelos Metabólicos e a Crise do Oxigênio</span>
+            <div class="theory-box">
+                <h3>⚡ Origem Autotrófica versus Heterotrófica</h3>
+                <p>Como se alimentava o pioneiro da vida na Terra?</p>
+                <ul class="lista">
+                    <li><strong>Hipótese Heterotrófica:</strong> O primeiro ser vivo nutria-se de compostos orgânicos prontos dissolvidos no mar e obtinha energia por fermentação anaeróbica (liberando dióxido de carbono). Hoje é <strong>menos aceita</strong>, pois o alimento marinho primitivo se esgotaria rapidamente.</li>
+                    <li><strong>Hipótese Autotrófica (mais aceita):</strong> Os primeiros seres produziam o próprio alimento a partir de substâncias inorgânicas com energia de reações químicas minerais (<strong>quimiossíntese</strong>). As <strong>arqueas</strong> de fontes termais submarinas reforçam esse modelo.</li>
+                </ul>
+                <svg class="desenho" viewBox="0 0 320 90" role="img" aria-label="Linha do tempo metabólica: quimiossíntese, fotossíntese e respiração aeróbica">
+                    <line class="d-linha" x1="20" y1="45" x2="300" y2="45"/>
+                    <circle class="d-cor1" cx="60" cy="45" r="7"/>
+                    <circle class="d-cor2" cx="160" cy="45" r="7"/>
+                    <circle class="d-cor1" cx="260" cy="45" r="7"/>
+                    <text class="d-texto" x="60" y="25" text-anchor="middle">Quimiossíntese</text>
+                    <text class="d-texto" x="160" y="25" text-anchor="middle">Fotossíntese</text>
+                    <text class="d-texto" x="260" y="25" text-anchor="middle">Respiração</text>
+                </svg>
+                <div class="highlight-box warning">
+                    <strong>Fotossíntese e Oxigênio:</strong> O surgimento da fotossíntese liberou oxigênio livre. Esse gás reativo extinguiu muitos microrganismos anaeróbios, mas permitiu a <strong>respiração aeróbica</strong>, muito mais eficiente em energia, possibilitando os seres pluricelulares e os animais.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">6. Astrobiologia, Equação de Drake e Exoplanetas</span>
+            <div class="theory-box">
+                <h3>🛰️ A Investigação Científica de Outros Mundos</h3>
+                <p>A <strong>Astrobiologia</strong> é a ciência que investiga a vida além da Terra. Em 1961, Frank Drake propôs uma equação probabilística para estimar o número de civilizações inteligentes na galáxia capazes de emitir sinais de rádio.</p>
+                <ul class="lista">
+                    <li><strong>Fatores da Equação de Drake:</strong> Taxa de formação estelar, fração de estrelas com planetas, planetas habitáveis, frações com vida, inteligência e tecnologia transmissora, multiplicadas pelo tempo de emissão de sinais.</li>
+                    <li><strong>Exoplanetas:</strong> Planetas que orbitam estrelas fora do Sistema Solar (o pioneiro foi o 51 Pegasi b, em 1995). A grande maioria foi identificada pelo telescópio espacial Kepler.</li>
+                    <li><strong>Alvos com água no Sistema Solar:</strong> Além de Marte, destacam-se <strong>Europa</strong> (lua de Júpiter) e <strong>Encélado</strong> (lua de Saturno), que contêm oceanos de água líquida sob espessas crostas de gelo.</li>
+                    <li><strong>Bioassinaturas:</strong> Pistas químicas reveladoras de vida na atmosfera de um astro, como a presença simultânea de <strong>oxigênio e metano</strong>.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- ZONA 4 FIM -->
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Diagnóstico (30 Q) ➜
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">30 questões rigorosas. Acerte <strong>80% (24/30)</strong> para provar seu domínio. Leia a correção de cada erro!</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+
+    <!-- ZONA 5 INICIO: 30 QUESTOES -->
+    <section id="bancoQuestoes" hidden>
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O que sintetiza o chamado Paradoxo de Fermi na astrobiologia contemporânea?</div>
+            <div class="alternativa">
+                <div class="opcao">A incompatibilidade entre a expansão métrica do tecido espacial e a propagação contínua de ondas de rádio antigas.</div>
+                <div class="porque">A propagação de ondas eletromagnéticas no vácuo cósmico não impede o contato teórico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A impossibilidade termodinâmica de organismos multicelulares complexos sobreviverem à radiação cósmica de fundo.</div>
+                <div class="porque">A radiação cósmica de fundo é muito tênue e não inviabiliza a vida no Universo.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">O contraste entre a alta chance de vida cósmica e a falta de sinais.</div>
+                <div class="porque">Questiona a ausência de contato diante de bilhões de estrelas habitáveis.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A velocidade limite da luz que restringe o avanço de qualquer sonda exploratória entre galáxias vizinhas.</div>
+                <div class="porque">A relatividade explica o tempo de viagem, mas não anula sinais de civilizações.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">A clássica hipótese da geração espontânea (abiogênese), defendida por Aristóteles, propunha que:</div>
+            <div class="alternativa">
+                <div class="opcao">microrganismos anaeróbios primitivos se multiplicavam no oceano alimentados por compostos de enxofre vulcânico.</div>
+                <div class="porque">A quimiossíntese por enxofre em fontes termais é da hipótese autotrófica moderna.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">a matéria inanimada gerava seres vivos diretamente.</div>
+                <div class="porque">Aristóteles afirmava que a matéria bruta possuía um princípio ativo vital.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">esporos dormentes trazidos pelo impacto de meteoritos germinavam ao encontrar bacias ricas em água doce líquida.</div>
+                <div class="porque">A origem extraterrestre carreada por bólidos espaciais define a panspermia cósmica.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">moléculas de coacervados se transformavam espontaneamente em bactérias sob a ação de relâmpagos contínuos.</div>
+                <div class="porque">Coacervados pertencem à evolução química de Oparin-Haldane, séculos depois.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">No século XVII, o italiano Francesco Redi abalou a crença na geração espontânea ao comprovar experimentalmente que:</div>
+            <div class="alternativa certa">
+                <div class="opcao">as larvas na carne vinham de ovos de moscas.</div>
+                <div class="porque">Frascos cobertos com gaze impediam a postura de ovos pelas moscas adultas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o aquecimento prolongado em frascos pescoço de cisne destruía as bactérias presentes nos caldos nutritivos.</div>
+                <div class="porque">O frasco pescoço de cisne com caldo esterilizado foi criado por Louis Pasteur.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a ausência total de oxigênio impedia o desenvolvimento embrionário dos organismos em decomposição cadavérica.</div>
+                <div class="porque">O papel do gás oxigênio no metabolismo não era a variável testada por Redi.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">as substâncias orgânicas em putrefação geravam microrganismos apenas se houvesse luz solar direta constante.</div>
+                <div class="porque">Redi provou a biogênese de vermes visíveis, sem relação com fotossíntese.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">A hipótese da Panspermia cósmica sustenta fundamentalmente que os primeiros seres vivos terrestres:</div>
+            <div class="alternativa">
+                <div class="opcao">originaram-se da síntese de aminoácidos em poças de maré evaporadas pela alta incidência de raios ultravioleta.</div>
+                <div class="porque">A formação pré-biótica em poças costeiras integra a evolução química terrestre.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">surgiram a partir da diferenciação metabólica de coacervados lipídicos formados na sopa oceânica primitiva.</div>
+                <div class="porque">Coacervados na sopa orgânica marinha pertencem à hipótese de Oparin e Haldane.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">desenvolveram-se exclusivamente no leito de bacias hidrotermais alimentadas por gradientes químicos abissais.</div>
+                <div class="porque">O modelo hidrotermal sustenta a evolução química autotrófica no próprio planeta.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">chegaram ao planeta transportados por meteoritos.</div>
+                <div class="porque">Propõe que a vida ou sementes biológicas vieram do espaço em corpos celestes.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Segundo a teoria da evolução química formulada por Oparin e Haldane, os precursores diretos das células foram:</div>
+            <div class="alternativa">
+                <div class="opcao">cianobactérias filamentosas capazes de realizar a fotossíntese oxigênica em esteiras costeiras iluminadas.</div>
+                <div class="porque">Cianobactérias eram organismos celulares evoluídos, surgidos muito tempo depois.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">coacervados formados na sopa pré-biótica marinha.</div>
+                <div class="porque">Aglomerados proteicos envolvidos por água isolavam o meio interno do oceano.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">arqueas metanogênicas adaptadas a fontes ricas em sulfeto de hidrogênio sob pressões esmagadoras no mar.</div>
+                <div class="porque">Arqueas já são células vivas estruturadas e não precursores pré-bióticos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">ribozimas primitivas envelopadas por duplas camadas concêntricas de fosfolipídios saturados sem proteínas.</div>
+                <div class="porque">Oparin enfatizou aglomerados coloidais proteicos denominados coacervados.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O experimento histórico conduzido por Stanley Miller e Harold Urey em 1952 logrou produzir em laboratório:</div>
+            <div class="alternativa certa">
+                <div class="opcao">aminoácidos a partir de gases e eletricidade.</div>
+                <div class="porque">Provou que compostos orgânicos podiam surgir de matéria inorgânica na Terra.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">proteínas enzimáticas ativas com capacidade de catalisar a duplicação espontânea de material genético celular.</div>
+                <div class="porque">Produziu aminoácidos isolados, mas não enzimas ativas nem duplicação genética.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">colônias de bactérias anaeróbias primitivas capazes de realizar fermentação alcoólica em meio aquoso estéril.</div>
+                <div class="porque">O experimento formou blocos moleculares químicos, jamais seres vivos funcionais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">grandes volumes de gás oxigênio livre resultante da quebra fotoquímica de moléculas de vapor de água estéril.</div>
+                <div class="porque">O experimento simulava uma atmosfera estritamente redutora e livre de oxigênio.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">De acordo com a hipótese autotrófica da origem da vida, os organismos pioneiros obtinham energia através de:</div>
+            <div class="alternativa">
+                <div class="opcao">respiração celular aeróbica acoplada ao transporte de elétrons por citocromos dependentes de oxigênio livre.</div>
+                <div class="porque">A atmosfera primitiva não continha oxigênio livre para alimentar vias aeróbias.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">consumo direto de açúcares simples acumulados nas águas superficiais por processos de fermentação láctica.</div>
+                <div class="porque">O consumo de açúcares prontos por fermentação define o modelo heterotrófico.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">reações químicas a partir de minerais inorgânicos.</div>
+                <div class="porque">Obtinham energia por quimiossíntese, convertendo compostos inorgânicos no mar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">fotossíntese baseada na quebra de moléculas de água com absorção de fótons solares por pigmentos foliares.</div>
+                <div class="porque">A fotossíntese com pigmentos é mais complexa e evoluiu posteriormente no mar.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">No contexto da astrobiologia, os organismos extremófilos são fundamentais para as investigações porque:</div>
+            <div class="alternativa">
+                <div class="opcao">sintetizam moléculas de oxigênio puro a partir da decomposição de rochas ricas em óxidos de ferro no solo.</div>
+                <div class="porque">Extremófilos usam metabolismo padrão e não quebram rochas para gerar oxigênio.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">bloqueiam completamente o impacto de partículas carregadas provenientes de ventos estelares de alta energia.</div>
+                <div class="porque">Organismos biológicos microscópicos não desviam ventos estelares nem radiação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">confirmam que a evolução biológica fora da Terra depende exclusivamente de ecossistemas com luz solar plena.</div>
+                <div class="porque">Extremófilos provam exatamente o oposto: a vida floresce no escuro profundo.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">provam que a vida prospera em condições severas.</div>
+                <div class="porque">Vivem em ambientes hostis de calor, frio e radiação, ampliando novos nichos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O acúmulo contínuo de oxigênio na atmosfera da Terra primitiva decorreu da consolidação evolutiva da:</div>
+            <div class="alternativa">
+                <div class="opcao">fermentação alcoólica praticada por leveduras que oxidavam carboidratos pré-bióticos no oceano primitivo.</div>
+                <div class="porque">A fermentação anaeróbica libera dióxido de carbono, mas não gás oxigênio livre.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">fotossíntese realizada por organismos pioneiros.</div>
+                <div class="porque">A quebra da água com uso de luz solar liberou oxigênio gasoso na atmosfera.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">respiração celular aeróbica que quebrava moléculas orgânicas com alta liberação de energia nas mitocôndrias.</div>
+                <div class="porque">A respiração celular consome gás oxigênio, não sendo a fonte de sua liberação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">quimiossíntese de arqueas que oxidavam ferro e enxofre nas dorsais oceânicas.</div>
+                <div class="porque">A quimiossíntese profunda das arqueas primitivas não produz gás oxigênio livre.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">A Astrobiologia pode ser adequadamente definida como o ramo da ciência moderna que se dedica a:</div>
+            <div class="alternativa certa">
+                <div class="opcao">investigar a vida em todo o contexto cósmico.</div>
+                <div class="porque">Abrange a origem, evolução, distribuição e busca de vida fora da Terra.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">catalogar exclusivamente fósseis de organismos multicelulares preservados em estratos geológicos terrestres.</div>
+                <div class="porque">A catalogação exclusiva de fósseis de rochas terrestres cabe à Paleontologia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">mapear as trajetórias gravitacionais de satélites artificiais em órbita geoestacionária ao redor da Terra.</div>
+                <div class="porque">Trajetórias orbitais de satélites são estudadas pela engenharia aeroespacial.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">calcular o tempo de colapso gravitacional de estrelas supermassivas que originam buracos negros galácticos.</div>
+                <div class="porque">A evolução e colapso de estrelas supergigantes são temas da astrofísica teórica.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">No aparato de Miller e Urey, a condensação do vapor aquecido e as descargas elétricas simulavam, respectivamente:</div>
+            <div class="alternativa">
+                <div class="opcao">o calor de fontes termais marinhas e a radiação ultravioleta incidente do Sol.</div>
+                <div class="porque">O condensador resfriava vapores gerando gotas, simulando o ciclo das chuvas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">correntes marítimas profundas e a decomposição fotoquímica de gases do mar arcaico.</div>
+                <div class="porque">O circuito fechado simulava a circulação atmosférica e chuvas, não correntes.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">as chuvas torrenciais e as tempestades com raios.</div>
+                <div class="porque">A água condensada simulava a chuva e os eletrodos produziam faíscas de raios.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a evaporação de bacias salinas e o choque térmico do impacto de meteoros espaciais.</div>
+                <div class="porque">A evaporação ocorria no balão inferior e as descargas representavam relâmpagos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Qual é a principal dificuldade científica frequentemente apontada contra a hipótese da panspermia?</div>
+            <div class="alternativa">
+                <div class="opcao">A ausência de carbono orgânico no interior de meteoritos recolhidos na Terra.</div>
+                <div class="porque">Diversos meteoritos contêm moléculas de carbono e aminoácidos comprovados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A certeza termodinâmica de que o DNA perde sua estrutura helicoidal na ausência de forças gravitacionais intensas.</div>
+                <div class="porque">A estrutura molecular do DNA permanece estável em ambientes de microgravidade.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fato de as órbitas dos asteroides cruzarem apenas os planetas gasosos externos sem atingir a Terra primitiva.</div>
+                <div class="porque">A Terra primitiva sofreu bombardeios intensos de bólidos e asteroides rochosos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">A alta letalidade da radiação e do atrito térmico.</div>
+                <div class="porque">O vácuo espacial, os raios cósmicos e o calor na atmosfera destroem células.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Na hipótese heterotrófica, a obtenção de energia pelos primeiros seres vivos dependia necessariamente da:</div>
+            <div class="alternativa">
+                <div class="opcao">respiração celular usando nitrato como aceptor final de elétrons na membrana.</div>
+                <div class="porque">As vias respiratórias com aceptores inorgânicos surgiram em bactérias posteriores.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">fermentação de moléculas orgânicas pré-existentes.</div>
+                <div class="porque">Quebravam compostos da sopa primitiva liberando dióxido de carbono sem oxigênio.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">quimiossíntese autotrófica baseada na oxidação de íons de ferro ferroso dissolvidos nas águas costeiras marinhas.</div>
+                <div class="porque">A quimiossíntese com íons minerais fundamenta o modelo oposto, o autotrófico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">quebra oxidativa da glicose por enzimas mitocondriais dependentes de concentrações estáveis de oxigênio gasoso.</div>
+                <div class="porque">Mitocôndrias e oxigênio livre inexistiam nas etapas pioneiras de vida na Terra.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Por que as arqueas de fontes hidrotermais abissais reforçam a plausibilidade da hipótese autotrófica?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Vivem de quimiossíntese mineral sem depender da luz.</div>
+                <div class="porque">Sintetizam matéria orgânica a partir de compostos inorgânicos no escuro total.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Realizam fotossíntese com calor infravermelho emitido pelo magma submarino.</div>
+                <div class="porque">Não usam fotossíntese; sua rota metabólica é quimiossintética à base de minerais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Digestores heterotróficos eficientes, alimentam-se da carcaça de peixes que afundam até o assoalho submarino.</div>
+                <div class="porque">Elas são produtoras autotróficas pioneiras e independem de carcaças animais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Apresentam mitocôndrias altamente especializadas que operam respiração aeróbica sob pressões hidrostáticas extremas.</div>
+                <div class="porque">Arqueas são procariontes e não possuem mitocôndrias em suas estruturas celulares.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Na busca por planetas habitáveis, a presença de uma atmosfera suficientemente densa é crucial porque:</div>
+            <div class="alternativa">
+                <div class="opcao">refrata a luz visível de modo a acelerar a rotação do planeta e regular a duração dos períodos sazonais do ano.</div>
+                <div class="porque">A refração da luz na atmosfera não afeta a velocidade de rotação planetária.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">impede que a atividade vulcânica interna entre em erupção descontrolada devido ao peso da coluna de ar na crosta.</div>
+                <div class="porque">O vulcanismo decorre de dinâmica do manto e não da pressão atmosférica externa.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">retém calor e barra radiações espaciais nocivas.</div>
+                <div class="porque">Mantém temperatura estável e protege a superfície de raios cósmicos letais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">converte instantaneamente o metano gasoso expelido pelo manto em água pura potável por oxidação contínua da rocha.</div>
+                <div class="porque">A atmosfera não realiza síntese instantânea de água a partir de metano rochoso.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">A incrível tolerância do tardígrado a extremos térmicos (de −200 °C a 150 °C) deve-se à capacidade de:</div>
+            <div class="alternativa">
+                <div class="opcao">secretar uma grossa carapaça de silicato de cálcio que bloqueia a transferência de calor por condução física no meio.</div>
+                <div class="porque">A cutícula dos tardígrados é de quitina e proteínas, sem isolamento de silicato.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">metabolizar nitrogênio líquido para resfriar os órgãos vitais internos durante exposições prolongadas ao vácuo.</div>
+                <div class="porque">Não metabolizam nitrogênio líquido; organismos biológicos não operam dessa forma.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">produzir enzimas digestivas termoestáveis que quebram minerais de rocha para nutrir o animal na falta de alimento.</div>
+                <div class="porque">A resistência não vem da digestão de rochas, mas da paralisação metabólica.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">entrar em criptobiose, desidratando o corpo.</div>
+                <div class="porque">Reduz quase a zero o metabolismo até que as condições externas se normalizem.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">A confirmação do exoplaneta 51 Pegasi b em 1995 representou um divisor de águas astronômico porque:</div>
+            <div class="alternativa">
+                <div class="opcao">confirmou a primeira biosfera extraterrestre composta por vegetação marinha fotossintetizante em torno de uma estrela.</div>
+                <div class="porque">51 Pegasi b é um gigante gasoso quente e inóspito, sem oceanos ou biosfera.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">foi o pioneiro descoberto em estrela tipo solar.</div>
+                <div class="porque">Provou que estrelas parecidas com o Sol abrigam planetas fora do nosso sistema.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">revelou uma superterra rochosa localizada no centro exato da zona habitável com oceanos estáveis de água líquida.</div>
+                <div class="porque">Trata-se de um "Júpiter quente", muito próximo da estrela e sem superfície sólida.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">transmitiu sinais contínuos de rádio em frequências artificiais captadas pelos radiotelescópios terrestres do projeto SETI.</div>
+                <div class="porque">O planeta é natural e inanimado, sem qualquer emissão de transmissões de rádio.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Qual é o propósito científico da equação proposta por Frank Drake em 1961 no âmbito da astrobiologia?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Estimar civilizações capazes de emitir rádio.</div>
+                <div class="porque">Calcula a probabilidade de existirem civilizações tecnológicas na Via Láctea.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Determinar a velocidade exata de expansão de restos de supernovas que enriquecem o meio interestelar com ferro metálico.</div>
+                <div class="porque">A expansão de supernovas é calculada pela física estelar e espectroscopia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Medir a quantidade de água congelada presente sob as calotas polares de dióxido de carbono nos polos do planeta Marte.</div>
+                <div class="porque">O gelo polar marciano é mensurado por sondas orbitais e radares de solo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Padronizar o tempo de decaimento radiométrico do carbono-14 em fósseis biológicos preservados em bacias sedimentares.</div>
+                <div class="porque">A datação por carbono-14 é uma ferramenta geocronológica terrestre e arqueológica.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Por que o advento e acúmulo de oxigênio na atmosfera arcaica provocou uma extinção em massa biológica?</div>
+            <div class="alternativa">
+                <div class="opcao">O oxigênio reagiu com o nitrogênio do ar formando ácido nítrico concentrado que acidificou todos os oceanos globais.</div>
+                <div class="porque">O oxigênio atmosférico não converteu o ar em ácido nítrico concentrado no mar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">As moléculas de oxigênio refletiam totalmente a radiação infravermelha, resfriando o planeta até o zero absoluto térmico.</div>
+                <div class="porque">O oxigênio não reflete todo o calor e a temperatura global não atingiu o zero.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Por ser um gás oxidante tóxico aos anaeróbios.</div>
+                <div class="porque">Danificava estruturas e enzimas celulares de organismos estritamente anaeróbios.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A rápida oxidação das águas marinhas precipitou todo o cloreto de sódio dissolvido, transformando o mar em água destilada.</div>
+                <div class="porque">A salinidade marinha permaneceu estável e não foi removida pelo gás oxigênio.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Em astrobiologia, por que a coexistência de oxigênio e metano na atmosfera de um exoplaneta é uma bioassinatura?</div>
+            <div class="alternativa">
+                <div class="opcao">Esses gases fundem seus núcleos atômicos sob luz estelar originando elementos pesados essenciais para tecidos orgânicos.</div>
+                <div class="porque">Moléculas na atmosfera não sofrem fusão nuclear para criar novos átomos pesados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A mistura desses dois compostos só é sintetizada por colônias de líquens terrestres adaptadas a rochas vulcânicas secas.</div>
+                <div class="porque">A relevância no exoplaneta decorre do desequilíbrio químico e não de líquens.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Juntos, eles geram um campo magnético artificial que deflete partículas ionizadas provenientes de erupções da estrela.</div>
+                <div class="porque">Campos magnéticos planetários derivam do núcleo metálico, não de gases do ar.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Eles reagem e exigem reposição biológica ativa.</div>
+                <div class="porque">Reagem destruindo-se mutuamente; sua presença contínua indica seres vivos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual é uma limitação estrutural apontada ao experimento de Miller e Urey na explicação da origem celular?</div>
+            <div class="alternativa">
+                <div class="opcao">As descargas elétricas utilizadas na câmara decompunham todo o carbono, impedindo a síntese de qualquer molécula orgânica.</div>
+                <div class="porque">As descargas forneceram energia e sintetizaram diversos aminoácidos orgânicos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Gerou aminoácidos, mas não proteínas e células.</div>
+                <div class="porque">Aminoácidos são blocos básicos; faltava formar polímeros complexos e vida.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O aparelho exigia a inoculação prévia de leveduras ativas para que as reações químicas ocorressem no balão condensador.</div>
+                <div class="porque">A síntese foi inteiramente abiótica, sem nenhuma introdução de material vivo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A mistura de gases continha oxigênio livre em excesso, o que oxidava precocemente os compostos orgânicos sintetizados.</div>
+                <div class="porque">O experimento não possuía oxigênio livre, simulando ambiente redutor anóxico.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Do ponto de vista bioenergético, a respiração aeróbica viabilizou seres pluricelulares complexos porque:</div>
+            <div class="alternativa">
+                <div class="opcao">prescinde totalmente da ingestão de fontes de carbono orgânico para a produção contínua de biomassa nos tecidos animais.</div>
+                <div class="porque">Animais multicelulares são heterótrofos e dependem de ingestão de biomassa.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">gera cristais de ozônio intracelulares que imunizam os tecidos biológicos contra o ataque de vírus e bactérias patogênicas.</div>
+                <div class="porque">O ozônio é tóxico dentro da célula e não atua como cristal de imunização.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">rende muito mais ATP por molécula de glicose.</div>
+                <div class="porque">A oxidação completa gera mais energia que a fermentação para manter tecidos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">permite que as células se dividam continuamente sem necessidade de replicação prévia das cadeias de ácidos nucleicos.</div>
+                <div class="porque">A mitose celular sempre exige a duplicação fiel prévia do material genético.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Por que as luas Europa (de Júpiter) e Encélado (de Saturno) são consideradas alvos prioritários na busca por vida?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Abrigam oceanos líquidos sob crostas de gelo.</div>
+                <div class="porque">O calor geotérmico interno mantém bacias líquidas propícias à quimiossíntese.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Apresentam densas florestas de algas pluricelulares primitivas cobrindo a superfície congelada iluminada pelo Sol.</div>
+                <div class="porque">São mundos glaciais inóspitos na superfície externa, sem qualquer vegetação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Possuem atmosferas superaquecidas ricas em oxigênio e ozônio que barram totalmente os ventos solares de partículas.</div>
+                <div class="porque">Suas atmosferas são extremamente tênues e desprovidas de oxigênio em abundância.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Formaram-se a partir de blocos da crosta terrestre arremessados ao espaço durante o bombardeio tardio de meteoritos.</div>
+                <div class="porque">São luas nativas formadas no disco primordial dos gigantes gasosos exteriores.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Na famosa Equação de Frank Drake ($N = R_* \cdot f_p \cdot n_e \cdot f_l \cdot f_i \cdot f_c \cdot L$), o fator $L$ representa:</div>
+            <div class="alternativa">
+                <div class="opcao">a distância média em anos-luz entre sistemas solares contendo planetas rochosos situados dentro da zona de habitabilidade.</div>
+                <div class="porque">A distância física entre sistemas planetários não é o fator L da equação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">o tempo total de queima de hidrogênio no núcleo estelar antes da transformação da estrela em anã branca fria.</div>
+                <div class="porque">A longevidade da estrela é considerada nos parâmetros estelares iniciais da conta.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">a proporção de organismos extremófilos marinhos capazes de tolerar viagens interplanetárias em meteoritos rochosos.</div>
+                <div class="porque">A equação trata de civilizações tecnológicas inteligentes com rádio, não bactérias.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">a duração de uma civilização comunicativa.</div>
+                <div class="porque">Estima a longevidade da janela temporal em que uma civilização emite sinais.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Como a ausência de camada de ozônio na atmosfera da Terra primitiva favoreceu a síntese de moléculas orgânicas?</div>
+            <div class="alternativa">
+                <div class="opcao">Eliminou a força de atrito atmosférico, facilitando o pouso suave de blocos de gelo cósmico sem choque térmico na água.</div>
+                <div class="porque">O ozônio não interfere na densidade nem na força de atrito do ar sobre bólidos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Provocou a condensação instantânea de todo o vapor em geleiras que preservaram os aminoácidos da degradação química.</div>
+                <div class="porque">A Terra primitiva era aquecida pelo efeito estufa do metano e do dióxido de carbono.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Deixou passar radiação UV que ativou reações.</div>
+                <div class="porque">A radiação ultravioleta incidente forneceu energia para sintetizar compostos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Impediu a oxidação espontânea de metais pesados, liberando cátions que atuaram como enzimas na duplicação de RNA.</div>
+                <div class="porque">A síntese pré-biótica decorreu de energia externa ativando reações gasosas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">O método experimental de Francesco Redi com frascos cobertos de gaze foi conclusivo contra a abiogênese porque:</div>
+            <div class="alternativa">
+                <div class="opcao">utilizou autoclaves térmicas a vapor pressurizado para garantir a eliminação de todos os esporos bacterianos dormentes.</div>
+                <div class="porque">Autoclaves e esterilização microscópica foram desenvolvidas séculos depois de Redi.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">permitiu a troca de ar impedindo moscas.</div>
+                <div class="porque">Derrubou o argumento de que a falta de ar impedia a suposta força vital.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">adicionou substâncias químicas antimicrobianas no caldo orgânico para impedir a coagulação das proteínas da carne.</div>
+                <div class="porque">Redi utilizou carne fresca sem aditivos químicos para isolar a postura de ovos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">submeteu as amostras à irradiação ultravioleta para esterilizar a superfície dos frascos antes do início do experimento.</div>
+                <div class="porque">A luz ultravioleta esterilizante não era conhecida nem controlada no século XVII.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">A hipótese da Panspermia cósmica não resolve integralmente o mistério da origem da vida porque:</div>
+            <div class="alternativa certa">
+                <div class="opcao">apenas desloca a origem para outro local.</div>
+                <div class="porque">Se a vida veio do espaço, ainda resta explicar como ela surgiu lá originalmente.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">contradiz a teoria da relatividade geral ao propor que meteoritos viajam mais rápido do que fótons de luz no vácuo.</div>
+                <div class="porque">Meteoritos viajam a velocidades muito inferiores à velocidade da luz no vácuo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">inviabiliza as pesquisas com extremófilos terrestres por considerar que todos os seres vivos são cópias de vírus marcianos.</div>
+                <div class="porque">Extremófilos continuam sendo modelos vitais essenciais para testar a sobrevivência.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">afirma incorretamente que o Sistema Solar possui mais de duzentas estrelas semelhantes ao Sol com planetas idênticos à Terra.</div>
+                <div class="porque">O Sistema Solar possui apenas uma estrela central, que é o nosso Sol.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Por que o Telescópio Espacial Kepler foi revolucionário para as investigações científicas da Astrobiologia?</div>
+            <div class="alternativa">
+                <div class="opcao">Recolheu amostras de poeira e rochas congeladas da superfície de cometas que orbitam além dos limites de Plutão.</div>
+                <div class="porque">O satélite Kepler não realizou coletas físicas de solo; era um observatório óptico.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Fotografou colônias de bactérias e líquens desenvolvendo-se em fendas de rochas vulcânicas no solo de Marte e Vênus.</div>
+                <div class="porque">Kepler monitorava o brilho de estrelas distantes e não o relevo de planetas vizinhos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Descobriu milhares de planetas fora do sistema.</div>
+                <div class="porque">Detectou exoplanetas pelo método de trânsito, revelando mundos na zona habitável.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Enviou feixes contínuos de radiotransmissão para direcionar espaçonaves alienígenas em direção à órbita da Terra.</div>
+                <div class="porque">Kepler era um sensor astronômico passivo e não uma antena transmissora interestelar.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Confrontando as hipóteses sobre o primeiro ser vivo, a autotrófica prevalece sobre a heterotrófica porque:</div>
+            <div class="alternativa">
+                <div class="opcao">prova que os oceanos primitivos continham concentrações massivas de oxigênio que alimentavam respiração mitocondrial.</div>
+                <div class="porque">A atmosfera e os mares arcaicos eram anóxicos, sem oxigênio livre para respiração.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">a sopa orgânica se esgotaria sem produtores.</div>
+                <div class="porque">Um ecossistema primitivo não sobreviveria sem agentes capazes de sintetizar matéria.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">demonstra que a fotossíntese de plantas vasculares já ocorria antes da formação das primeiras bacias marinhas terrestres.</div>
+                <div class="porque">Plantas vasculares surgiram bilhões de anos depois no ambiente continental.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">estabelece que a fermentação anaeróbia destrói quimicamente qualquer tipo de matéria orgânica dissolvida na água do mar.</div>
+                <div class="porque">A fermentação não destrói matéria de forma absoluta, apenas extrai energia parcial.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual é a principal relação ecológica e evolutiva entre a fotossíntese e a formação da camada de ozônio ($O_3$)?</div>
+            <div class="alternativa">
+                <div class="opcao">A fotossíntese capturava o ozônio atmosférico para oxidar glicose, liberando vapor de água condensado para os oceanos.</div>
+                <div class="porque">A fotossíntese gera oxigênio gasoso (O2) e consome gás carbônico, não ozônio.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Os pigmentos fotossintetizantes quebravam o metano da atmosfera, gerando ozônio através de reações enzimáticas na água.</div>
+                <div class="porque">O ozônio é formado pela recombinação de oxigênio estimulado por radiação solar alta.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A respiração anaeróbia consumia todo o oxigênio marinho, forçando o ozônio a se acumular nas camadas baixas da crosta.</div>
+                <div class="porque">O ozônio se acumulou na estratosfera alta a partir do oxigênio livre excedente.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">O oxigênio liberado formou o ozônio protetor.</div>
+                <div class="porque">O oxigênio acumulado reagiu com radiação UV no alto, criando o escudo de ozônio.</div>
+            </div>
+        </div>
+    </section>
+    <!-- ZONA 5 FIM -->
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<!-- BLOCO TRAVADO: SELOS E MOTOR. COPIE IGUAL. -->
+<script id="selo">
+const SELO_MOTOR = "db5bcc72";
+const SELO_CSS = "1b813fa0";
+</script>
+<script id="motor">
+const searchInput = document.getElementById('searchInput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchInput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) {
+            group.style.display = 'flex';
+            totalVisible++;
+        } else {
+            group.style.display = 'none';
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+// --- LEITURA DAS QUESTOES (vem do HTML) ---
+function htmlDe(pai, seletor) {
+    const el = pai ? pai.querySelector(seletor) : null;
+    return el ? el.innerHTML.trim() : '';
+}
+
+const questions = Array.from(document.querySelectorAll('#bancoQuestoes .questao')).map((bloco, i) => {
+    const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+    const certa = Math.max(alternativas.findIndex(a => a.classList.contains('certa')), 0);
+    return {
+        id: i + 1,
+        level: bloco.dataset.nivel,
+        text: htmlDe(bloco, ':scope > .enunciado'),
+        options: alternativas.map(a => htmlDe(a, ':scope > .opcao')),
+        correct: certa,
+        explanation: {
+            correct: htmlDe(alternativas[certa], ':scope > .porque'),
+            options: alternativas.map((a, j) => j === certa ? 'Certa' : htmlDe(a, ':scope > .porque'))
+        }
+    };
+});
+
+// --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) E LÓGICA ---
+const storageKey = 'promover_quiz_' + document.title.replace(/\s+/g, '_');
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+try {
+    const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(savedAnswers) && savedAnswers.length === questions.length) userAnswers = savedAnswers;
+} catch (e) { /* Sem salvamento disponível: a página continua funcionando. */ }
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion();
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+    }
+    window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    let badgeClass = '';
+    if(q.level === 'Fácil') badgeClass = 'dif-facil';
+    else if(q.level === 'Médio') badgeClass = 'dif-medio';
+    else badgeClass = 'dif-dificil';
+
+    container.innerHTML = `
+    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+        <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+            <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+        </div>
+        <div class="options-list">
+            ${q.options.map((opt, i) => {
+                let cls = '';
+                if (ans !== null) {
+                    if (i === q.correct) cls = 'correct';
+                    else if (i === ans) cls = 'wrong';
+                    else cls = 'disabled';
+                }
+                return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                    <div class="opt-circle">${letters[i]}</div>
+                    <div>${opt}</div>
+                </button>
+                `;
+            }).join('')}
+        </div>
+        ${ans !== null ? `
+        <div class="feedback-box">
+            <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '❌ Ops! Falha Detectada:'}
+            </div>
+            <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+            <div style="margin-top:10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                ${q.explanation.correct}
+            </div>
+            <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+            </div>
+        </div>
+        ` : ''}
+    </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    userAnswers[currentQuestion] = idx;
+    try { localStorage.setItem(storageKey, JSON.stringify(userAnswers)); } catch (e) { /* Sem salvamento disponível. */ }
+    if (idx === questions[currentQuestion].correct) {
+        if (window.confetti) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth;
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    renderQuestion();
+    renderMap();
+    const feedback = document.querySelector('.feedback-box');
+    if (feedback) feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) {
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+    }).join('');
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) {
+            const mapBox = map.getBoundingClientRect();
+            const dotBox = activeDot.getBoundingClientRect();
+            map.scrollTo({ left: map.scrollLeft + dotBox.left - mapBox.left - (mapBox.width - dotBox.width) / 2, behavior: 'smooth' });
+        }
+    }, 50);
+}
+
+function goTo(i) {
+    if (window.confetti) confetti.reset();
+    currentQuestion = i;
+    renderQuestion();
+    renderMap();
+    document.getElementById('qMap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function changeQuestion(d) {
+    let n = currentQuestion + d;
+    if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    if (currentQuestion === questions.length - 1) {
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish;
+    } else {
+        next.textContent = "Avançar";
+        next.onclick = () => changeQuestion(1);
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    if (window.confetti) confetti.reset();
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+            <strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a meta de 80%. Revise a teoria com atenção antes de tentar novamente.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>`;
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+            <strong>🎉 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre os conceitos avaliados. Continue revisando para fazer a prova com segurança.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Refazer Prova (Zerar Histórico)</button>`;
+    }
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">${userAnswers[i] === null ? 'Questão não respondida' : 'Seu Erro: ' + q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    try { localStorage.removeItem(storageKey); } catch (e) { /* Sem salvamento disponível. */ }
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+
+// --- VERIFICADOR AUTOMATICO DA PAGINA ---
+function seloDe(texto) {
+    const limpo = texto.replace(/[^\x21-\x7E]/g, '');
+    let h = 2166136261;
+    for (let i = 0; i < limpo.length; i++) {
+        h ^= limpo.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0).toString(16);
+}
+
+function textoDe(html) {
+    const modelo = document.createElement('template');
+    modelo.innerHTML = html;
+    return modelo.content.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function verificarPagina() {
+    const erros = [];
+    const letras = ['A', 'B', 'C', 'D'];
+    const conteudo = [
+        document.title,
+        document.querySelector('.logo-header').innerHTML,
+        document.getElementById('viewExplanation').innerHTML,
+        document.getElementById('bancoQuestoes').innerHTML
+    ].join(' ');
+
+    const seloMotor = document.getElementById('motor');
+    const seloCss = document.getElementById('css-motor');
+    if (typeof SELO_MOTOR === 'undefined' || !seloMotor || seloDe(seloMotor.textContent) !== SELO_MOTOR) erros.push('O motor JavaScript foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (typeof SELO_CSS === 'undefined' || !seloCss || seloDe(seloCss.textContent) !== SELO_CSS) erros.push('O CSS do motor foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (conteudo.includes('[[') || conteudo.includes(']]')) erros.push('Ficou algum campo [[...]] sem preencher.');
+    if (conteudo.includes('**')) erros.push('Há Markdown (**) dentro do HTML. Use <strong>.');
+    if (document.querySelector('#viewExplanation script, #bancoQuestoes script, #viewExplanation iframe, #bancoQuestoes iframe')) erros.push('Há script ou iframe dentro das zonas de conteúdo.');
+    if (document.querySelector('#viewExplanation img, #bancoQuestoes img')) erros.push('Há imagem externa. Desenhe com SVG.');
+
+    document.querySelectorAll('#viewExplanation svg, #bancoQuestoes svg').forEach((svg, i) => {
+        if (!svg.getAttribute('viewBox') || !svg.getAttribute('aria-label')) erros.push('O desenho SVG ' + (i + 1) + ' precisa de viewBox e aria-label.');
+    });
+
+    const grupos = document.querySelectorAll('#viewExplanation .content-group');
+    if (grupos.length < 2) erros.push('A teoria precisa de pelo menos 2 temas.');
+    grupos.forEach((g, i) => {
+        if (!g.querySelector('.section-badge') || !g.querySelector('.theory-box')) erros.push('O tema ' + (i + 1) + ' da teoria está sem .section-badge ou .theory-box.');
+    });
+
+    const blocos = Array.from(document.querySelectorAll('#bancoQuestoes .questao'));
+    if (blocos.length !== 30) erros.push('São ' + blocos.length + ' questões, mas precisam ser exatamente 30.');
+
+    const enunciados = new Set();
+    const contagem = [0, 0, 0, 0];
+    let longas = 0;
+    let sequencia = 0;
+    let ultima = -1;
+
+    blocos.forEach((bloco, i) => {
+        const q = 'Questão ' + (i + 1) + ': ';
+        const esperado = i < 10 ? 'Fácil' : i < 20 ? 'Médio' : 'Difícil';
+        if (bloco.dataset.nivel !== esperado) erros.push(q + 'o nível deveria ser ' + esperado + '.');
+
+        const enunciadoEl = bloco.querySelector(':scope > .enunciado');
+        const enunciado = enunciadoEl ? textoDe(enunciadoEl.innerHTML) : '';
+        if (!enunciado) erros.push(q + 'falta o enunciado.');
+        if (enunciado && enunciados.has(enunciado)) erros.push(q + 'enunciado repetido.');
+        enunciados.add(enunciado);
+
+        const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+        if (alternativas.length !== 4) erros.push(q + 'precisa de exatamente 4 alternativas.');
+        const certas = alternativas.filter(a => a.classList.contains('certa'));
+        if (certas.length !== 1) erros.push(q + 'precisa de exatamente 1 alternativa certa.');
+
+        const textos = alternativas.map(a => {
+            const el = a.querySelector(':scope > .opcao');
+            return el ? textoDe(el.innerHTML) : '';
+        });
+        if (textos.some(t => !t)) erros.push(q + 'há alternativa sem texto.');
+        if (new Set(textos).size !== textos.length) erros.push(q + 'há alternativas repetidas.');
+
+        alternativas.forEach((a, j) => {
+            const el = a.querySelector(':scope > .porque');
+            const porque = el ? textoDe(el.innerHTML) : '';
+            const letra = letras[j] || '?';
+            if (!porque) erros.push(q + 'a alternativa ' + letra + ' está sem explicação.');
+            if (porque.length > 110) erros.push(q + 'a explicação da alternativa ' + letra + ' passou de 110 caracteres.');
+        });
+
+        const indice = alternativas.findIndex(a => a.classList.contains('certa'));
+        if (indice >= 0 && indice < 4) {
+            contagem[indice]++;
+            sequencia = indice === ultima ? sequencia + 1 : 1;
+            ultima = indice;
+            if (sequencia === 4) erros.push(q + 'são 4 respostas seguidas com a mesma letra.');
+            const tamanhos = textos.map(t => t.length);
+            const outros = tamanhos.filter((_, j) => j !== indice);
+            if (tamanhos[indice] > 20 && tamanhos[indice] - Math.max(...outros) >= 6) longas++;
+        }
+    });
+
+    contagem.forEach((total, i) => {
+        if (blocos.length === 30 && (total < 5 || total > 10)) erros.push('A letra ' + letras[i] + ' é a certa em ' + total + ' questões. Use de 6 a 9.');
+    });
+    if (longas > 3) erros.push('A alternativa certa é claramente a mais longa em ' + longas + ' questões. Equilibre os tamanhos.');
+
+    const aviso = document.getElementById('avisoMotor');
+    if (erros.length === 0) {
+        aviso.remove();
+        window.PAGINA_OK = true;
+        return;
+    }
+    const lista = erros.slice(0, 25).map(e => '<li>' + e.replace(/</g, '&lt;') + '</li>').join('');
+    aviso.innerHTML = '<strong>⚠️ A página precisa de correção. Não envie aos alunos.</strong><br>Copie esta lista, cole no Gemini e peça para corrigir só estes itens:<ol style="margin:8px 0 0 20px;">' + lista + '</ol>';
+}
+
+verificarPagina();
+</script>
+</body>
+</html>
