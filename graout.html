@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orações Adjetivas e Crase 9º Ano - Promover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+:root {
+    --bg-color: #F5F3FF;
+    --text-color: #1E1B2E;
+    --border-color: #000000;
+    --white: #FFFFFF;
+    --theme-light: #EDE9FE;
+    --theme-medium: #A78BFA;
+    --theme-dark: #4C1D95;
+    --theme-contrast: #B45309;
+    --theme-accent: #7C3AED;
+    --theme-text-active: #FFFFFF;
+    /* NÃO ALTERAR AS CORES ABAIXO */
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+    background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); color: var(--theme-contrast); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); color: var(--theme-contrast); }
+    100% { transform: scale(1); }
+}
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center;}
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container { position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 { font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.5rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot { min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled { pointer-events: none; opacity: 0.7; }
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display:flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+.result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big { font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.feedback-box { scroll-margin-top: 12px; scroll-margin-bottom: 90px; }
+.question-map { scroll-margin-top: 8px; }
+td, th { padding: 6px 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🚀</span> PROMOVER</div>
+        <h1>Gramática – 9º&nbsp;Ano</h1>
+        <p class="subtitle">Orações subordinadas adjetivas e crase</p>
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Prática (30)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito...">
+        </div>
+        <div id="no-results"><p>😕 Termo não encontrado.</p></div>
+
+        <!-- TEMA 1 -->
+        <div class="content-group">
+            <span class="section-badge">1. Oração subordinada adjetiva</span>
+            <div class="theory-box">
+                <h3>✏️ O que é?</h3>
+                <p>É a oração que <strong>funciona como um adjetivo</strong>: ela caracteriza um <strong>substantivo</strong>, chamado de <strong>antecedente</strong>, da oração principal.</p>
+                <p>Ela vem introduzida por um <strong>pronome relativo</strong>.</p>
+                <div class="visual-area" style="font-size: 0.95rem;">
+                    Os alunos que estudaram foram aprovados.
+                </div>
+                <p>A oração “que estudaram” caracteriza o substantivo “alunos”. Portanto, “alunos” é o antecedente.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🔗 Pronomes relativos</h3>
+                <table border="1" cellpadding="6" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <tr style="background: var(--theme-light);"><th>Pronome</th><th>Exemplo</th></tr>
+                    <tr><td><strong>que</strong></td><td>O livro <strong>que</strong> li ontem é ótimo.</td></tr>
+                    <tr><td><strong>o qual</strong></td><td>A casa <strong>na qual</strong> moro é antiga.</td></tr>
+                    <tr><td><strong>cujo</strong> (posse)</td><td>Conheço o aluno <strong>cujo</strong> pai é professor.</td></tr>
+                    <tr><td><strong>onde</strong> (lugar)</td><td>A cidade <strong>onde</strong> nasci fica no Ceará.</td></tr>
+                    <tr><td><strong>quem</strong> (pessoa)</td><td>A amiga a <strong>quem</strong> escrevi respondeu.</td></tr>
+                </table>
+                <div class="highlight-box">
+                    <strong>Truque:</strong> se der para trocar “que” por “o qual”, “a qual”, “os quais” ou “as quais”, ele é pronome relativo.
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 2 -->
+        <div class="content-group">
+            <span class="section-badge">2. Restritiva ou explicativa?</span>
+            <div class="theory-box">
+                <h3>🎯 Restritiva</h3>
+                <p><strong>Restringe</strong> o sentido do antecedente, delimitando a qual ser nos referimos. <strong>Não tem vírgulas</strong> e é indispensável ao sentido da frase.</p>
+                <p>Exemplo: Os candidatos <strong>que obtiveram a pontuação mínima</strong> serão convocados.</p>
+            </div>
+            <div class="theory-box">
+                <h3>💬 Explicativa</h3>
+                <p>Apenas <strong>explica ou acrescenta uma informação</strong> sobre o antecedente. Vem <strong>entre vírgulas</strong> e pode ser retirada sem mudar o sentido essencial.</p>
+                <p>Exemplo: Fortaleza<strong>, que é a capital do Ceará,</strong> recebe muitos turistas.</p>
+                <div class="highlight-box">
+                    <strong>Teste:</strong> tire a oração. Se a frase perder o sentido, é <strong>restritiva</strong>. Se continuar clara, é <strong>explicativa</strong>.
+                </div>
+            </div>
+            <div class="theory-box">
+                <h3>⚖️ A vírgula muda o sentido</h3>
+                <p><strong>I.</strong> Os alunos<strong>,</strong> que conversam durante as aulas<strong>,</strong> ficaram sem intervalo.</p>
+                <p>Explicativa: <strong>todos</strong> os alunos conversam, e todos ficaram sem intervalo.</p>
+                <p><strong>II.</strong> Os alunos que conversam durante as aulas ficaram sem intervalo.</p>
+                <p>Restritiva: <strong>somente</strong> os alunos que conversam ficaram sem intervalo.</p>
+                <div class="highlight-box warning">
+                    <strong>Atenção:</strong> quando o antecedente é único, como “o Sol” ou “Fortaleza”, a oração costuma ser explicativa, pois não há o que delimitar.
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 3 -->
+        <div class="content-group">
+            <span class="section-badge">3. Crase</span>
+            <div class="theory-box">
+                <h3>➕ O que é crase?</h3>
+                <p>Crase é a <strong>fusão da preposição a com o artigo a(s)</strong>, indicada pelo acento grave (à).</p>
+                <p>Ela ocorre quando o termo anterior <strong>exige a preposição a</strong> e o termo seguinte <strong>aceita o artigo a</strong>.</p>
+                <div class="visual-area" style="font-size: 1rem;">
+                    dedicar-se a + a culinária = dedicar-se à culinária
+                </div>
+                <div class="highlight-box warning">
+                    <strong>Cuidado:</strong> ser palavra feminina não basta. Em “Comprei a blusa”, não há crase, pois “comprar” não exige a preposição a.
+                </div>
+            </div>
+            <div class="theory-box">
+                <h3>✅ Quando usar</h3>
+                <p><strong>1º) Antes de palavra feminina:</strong> Eu vou à feira.</p>
+                <p><strong>2º) Antes de horas exatas:</strong> O evento será às 19 horas.</p>
+                <p><strong>3º) Antes de “casa”, se for determinada:</strong> Vou à casa de Pedro.</p>
+                <p>Sem determinação, não há crase: Voltei a casa.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🚫 Quando não usar</h3>
+                <p><strong>Antes de palavra masculina:</strong> Entreguei o livro a Pedro.</p>
+                <p><strong>Antes de verbo:</strong> Ele começou a estudar.</p>
+            </div>
+            <div class="theory-box">
+                <h3>🔁 Regra prática do verbo voltar</h3>
+                <p>Nos verbos que indicam movimento, como ir e chegar, troque o verbo por <strong>voltar</strong>:</p>
+                <div class="visual-area" style="font-size: 0.95rem; flex-direction: column; gap: 8px;">
+                    <span>Aparece “da” ➜ há crase</span>
+                    <span>Aparece “de” ➜ não há crase</span>
+                </div>
+                <p>Vou <strong>à</strong> Bahia (volto <strong>da</strong> Bahia).</p>
+                <p>Vou <strong>a</strong> Fortaleza (volto <strong>de</strong> Fortaleza).</p>
+            </div>
+        </div>
+
+        <!-- TEMA 4 -->
+        <div class="content-group">
+            <span class="section-badge">4. Receita e dicas de ouro</span>
+            <div class="theory-box">
+                <h3>📝 Como responder questões de Gramática</h3>
+                <p><strong>1.</strong> Localize o pronome relativo ou a preposição.</p>
+                <p><strong>2.</strong> Identifique o antecedente.</p>
+                <p><strong>3.</strong> Aplique o teste (retirar a oração ou trocar por voltar).</p>
+                <p><strong>4.</strong> Justifique a resposta com a regra.</p>
+            </div>
+            <div class="theory-box">
+                <h3>⭐ Dicas de ouro</h3>
+                <p><strong>Adjetiva restritiva:</strong> sem vírgulas, delimita.</p>
+                <p><strong>Adjetiva explicativa:</strong> entre vírgulas, acrescenta.</p>
+                <p><strong>Crase:</strong> a + a.</p>
+                <p><strong>Teste do voltar:</strong> “da” = crase; “de” = sem crase.</p>
+            </div>
+        </div>
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Diagnóstico (30 Q) ➜
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">30 questões rigorosas. Acerte <strong>80% (24/30)</strong> para provar seu domínio. Leia a correção de cada erro!</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchInput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) {
+            group.style.display = 'flex';
+            totalVisible++;
+        } else {
+            group.style.display = 'none';
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+const questions = [
+    // ---------- FÁCEIS ----------
+    {
+        id: 1, level: "Fácil",
+        text: "O que uma oração subordinada adjetiva faz na frase?",
+        options: ["Indica o tempo em que um fato aconteceu", "Caracteriza um substantivo, como um adjetivo", "Substitui o verbo principal da frase", "Indica a causa do que foi dito na frase"],
+        correct: 1,
+        explanation: {
+            correct: "Ela funciona como um adjetivo e caracteriza um substantivo, chamado de antecedente.",
+            options: ["Indicar tempo é papel de oração adverbial.", "Certa", "O verbo principal continua na oração principal.", "Indicar causa é papel de oração adverbial."]
+        }
+    },
+    {
+        id: 2, level: "Fácil",
+        text: "Qual classe de palavras costuma introduzir a oração subordinada adjetiva?",
+        options: ["Artigo", "Preposição", "Pronome relativo", "Advérbio"],
+        correct: 2,
+        explanation: {
+            correct: "Pronomes relativos, como que, o qual, cujo, onde e quem, introduzem a oração adjetiva.",
+            options: ["Artigos acompanham substantivos, como “o” e “a”.", "Preposições ligam palavras, como “a”, “de” e “em”.", "Certa", "Advérbios indicam circunstâncias, como “ontem” e “aqui”."]
+        }
+    },
+    {
+        id: 3, level: "Fácil",
+        text: "Qual destas palavras é um pronome relativo?",
+        options: ["Cujo", "Mas", "Porque", "Muito"],
+        correct: 0,
+        explanation: {
+            correct: "“Cujo” é pronome relativo e indica posse.",
+            options: ["Certa", "“Mas” é conjunção e indica oposição.", "“Porque” é conjunção e indica causa ou explicação.", "“Muito” indica intensidade ou quantidade."]
+        }
+    },
+    {
+        id: 4, level: "Fácil",
+        text: "Como a oração adjetiva explicativa costuma aparecer na escrita?",
+        options: ["Sempre no fim da frase", "Depois de dois-pontos", "Entre aspas", "Entre vírgulas"],
+        correct: 3,
+        explanation: {
+            correct: "A explicativa vem entre vírgulas porque apenas acrescenta uma informação.",
+            options: ["Ela também pode aparecer no meio da frase.", "Os dois-pontos não marcam a oração explicativa.", "As aspas não marcam a oração explicativa.", "Certa"]
+        }
+    },
+    {
+        id: 5, level: "Fácil",
+        text: "Em “Os alunos que estudaram foram aprovados”, qual é o antecedente?",
+        options: ["que", "estudaram", "aprovados", "alunos"],
+        correct: 3,
+        explanation: {
+            correct: "“Alunos” é o substantivo caracterizado pela oração “que estudaram”.",
+            options: ["“Que” é o pronome relativo.", "“Estudaram” é o verbo da oração adjetiva.", "“Aprovados” faz parte da oração principal.", "Certa"]
+        }
+    },
+    {
+        id: 6, level: "Fácil",
+        text: "O que é crase?",
+        options: ["Um acento usado em toda palavra feminina", "A fusão da preposição a com o artigo a", "A união de dois verbos na mesma frase", "A troca do artigo a pelo artigo o"],
+        correct: 1,
+        explanation: {
+            correct: "Crase é a fusão da preposição a com o artigo a(s), indicada pelo acento grave.",
+            options: ["Nem toda palavra feminina recebe crase.", "Certa", "A crase não tem relação com a união de verbos.", "A crase não é uma troca de artigos."]
+        }
+    },
+    {
+        id: 7, level: "Fácil",
+        text: "Complete: Eu vou ____ feira.",
+        options: ["à", "a", "as", "às"],
+        correct: 0,
+        explanation: {
+            correct: "“Ir” exige a preposição a, e “feira” aceita o artigo a: a + a = à.",
+            options: ["Certa", "Falta a crase: volto da feira.", "“Feira” está no singular, e falta a crase.", "“Feira” está no singular."]
+        }
+    },
+    {
+        id: 8, level: "Fácil",
+        text: "Complete: O evento será ____ 19 horas.",
+        options: ["a", "à", "às", "as"],
+        correct: 2,
+        explanation: {
+            correct: "Antes de horas exatas há crase. Como “19 horas” está no plural, usa-se “às”.",
+            options: ["Antes de horas exatas há crase, e “horas” está no plural.", "“19 horas” está no plural, então o certo é “às”.", "Certa", "Falta o acento: antes de horas exatas há crase."]
+        }
+    },
+    {
+        id: 9, level: "Fácil",
+        text: "Antes de qual destes termos a crase nunca é usada?",
+        options: ["Horas exatas", "“Casa” determinada", "Palavra feminina", "Verbo"],
+        correct: 3,
+        explanation: {
+            correct: "Verbos não aceitam artigo, então não há fusão: “Ele começou a estudar.”",
+            options: ["Pode haver crase: “O evento será às 19 horas.”", "Pode haver crase: “Vou à casa de Pedro.”", "Pode haver crase: “Eu vou à feira.”", "Certa"]
+        }
+    },
+    {
+        id: 10, level: "Fácil",
+        text: "Pela regra prática do verbo voltar, quando há crase?",
+        options: ["Quando aparece “de”", "Quando aparece “da”", "Quando aparece “em”", "Quando aparece “para”"],
+        correct: 1,
+        explanation: {
+            correct: "Se aparecer “da”, há crase: volto da Bahia, então vou à Bahia.",
+            options: ["“De” indica que não há crase: volto de Fortaleza.", "Certa", "“Em” não faz parte da regra do verbo voltar.", "“Para” não faz parte da regra do verbo voltar."]
+        }
+    },
+
+    // ---------- MÉDIAS ----------
+    {
+        id: 11, level: "Médio",
+        text: "Classifique a oração sublinhada: Os alunos <u>que estudaram para a prova</u> conseguiram boas notas.",
+        options: ["Explicativa, pois acrescenta uma informação", "Restritiva, pois delimita quais alunos", "Explicativa, pois vem sem vírgulas", "Restritiva, pois vem entre vírgulas"],
+        correct: 1,
+        explanation: {
+            correct: "A oração não tem vírgulas e delimita o grupo: somente os alunos que estudaram.",
+            options: ["Ela delimita o grupo, e não apenas acrescenta uma informação.", "Certa", "Explicativas vêm entre vírgulas, e esta oração não tem vírgulas.", "Esta oração não vem entre vírgulas."]
+        }
+    },
+    {
+        id: 12, level: "Médio",
+        text: "Classifique a oração sublinhada: Fortaleza, <u>que é a capital do Ceará</u>, recebe muitos turistas.",
+        options: ["Restritiva, pois delimita o antecedente", "Restritiva, pois não pode ser retirada", "Explicativa, pois não tem vírgulas", "Explicativa, pois só acrescenta informação"],
+        correct: 3,
+        explanation: {
+            correct: "Fortaleza já está identificada, e a oração, entre vírgulas, apenas acrescenta uma informação.",
+            options: ["Fortaleza já está identificada e não precisa ser delimitada.", "Sem a oração, a frase continua clara.", "Esta oração vem entre vírgulas.", "Certa"]
+        }
+    },
+    {
+        id: 13, level: "Médio",
+        text: "Em “A cidade onde nasci fica no Ceará”, quais são o pronome relativo e o antecedente, nesta ordem?",
+        options: ["Onde e cidade", "Onde e Ceará", "Nasci e cidade", "Fica e Ceará"],
+        correct: 0,
+        explanation: {
+            correct: "“Onde” é o pronome relativo e retoma “cidade”, o lugar de nascimento.",
+            options: ["Certa", "“Onde” retoma “cidade”, e não “Ceará”.", "“Nasci” é verbo, e não pronome relativo.", "“Fica” é o verbo da oração principal."]
+        }
+    },
+    {
+        id: 14, level: "Médio",
+        text: "Em “Conheço o aluno cujo pai é professor”, o pronome “cujo” indica:",
+        options: ["Lugar", "Tempo", "Posse", "Causa"],
+        correct: 2,
+        explanation: {
+            correct: "“Cujo” indica posse: o pai é do aluno.",
+            options: ["Lugar costuma ser indicado por “onde”.", "A frase não trata de tempo.", "Certa", "A frase não apresenta o motivo de um fato."]
+        }
+    },
+    {
+        id: 15, level: "Médio",
+        text: "Qual frase usa corretamente as vírgulas da oração explicativa?",
+        options: ["Santos Dumont que inventou o 14-Bis, nasceu em Minas Gerais.", "Santos Dumont, que inventou o 14-Bis nasceu em Minas Gerais.", "Santos Dumont que, inventou o 14-Bis, nasceu em Minas Gerais.", "Santos Dumont, que inventou o 14-Bis, nasceu em Minas Gerais."],
+        correct: 3,
+        explanation: {
+            correct: "A oração explicativa fica isolada por vírgulas, antes e depois dela.",
+            options: ["Falta a vírgula antes de “que”.", "Falta a vírgula depois de “14-Bis”.", "A primeira vírgula deve vir antes de “que”.", "Certa"]
+        }
+    },
+    {
+        id: 16, level: "Médio",
+        text: "O que a frase “Os convidados que chegaram cedo ganharam brinde” afirma?",
+        options: ["Todos os convidados ganharam brinde", "Somente quem chegou cedo ganhou brinde", "Todos chegaram cedo e ganharam brinde", "Nenhum convidado ganhou brinde"],
+        correct: 1,
+        explanation: {
+            correct: "Sem vírgulas, a oração é restritiva: só os que chegaram cedo ganharam brinde.",
+            options: ["A oração restringe o grupo, por isso nem todos ganharam.", "Certa", "Esse sentido seria o da frase com vírgulas.", "A frase afirma que parte dos convidados ganhou brinde."]
+        }
+    },
+    {
+        id: 17, level: "Médio",
+        text: "Complete: Vou ____ Bahia e depois ____ Fortaleza.",
+        options: ["a; à", "à; a", "a; a", "à; à"],
+        correct: 1,
+        explanation: {
+            correct: "Volto da Bahia (há crase) e volto de Fortaleza (não há crase).",
+            options: ["Os dois estão trocados: volto da Bahia e volto de Fortaleza.", "Certa", "Falta a crase em “à Bahia”, pois volto da Bahia.", "Sobra crase antes de Fortaleza, pois volto de Fortaleza."]
+        }
+    },
+    {
+        id: 18, level: "Médio",
+        text: "Complete: Ele começou ____ estudar para a prova.",
+        options: ["à", "às", "a", "as"],
+        correct: 2,
+        explanation: {
+            correct: "Antes de verbo não há crase. Aqui, “a” é apenas preposição.",
+            options: ["Verbos não aceitam artigo, então não há crase.", "Não há hora exata nem palavra feminina no plural.", "Certa", "“As” é artigo e não acompanha verbo."]
+        }
+    },
+    {
+        id: 19, level: "Médio",
+        text: "Qual frase está escrita corretamente?",
+        options: ["Vou à casa de Pedro hoje.", "Vou a casa de Pedro hoje.", "Voltei à casa depois da aula.", "Fui à casa depois da escola."],
+        correct: 0,
+        explanation: {
+            correct: "“De Pedro” determina a casa, por isso há crase.",
+            options: ["Certa", "Falta a crase, pois “de Pedro” determina a casa.", "“Casa” sem determinação não recebe crase.", "“Casa” sem determinação não recebe crase."]
+        }
+    },
+    {
+        id: 20, level: "Médio",
+        text: "Por que há crase em “A água é essencial à vida”?",
+        options: ["Porque toda palavra depois de um adjetivo recebe crase", "Porque “vida” é um substantivo masculino", "Porque “essencial” exige a, e “vida” aceita o artigo a", "Porque “água” é uma palavra feminina da frase"],
+        correct: 2,
+        explanation: {
+            correct: "“Essencial” exige a preposição a, e “vida” aceita o artigo a: a + a = à.",
+            options: ["A crase depende da preposição e do artigo, e não só do adjetivo.", "“Vida” é uma palavra feminina.", "Certa", "A crase ocorre antes de “vida”, e não por causa de “água”."]
+        }
+    },
+
+    // ---------- DIFÍCEIS ----------
+    {
+        id: 21, level: "Difícil",
+        text: "O que se entende de “Os alunos, que conversam durante as aulas, ficaram sem intervalo”?",
+        options: ["Somente os que conversam ficaram sem intervalo", "Todos os alunos conversam e ficaram sem intervalo", "Nenhum aluno conversou durante as aulas", "Apenas alguns alunos ficaram sem intervalo"],
+        correct: 1,
+        explanation: {
+            correct: "As vírgulas indicam oração explicativa: a informação vale para todos os alunos.",
+            options: ["Esse seria o sentido da frase sem vírgulas.", "Certa", "A frase diz o contrário: os alunos conversam.", "“Apenas alguns” seria o sentido da oração restritiva."]
+        }
+    },
+    {
+        id: 22, level: "Difícil",
+        text: "Na frase “O Sol que é uma estrela ilumina a Terra”, por que a oração adjetiva deve vir entre vírgulas?",
+        options: ["Porque só existe um Sol, e a oração apenas explica", "Porque a oração restringe qual Sol ilumina a Terra", "Porque o verbo “ilumina” sempre exige vírgula", "Porque “que” sempre deve vir depois de vírgula"],
+        correct: 0,
+        explanation: {
+            correct: "Só existe um Sol, então a oração não delimita nada e fica entre vírgulas.",
+            options: ["Certa", "Não há vários sóis para delimitar.", "A vírgula isola a oração, e não depende do verbo “ilumina”.", "Na restritiva, “que” vem sem vírgula."]
+        }
+    },
+    {
+        id: 23, level: "Difícil",
+        text: "Sem vírgulas, a frase “Meu irmão que mora em São Paulo vem hoje” sugere que:",
+        options: ["A pessoa tem apenas um irmão", "O irmão nunca morou em São Paulo", "Todos os irmãos moram em São Paulo", "A pessoa tem mais de um irmão"],
+        correct: 3,
+        explanation: {
+            correct: "A restritiva delimita qual irmão, o que sugere a existência de outros irmãos.",
+            options: ["Com um único irmão, a oração viria entre vírgulas.", "A frase afirma que ele mora em São Paulo.", "A oração se refere a um irmão específico.", "Certa"]
+        }
+    },
+    {
+        id: 24, level: "Difícil",
+        text: "Em “A casa em que moro é antiga”, qual é o papel da palavra “que”?",
+        options: ["Pronome relativo que retoma “casa”", "Conjunção que liga dois verbos", "Preposição que indica lugar", "Artigo que acompanha “casa”"],
+        correct: 0,
+        explanation: {
+            correct: "“Que” retoma “casa”. Teste: “A casa na qual moro é antiga.”",
+            options: ["Certa", "“Que” retoma um substantivo: “casa”.", "A preposição da oração é “em”.", "O artigo que acompanha “casa” é “a”."]
+        }
+    },
+    {
+        id: 25, level: "Difícil",
+        text: "Em qual frase “que” é pronome relativo?",
+        options: ["Disse que voltaria cedo.", "Espero que você venha.", "Acho que vai chover.", "O livro que li ontem é ótimo."],
+        correct: 3,
+        explanation: {
+            correct: "“Que” retoma “livro” e pode ser trocado por “o qual”.",
+            options: ["Aqui, “que” apenas liga “disse” ao que foi dito.", "Aqui, “que” apenas liga “espero” ao que se espera.", "Aqui, “que” apenas liga “acho” à opinião.", "Certa"]
+        }
+    },
+    {
+        id: 26, level: "Difícil",
+        text: "Complete: Entreguei o trabalho ____ professora ____ 8 horas.",
+        options: ["à; às", "a; às", "à; as", "a; as"],
+        correct: 0,
+        explanation: {
+            correct: "“Entregar” exige a, e “professora” aceita o artigo. Antes de hora exata também há crase.",
+            options: ["Certa", "Falta a crase em “à professora”: a + a = à.", "Falta o acento em “às 8 horas”.", "Faltam os dois acentos."]
+        }
+    },
+    {
+        id: 27, level: "Difícil",
+        text: "Em qual frase o uso da crase está ERRADO?",
+        options: ["Fui à escola cedo.", "Vou à Bahia nas férias.", "Chegamos às 19 horas.", "Ele começou à estudar."],
+        correct: 3,
+        explanation: {
+            correct: "Antes de verbo não há crase. O certo é “começou a estudar”.",
+            options: ["Está certa: volto da escola.", "Está certa: volto da Bahia.", "Está certa: há crase antes de hora exata.", "Certa"]
+        }
+    },
+    {
+        id: 28, level: "Difícil",
+        text: "Em qual frase o uso da crase está correto?",
+        options: ["Entreguei o livro à professor.", "Começamos à correr cedo.", "Ele se dedicou à música.", "Viajei à Fortaleza ontem."],
+        correct: 2,
+        explanation: {
+            correct: "“Dedicar-se” exige a, e “música” aceita o artigo a: a + a = à.",
+            options: ["“Professor” é palavra masculina, então não há crase.", "Antes de verbo não há crase.", "Certa", "Volto de Fortaleza, então não há crase."]
+        }
+    },
+    {
+        id: 29, level: "Difícil",
+        text: "O que muda ao colocar vírgulas em “Os alunos que conversam durante as aulas ficaram sem intervalo”?",
+        options: ["A frase deixa de ter oração adjetiva", "O antecedente passa a ser “aulas”", "A informação passa a valer para todos os alunos", "Nada muda, pois a vírgula indica só uma pausa"],
+        correct: 2,
+        explanation: {
+            correct: "A oração passa de restritiva a explicativa, e a informação vale para todos.",
+            options: ["A oração continua sendo adjetiva, mas passa a ser explicativa.", "O antecedente continua sendo “alunos”.", "Certa", "A vírgula muda o sentido da frase."]
+        }
+    },
+    {
+        id: 30, level: "Difícil",
+        text: "O que acontece ao retirar a oração adjetiva de “Os candidatos que obtiveram a pontuação mínima serão convocados”?",
+        options: ["A frase continua com exatamente o mesmo sentido", "A frase passa a falar de todos os candidatos", "A oração principal desaparece da frase", "A oração vira explicativa sem vírgulas"],
+        correct: 1,
+        explanation: {
+            correct: "Sem a oração, some a delimitação, e a frase passa a indicar todos os candidatos.",
+            options: ["O sentido muda, pois a oração é restritiva.", "Certa", "A oração principal é a que continua na frase.", "A oração foi retirada, então não vira explicativa."]
+        }
+    }
+];
+
+// --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) E LÓGICA ---
+const storageKey = 'promover_quiz_' + document.title.replace(/\s+/g, '_');
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+try {
+    const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(savedAnswers) && savedAnswers.length === questions.length) userAnswers = savedAnswers;
+} catch (e) { /* Sem salvamento disponível: a página continua funcionando. */ }
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion();
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+    }
+    window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    let badgeClass = '';
+    if(q.level === 'Fácil') badgeClass = 'dif-facil';
+    else if(q.level === 'Médio') badgeClass = 'dif-medio';
+    else badgeClass = 'dif-dificil';
+
+    container.innerHTML = `
+    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+        <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+            <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+        </div>
+        <div class="options-list">
+            ${q.options.map((opt, i) => {
+                let cls = '';
+                if (ans !== null) {
+                    if (i === q.correct) cls = 'correct';
+                    else if (i === ans) cls = 'wrong';
+                    else cls = 'disabled';
+                }
+                return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                    <div class="opt-circle">${letters[i]}</div>
+                    <div>${opt}</div>
+                </button>
+                `;
+            }).join('')}
+        </div>
+        ${ans !== null ? `
+        <div class="feedback-box">
+            <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '❌ Ops! Falha Detectada:'}
+            </div>
+            <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+            <div style="margin-top:10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                ${q.explanation.correct}
+            </div>
+            <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+            </div>
+        </div>
+        ` : ''}
+    </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    userAnswers[currentQuestion] = idx;
+    try { localStorage.setItem(storageKey, JSON.stringify(userAnswers)); } catch (e) { /* Sem salvamento disponível. */ }
+    if (idx === questions[currentQuestion].correct) {
+        if (window.confetti) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth;
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    renderQuestion();
+    renderMap();
+    const feedback = document.querySelector('.feedback-box');
+    if (feedback) feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) {
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+    }).join('');
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) {
+            const mapBox = map.getBoundingClientRect();
+            const dotBox = activeDot.getBoundingClientRect();
+            map.scrollTo({ left: map.scrollLeft + dotBox.left - mapBox.left - (mapBox.width - dotBox.width) / 2, behavior: 'smooth' });
+        }
+    }, 50);
+}
+
+function goTo(i) {
+    if (window.confetti) confetti.reset();
+    currentQuestion = i;
+    renderQuestion();
+    renderMap();
+    document.getElementById('qMap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function changeQuestion(d) {
+    let n = currentQuestion + d;
+    if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    if (currentQuestion === questions.length - 1) {
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish;
+    } else {
+        next.textContent = "Avançar";
+        next.onclick = () => changeQuestion(1);
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    if (window.confetti) confetti.reset();
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+            <strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a meta de 80%. Revise a teoria com atenção antes de tentar novamente.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>`;
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+            <strong>🎉 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre os conceitos avaliados. Continue revisando para fazer a prova da escola com segurança.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Refazer Prova (Zerar Histórico)</button>`;
+    }
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">${userAnswers[i] === null ? 'Questão não respondida' : 'Seu Erro: ' + q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    try { localStorage.removeItem(storageKey); } catch (e) { /* Sem salvamento disponível. */ }
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+</script>
+</body>
+</html>
