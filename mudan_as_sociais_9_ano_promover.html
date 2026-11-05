@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ZONA 1 INICIO: TITULO DA ABA -->
+<title>Mudanças Sociais 9º Ano - Promover</title>
+<!-- ZONA 1 FIM -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<!-- BLOCO TRAVADO: CSS DO MOTOR. COPIE IGUAL. -->
+<style id="css-motor">
+:root {
+    --border-color: #000000;
+    --white: #FFFFFF;
+    --theme-text-active: #FFFFFF;
+    --correct-bg: #D1FAE5;
+    --correct-border: #059669;
+    --wrong-bg: #FFE4E6;
+    --wrong-border: #BE123C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color);
+    display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; padding-bottom: 100px;
+    background-image: linear-gradient(var(--theme-light) 1px, transparent 1px), linear-gradient(90deg, var(--theme-light) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+}
+.shake-effect { animation: shake 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.pulse-effect { animation: pulse 1s infinite; display: inline-block; }
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.15); color: var(--theme-contrast); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); color: var(--theme-contrast); }
+    100% { transform: scale(1); }
+}
+.logo-header { width: 100%; max-width: 600px; display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 20px 0 10px 0; }
+.css-logo { font-size: 1.6rem; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -1px; border: 3px solid var(--border-color); padding: 8px 20px; border-radius: 12px; background: var(--theme-dark); box-shadow: 4px 4px 0px var(--theme-contrast); text-align: center; margin-bottom: 15px; }
+h1 { font-size: 1.8rem; font-weight: 900; color: var(--text-color); text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); text-align: center; }
+.subtitle { font-size: 0.95rem; color: var(--theme-dark); font-weight: 600; text-align: center;}
+.container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 20px; }
+.toggle-container { background-color: var(--white); border: 2px solid var(--border-color); border-radius: 50px; padding: 4px; display: flex; margin-bottom: 10px; box-shadow: 3px 3px 0px var(--border-color); }
+.toggle-btn { flex: 1; border: none; background: none; padding: 12px 0; border-radius: 40px; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: var(--theme-dark); cursor: pointer; transition: all 0.3s ease; }
+.toggle-btn.active { background-color: var(--theme-dark); color: var(--theme-text-active); box-shadow: 0px 2px 5px rgba(0,0,0,0.2); }
+.view-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 20px; }
+.search-container { position: relative; width: 100%; }
+.search-input { width: 100%; padding: 15px 20px 15px 50px; border: 2px solid var(--border-color); border-radius: 50px; background-color: var(--white); font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-color); box-shadow: 4px 4px 0px var(--border-color); outline: none; transition: all 0.2s ease; }
+.search-input:focus { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.7; }
+#no-results { text-align: center; color: var(--theme-dark); font-weight: 600; display: none; }
+.content-group { display: flex; flex-direction: column; gap: 12px; }
+.section-badge { display: inline-block; padding: 8px 16px; background-color: var(--theme-dark); color: var(--white); font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: 2px solid var(--border-color); box-shadow: 3px 3px 0px rgba(0,0,0,0.2); text-transform: uppercase; align-self: flex-start; margin-bottom: 5px; }
+.theory-box { display: flex; flex-direction: column; padding: 20px; border-radius: 16px; background-color: var(--white); border: 2px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); font-weight: 500; font-size: 0.95rem; line-height: 1.6; position: relative; overflow: hidden; gap: 15px; }
+.theory-box::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background-color: var(--theme-contrast); border-right: 2px solid var(--border-color); }
+.theory-box h3 { font-size: 1.2rem; font-weight: 900; color: var(--theme-dark); margin-bottom: 5px; border-bottom: 2px solid var(--theme-light); padding-bottom: 5px; display: flex; align-items: center; gap: 8px;}
+.visual-area { background: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 8px; padding: 15px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 20px; font-weight: bold; font-size: 1.5rem; color: var(--theme-contrast); text-align: center; }
+.highlight-box { background-color: #E0F2FE; border-left: 4px solid var(--theme-contrast); padding: 15px; border-radius: 6px; font-size: 0.9rem; color: #075985; }
+.highlight-box.warning { background-color: #FEF2F2; border-left-color: #BE123C; color: #881337; }
+.difficulty-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; border: 2px solid var(--border-color); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.dif-facil { background: #D1FAE5; color: #065F46; }
+.dif-medio { background: #FEF08A; color: #713F12; }
+.dif-dificil { background: #FECACA; color: #7F1D1D; }
+.question-map { display: flex; gap: 8px; overflow-x: auto; padding: 10px 5px; margin-bottom: 20px; white-space: nowrap; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.question-map::-webkit-scrollbar { display: none; }
+.map-dot { min-width: 35px; height: 35px; border: 2px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; color: var(--theme-dark); background: white; cursor: pointer; transition: all 0.2s; }
+.map-dot.active { background-color: var(--theme-dark); color: white; box-shadow: 2px 2px 0px var(--theme-contrast); transform: scale(1.1); }
+.map-dot.answered-correct { background-color: var(--correct-bg); border-color: var(--correct-border); color: var(--correct-border); }
+.map-dot.answered-wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); color: var(--wrong-border); }
+.option-btn { display: flex; align-items: center; width: 100%; padding: 16px; background-color: var(--white); border: 2px solid var(--border-color); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; box-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 600; text-align: left; color: var(--text-color); }
+.option-btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--theme-contrast); border-color: var(--theme-dark); }
+.opt-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem; flex-shrink: 0; background: var(--theme-light); color: var(--theme-dark); }
+.option-btn.correct { background-color: var(--correct-bg); border-color: var(--correct-border); box-shadow: 2px 2px 0px var(--correct-border); }
+.option-btn.correct .opt-circle { background-color: var(--correct-border); color: white; border-color: var(--correct-border); }
+.option-btn.wrong { background-color: var(--wrong-bg); border-color: var(--wrong-border); opacity: 0.9; box-shadow: none; }
+.option-btn.wrong .opt-circle { background-color: var(--wrong-border); color: white; border-color: var(--wrong-border); }
+.option-btn.disabled { pointer-events: none; opacity: 0.7; }
+.feedback-box { display: block; margin-top: 20px; background-color: #FAFAFA; border: 2px dashed var(--theme-dark); border-radius: 12px; padding: 20px; animation: slideUp 0.3s ease-out; }
+.feedback-title { font-weight: 900; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; display:flex; align-items:center; gap:8px; color: var(--theme-dark); }
+.feedback-item { margin-bottom: 8px; font-size: 0.85rem; padding-left: 10px; border-left: 3px solid #CBD5E1; line-height: 1.5; color: #0F172A; }
+.feedback-item.correct-opt { border-left-color: var(--correct-border); font-weight: 700; color: var(--correct-border); background: var(--correct-bg); padding: 10px; border-radius: 0 6px 6px 0; }
+.feedback-item.wrong-opt { border-left-color: var(--wrong-border); color: #7F1D1D; }
+.result-card { background: white; border: 3px solid var(--border-color); border-radius: 20px; padding: 30px; box-shadow: 6px 6px 0px var(--border-color); margin-bottom: 30px; text-align: center; }
+.stars-container { font-size: 3.5rem; margin: 10px 0; letter-spacing: 5px; }
+.percentage-big { font-size: 4.5rem; font-weight: 900; color: var(--theme-dark); line-height: 1; margin: 10px 0; text-shadow: 3px 3px 0px var(--theme-contrast); }
+.btn-action { width: 100%; padding: 18px; background-color: var(--theme-dark); color: white; border: 3px solid var(--border-color); border-radius: 12px; font-size: 1.1rem; font-weight: 900; cursor: pointer; box-shadow: 4px 4px 0px var(--theme-contrast); transition: all 0.1s; text-transform: uppercase; margin-top: 20px; }
+.btn-action:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--theme-contrast); }
+.quiz-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--bg-color); border-top: 3px solid var(--border-color); padding: 15px 20px; display: none; justify-content: space-between; align-items: center; z-index: 100; }
+.nav-btn { padding: 12px 24px; border-radius: 8px; font-weight: 800; border: 2px solid var(--border-color); cursor: pointer; box-shadow: 2px 2px 0px var(--border-color); font-family: 'Poppins', sans-serif; text-transform: uppercase;}
+.btn-next { background-color: var(--theme-dark); color: white; }
+.btn-prev { background-color: white; color: var(--text-color); }
+.nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.feedback-box { scroll-margin-top: 12px; scroll-margin-bottom: 90px; }
+.question-map { scroll-margin-top: 8px; }
+td, th { padding: 6px 8px; }
+#bancoQuestoes { display: none; }
+.visual-area.texto { font-size: 0.95rem; flex-direction: column; gap: 8px; }
+.tabela { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; font-weight: 600; margin-top: 10px; }
+.tabela th { background: var(--theme-light); }
+.tabela th, .tabela td { border: 1px solid var(--border-color); }
+.lista { padding-left: 20px; }
+.desenho { width: 100%; max-width: 420px; height: auto; display: block; margin: 10px auto; }
+.d-cor1 { fill: var(--theme-dark); }
+.d-cor2 { fill: var(--theme-contrast); }
+.d-cor3 { fill: var(--theme-medium); }
+.d-fundo { fill: var(--theme-light); stroke: var(--text-color); stroke-width: 2; }
+.d-linha { fill: none; stroke: var(--text-color); stroke-width: 2; }
+.d-texto { fill: var(--text-color); font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; }
+</style>
+<!-- ZONA 2 INICIO: CORES E CSS EXTRA -->
+<style id="css-tema">
+:root {
+    --bg-color: #EFF6FF;
+    --text-color: #0F172A;
+    --theme-light: #DBEAFE;
+    --theme-medium: #60A5FA;
+    --theme-dark: #1E3A8A;
+    --theme-contrast: #B45309;
+    --theme-accent: #2563EB;
+}
+</style>
+<!-- ZONA 2 FIM -->
+</head>
+<body>
+<div id="avisoMotor" style="display:block; max-width:600px; width:100%; margin:0 auto 16px; padding:14px; background:#FFE4E6; color:#881337; border:3px solid #BE123C; border-radius:12px; font-family:sans-serif; font-size:15px; font-weight:600; line-height:1.5;">⚠️ Este arquivo está incompleto ou com erro no código. Não envie aos alunos. Peça ao Gemini para gerar o arquivo completo de novo.</div>
+<div class="container">
+    <header class="logo-header">
+        <div class="css-logo"><span class="pulse-effect">🚀</span> PROMOVER</div>
+        <!-- ZONA 3 INICIO: CABECALHO -->
+        <h1>História – 9º&nbsp;Ano</h1>
+        <p class="subtitle">Guerra Fria, Direitos Civis, Ditaduras e Revoluções</p>
+        <!-- ZONA 3 FIM -->
+    </header>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="btnExp" onclick="setMode('explanation')">📘 Teoria</button>
+        <button class="toggle-btn" id="btnPrac" onclick="setMode('practice')">🧠 Prática (30)</button>
+    </div>
+
+    <div id="viewExplanation" class="view-section" style="display: flex;">
+        <div class="search-container">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="searchInput" class="search-input" aria-label="Pesquisar conteúdo" placeholder="Pesquisar conceito...">
+        </div>
+        <div id="no-results"><p>😕 Termo não encontrado.</p></div>
+
+        <!-- ZONA 4 INICIO: TEORIA -->
+        <div class="content-group">
+            <span class="section-badge">1. Estado de Bem-Estar Social</span>
+            <div class="theory-box">
+                <h3>🌍 Os Anos Dourados no Pós-Guerra</h3>
+                <p>Durante a <strong>Guerra Fria</strong> (1945-1991), o mundo estava dividido entre o Capitalismo (EUA) e o Socialismo (URSS). Após a Segunda Guerra, países europeus como o Reino Unido criaram o <strong>Estado de bem-estar social</strong> (welfare state). Inspirados no economista Keynes, eles acreditavam que o Estado devia garantir direitos como <strong>saúde, educação e aposentadoria</strong>, usando dinheiro dos impostos.</p>
+                <div class="highlight-box"><strong>Dica:</strong> Uma das metas ocultas de dar tantos benefícios sociais aos trabalhadores era <strong>conter o avanço do socialismo</strong> na Europa!</div>
+                <p>Esse modelo gerou os "anos dourados" (1945-1973). Porém, com a <strong>crise do petróleo (1973)</strong>, surgiu desemprego e inflação. Nos anos 1980, o <strong>neoliberalismo</strong> criticou esses gastos, pedindo a redução do Estado.</p>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">2. Direitos Civis e Contracultura</span>
+            <div class="theory-box">
+                <h3>🚌 A Luta Negra nos EUA</h3>
+                <p>No sul dos EUA, havia as <strong>Leis Jim Crow</strong>, impondo a cruel segregação racial (separação de negros e brancos). Em 1955, <strong>Rosa Parks</strong> recusou-se a dar seu lugar no ônibus a um branco, gerando um enorme boicote aos ônibus.</p>
+                <ul class="lista">
+                    <li><strong>Martin Luther King Jr:</strong> Pastor que pregava protestos <strong>pacíficos</strong>, marchas e a união entre as raças (discurso "Eu tenho um sonho", 1963).</li>
+                    <li><strong>Malcolm X:</strong> Líder que pregava o <strong>orgulho negro</strong> e a autodefesa armada contra a violência policial.</li>
+                </ul>
+                <p>As vitórias vieram em 1964 (Lei dos Direitos Civis, fim da segregação legal) e 1965 (Lei do Direito ao Voto).</p>
+
+                <h3>🎸 A Contracultura</h3>
+                <p>Entre os anos 1960 e 1970, jovens decidiram contestar o <strong>consumismo, a guerra e o autoritarismo</strong>. Surgiram os <strong>hippies</strong> (paz e amor, contato com a natureza) e movimentos ecológicos e feministas. No Brasil, o movimento <strong>Tropicalismo</strong> balançou a música e a arte.</p>
+            </div>
+        </div>
+
+        <div class="content-group">
+            <span class="section-badge">3. Revoltas e Ditaduras na Guerra Fria</span>
+            <div class="theory-box">
+                <h3>🌺 Revolução Cubana (1959)</h3>
+                <p>Em Cuba, o violento ditador Fulgencio Batista era um grande aliado dos EUA. Uma guerrilha popular liderada por <strong>Fidel Castro, Che Guevara e Raúl Castro</strong> o derrubou em 1959. O novo governo nacionalizou as empresas. Como resposta, os EUA criaram o embargo e invadiram a Baía dos Porcos. Resultado: Cuba aliou-se à URSS e virou um <strong>país socialista</strong>.</p>
+                
+                <h3>🔥 As Ditaduras no Cone Sul</h3>
+                <p>Com medo de novas "Cubas", os EUA apoiaram golpes militares anticomunistas na América Latina. Esses regimes violentos criaram a <strong>Operação Condor</strong>, unindo suas polícias para caçar opositores além de suas próprias fronteiras!</p>
+                <table class="tabela">
+                    <tr><th>País e Ditadura</th></tr>
+                    <tr><td><strong>Chile (1973):</strong> General Pinochet derrubou o socialista Salvador Allende. Economia neoliberal forte.</td></tr>
+                    <tr><td><strong>Argentina (1976):</strong> General Videla. Milhares de mortos e "desaparecidos". As <u>Mães da Praça de Maio</u> exigiam saber de seus filhos. Caiu após a derrota nas Malvinas (1982).</td></tr>
+                </table>
+                <div class="highlight-box warning"><strong>Cuidado:</strong> A "Primavera de Praga" (1968) não ocorreu na América, e sim na <strong>Tchecoslováquia</strong> (Europa), onde Alexander Dubček propôs um "socialismo com rosto humano" (mais livre). A URSS esmagou a reforma mandando tanques de guerra!</div>
+                
+                <svg class="desenho" viewBox="0 0 320 90" role="img" aria-label="Linha do tempo: 1945 Fim 2ª Guerra, 1959 Revolução Cubana, 1973 Golpe Chile">
+                    <line class="d-linha" x1="20" y1="45" x2="300" y2="45"/>
+                    <circle class="d-cor1" cx="60" cy="45" r="7"/>
+                    <circle class="d-cor2" cx="160" cy="45" r="7"/>
+                    <circle class="d-cor1" cx="260" cy="45" r="7"/>
+                    <text class="d-texto" x="60" y="25" text-anchor="middle">1945</text>
+                    <text class="d-texto" x="160" y="25" text-anchor="middle">1959</text>
+                    <text class="d-texto" x="260" y="25" text-anchor="middle">1973</text>
+                    <text class="d-texto" x="60" y="65" text-anchor="middle" style="font-size:10px;">Fim 2ª Guerra</text>
+                    <text class="d-texto" x="160" y="65" text-anchor="middle" style="font-size:10px;">Revolução Cubana</text>
+                    <text class="d-texto" x="260" y="65" text-anchor="middle" style="font-size:10px;">Golpe no Chile</text>
+                </svg>
+            </div>
+        </div>
+        <!-- ZONA 4 FIM -->
+
+        <button class="btn-action" onclick="setMode('practice')">
+            Iniciar Diagnóstico (30 Q) ➜
+        </button>
+    </div>
+
+    <div id="viewPractice" class="view-section">
+        <div style="margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 12px; border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color);">
+            <h2 style="color:var(--theme-dark); font-weight:900; margin-bottom: 5px;">A Prova de Fogo</h2>
+            <p style="color: #0F172A; font-size: 0.95rem; font-weight:600;">30 questões rigorosas. Acerte <strong>80% (24/30)</strong> para provar seu domínio. Leia a correção de cada erro!</p>
+        </div>
+        <div class="question-map" id="qMap"></div>
+        <div id="quizContainer" style="margin-bottom: 100px;"></div>
+    </div>
+
+    <div id="viewResult" class="view-section">
+        <div class="result-card">
+            <h2 style="font-weight:900; text-transform:uppercase;">Relatório Final</h2>
+            <div class="stars-container" id="finalStars">⭐⭐⭐</div>
+            <div class="percentage-big" id="finalPercent">0%</div>
+            <p style="font-size:1.2rem; font-weight:700; color:#555;" id="finalScoreText">Você acertou 0 de 30</p>
+            <div id="review-container"></div>
+        </div>
+        <div id="action-buttons"></div>
+    </div>
+
+    <!-- ZONA 5 INICIO: 30 QUESTOES -->
+    <section id="bancoQuestoes" hidden>
+        <!-- FÁCEIS 1 a 10 -->
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O que o Estado de bem-estar social (welfare state) procurava garantir na Europa?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Direitos sociais básicos, como saúde e educação.</div>
+                <div class="porque">Proveu saúde e educação gratuitas à sociedade.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fim da cobrança de todos os impostos dos cidadãos.</div>
+                <div class="porque">Benefícios eram pagos justamente com impostos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A privatização total de escolas e grandes hospitais.</div>
+                <div class="porque">O foco era criar serviços públicos e estatais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A implantação do modelo socialista extremo na Europa.</div>
+                <div class="porque">O objetivo era conter o avanço do socialismo.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O que as Leis Jim Crow impunham no sul dos Estados Unidos até os anos 1960?</div>
+            <div class="alternativa">
+                <div class="opcao">A divisão igualitária de terras entre as raças.</div>
+                <div class="porque">A lei tratava de separação forçada de pessoas.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">A segregação racial em espaços públicos.</div>
+                <div class="porque">Negros e brancos usavam espaços separados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fim da escravidão e o voto livre para todos.</div>
+                <div class="porque">Negros eram proibidos de votar no sul dos EUA.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A integração total de alunos brancos e negros.</div>
+                <div class="porque">A integração só começou a ser lei após 1954.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Qual atitude tornou Rosa Parks um símbolo dos direitos civis em 1955?</div>
+            <div class="alternativa">
+                <div class="opcao">Liderou um grande exército armado contra as leis raciais.</div>
+                <div class="porque">Ela praticava resistência civil não violenta.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Proclamou a total independência política do sul dos EUA.</div>
+                <div class="porque">Ela lutava por igualdade de direitos nos EUA.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Recusou-se a ceder seu lugar no ônibus a um branco.</div>
+                <div class="porque">Gerou o boicote aos ônibus de Montgomery.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Tornou-se a primeira prefeita negra eleita da sua cidade.</div>
+                <div class="porque">Ela era costureira e ativista, não prefeita.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Martin Luther King Jr. ficou conhecido por defender qual método de luta?</div>
+            <div class="alternativa">
+                <div class="opcao">A autodefesa armada imediata contra a força policial.</div>
+                <div class="porque">Malcolm X defendia autodefesa, não Luther King.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A união diplomática com a URSS contra o capitalismo.</div>
+                <div class="porque">Atuava nos EUA, sem vínculos com a União Soviética.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A separação total criando um novo país só para negros.</div>
+                <div class="porque">Ele queria integração pacífica e igualitária.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">A não violência, com marchas e boicotes pacíficos.</div>
+                <div class="porque">Pastor que pregava marchas e protestos pacíficos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">O que o movimento de contracultura dos anos 1960 e 1970 contestava?</div>
+            <div class="alternativa certa">
+                <div class="opcao">O consumismo, o conservadorismo e a Guerra do Vietnã.</div>
+                <div class="porque">Jovens repudiavam o autoritarismo e o Vietnã.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A forte preservação da natureza e de todo meio ambiente.</div>
+                <div class="porque">Os hippies buscavam forte contato com a natureza.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A expansão radical dos direitos sociais das mulheres.</div>
+                <div class="porque">Eles apoiaram o movimento feminista da época.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O surgimento do rock and roll e do festival Woodstock.</div>
+                <div class="porque">O rock foi a principal voz desse movimento jovem.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Em qual país ocorreu a "Primavera de Praga" no ano de 1968?</div>
+            <div class="alternativa">
+                <div class="opcao">Na isolada Cuba.</div>
+                <div class="porque">Em Cuba houve a Revolução de Fidel Castro em 1959.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Na Tchecoslováquia.</div>
+                <div class="porque">Tentou reformar o socialismo em 1968.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Na ditatorial Argentina.</div>
+                <div class="porque">País que sofreu um violento golpe militar em 1976.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">No Reino Unido.</div>
+                <div class="porque">Reino Unido não fazia parte do bloco socialista.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Como se chamava a operação que uniu as ditaduras do Cone Sul?</div>
+            <div class="alternativa">
+                <div class="opcao">Plano Marshall de Defesa.</div>
+                <div class="porque">Ajuda econômica dos EUA à Europa no pós-guerra.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Pacto de Varsóvia Americano.</div>
+                <div class="porque">Aliança militar do bloco socialista soviético.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Operação Condor.</div>
+                <div class="porque">Uniu polícias para perseguir e prender opositores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Movimento 26 de Julho Cubano.</div>
+                <div class="porque">Movimento revolucionário de Fidel Castro em Cuba.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Quem derrubou o presidente socialista Salvador Allende no Chile em 1973?</div>
+            <div class="alternativa">
+                <div class="opcao">O ditador Fulgencio Batista.</div>
+                <div class="porque">Fulgencio Batista foi ditador de Cuba até 1959.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O argentino Che Guevara.</div>
+                <div class="porque">Revolucionário socialista, não liderou golpes lá.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O líder ativista Martin Luther King.</div>
+                <div class="porque">Atuou nos EUA pelos direitos civis civis negros.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">O general Augusto Pinochet.</div>
+                <div class="porque">General que deu o sangrento golpe militar chileno.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Quem governava Cuba antes da vitória da Revolução Cubana em 1959?</div>
+            <div class="alternativa certa">
+                <div class="opcao">O ditador Fulgencio Batista.</div>
+                <div class="porque">Era um ditador aliado aos EUA, derrubado por Fidel.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O líder Alexander Dubček.</div>
+                <div class="porque">Líder da Primavera de Praga na Tchecoslováquia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O general Jorge Videla.</div>
+                <div class="porque">General que comandou o golpe na Argentina em 1976.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O presidente Salvador Allende.</div>
+                <div class="porque">Presidente socialista do Chile morto em 1973.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Fácil">
+            <div class="enunciado">Em que década o Estado de bem-estar social europeu entrou em crise?</div>
+            <div class="alternativa">
+                <div class="opcao">Nos anos 1940, após a guerra mundial.</div>
+                <div class="porque">Nessa década o modelo estava apenas começando.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Nos anos 1970, com a crise do petróleo.</div>
+                <div class="porque">A crise do petróleo de 1973 gerou grande inflação.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Nos anos 1990, após a queda do grande muro.</div>
+                <div class="porque">A crise começou bem antes, nas décadas anteriores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Nos anos 1920, na grande depressão econômica.</div>
+                <div class="porque">O modelo só surgiu depois da Segunda Guerra.</div>
+            </div>
+        </div>
+
+        <!-- MÉDIAS 11 a 20 -->
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Qual ideia econômica baseou a criação do Estado de bem-estar social europeu?</div>
+            <div class="alternativa">
+                <div class="opcao">O neoliberalismo extremo capitalista.</div>
+                <div class="porque">O neoliberalismo foi quem atacou esse modelo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O modelo comunista ditatorial de mercado.</div>
+                <div class="porque">O bem-estar social era capitalista e pró-mercado.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">As ideias do economista Keynes.</div>
+                <div class="porque">Defendia a intervenção estatal para o bem social.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fim absoluto do lucro privado industrial.</div>
+                <div class="porque">Empresas e o livre comércio continuaram ativos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Malcolm X possuía diferenças claras com Martin Luther King. O que ele criticava?</div>
+            <div class="alternativa">
+                <div class="opcao">O intenso uso de boicotes e de vários jornais.</div>
+                <div class="porque">Ambos usavam mídia, mas Malcolm apoiava a autodefesa.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A constante luta nacional por direitos civis iguais.</div>
+                <div class="porque">Malcolm também lutava, mas de forma mais dura.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A total separação forçada por novas leis sulistas.</div>
+                <div class="porque">Ambos eram contra a imposição de leis racistas.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">A integração pacífica com os brancos.</div>
+                <div class="porque">Malcolm pregava total autonomia e orgulho.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">O que foi proposto pelo "socialismo com rosto humano" na Tchecoslováquia?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Liberdade de imprensa e menos censura.</div>
+                <div class="porque">Queriam um socialismo mais aberto e livre.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fim definitivo de todo o modelo socialista local.</div>
+                <div class="porque">A ideia era reformar o regime, não o extinguir.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O aumento da censura e grande controle do Estado.</div>
+                <div class="porque">Dubček buscava exatamente acabar com a opressão.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A privatização agressiva das indústrias nacionais.</div>
+                <div class="porque">Queriam liberdade civil, mantendo a economia estatal.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Como os EUA reagiram logo após o novo governo cubano nacionalizar empresas em 1959?</div>
+            <div class="alternativa">
+                <div class="opcao">Enviaram terríveis mísseis nucleares para Cuba.</div>
+                <div class="porque">Quem instalou mísseis em Cuba foi a União Soviética.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Aplicaram embargo e apoiaram uma invasão.</div>
+                <div class="porque">EUA sufocaram a economia e apoiaram ataques.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Aprovaram um grande e amigável empréstimo local.</div>
+                <div class="porque">Romperam laços após empresas serem nacionalizadas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Aceitaram tranquilamente o socialismo instalando-se.</div>
+                <div class="porque">Financiaram grupos anticastristas para tomar o poder.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Qual a consequência direta da derrota argentina na Guerra das Malvinas (1982)?</div>
+            <div class="alternativa">
+                <div class="opcao">A rápida adoção do modelo de bem-estar social.</div>
+                <div class="porque">O país estava falido e não adotou essas leis.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O grande triunfo militar sobre o vizinho Chile.</div>
+                <div class="porque">A Argentina não travou guerra com o Chile.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Enfraqueceu os militares e trouxe a democracia.</div>
+                <div class="porque">O fracasso desmoralizou muito a junta militar.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A imediata criação da famosa Operação Condor.</div>
+                <div class="porque">A Operação Condor ocorreu no ápice do poder militar.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Além de melhorar vidas, qual era o objetivo político do Estado de bem-estar social?</div>
+            <div class="alternativa">
+                <div class="opcao">Punir duramente empresários e acabar com o lucro.</div>
+                <div class="porque">Protegeu o mercado garantindo paz social.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Acelerar agressivamente a dura Guerra do Vietnã.</div>
+                <div class="porque">Era voltado apenas para políticas sociais locais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Isentar a população pobre de pagar qualquer imposto.</div>
+                <div class="porque">O Estado cobrava impostos de todos para a saúde.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Conter o avanço do socialismo na Guerra Fria.</div>
+                <div class="porque">Direitos sociais afastavam operários da URSS.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">O movimento negro comemorou a Lei dos Direitos Civis (1964). O que ela determinou?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Acabou com a segregação racial legal.</div>
+                <div class="porque">Proibiu a discriminação em locais públicos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Entregou milhares de terras aos ex-escravizados.</div>
+                <div class="porque">O foco foi civil, não ocorreu reforma agrária.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Libertou todos os últimos escravizados das fazendas.</div>
+                <div class="porque">A escravidão acabou quase cem anos antes.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Criou dezenas de escolas superiores exclusivas para negros.</div>
+                <div class="porque">A ideia era unir brancos e negros nas salas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">Como terminou a ditadura do general Augusto Pinochet no Chile?</div>
+            <div class="alternativa">
+                <div class="opcao">Após uma grande invasão comandada pela União Soviética.</div>
+                <div class="porque">A URSS não invadiu, o fim foi político.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Um plebiscito rejeitou sua permanência.</div>
+                <div class="porque">O povo votou não à ditadura no ano de 1988.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Com sua morte bastante misteriosa dentro do palácio.</div>
+                <div class="porque">Pinochet perdeu no voto e seguiu no exército.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Através do caos gerado pela Guerra das Ilhas Malvinas.</div>
+                <div class="porque">Conflito travado pela Argentina, não pelo Chile.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">O que marcou fortemente a ditadura no Uruguai (1973-1985)?</div>
+            <div class="alternativa">
+                <div class="opcao">A estreita união política com os fortes líderes comunistas.</div>
+                <div class="porque">Perseguiram qualquer partido de esquerda.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A ousada criação de uma zona livre de qualquer censura.</div>
+                <div class="porque">Impuseram dura censura para conter os opositores.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">O altíssimo número de presos políticos.</div>
+                <div class="porque">Teve a maior taxa de presos por habitante.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O fim voluntário e pacífico dos militares no ano de 1974.</div>
+                <div class="porque">A ditadura militar governou até o ano de 1985.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Médio">
+            <div class="enunciado">O movimento da Contracultura impulsionou fortemente o crescimento de quais pautas?</div>
+            <div class="alternativa">
+                <div class="opcao">Forte militarismo e ampla industrialização.</div>
+                <div class="porque">Jovens criticavam fortemente a corrida armamentista.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Rápida expansão de religiões bem tradicionais.</div>
+                <div class="porque">Rejeitavam os costumes puritanos e conservadores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Um rigoroso controle estatal sobre a nova música.</div>
+                <div class="porque">Pregavam liberdade total na arte e no rock.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Movimentos feministas, pacifistas e ecológicos.</div>
+                <div class="porque">Lutavam por direitos iguais e pela natureza.</div>
+            </div>
+        </div>
+
+        <!-- DIFÍCEIS 21 a 30 -->
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual evento conectou os atritos entre EUA e Cuba com a temida Crise dos Mísseis (1962)?</div>
+            <div class="alternativa certa">
+                <div class="opcao">O apoio dos EUA a ataques aproximou Cuba da URSS, que enviou ogivas.</div>
+                <div class="porque">Fidel aceitou armas soviéticas para se proteger.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O exército de Fidel bombardeou a Flórida após o embargo dos EUA.</div>
+                <div class="porque">Não houve ataque, apenas mísseis apontados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">O governo dos EUA enviou tropas nucleares disfarçadas a Havana.</div>
+                <div class="porque">Foi a URSS que enviou mísseis secretamente.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A ilha de Cuba expulsou a URSS e aliou-se ao governo francês.</div>
+                <div class="porque">Cuba se aliou e dependeu da União Soviética.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Por qual motivo o neoliberalismo criticava as ações do Estado de bem-estar social?</div>
+            <div class="alternativa">
+                <div class="opcao">Alegava firmemente que o Estado financiava enormes exércitos soviéticos.</div>
+                <div class="porque">O modelo era capitalista e rivalizava com a URSS.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Dizia que altos gastos sociais geravam inflação e freavam a economia.</div>
+                <div class="porque">O alto custo com impostos desaquecia a economia.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Questionava constantemente o gasto com novas igrejas por toda a Europa.</div>
+                <div class="porque">O alvo das críticas eram os gastos previdenciários.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Argumentava que os salários de todos os operários deveriam ser muito maiores.</div>
+                <div class="porque">Neoliberais queriam diminuir a proteção estatal.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Como a visão sobre o papel do cidadão branco afastava Malcolm X de Martin Luther King?</div>
+            <div class="alternativa">
+                <div class="opcao">O pastor King rejeitava todos os vultosos donativos vindos da Europa.</div>
+                <div class="porque">A divergência era sobre integração social, não grana.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Ambos os líderes repudiavam brancos participando em suas longas marchas.</div>
+                <div class="porque">King promovia união entre brancos e negros.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Malcolm focava na separação e autonomia; King sonhava com a união mista.</div>
+                <div class="porque">Malcolm não queria integrar-se à sociedade opressora.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Malcolm exigia abertamente a supremacia branca governando todo o país.</div>
+                <div class="porque">Malcolm defendeu firmeza e orgulho negro.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual semelhança severa ligava as ditaduras de Argentina, Chile e Uruguai nos anos 1970?</div>
+            <div class="alternativa">
+                <div class="opcao">Usaram livremente o perdão para converter opositores marxistas em generais.</div>
+                <div class="porque">Nenhuma ditadura perdoou; elas exterminaram opositores.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Distribuíram grandes porções de terras aos guerrilheiros para acalmar protestos.</div>
+                <div class="porque">Oprimiram e caçaram membros de grupos guerrilheiros.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Fizeram fortes alianças políticas muito amigáveis e próximas com Fidel Castro.</div>
+                <div class="porque">O objetivo dos golpes era justamente evitar comunismo.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Uniram suas polícias na Operação Condor para perseguir dissidentes.</div>
+                <div class="porque">Polícias atuaram juntas para capturar exilados.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Como as potências europeias usaram o bem-estar social como arma na Guerra Fria?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Melhorando as condições de vida, esvaziaram o apelo das ideias comunistas.</div>
+                <div class="porque">Garantir saúde afastava operários do comunismo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Construindo grandes muralhas de pedra para evitar a entrada dos russos.</div>
+                <div class="porque">A tática era dar bons serviços para manter o apoio.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Doando as ricas fábricas estatais de forma secreta a todos os grandes sindicatos.</div>
+                <div class="porque">Apenas criaram leis sociais; fábricas seguiam privadas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Cortando totalmente a aposentadoria para obrigar o povo a lutar grandes guerras.</div>
+                <div class="porque">A pensão foi exatamente uma das garantias criadas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual foi o papel vital das Mães da Praça de Maio contra a junta militar na Argentina?</div>
+            <div class="alternativa">
+                <div class="opcao">Atacaram de surpresa os quartéis usando armas roubadas da guerrilha local.</div>
+                <div class="porque">Elas apenas usavam lenços e protestos totalmente pacíficos.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Denunciaram o terror estatal ao mundo cobrando notícias dos filhos sumidos.</div>
+                <div class="porque">Cobraram saber o destino real de seus filhos sumidos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Organizaram imensas greves gerais que paralisaram toda a indústria armada.</div>
+                <div class="porque">Eram mães em protesto, e não líderes de sindicatos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Doaram secretamente fundos para o Reino Unido vencer a Guerra das Malvinas.</div>
+                <div class="porque">Lutavam por vidas, não doavam para ações na guerra.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual temor real fez a URSS esmagar com tanques as reformas da Primavera de Praga (1968)?</div>
+            <div class="alternativa">
+                <div class="opcao">O grande medo de que as temíveis armas nucleares tchecas atacassem Moscou em cheio.</div>
+                <div class="porque">A Tchecoslováquia não ameaçou usar armas contra russos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A repentina descoberta de uma aliança secreta agressiva assinada entre Praga e Cuba.</div>
+                <div class="porque">Cuba e Rússia eram bem unidas; não havia conspiração.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">O pavor de que a liberdade na Tchecoslováquia inspirasse outras rebeliões no bloco.</div>
+                <div class="porque">Liberdade lá poderia inspirar outros povos subjugados.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A audaciosa tentativa de privatização imediata dos bancos e todos campos agrícolas.</div>
+                <div class="porque">As mudanças eram políticas e cíveis, não capitalistas.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Por que os Estados Unidos financiaram ditaduras no Cone Sul durante a Guerra Fria?</div>
+            <div class="alternativa">
+                <div class="opcao">Para garantir a exclusividade na compra de todo o petróleo desses grandes países sulistas.</div>
+                <div class="porque">O foco era impedir ideologias inimigas, não o petróleo.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Para forçar as populações locais a construir imensas e caras bases aéreas no Oceano Pacífico.</div>
+                <div class="porque">O alvo era conter comunistas, não construir aeroportos.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Para enviar armas sul-americanas muito baratas à custosa Guerra do Vietnã no leste asiático.</div>
+                <div class="porque">Os Estados Unidos fabricavam seu próprio armamento forte.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Para impedir o comunismo, barrando revoltas populares após a Revolução Cubana.</div>
+                <div class="porque">Temiam o surgimento de novas ditaduras aliadas a Cuba.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Além das escolas e ônibus segregados, qual outra restrição civil as Leis Jim Crow mantinham?</div>
+            <div class="alternativa certa">
+                <div class="opcao">Dificultavam ou anulavam na prática o direito de voto dos negros no Sul.</div>
+                <div class="porque">Usavam testes e altas taxas para barrar negros nas urnas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Proibiam expressamente os negros de cultivar qualquer alimento em território nacional.</div>
+                <div class="porque">Negros formavam a base da agricultura na região sul.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Obrigavam os cidadãos brancos a pagarem altos impostos para sustentar as igrejas negras.</div>
+                <div class="porque">As leis impunham segregação de raças nos locais.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">Impediam violentamente que os cidadãos negros se mudassem para as regiões da África.</div>
+                <div class="porque">Lutavam por plenos direitos civis nos Estados Unidos.</div>
+            </div>
+        </div>
+
+        <div class="questao" data-nivel="Difícil">
+            <div class="enunciado">Qual mensagem principal os jovens no Festival de Woodstock (1969) enviaram ao mundo?</div>
+            <div class="alternativa">
+                <div class="opcao">O forte apoio massivo e fanático à continuidade das terríveis guerras frias e muito armadas.</div>
+                <div class="porque">A contracultura condenou a carnificina feita no Vietnã.</div>
+            </div>
+            <div class="alternativa certa">
+                <div class="opcao">Um forte clamor pacífico por "paz e amor", em claro repúdio à Guerra do Vietnã.</div>
+                <div class="porque">Festival celebrou a união e contestou mortes cegas.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A profunda necessidade urgente de um modelo industrial capitalista selvagem e muito mais agressivo.</div>
+                <div class="porque">Jovens abominavam o materialismo e o caos consumista.</div>
+            </div>
+            <div class="alternativa">
+                <div class="opcao">A total obediência cega e reverente aos rígidos padrões morais exigidos pelos pais mais conservadores.</div>
+                <div class="porque">O intuito era romper costumes morais conservadores.</div>
+            </div>
+        </div>
+    </section>
+    <!-- ZONA 5 FIM -->
+</div>
+
+<footer class="quiz-footer" id="quizFooter">
+    <button class="nav-btn btn-prev" id="btnPrev" onclick="changeQuestion(-1)">Anterior</button>
+    <button class="nav-btn btn-next" id="btnNext" onclick="changeQuestion(1)">Próxima</button>
+</footer>
+
+<!-- BLOCO TRAVADO: SELOS E MOTOR. COPIE IGUAL. -->
+<script id="selo">
+const SELO_MOTOR = "db5bcc72";
+const SELO_CSS = "1b813fa0";
+</script>
+<script id="motor">
+const searchInput = document.getElementById('searchInput');
+const contentGroups = document.querySelectorAll('.content-group');
+const noResultsMsg = document.getElementById('no-results');
+
+searchInput.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    let totalVisible = 0;
+    contentGroups.forEach(group => {
+        const textContent = group.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (textContent.includes(term)) {
+            group.style.display = 'flex';
+            totalVisible++;
+        } else {
+            group.style.display = 'none';
+        }
+    });
+    noResultsMsg.style.display = totalVisible === 0 ? 'block' : 'none';
+});
+
+// --- LEITURA DAS QUESTOES (vem do HTML) ---
+function htmlDe(pai, seletor) {
+    const el = pai ? pai.querySelector(seletor) : null;
+    return el ? el.innerHTML.trim() : '';
+}
+
+const questions = Array.from(document.querySelectorAll('#bancoQuestoes .questao')).map((bloco, i) => {
+    const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+    const certa = Math.max(alternativas.findIndex(a => a.classList.contains('certa')), 0);
+    return {
+        id: i + 1,
+        level: bloco.dataset.nivel,
+        text: htmlDe(bloco, ':scope > .enunciado'),
+        options: alternativas.map(a => htmlDe(a, ':scope > .opcao')),
+        correct: certa,
+        explanation: {
+            correct: htmlDe(alternativas[certa], ':scope > .porque'),
+            options: alternativas.map((a, j) => j === certa ? 'Certa' : htmlDe(a, ':scope > .porque'))
+        }
+    };
+});
+
+// --- SISTEMA DE SALVAMENTO (LOCALSTORAGE) E LÓGICA ---
+const storageKey = 'promover_quiz_' + document.title.replace(/\s+/g, '_');
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+try {
+    const savedAnswers = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(savedAnswers) && savedAnswers.length === questions.length) userAnswers = savedAnswers;
+} catch (e) { /* Sem salvamento disponível: a página continua funcionando. */ }
+
+function setMode(mode) {
+    const views = ['viewExplanation', 'viewPractice', 'viewResult'];
+    views.forEach(v => document.getElementById(v).style.display = 'none');
+    document.getElementById('quizFooter').style.display = 'none';
+    if(mode === 'explanation') {
+        document.getElementById('viewExplanation').style.display = 'flex';
+        document.getElementById('btnExp').classList.add('active');
+        document.getElementById('btnPrac').classList.remove('active');
+    } else if (mode === 'practice') {
+        document.getElementById('viewPractice').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'flex';
+        document.getElementById('btnExp').classList.remove('active');
+        document.getElementById('btnPrac').classList.add('active');
+        renderQuestion();
+        renderMap();
+    } else if (mode === 'result') {
+        document.getElementById('viewResult').style.display = 'block';
+        document.getElementById('quizFooter').style.display = 'none';
+    }
+    window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+    if(questions.length === 0) return;
+    const q = questions[currentQuestion];
+    const container = document.getElementById('quizContainer');
+    const letters = ['A', 'B', 'C', 'D'];
+    const ans = userAnswers[currentQuestion];
+    let badgeClass = '';
+    if(q.level === 'Fácil') badgeClass = 'dif-facil';
+    else if(q.level === 'Médio') badgeClass = 'dif-medio';
+    else badgeClass = 'dif-dificil';
+
+    container.innerHTML = `
+    <div class="card-content" style="border: 3px solid var(--border-color); box-shadow: 4px 4px 0px var(--border-color); padding: 15px; border-radius: 12px; background: white;">
+        <span class="difficulty-badge ${badgeClass}">${q.level}</span>
+        <div style="margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: var(--theme-dark);">QUESTÃO ${currentQuestion + 1} DE ${questions.length}</span>
+            <h2 style="font-size: 1.15rem; margin-top: 5px; color: var(--text-color); font-weight: 900;">${q.text}</h2>
+        </div>
+        <div class="options-list">
+            ${q.options.map((opt, i) => {
+                let cls = '';
+                if (ans !== null) {
+                    if (i === q.correct) cls = 'correct';
+                    else if (i === ans) cls = 'wrong';
+                    else cls = 'disabled';
+                }
+                return `<button class="option-btn ${cls}" onclick="handleAnswer(${i})" ${ans !== null ? 'disabled' : ''}>
+                    <div class="opt-circle">${letters[i]}</div>
+                    <div>${opt}</div>
+                </button>
+                `;
+            }).join('')}
+        </div>
+        ${ans !== null ? `
+        <div class="feedback-box">
+            <div class="feedback-title" style="color:${ans === q.correct ? 'var(--correct-border)' : 'var(--wrong-border)'}">
+                ${ans === q.correct ? '✅ Raciocínio Aprovado!' : '❌ Ops! Falha Detectada:'}
+            </div>
+            <div class="feedback-item correct-opt"><strong>A Verdade Direta e Certa:</strong> ${q.options[q.correct]}</div>
+            <div style="margin-top:10px; font-size:0.95rem; color:var(--text-color); margin-bottom:15px; font-weight:600;">
+                ${q.explanation.correct}
+            </div>
+            <div style="margin-top:15px; border-top:1px dashed var(--theme-light); padding-top:10px;">
+                <small style="color:var(--theme-dark);"><strong>Diagnóstico das Rasteiras e Distratores:</strong></small>
+                ${q.explanation.options.map((exp, i) => i !== q.correct ? `<div class="feedback-item wrong-opt" style="margin-top:8px;"><strong>${letters[i]})</strong> ${exp}</div>` : '').join('')}
+            </div>
+        </div>
+        ` : ''}
+    </div>
+    `;
+    updateNav();
+}
+
+function handleAnswer(idx) {
+    if (userAnswers[currentQuestion] !== null) return;
+    userAnswers[currentQuestion] = idx;
+    try { localStorage.setItem(storageKey, JSON.stringify(userAnswers)); } catch (e) { /* Sem salvamento disponível. */ }
+    if (idx === questions[currentQuestion].correct) {
+        if (window.confetti) {
+            const duration = 1500;
+            const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1, y: 0.6 }, colors: ['#10B981', '#059669', '#34D399', '#047857'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+        }
+    } else {
+        const quizContainer = document.getElementById('quizContainer');
+        quizContainer.classList.remove('shake-effect');
+        void quizContainer.offsetWidth;
+        quizContainer.classList.add('shake-effect');
+        setTimeout(() => quizContainer.classList.remove('shake-effect'), 500);
+    }
+    renderQuestion();
+    renderMap();
+    const feedback = document.querySelector('.feedback-box');
+    if (feedback) feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderMap() {
+    if(questions.length === 0) return;
+    const map = document.getElementById('qMap');
+    map.innerHTML = questions.map((q, i) => {
+        let cls = 'map-dot';
+        if (i === currentQuestion) cls += ' active';
+        if (userAnswers[i] !== null) {
+            cls += userAnswers[i] === q.correct ? ' answered-correct' : ' answered-wrong';
+        }
+        return `<div class="${cls}" onclick="goTo(${i})">${i+1}</div>`;
+    }).join('');
+    setTimeout(() => {
+        const activeDot = map.querySelector('.map-dot.active');
+        if (activeDot) {
+            const mapBox = map.getBoundingClientRect();
+            const dotBox = activeDot.getBoundingClientRect();
+            map.scrollTo({ left: map.scrollLeft + dotBox.left - mapBox.left - (mapBox.width - dotBox.width) / 2, behavior: 'smooth' });
+        }
+    }, 50);
+}
+
+function goTo(i) {
+    if (window.confetti) confetti.reset();
+    currentQuestion = i;
+    renderQuestion();
+    renderMap();
+    document.getElementById('qMap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function changeQuestion(d) {
+    let n = currentQuestion + d;
+    if (n >= 0 && n < questions.length) goTo(n);
+}
+
+function updateNav() {
+    document.getElementById('btnPrev').disabled = (currentQuestion === 0);
+    const next = document.getElementById('btnNext');
+    if (currentQuestion === questions.length - 1) {
+        next.textContent = "Finalizar Diagnóstico";
+        next.onclick = finish;
+    } else {
+        next.textContent = "Avançar";
+        next.onclick = () => changeQuestion(1);
+    }
+}
+
+function finish() {
+    let correct = userAnswers.filter((a, i) => a === questions[i].correct).length;
+    let percent = Math.round((correct / questions.length) * 100);
+    if (window.confetti) confetti.reset();
+    document.getElementById('finalPercent').textContent = percent + "%";
+    document.getElementById('finalScoreText').textContent = `Você acertou ${correct} de ${questions.length} questões.`;
+    document.getElementById('finalStars').textContent = percent >= 80 ? "⭐⭐⭐⭐⭐" : percent >= 60 ? "⭐⭐⭐" : "⭐";
+    let summary = '<div style="text-align:left; margin-top:20px;">';
+    if (percent < 80) {
+        summary += `<div style="background:var(--wrong-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--wrong-border); color:var(--wrong-border);">
+            <strong>⚠️ Domínio Insuficiente!</strong> O seu desempenho não atingiu a meta de 80%. Revise a teoria com atenção antes de tentar novamente.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Limpar Histórico e Refazer Prova</button>`;
+    } else {
+        summary += `<div style="background:var(--correct-bg); padding:15px; border-radius:8px; margin-bottom:20px; border:2px solid var(--correct-border); color:var(--correct-border);">
+            <strong>🎉 Excelente Desempenho!</strong> Você demonstrou uma base sólida sobre os conceitos avaliados. Continue revisando para fazer a prova com segurança.
+        </div>`;
+        document.getElementById('action-buttons').innerHTML = `<button class="btn-action" onclick="reset()">🔄 Refazer Prova (Zerar Histórico)</button>`;
+    }
+    if (correct < questions.length) {
+        summary += '<h4 style="margin-bottom:10px; color:var(--text-color);">Relatório de Falhas e Correções:</h4>';
+        questions.forEach((q, i) => {
+            if(userAnswers[i] !== q.correct) {
+                summary += `<div style="margin-bottom:10px; padding:15px; background:var(--white); border-radius:8px; border:2px dashed var(--theme-dark);">
+                    <strong style="color:var(--theme-dark);">Q${i+1}:</strong> ${q.text}<br>
+                    <span style="color:var(--wrong-border); font-size:0.9rem; font-weight:600; display:block; margin-top:5px;">${userAnswers[i] === null ? 'Questão não respondida' : 'Seu Erro: ' + q.options[userAnswers[i]]}</span>
+                    <span style="color:var(--correct-border); font-size:0.9rem; font-weight:600; display:block; margin-top:2px;">A Verdade: ${q.options[q.correct]}</span>
+                </div>`;
+            }
+        });
+    }
+    summary += '</div>';
+    document.getElementById('review-container').innerHTML = summary;
+    setMode('result');
+}
+
+function reset() {
+    try { localStorage.removeItem(storageKey); } catch (e) { /* Sem salvamento disponível. */ }
+    userAnswers = new Array(questions.length).fill(null);
+    currentQuestion = 0;
+    setMode('practice');
+}
+
+setMode(userAnswers.some(ans => ans !== null) ? 'practice' : 'explanation');
+
+// --- VERIFICADOR AUTOMATICO DA PAGINA ---
+function seloDe(texto) {
+    const limpo = texto.replace(/[^\x21-\x7E]/g, '');
+    let h = 2166136261;
+    for (let i = 0; i < limpo.length; i++) {
+        h ^= limpo.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0).toString(16);
+}
+
+function textoDe(html) {
+    const modelo = document.createElement('template');
+    modelo.innerHTML = html;
+    return modelo.content.textContent.replace(/\s+/g, ' ').trim();
+}
+
+function verificarPagina() {
+    const erros = [];
+    const letras = ['A', 'B', 'C', 'D'];
+    const conteudo = [
+        document.title,
+        document.querySelector('.logo-header').innerHTML,
+        document.getElementById('viewExplanation').innerHTML,
+        document.getElementById('bancoQuestoes').innerHTML
+    ].join(' ');
+
+    const seloMotor = document.getElementById('motor');
+    const seloCss = document.getElementById('css-motor');
+    if (typeof SELO_MOTOR === 'undefined' || !seloMotor || seloDe(seloMotor.textContent) !== SELO_MOTOR) erros.push('O motor JavaScript foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (typeof SELO_CSS === 'undefined' || !seloCss || seloDe(seloCss.textContent) !== SELO_CSS) erros.push('O CSS do motor foi alterado. Copie de novo o bloco do esqueleto, sem mudar nada.');
+    if (conteudo.includes('[[') || conteudo.includes(']]')) erros.push('Ficou algum campo [[...]] sem preencher.');
+    if (conteudo.includes('**')) erros.push('Há Markdown (**) dentro do HTML. Use <strong>.');
+    if (document.querySelector('#viewExplanation script, #bancoQuestoes script, #viewExplanation iframe, #bancoQuestoes iframe')) erros.push('Há script ou iframe dentro das zonas de conteúdo.');
+    if (document.querySelector('#viewExplanation img, #bancoQuestoes img')) erros.push('Há imagem externa. Desenhe com SVG.');
+
+    document.querySelectorAll('#viewExplanation svg, #bancoQuestoes svg').forEach((svg, i) => {
+        if (!svg.getAttribute('viewBox') || !svg.getAttribute('aria-label')) erros.push('O desenho SVG ' + (i + 1) + ' precisa de viewBox e aria-label.');
+    });
+
+    const grupos = document.querySelectorAll('#viewExplanation .content-group');
+    if (grupos.length < 2) erros.push('A teoria precisa de pelo menos 2 temas.');
+    grupos.forEach((g, i) => {
+        if (!g.querySelector('.section-badge') || !g.querySelector('.theory-box')) erros.push('O tema ' + (i + 1) + ' da teoria está sem .section-badge ou .theory-box.');
+    });
+
+    const blocos = Array.from(document.querySelectorAll('#bancoQuestoes .questao'));
+    if (blocos.length !== 30) erros.push('São ' + blocos.length + ' questões, mas precisam ser exatamente 30.');
+
+    const enunciados = new Set();
+    const contagem = [0, 0, 0, 0];
+    let longas = 0;
+    let sequencia = 0;
+    let ultima = -1;
+
+    blocos.forEach((bloco, i) => {
+        const q = 'Questão ' + (i + 1) + ': ';
+        const esperado = i < 10 ? 'Fácil' : i < 20 ? 'Médio' : 'Difícil';
+        if (bloco.dataset.nivel !== esperado) erros.push(q + 'o nível deveria ser ' + esperado + '.');
+
+        const enunciadoEl = bloco.querySelector(':scope > .enunciado');
+        const enunciado = enunciadoEl ? textoDe(enunciadoEl.innerHTML) : '';
+        if (!enunciado) erros.push(q + 'falta o enunciado.');
+        if (enunciado && enunciados.has(enunciado)) erros.push(q + 'enunciado repetido.');
+        enunciados.add(enunciado);
+
+        const alternativas = Array.from(bloco.querySelectorAll(':scope > .alternativa'));
+        if (alternativas.length !== 4) erros.push(q + 'precisa de exatamente 4 alternativas.');
+        const certas = alternativas.filter(a => a.classList.contains('certa'));
+        if (certas.length !== 1) erros.push(q + 'precisa de exatamente 1 alternativa certa.');
+
+        const textos = alternativas.map(a => {
+            const el = a.querySelector(':scope > .opcao');
+            return el ? textoDe(el.innerHTML) : '';
+        });
+        if (textos.some(t => !t)) erros.push(q + 'há alternativa sem texto.');
+        if (new Set(textos).size !== textos.length) erros.push(q + 'há alternativas repetidas.');
+
+        alternativas.forEach((a, j) => {
+            const el = a.querySelector(':scope > .porque');
+            const porque = el ? textoDe(el.innerHTML) : '';
+            const letra = letras[j] || '?';
+            if (!porque) erros.push(q + 'a alternativa ' + letra + ' está sem explicação.');
+            if (porque.length > 110) erros.push(q + 'a explicação da alternativa ' + letra + ' passou de 110 caracteres.');
+        });
+
+        const indice = alternativas.findIndex(a => a.classList.contains('certa'));
+        if (indice >= 0 && indice < 4) {
+            contagem[indice]++;
+            sequencia = indice === ultima ? sequencia + 1 : 1;
+            ultima = indice;
+            if (sequencia === 4) erros.push(q + 'são 4 respostas seguidas com a mesma letra.');
+            const tamanhos = textos.map(t => t.length);
+            const outros = tamanhos.filter((_, j) => j !== indice);
+            if (tamanhos[indice] > 20 && tamanhos[indice] - Math.max(...outros) >= 6) longas++;
+        }
+    });
+
+    contagem.forEach((total, i) => {
+        if (blocos.length === 30 && (total < 5 || total > 10)) erros.push('A letra ' + letras[i] + ' é a certa em ' + total + ' questões. Use de 6 a 9.');
+    });
+    if (longas > 3) erros.push('A alternativa certa é claramente a mais longa em ' + longas + ' questões. Equilibre os tamanhos.');
+
+    const aviso = document.getElementById('avisoMotor');
+    if (erros.length === 0) {
+        aviso.remove();
+        window.PAGINA_OK = true;
+        return;
+    }
+    const lista = erros.slice(0, 25).map(e => '<li>' + e.replace(/</g, '&lt;') + '</li>').join('');
+    aviso.innerHTML = '<strong>⚠️ A página precisa de correção. Não envie aos alunos.</strong><br>Copie esta lista, cole no Gemini e peça para corrigir só estes itens:<ol style="margin:8px 0 0 20px;">' + lista + '</ol>';
+}
+
+verificarPagina();
+</script>
+</body>
+</html>
